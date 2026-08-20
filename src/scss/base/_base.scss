@@ -10,14 +10,34 @@ section.inner-promo(
     .box{background:url('images/box-bg@2x.png') no-repeat top left;}
 }
  */
-// @font-face {
-//     font-family: 'Roboto';
-//     src: url('../fonts/Roboto-Regular.woff2') format('woff2');
-//     font-weight: 400;
-//     font-style: normal;
-// }
-
-
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/Inter-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 *, *:after, *:before {
 	box-sizing: border-box;
 	background-repeat: no-repeat;
@@ -25,9 +45,23 @@ section.inner-promo(
 	
 }
 :root {
+	--black: #{$black};
+	--white: #{$white};
+	--accent1: #{$accent1};
+	--accent2: #{$accent2};
+	--accent3: #{$accent3};
+	--accent4: #{$accent4};
+	--red: #{$red};
+	--primary: #{primary};
+	--primary1: #{primary1};
+	--secondary: #{secondary};
+	--secondary1: #{secondary1};
+	--secondary2: #{secondary2};
+	--secondary3: #{secondary3};
 	
-	
+	--font-family: 'Inter';
 }
+
 html {
 	scroll-behavior: smooth;
 }
@@ -36,8 +70,7 @@ html,
 body {
 	margin: 0;
 	padding: 0;
-	
-	
+	font-family: var(--font-family);
 	font-weight: 400;
 	-webkit-font-smoothing: subpixel-antialiased;
 	-moz-osx-font-smoothing: auto;
@@ -136,7 +169,7 @@ input::placeholder, textarea::placeholder{
 }
 .d-flex.xs-flex-column{
 	flex-direction: column;
-	@media (min-width: 744px) {
+	@media (min-width: $md) {
 	flex-direction: row;
 	}
 }

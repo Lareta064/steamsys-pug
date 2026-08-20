@@ -67,7 +67,7 @@
 	gap:8px;
 	flex-direction: column;
 	
-	@media (min-width: 1024px) {
+	@media (min-width: $tablet) {
 		flex-direction: row;
 	   .form-btn{flex-shrink: 0;}
 	   .form-item{flex: 1;}
@@ -269,10 +269,10 @@
 }
 .dark-form-content{
 	padding:20px;
-	@media (min-width: 744px) {
+	@media (min-width: $md) {
 		padding:40px;
 	}
-	@media (min-width: 1440px) {
+	@media (min-width: $desktop) {
 		padding:60px;
 		
 	}
