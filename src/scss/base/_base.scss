@@ -1,15 +1,5 @@
 @use '_var' as *;
-/*
-section.inner-promo(
-  style="background-image: image-set(url('./img/inner-promo.webp') 1x, url('./img/inner-promo@2x.webp') 2x);
-         -webkit-background-image: -webkit-image-set(url('./img/inner-promo.webp') 1x, url('./img/inner-promo@2x.webp') 2x);"
-)
- @media (-webkit-min-device-pixel-ratio: 2), 
-(min-resolution: 192dpi) { 
 
-    .box{background:url('images/box-bg@2x.png') no-repeat top left;}
-}
- */
 @font-face {
   font-family: 'Inter';
   src: url('../fonts/Inter-Regular.woff2') format('woff2');
@@ -52,12 +42,12 @@ section.inner-promo(
 	--accent3: #{$accent3};
 	--accent4: #{$accent4};
 	--red: #{$red};
-	--primary: #{primary};
-	--primary1: #{primary1};
-	--secondary: #{secondary};
-	--secondary1: #{secondary1};
-	--secondary2: #{secondary2};
-	--secondary3: #{secondary3};
+	--primary: #{$primary1};
+	--primary1: #{$primary1};
+	--secondary: #{$secondary};
+	--secondary1: #{$secondary1};
+	--secondary2: #{$secondary2};
+	--secondary3: #{$secondary3};
 	
 	--font-family: 'Inter';
 }

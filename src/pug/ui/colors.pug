@@ -1,66 +1,46 @@
-include ../layouts/_mixins-links.pug
-block variables
-
-<!DOCTYPE html>
-html(lang="ru")
-	head
-		meta(charset="UTF-8")
-		meta(name="viewport", content="width=device-width, initial-scale=1.0")
-		meta(http-equiv="X-UA-Compatible", content="ie=edge")
-
-		//====убрать синий цвет у ссылок в сафари ========
-		meta(name="format-detection" content="telephone=no")
-		link(rel="stylesheet", href="../css/main.css")
-		title UI-KIT
-
-	body.body-dashboard
-	
-		include ui-navigation.pug
-
-		block content
-			.container-dashboard
-				h2.db-h2 Цветовая схема
-				.container-dashboard__content
-					ul.color-scheme
-						li
-							span.color-box(style="background-color:#000000;")
-							span.color-name --black - #000000;
-						li
-							span.color-box(style="background-color:#fFFFFFF;")
-							span.color-name --white - #FFFFFF;
-						li
-							span.color-box(style="background-color:#0044BB;")
-							span.color-name --accent1 - #0044BB;
-						li
-							span.color-box(style="background-color:#08428C;")
-							span.color-name --accent2 - #08428C;				
-						li
-							span.color-box(style="background-color: #79B0E3;")
-							span.color-name --accent3 - #79B0E3;
-						
-						li
-							span.color-box(style="background-color:#5F97CC;")
-							span.color-name  --accent4 - #5F97CC;
-						li
-							span.color-box(style="background-color:#BB0000;")
-							span.color-name --red - #BB0000;
-						li
-							span.color-box(style="background-color:#031D2A;")
-							span.color-name  --primary:  - #031D2A;
-						li
-							span.color-box(style="background-color:#243A45;")
-							span.color-name --primary1 - #243A45;
-						li
-							span.color-box(style="background-color:#7C8A93;")
-							span.color-name --secondary - #7C8A93;
-						li
-							span.color-box(style="background-color:#A4AEB4;")
-							span.color-name --secondary1 - #A4AEB4;
-						li
-							span.color-box(style="background-color:#DEE2E4;")
-							span.color-name --secondary2-  #DEE2E4;
-						li
-							span.color-box(style="background-color:#F8F9F9;")
-							span.color-name --secondary3 - #F8F9F9;
-					
-					
+extends ../layouts/layout-ui.pug
+block content
+	.container-dashboard
+		h2.db-h2 Цветовая схема
+		.container-dashboard__content
+			ul.color-scheme
+				li
+					span.color-box(style="background-color:#000000;")
+					span.color-name --black - #000000;
+				li
+					span.color-box(style="background-color:#fFFFFFF;")
+					span.color-name --white - #FFFFFF;
+				li
+					span.color-box(style="background-color:#0044BB;")
+					span.color-name --accent1 - #0044BB;
+				li
+					span.color-box(style="background-color:#08428C;")
+					span.color-name --accent2 - #08428C;				
+				li
+					span.color-box(style="background-color: #79B0E3;")
+					span.color-name --accent3 - #79B0E3;
+				
+				li
+					span.color-box(style="background-color:#5F97CC;")
+					span.color-name  --accent4 - #5F97CC;
+				li
+					span.color-box(style="background-color:#BB0000;")
+					span.color-name --red - #BB0000;
+				li
+					span.color-box(style="background-color:#031D2A;")
+					span.color-name  --primary:  - #031D2A;
+				li
+					span.color-box(style="background-color:#243A45;")
+					span.color-name --primary1 - #243A45;
+				li
+					span.color-box(style="background-color:#7C8A93;")
+					span.color-name --secondary - #7C8A93;
+				li
+					span.color-box(style="background-color:#A4AEB4;")
+					span.color-name --secondary1 - #A4AEB4;
+				li
+					span.color-box(style="background-color:#DEE2E4;")
+					span.color-name --secondary2-  #DEE2E4;
+				li
+					span.color-box(style="background-color:#F8F9F9;")
+					span.color-name --secondary3 - #F8F9F9;
