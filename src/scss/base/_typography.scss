@@ -1,0 +1,54 @@
+@use '_var' as *;
+
+// ==== Заголовки ====
+// SemiBold (600), letter-spacing 0
+// Адаптивные размеры (fluid): плавно масштабируются от мобильного
+// размера при 744px viewport до десктопного при 1920px viewport.
+// За пределами диапазона clamp() держит крайние значения:
+//   viewport ≤ 744px  → mobile size
+//   viewport ≥ 1920px → desktop size
+// line-height: 1.25 для H1–H4 (компромисс между 1.2 desktop и 1.3 mobile),
+//              1.3  для H5–H6.
+// Мобильные размеры взяты из макета 1_home_m.
+.ss-h1 { font-size: clamp(32px, 2.55vw + 13.02px, 62px); font-weight: 600; line-height: 1.25; }
+.ss-h2 { font-size: clamp(28px, 1.87vw + 14.08px, 50px); font-weight: 600; line-height: 1.25; }
+.ss-h3 { font-size: clamp(28px, 1.53vw + 16.61px, 46px); font-weight: 600; line-height: 1.25; }
+.ss-h4 { font-size: clamp(24px, 1.36vw + 13.88px, 40px); font-weight: 600; line-height: 1.25; }
+.ss-h5 { font-size: clamp(22px, 0.85vw + 15.67px, 32px); font-weight: 600; line-height: 1.3; }
+.ss-h6 { font-size: clamp(20px, 0.68vw + 14.94px, 28px); font-weight: 600; line-height: 1.3; }
+
+
+// ==== Body ====
+// Схема: .ss-<weight>-<size>, где weight = reg (400) / medi (500) / semi (600)
+// line-height: 130% при font-size ≥ 22px, 140% при font-size ≤ 20px
+// letter-spacing: 0 (не указываем)
+
+// Regular (400)
+.ss-reg-28 { font-size: 28px; font-weight: 400; line-height: 1.3; }
+.ss-reg-24 { font-size: 24px; font-weight: 400; line-height: 1.3; }
+.ss-reg-22 { font-size: 22px; font-weight: 400; line-height: 1.3; }
+.ss-reg-20 { font-size: 20px; font-weight: 400; line-height: 1.4; }
+.ss-reg-18 { font-size: 18px; font-weight: 400; line-height: 1.4; }
+.ss-reg-16 { font-size: 16px; font-weight: 400; line-height: 1.4; }
+.ss-reg-14 { font-size: 14px; font-weight: 400; line-height: 1.4; }
+.ss-reg-12 { font-size: 12px; font-weight: 400; line-height: 1.4; }
+
+// Medium (500)
+.ss-medi-28 { font-size: 28px; font-weight: 500; line-height: 1.3; }
+.ss-medi-24 { font-size: 24px; font-weight: 500; line-height: 1.3; }
+.ss-medi-22 { font-size: 22px; font-weight: 500; line-height: 1.3; }
+.ss-medi-20 { font-size: 20px; font-weight: 500; line-height: 1.4; }
+.ss-medi-18 { font-size: 18px; font-weight: 500; line-height: 1.4; }
+.ss-medi-16 { font-size: 16px; font-weight: 500; line-height: 1.4; }
+.ss-medi-14 { font-size: 14px; font-weight: 500; line-height: 1.4; }
+.ss-medi-12 { font-size: 12px; font-weight: 500; line-height: 1.4; }
+
+// SemiBold (600)
+.ss-semi-28 { font-size: 28px; font-weight: 600; line-height: 1.3; }
+.ss-semi-24 { font-size: 24px; font-weight: 600; line-height: 1.3; }
+.ss-semi-22 { font-size: 22px; font-weight: 600; line-height: 1.3; }
+.ss-semi-20 { font-size: 20px; font-weight: 600; line-height: 1.4; }
+.ss-semi-18 { font-size: 18px; font-weight: 600; line-height: 1.4; }
+.ss-semi-16 { font-size: 16px; font-weight: 600; line-height: 1.4; }
+.ss-semi-14 { font-size: 14px; font-weight: 600; line-height: 1.4; }
+.ss-semi-12 { font-size: 12px; font-weight: 600; line-height: 1.4; }

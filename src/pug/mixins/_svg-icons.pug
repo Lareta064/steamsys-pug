@@ -1,0 +1,7 @@
+//- svgIcon(name)
+//-   name — id иконки без префикса `svg-` (напр. 'plus-circle').
+//- Доп. классы/атрибуты можно передать через &attributes:
+//-   +svgIcon('plus-circle')(class='some-extra')
+mixin svgIcon(name)
+	svg.svg-icon(class='svg-' + name)&attributes(attributes)
+		use(href='/img/ss-sprite.svg#svg-' + name)

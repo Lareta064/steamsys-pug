@@ -1,0 +1,19 @@
+@use '_var' as *;
+
+.svg-icon {
+	display: inline-block;
+	flex-shrink: 0;
+	vertical-align: middle;
+	color: inherit;
+}
+
+.svg-plus-circle {
+	width: 28px;
+	height: 28px;
+}
+
+.svg-cross {
+	width: 26px;
+	height: 26px;
+	color: var(--primary);
+}

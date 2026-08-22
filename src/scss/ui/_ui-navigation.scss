@@ -49,7 +49,10 @@
 	padding-left: 320px;
 	padding-top: 50px;
 	padding-bottom: 100px;
+	box-sizing:border-box;
+	font-family: var(--font-family);
 	.ui-panel{transition: .3s; }
+	*{box-sizing:border-box;}
 	&.active{
 		padding-left: 0;
 		
@@ -135,7 +138,7 @@
 	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
-
+	font-family: sans-serif;
 	h1 {
 		font-weight: 700;
 		margin-bottom: 40px;

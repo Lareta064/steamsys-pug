@@ -1,7 +1,9 @@
 
 @use "base/_var" as *;
 @use "base/_base";
+@use "base/_global";
 @use "base/_typography";
+@use "base/_svg-icons";
 
 // ui
 @use "ui/_ui-navigation";

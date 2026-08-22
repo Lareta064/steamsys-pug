@@ -1,0 +1,53 @@
+@use '_var' as *;
+
+// ==== Выравнивание ====
+// !important — эти утилиты должны быть «финальным словом» поверх компонентов
+.ss-txt-left   { text-align: left !important; }
+.ss-txt-center { text-align: center !important; }
+.ss-txt-right  { text-align: right !important; }
+
+
+// ==== Регистр и перенос ====
+.ss-txt-upper  { text-transform: uppercase; }
+.ss-txt-nowrap { white-space: nowrap; }
+
+
+// ==== Декорация ====
+.ss-txt-underline { text-decoration: underline; }
+
+
+// ==== Цвет текста ====
+// !important — цвет утилиты всегда должен перебивать цвет компонента
+.ss-txt-white      { color: var(--white) !important; }
+.ss-txt-black      { color: var(--black) !important; }
+.ss-txt-primary    { color: var(--primary) !important; }
+.ss-txt-primary1   { color: var(--primary1) !important; }
+.ss-txt-secondary  { color: var(--secondary) !important; }
+.ss-txt-secondary1 { color: var(--secondary1) !important; }
+.ss-txt-accent1    { color: var(--accent1) !important; }
+.ss-txt-accent2    { color: var(--accent2) !important; }
+.ss-txt-accent3    { color: var(--accent3) !important; }
+.ss-txt-accent4    { color: var(--accent4) !important; }
+.ss-txt-error      { color: var(--error) !important; }
+
+
+// ==== Обрезка ====
+.ss-txt-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ss-txt-clamp-2 {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.ss-txt-clamp-3 {
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
