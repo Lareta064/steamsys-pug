@@ -190,3 +190,145 @@
 }
 .body-dashboard footer.footer{position: static;}
 /*//стили для вспомогат страницы - удалить из проектп */
+
+// ===== Каталог SVG-иконок (страница svg-icons.html) =====
+.container-dashboard {
+	.icons-catalog__intro {
+		margin-bottom: 24px;
+
+		code {
+			margin: 0 4px;
+		}
+	}
+
+	.icons-catalog {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		gap: 16px;
+	}
+
+	.icons-catalog__item {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid #DEE2E4;
+		border-radius: 8px;
+		overflow: hidden;
+		background: #fff;
+	}
+
+	.icons-catalog__preview {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 96px;
+		background: #F8F9F9;
+	}
+
+	.icons-catalog__meta {
+		padding: 12px 14px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.icons-catalog__name {
+		font-size: 13px;
+		color: #031D2A;
+	}
+
+	.icons-catalog__snippet {
+		margin: 0;
+		padding: 8px 10px;
+		background: #031D2A;
+		color: #F8F9F9;
+		border-radius: 4px;
+		font-size: 12px;
+		overflow: auto;
+	}
+}
+
+// ===== Каталог кнопок (страница buttons.html) =====
+.container-dashboard {
+	.buttons-catalog__intro {
+		margin-bottom: 24px;
+
+		code {
+			margin: 0 4px;
+		}
+	}
+
+	.buttons-catalog__section-title {
+		margin: 32px 0 16px;
+		font-size: 18px;
+		font-weight: 600;
+		color: #031D2A;
+	}
+
+	.buttons-catalog {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		gap: 16px;
+	}
+
+	.buttons-catalog__item {
+		display: flex;
+		flex-direction: column;
+		border: 1px solid #DEE2E4;
+		border-radius: 8px;
+		overflow: hidden;
+		background: #fff;
+	}
+
+	.buttons-catalog__preview {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 24px 16px;
+		background: #F8F9F9;
+	}
+
+	.buttons-catalog__meta {
+		padding: 12px 14px;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+
+	.buttons-catalog__label {
+		font-size: 14px;
+		font-weight: 600;
+		color: #031D2A;
+	}
+
+	.buttons-catalog__name {
+		font-size: 12px;
+		color: #7C8A93;
+	}
+
+	.buttons-catalog__snippet {
+		margin: 0;
+		padding: 8px 10px;
+		background: #031D2A;
+		color: #F8F9F9;
+		border-radius: 4px;
+		font-size: 12px;
+		overflow: auto;
+	}
+
+	.buttons-catalog__row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		align-items: center;
+	}
+
+	.buttons-catalog__hint {
+		margin-top: 12px;
+	}
+}

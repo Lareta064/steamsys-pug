@@ -9,19 +9,19 @@ block content
 	.container-dashboard
 		h2.db-h2 SVG иконки
 		.container-dashboard__content
-			p.ss-reg-14.ss-txt-secondary(style="margin-bottom:24px;")
+			p.icons-catalog__intro.ss-reg-14.ss-txt-secondary
 				| Иконки подключаются через миксин
-				code(style="margin:0 4px;") +svgIcon('name')
+				code +svgIcon('name')
 				| из
-				code(style="margin-left:4px;") src/pug/mixins/_svg-icons.pug
+				code src/pug/mixins/_svg-icons.pug
 
-			ul.svg-icons-grid(style="list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:16px;")
+			ul.icons-catalog
 				each icon in icons
-					li(style="display:flex; flex-direction:column; align-items:stretch; border:1px solid #DEE2E4; border-radius:8px; overflow:hidden; background:#fff;")
-						div(style="display:flex; align-items:center; justify-content:center; min-height:96px; background:#F8F9F9;")
+					li.icons-catalog__item
+						.icons-catalog__preview
 							+svgIcon(icon.name)
-						div(style="padding:12px 14px; display:flex; flex-direction:column; gap:6px;")
-							code(style="font-size:13px; color:#031D2A;") .svg-#{icon.name}
-							span.ss-reg-12.ss-txt-secondary= icon.note
-							pre(style="margin:0; padding:8px 10px; background:#031D2A; color:#F8F9F9; border-radius:4px; font-size:12px; overflow:auto;")
+						.icons-catalog__meta
+							code.icons-catalog__name .svg-#{icon.name}
+							span.icons-catalog__note.ss-reg-12.ss-txt-secondary= icon.note
+							pre.icons-catalog__snippet
 								code +svgIcon('#{icon.name}')

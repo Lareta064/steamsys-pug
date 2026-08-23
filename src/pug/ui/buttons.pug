@@ -1,8 +1,65 @@
 extends ../layouts/layout-ui.pug
+
 block content
+	//- Все варианты кнопок из макета.
+	- var variants = [{ code: 'primary', label: 'Primary' }, { code: 'secondary', label: 'Secondary' }, { code: 'outline', label: 'Outline' }, { code: 'outline-dark', label: 'Outline dark' }, { code: 'dark', label: 'Dark' }, { code: 'light', label: 'Light' }, { code: 'outline-light', label: 'Outline light' }]
+
 	.container-dashboard
 		h2.db-h2 Кнопки
 		.container-dashboard__content
-			button.ss-btn(disabled)
-				span Button
-				+svgIcon('plus-circle')
+			p.buttons-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Кнопки подключаются через миксин
+				code +ssBtn('Текст', { variant: 'primary' })
+				| из
+				code src/pug/mixins/_ss-button.pug
+
+			//- ===== Варианты (big) =====
+			h3.buttons-catalog__section-title Варианты · big (по умолчанию)
+			ul.buttons-catalog
+				each v in variants
+					li.buttons-catalog__item
+						.buttons-catalog__preview
+							+ssBtn('Текст кнопки', { variant: v.code, icon: 'plus-circle' })
+						.buttons-catalog__meta
+							span.buttons-catalog__label= v.label
+							code.buttons-catalog__name .ss-btn.ss-btn--#{v.code}
+							pre.buttons-catalog__snippet
+								code +ssBtn('Текст', { variant: '#{v.code}', icon: 'plus-circle' })
+
+			//- ===== Варианты (mini) =====
+			h3.buttons-catalog__section-title Варианты · mini
+			ul.buttons-catalog
+				each v in variants
+					li.buttons-catalog__item
+						.buttons-catalog__preview
+							+ssBtn('Текст кнопки', { variant: v.code, size: 'mini', icon: 'plus-circle' })
+						.buttons-catalog__meta
+							span.buttons-catalog__label= v.label + ' · mini'
+							code.buttons-catalog__name .ss-btn.ss-btn--#{v.code}.ss-btn--mini
+							pre.buttons-catalog__snippet
+								code +ssBtn('Текст', { variant: '#{v.code}', size: 'mini', icon: 'plus-circle' })
+
+			//- ===== Иконка: справа / слева / без =====
+			h3.buttons-catalog__section-title Иконка
+			.buttons-catalog__row
+				+ssBtn('Иконка справа', { variant: 'primary', icon: 'plus-circle' })
+				+ssBtn('Иконка слева', { variant: 'primary', icon: 'plus-circle', iconSide: 'left' })
+				+ssBtn('Без иконки', { variant: 'primary' })
+
+			//- ===== Состояния =====
+			h3.buttons-catalog__section-title Состояния
+			.buttons-catalog__row
+				+ssBtn('Normal', { variant: 'primary' })
+				+ssBtn('Disabled', { variant: 'primary', disabled: true })
+				+ssBtn('Link disabled', { variant: 'primary', tag: 'a', href: '#', disabled: true })
+			p.buttons-catalog__hint.ss-reg-14.ss-txt-secondary Наведи мышью — hover. Нажми Tab — focus-visible.
+
+			//- ===== Тег: button / a =====
+			h3.buttons-catalog__section-title Тег
+			.buttons-catalog__row
+				+ssBtn('button', { variant: 'primary' })
+				+ssBtn('ссылка', { variant: 'primary', tag: 'a', href: '#' })
+
+			//- ===== Full width =====
+			h3.buttons-catalog__section-title На всю ширину
+			+ssBtn('Кнопка на всю ширину', { variant: 'primary', full: true, icon: 'plus-circle' })

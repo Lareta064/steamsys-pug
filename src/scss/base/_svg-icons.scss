@@ -1,6 +1,10 @@
 @use '_var' as *;
 
-.svg-icon {
+//- Базовые стили для всех иконок из спрайта.
+//- ВАЖНО: префикс `svg-` зарезервирован ТОЛЬКО под иконки —
+//- не использовать этот префикс для других классов.
+[class^="svg-"],
+[class*=" svg-"] {
 	display: inline-block;
 	flex-shrink: 0;
 	vertical-align: middle;

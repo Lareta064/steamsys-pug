@@ -1,0 +1,43 @@
+//- ssBtn(text, [opts]) — универсальный вывод кнопки .ss-btn.
+//-
+//- text  — надпись на кнопке.
+//- opts  — необязательный объект настроек:
+//-     variant   primary | secondary | outline | outline-dark | dark | light | outline-light  (default: primary)
+//-     size      big | mini                                                                    (default: big)
+//-     full      true — на всю ширину контейнера                                               (default: false)
+//-     icon      имя иконки без префикса `svg-` (напр. 'plus-circle')                          (default: null → без иконки)
+//-     iconSide  right | left                                                                   (default: right)
+//-     tag       button | a                                                                    (default: button)
+//-     href      URL — только при tag='a'
+//-     disabled  true → атрибут `disabled` для button или класс `.is-disabled` для a           (default: false)
+//-
+//- Примеры:
+//-   +ssBtn('Отправить', { variant: 'primary' })
+//-   +ssBtn('Скачать',  { variant: 'outline', icon: 'plus-circle', iconSide: 'left' })
+//-   +ssBtn('Подробнее', { tag: 'a', href: '/about', size: 'mini' })
+mixin ssBtn(text, opts)
+	-
+		var o = opts || {};
+		var variant = o.variant || 'primary';
+		var size = o.size || 'big';
+		var iconSide = o.iconSide || 'right';
+		var tag = o.tag || 'button';
+		var classes = 'ss-btn ss-btn--' + variant;
+		if (size === 'mini') classes += ' ss-btn--mini';
+		if (o.full) classes += ' ss-btn--full';
+		if (tag === 'a' && o.disabled) classes += ' is-disabled';
+
+	if tag === 'a'
+		a(class=classes href=o.href)&attributes(attributes)
+			if o.icon && iconSide === 'left'
+				+svgIcon(o.icon)
+			span= text
+			if o.icon && iconSide === 'right'
+				+svgIcon(o.icon)
+	else
+		button(class=classes type='button' disabled=o.disabled)&attributes(attributes)
+			if o.icon && iconSide === 'left'
+				+svgIcon(o.icon)
+			span= text
+			if o.icon && iconSide === 'right'
+				+svgIcon(o.icon)

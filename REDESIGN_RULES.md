@@ -103,15 +103,127 @@ div
 
 ### Стили `src/scss/base/_svg-icons.scss`
 
-- Общий класс `.svg-icon` — базовое поведение (`display: inline-block`, вертикальное выравнивание и т.п.), применяется ко всем иконкам.
+- Базовое поведение (`display: inline-block`, вертикальное выравнивание и т.п.) задаётся атрибутным селектором `[class^="svg-"], [class*=" svg-"]` — общий класс не нужен.
 - Персональный класс `.svg-<name>` — размер и цвет по макету (для `plus-circle` — 28×28).
+
+**Префикс `svg-` зарезервирован ТОЛЬКО под иконки из спрайта.** Не использовать его для других классов (сетки, обёртки, декоративные элементы) — иначе они подхватят базовые стили иконки.
 
 ### Использование в pug
 
-Через миксин `+svgIcon(name)` из `src/pug/mixins/_svg-icons.pug`. Миксин ставит классы `svg-icon` + `svg-<name>` и подставляет `<use>` с путём до внешнего спрайта.
+Через миксин `+svgIcon(name)` из `src/pug/mixins/_svg-icons.pug`. Миксин ставит класс `svg-<name>` и подставляет `<use>` с путём до внешнего спрайта.
 
 ### Каталог `src/pug/ui/svg-icons.pug`
 
 Сетка всех доступных иконок с именем и pug-сниппетом использования. Служит справочником для команды.
 
 ## Buttons
+
+Компонент `.ss-btn` — универсальная кнопка редизайна. Стили — в `src/scss/base/_buttons.scss` (файл подключается и на боевом сайте, и в UI-каталоге).
+
+### Класс и модификаторы
+
+- Базовый класс: `.ss-btn` — визуально совпадает с `.ss-btn--primary` (заливной синий).
+- Цветовые варианты: `.ss-btn--primary`, `--secondary`, `--outline`, `--outline-dark`, `--dark`, `--light`, `--outline-light` (см. таблицу ниже).
+- Размер: базовый — big (padding 22×46, gap 24, font 22/1.3). Малый — модификатор `.ss-btn--mini` (padding 20×30, gap 20, font 18/1.4).
+- На всю ширину: `.ss-btn--full` (`width: 100%`).
+- Radius у всех — 10px.
+
+### Иконка
+
+Компонент универсальный — работает и с иконкой, и без. Иконка ставится через миксин `+svgIcon(name)` рядом с текстом (`span`) внутри кнопки. Размер иконки задан внутри `.ss-btn svg` и переопределяется для `mini`: 30×30 (big) / 24×24 (mini).
+
+### Состояния
+
+- **hover** — свой bg/border/text для каждого варианта (см. таблицу).
+- **focus** — используется `:focus-visible` (реагирует только на клавиатурный фокус). Цвет `outline`:
+  - для заливных вариантов — совпадает с `bg` в normal;
+  - для outline-вариантов — совпадает с цветом `border` в normal.
+  Смещение — `outline-offset: 2px`.
+- **disabled** — универсально: `pointer-events: none; opacity: .4`. Работает и через атрибут `disabled` на `<button>`, и через класс `.is-disabled` (для `<a class="ss-btn">`, у которого нет атрибута disabled).
+
+### Тег
+
+`.ss-btn` можно вешать и на `<button>` (для действий), и на `<a>` (для ссылок) — стили одинаковые.
+
+### Использование через миксин
+
+Миксин `+ssBtn(text, opts)` из `src/pug/mixins/_ss-button.pug` (уже подключён в `layout-ui.pug` через `_mixins-links.pug`).
+
+Опции:
+- `variant` — `primary` | `secondary` | `outline` | `outline-dark` | `dark` | `light` | `outline-light` (default: `primary`).
+- `size` — `big` | `mini` (default: `big`).
+- `full` — `true` для `width: 100%`.
+- `icon` — имя иконки без префикса `svg-` (напр. `plus-circle`); если не задан — иконки нет.
+- `iconSide` — `right` | `left` (default: `right`).
+- `tag` — `button` | `a` (default: `button`).
+- `href` — URL, только при `tag: 'a'`.
+- `disabled` — `true` для disabled-состояния.
+
+Примеры:
+```pug
++ssBtn('Отправить', { variant: 'primary' })
++ssBtn('Скачать',   { variant: 'outline', icon: 'plus-circle', iconSide: 'left' })
++ssBtn('Подробнее', { tag: 'a', href: '/about', size: 'mini' })
+```
+
+### Каталог `src/pug/ui/buttons.pug`
+
+Матрица всех вариантов big/mini + примеры иконок, состояний, тега `a` vs `button`, `--full`. Служит справочником для команды.
+
+### Таблица цветов вариантов + hover:
+     
+  Вариант: btn 1 (primary)
+  bg (normal): --accent1 #0044BB
+  border (normal): —
+  text (normal): --white
+  bg (hover): --accent2 #08428C
+  border (hover): —
+  text (hover): --white
+  ────────────────────────────────────────
+  Вариант: btn 2
+  bg (normal): --secondary2
+  border (normal):
+  text (normal):--primary
+  bg (hover):--primary
+  border (hover):
+  text (hover):--white
+  ────────────────────────────────────────
+  Вариант: btn 3 (outline)
+  bg (normal): transparent
+  border (normal): 1px solid var(--accent1);
+  text (normal): --accent1
+  bg (hover): --accent1
+  border (hover): --accent1
+  text (hover): --white
+  ────────────────────────────────────────
+  Вариант: btn 4 (outline-dark)
+  bg (normal): transparent
+  border (normal):1px solid var(--primary1);
+  text (normal):--primary1
+  bg (hover):transparent
+  border (hover):--accent2
+  text (hover):--accent2
+  ────────────────────────────────────────
+  Вариант: btn 5 (dark)
+  bg (normal): --primary
+  border (normal):
+  text (normal):--white
+  bg (hover):--accent1
+  border (hover):
+  text (hover):--white
+  ────────────────────────────────────────
+  Вариант: btn 6 (light)
+  bg (normal): --accent3
+  border (normal):
+  text (normal):--white
+  bg (hover):--accent4
+  border (hover):
+  text (hover):--white
+  ────────────────────────────────────────
+  Вариант: btn 7 (outline-light)
+  bg (normal): transparent
+  border (normal):--secondary
+  text (normal):--secondary
+  bg (hover):--accent2
+  border (hover):
+  text (hover):--white
