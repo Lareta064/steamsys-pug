@@ -1,0 +1,63 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	- var variants = [{ code: 'primary', label: 'Primary (по умолчанию)' }, { code: 'dark', label: 'Dark' }, { code: 'light', label: 'Light' }]
+	- var sizes = [{ code: 'lg', label: 'lg (18px)' }, { code: 'md', label: 'md (14px)' }, { code: 'sm', label: 'sm (12px)' }]
+	- var text = 'Политика обработки персональных данных'
+
+	.container-dashboard
+		h2.db-h2 Ссылки
+		.container-dashboard__content
+			p.links-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Ссылки подключаются через миксин
+				code +ssLink('Текст', { variant, size, icon })
+				| из
+				code src/pug/mixins/_ss-link.pug
+
+			//- ===== Варианты × размеры =====
+			h3.links-catalog__section-title Варианты · размеры
+			each v in variants
+				h4.links-catalog__subtitle= v.label
+				ul.links-catalog
+					each s in sizes
+						li.links-catalog__item
+							.links-catalog__preview
+								if v.code === 'primary'
+									if s.code === 'lg'
+										+ssLink(text)
+									else
+										+ssLink(text, { size: s.code })
+								else
+									+ssLink(text, { variant: v.code, size: s.code })
+							.links-catalog__meta
+								span.links-catalog__label= s.label
+								code.links-catalog__name
+									if v.code === 'primary' && s.code === 'lg'
+										| .ss-link
+									else if v.code === 'primary'
+										| .ss-link.ss-link--#{s.code}
+									else if s.code === 'lg'
+										| .ss-link.ss-link--#{v.code}
+									else
+										| .ss-link.ss-link--#{v.code}.ss-link--#{s.code}
+
+			//- ===== White на тёмной подложке =====
+			h3.links-catalog__section-title White (для тёмной подложки)
+			.links-catalog__dark
+				each s in sizes
+					div
+						+ssLink(text, { variant: 'white', size: s.code })
+
+			//- ===== Иконка =====
+			h3.links-catalog__section-title Иконка
+			.links-catalog__row
+				+ssLink('Иконка справа (default)')
+				+ssLink('Иконка слева', { iconSide: 'left' })
+				+ssLink('Без иконки', { icon: null })
+
+			//- ===== Состояния =====
+			h3.links-catalog__section-title Состояния
+			.links-catalog__row
+				+ssLink('Normal')
+				+ssLink('Disabled', { disabled: true })
+			p.links-catalog__hint.ss-reg-14.ss-txt-secondary Наведи мышью — hover.

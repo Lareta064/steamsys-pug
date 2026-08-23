@@ -227,3 +227,65 @@ div
   bg (hover):--accent2
   border (hover):
   text (hover):--white
+
+## Текстовые ссылки
+
+Компонент `.ss-link` — универсальная текстовая ссылка редизайна с опциональной иконкой справа/слева. Стили — в `src/scss/base/_ss-link.scss`.
+
+### Класс и модификаторы
+
+- Базовый класс: `.ss-link` — визуально совпадает с variant 2 (`--accent1` → hover `--secondary`) и размером `lg` (18px).
+- Цветовые варианты (см. таблицу ниже): `.ss-link--dark`, `.ss-link--light`, `.ss-link--white`.
+- Размеры: базовый — `lg` (18px, gap 10, иконка 20×20). Модификаторы — `.ss-link--md` (14px, gap 6, иконка 16×16), `.ss-link--sm` (12px, gap 6, иконка 14×14).
+- Общее: `font-family: Inter`, `font-weight: 500 (Medium)`, `line-height: 1.4`, `text-decoration: none`.
+
+### Иконка
+
+Иконка — опциональна. Один и тот же класс `.ss-link` работает и с иконкой, и без: `column-gap` в `inline-flex` не создаёт лишнего отступа, если flex-детей всего один.
+
+Дефолтная иконка в миксине — `arrow-right` (справа). Можно поменять на любую другую из спрайта через опцию `icon`, положение — через `iconSide: 'left'`, а `icon: null` — вывести ссылку без иконки.
+
+### Состояния
+
+- **hover** — свой цвет для каждого варианта (см. таблицу).
+- **focus** — пока не заданы (макет не показывает; уточним и добавим позднее).
+- **disabled** — универсально: `pointer-events: none; opacity: .4`. Работает через `[disabled]` (для button) и `.is-disabled` (для `<a>`).
+
+### Тег
+
+`.ss-link` — обычно `<a>` (для ссылок), но при желании применимо к `<button>` (стили одинаковые).
+
+### Использование через миксин
+
+Миксин `+ssLink(text, opts)` из `src/pug/mixins/_ss-link.pug` (подключён в `layout-ui.pug` через `_mixins-links.pug`).
+
+Опции:
+- `variant` — `primary` | `dark` | `light` | `white` (default: `primary`).
+- `size` — `lg` | `md` | `sm` (default: `lg`).
+- `icon` — имя иконки без префикса `svg-`; **default: `arrow-right`**. Передай `null` — иконки не будет.
+- `iconSide` — `right` | `left` (default: `right`).
+- `tag` — `a` | `button` (default: `a`).
+- `href` — URL (default: `'#'`), только при `tag: 'a'`.
+- `disabled` — `true` для disabled-состояния.
+
+Примеры:
+```pug
++ssLink('Политика обработки')
++ssLink('Скачать', { variant: 'dark', size: 'md' })
++ssLink('Подробнее', { icon: null })            // без иконки
++ssLink('Наверх', { variant: 'white', size: 'sm' })
+```
+
+### Каталог `src/pug/ui/links.pug`
+
+Матрица «варианты × размеры» + `white` на тёмной подложке + примеры (иконка справа/слева/без, disabled). Служит справочником для команды.
+
+### Таблица цветов вариантов + hover
+
+| # | Modifier | normal | hover |
+|---|---|---|---|
+| 2 | `.ss-link` (default) | `--accent1` | `--secondary` |
+| 4 | `.ss-link--dark` | `--primary` | `--accent2` |
+| 3 | `.ss-link--light` | `--accent3` | `--primary` |
+| 1 | `.ss-link--white` | `--secondary1` | `--white` |
+  

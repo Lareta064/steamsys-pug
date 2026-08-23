@@ -1,0 +1,46 @@
+//- ssLink(text, [opts]) — универсальный вывод ссылки .ss-link.
+//-
+//- text  — надпись ссылки.
+//- opts  — необязательный объект настроек:
+//-     variant   primary (default) | dark | light | white
+//-     size      lg (default) | md | sm
+//-     icon      имя иконки без префикса `svg-` (по умолчанию 'arrow-right')
+//-               передай null или '' → ссылка без иконки
+//-     iconSide  right (default) | left
+//-     tag       a (default) | button
+//-     href      URL (default: '#'), только при tag='a'
+//-     disabled  true → атрибут disabled (button) или класс is-disabled (a)
+//-
+//- Примеры:
+//-   +ssLink('Политика обработки')
+//-   +ssLink('Скачать', { variant: 'dark', size: 'md' })
+//-   +ssLink('Подробнее', { icon: null })            // без иконки
+//-   +ssLink('Наверх', { variant: 'white', size: 'sm' })
+mixin ssLink(text, opts)
+	-
+		var o = opts || {};
+		var variant = o.variant || 'primary';
+		var size = o.size || 'lg';
+		var iconSide = o.iconSide || 'right';
+		var tag = o.tag || 'a';
+		var icon = (o.icon === undefined) ? 'arrow-right' : o.icon;
+		var classes = 'ss-link';
+		if (variant !== 'primary') classes += ' ss-link--' + variant;
+		if (size === 'md') classes += ' ss-link--md';
+		if (size === 'sm') classes += ' ss-link--sm';
+		if (tag === 'a' && o.disabled) classes += ' is-disabled';
+
+	if tag === 'a'
+		a(class=classes href=(o.href || '#'))&attributes(attributes)
+			if icon && iconSide === 'left'
+				+svgIcon(icon)
+			span= text
+			if icon && iconSide === 'right'
+				+svgIcon(icon)
+	else
+		button(class=classes type='button' disabled=o.disabled)&attributes(attributes)
+			if icon && iconSide === 'left'
+				+svgIcon(icon)
+			span= text
+			if icon && iconSide === 'right'
+				+svgIcon(icon)

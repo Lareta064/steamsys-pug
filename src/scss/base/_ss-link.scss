@@ -1,0 +1,85 @@
+@use '_var' as *;
+
+// ==============================
+// Базовая ссылка .ss-link
+// Дефолтный размер = link3 (18px), дефолтный цвет = accent1 (variant 2).
+// Работает и с иконкой (svg внутри), и без — column-gap не создаёт
+// лишнего отступа, если flex-детей всего один.
+// ==============================
+.ss-link {
+	display: inline-flex;
+	align-items: center;
+	column-gap: 10px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--accent1);
+	text-decoration: none;
+	cursor: pointer;
+	transition: color .2s;
+
+	svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	&:hover {
+		color: var(--secondary);
+	}
+
+	&[disabled],
+	&.is-disabled {
+		pointer-events: none;
+		opacity: .4;
+	}
+}
+
+// ==============================
+// Размеры (T-shirt)
+// ==============================
+.ss-link--md {
+	font-size: 14px;
+	column-gap: 6px;
+
+	svg {
+		width: 16px;
+		height: 16px;
+	}
+}
+
+.ss-link--sm {
+	font-size: 12px;
+	column-gap: 6px;
+
+	svg {
+		width: 14px;
+		height: 14px;
+	}
+}
+
+// ==============================
+// Цветовые варианты
+// (базовый .ss-link уже = accent1 → hover secondary)
+// ==============================
+
+// Variant 4 — dark
+.ss-link--dark {
+	color: var(--primary);
+
+	&:hover { color: var(--accent2); }
+}
+
+// Variant 3 — light
+.ss-link--light {
+	color: var(--accent3);
+
+	&:hover { color: var(--primary); }
+}
+
+// Variant 1 — white (для тёмной подложки)
+.ss-link--white {
+	color: var(--secondary1);
+
+	&:hover { color: var(--white); }
+}
