@@ -8,10 +8,27 @@ $baseFs: 16;
 @function size($pxsize) {
 	@return calc(($pxsize/17))*1vw;
 }
-$md: 744px;
-$tablet: 1024px;
-$laptop: 1200px;
-$desktop: 1440px;
+// ===== Breakpoints =====
+// Desktop-first: базовые стили пишутся для самого большого экрана,
+// затем сужаются через миксин `down` (max-width).
+// Ниже 360px не поддерживаем.
+$xs:   360px;   // xs   · 360 – 767   · phones
+$md:   768px;   // md   · 768 – 1023  · tablets portrait
+$lg:   1024px;  // lg   · 1024 – 1199 · tablets landscape / small laptop
+$xl:   1200px;  // xl   · 1200 – 1439 · desktop
+$xxl:  1440px;  // xxl  · 1440 – 1919 · large desktop
+$xxxl: 1920px;  // xxxl · 1920+       · huge
+
+// Миксин для desktop-first: применяет стили при ширине МЕНЬШЕ переданного bp.
+// Пример: @include down($xl) { padding: 30px; } — сработает от 0 до 1199px.
+@mixin down($bp) {
+	@media (max-width: #{$bp - 1}) { @content; }
+}
+
+// Миксин для mobile-first (если понадобится точечно).
+@mixin up($bp) {
+	@media (min-width: #{$bp}) { @content; }
+}
 
 $black: #000000;
 $white: #FFFFFF;

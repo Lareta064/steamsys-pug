@@ -1,0 +1,22 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-container — технический контейнер редизайна.
+// max-width 1920 (включая padding). По центру.
+// Desktop-first: базовый padding 80, ниже $xl → 30, ниже $md → 20.
+// ==============================
+.ss-container {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 1920px;
+	margin-inline: auto;
+	padding-inline: 80px;
+
+	@include down($xl) {
+		padding-inline: 30px;
+	}
+
+	@include down($md) {
+		padding-inline: 20px;
+	}
+}
