@@ -18,6 +18,7 @@ block content
 					li: a(href='#kicker') .ss-kicker
 					li: a(href='#section-header') .ss-section-header
 					li: a(href='#section-intro') .ss-section-intro
+					li: a(href='#section-hero') .ss-section-hero
 
 			//- ========== Kicker ==========
 			section.section-headers-catalog__section#kicker
@@ -168,3 +169,58 @@ block content
 						|         h2.ss-h2 Заголовок
 						|         p.ss-section-intro__description Описание
 						|     +ssLink('CTA')
+
+			//- ========== Section hero ==========
+			section.section-headers-catalog__section#section-hero
+				h3.section-headers-catalog__section-title .ss-section-hero
+				p.section-headers-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Заголовочный блок первого экрана. Две группы в колонке: сверху
+					code .ss-section-hero__head
+					| (kicker / .ss-h1 / описание — gap 20), снизу
+					code .ss-section-hero__actions
+					| (группа кнопок — flex + gap 16). Между группами — gap 40.
+
+				//- Полный вариант на светлом фоне
+				h4.section-headers-catalog__subtitle На светлом фоне
+				.section-headers-catalog__demo
+					.ss-section-hero
+						.ss-section-hero__head
+							span.ss-kicker Инженерный каталог
+							h1.ss-h1 Готовые системы и решения для пароконденсатных контуров
+							p.ss-section-intro__description Подберём систему под задачу: РОУ/БРОУ, ОУ, ИТП ГВС, СВК, обвязки калориферов, редукционные установки.
+						.ss-section-hero__actions
+							+ssBtn('Подобрать систему')
+							+ssBtn('Отправить параметры', { variant: 'outline-dark' })
+
+				//- На тёмном фоне
+				h4.section-headers-catalog__subtitle На тёмном фоне
+				.section-headers-catalog__demo.ss-bg-primary(style="padding:40px 24px;")
+					.ss-section-hero
+						.ss-section-hero__head
+							span.ss-kicker.ss-txt-accent3 Инжиниринговый интегратор пароконденсатных систем
+							h1.ss-h1 Инженерные решения для пароконденсатных систем
+							p.ss-section-intro__description Снижаем расход пара, возвращаем конденсат, стабилизируем давление и температуру.
+						.ss-section-hero__actions
+							+ssBtn('Получить КП')
+							+ssBtn('Обсудить задачу', { variant: 'outline-light' })
+
+				//- Минимальный вариант — только head, без CTA
+				h4.section-headers-catalog__subtitle Минимум: только head, без CTA
+				.section-headers-catalog__demo
+					.ss-section-hero
+						.ss-section-hero__head
+							span.ss-kicker Каталог оборудования
+							h1.ss-h1 Конденсатоотводчики
+							p.ss-section-intro__description Автоматический отвод конденсата из паровых систем.
+
+				//- Сниппет
+				pre.section-headers-catalog__snippet(style="margin-top:16px;")
+					code
+						| .ss-section-hero
+						|     .ss-section-hero__head
+						|         span.ss-kicker Kicker
+						|         h1.ss-h1 Заголовок
+						|         p.ss-section-intro__description Описание
+						|     .ss-section-hero__actions
+						|         +ssBtn('Первичная')
+						|         +ssBtn('Вторичная', { variant: 'outline' })

@@ -57,50 +57,42 @@ body {
 }
 
 .ss-wrapper {
-	
+
 	font-family: var(--font-family);
 	font-weight: 400;
 	font-size: 16px;
 	-webkit-font-smoothing: subpixel-antialiased;
 	-moz-osx-font-smoothing: auto;
 
-	*,
-	*:after,
-	*:before {
+	// Reset-стили обёрнуты в :where(), чтобы их специфичность
+	// равнялась специфичности одного класса .ss-wrapper.
+	// Это позволяет компонентным классам (.ss-btn, .ss-link, ...)
+	// свободно перебивать сбросы без !important и без хаков
+	// вроде `.ss-wrapper .ss-btn`.
+	:where(*, *:after, *:before) {
 		box-sizing: border-box;
 		background-repeat: no-repeat;
 		background-position: center;
 	}
 
-	*,
-	*:focus {
+	:where(*, *:focus) {
 		outline: none;
 	}
 
-	a,
-	a:hover {
+	:where(a, a:hover) {
 		text-decoration: none;
 	}
 
-	a {
-		color: inherit;
-	}
-
-	a[href^="tel:"],
-	a[href^="mailto:"] {
+	:where(a[href^="tel:"], a[href^="mailto:"]) {
 		white-space: nowrap;
 	}
 
-	h1,
-	h2,
-	h3,
-	h4,
-	p {
+	:where(h1, h2, h3, h4, p) {
 		padding: 0;
 		margin: 0;
 	}
 
-	img {
+	:where(img) {
 		max-width: 100%;
 		height: auto;
 		display: block;
@@ -117,9 +109,7 @@ body {
 		object-fit: contain;
 	}
 
-	input,
-	button,
-	textarea {
+	:where(input, button, textarea) {
 		border: none;
 		background: none;
 		padding: 0;
@@ -128,17 +118,15 @@ body {
 		font-size: inherit;
 	}
 
-	button,
-	input[type="submit"] {
+	:where(button, input[type="submit"]) {
 		cursor: pointer;
 	}
 
-	address {
+	:where(address) {
 		font-style: normal;
 	}
 
-	input::placeholder,
-	textarea::placeholder {
+	:where(input::placeholder, textarea::placeholder) {
 		font-family: inherit;
 		font-size: inherit;
 	}
