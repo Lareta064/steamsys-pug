@@ -460,7 +460,61 @@ div
 ### Каталог `src/pug/ui/grid.pug`
 
 Типовые раскладки для справки: `.ss-col-N`, адаптивные, `.ss-grid--row-N`, `.ss-grid--10`.
+
+## Фоны секций и блоков (утилиты)
+
+Утилиты `.ss-bg-<name>` в `src/scss/base/_global.scss` — задают фон и парой дефолтный цвет текста (чтобы контрастность не терялась).
+
+| Класс             | background        | text (default) |
+|-------------------|-------------------|----------------|
+| `.ss-bg-white`    | `--white`         | `--primary`    |
+| `.ss-bg-gray`     | `--secondary3`    | `--primary`    |
+| `.ss-bg-primary1` | `--primary1`      | `--white`      |
+| `.ss-bg-primary`  | `--primary`       | `--white`      |
+
+**Специфика с `!important`:**
+- `background-color` — с `!important`. Фон утилиты всегда перебивает фон компонента.
+- `color` — **без** `!important`. Это default для читаемости; можно точечно переопределить через `.ss-txt-*` (у которых `color !important`).
+
+Пример:
+```pug
+section.ss-bg-primary
+    p Белый текст по default
+
+section.ss-bg-primary
+    p.ss-txt-accent3 Аквамариновый — переопределили через .ss-txt-*
+
+section.ss-bg-gray
+    // тёмный текст по default
+```
   ## Grid структура
 
   
-  
+## SECTION HEADER
+1. Делаем .ss-kicker со стилями
+```scss
+на больших экранах
+{font-family: var(--font-family);
+font-weight: 500;
+font-size: 18px;
+line-height: 140%;
+text-transform: uppercase;
+color: var(--accent1);}
+на моб версии: font-size: 14px;
+от 768 до 1200 можем сделать: font-size: 16px;
+
+2.Переходим к ss-section-header
+стили заголовка те же, что у .ss-h2
+{
+  font-family: var(--font-family);
+font-weight: 600;
+font-size: 50px;
+line-height: 120%;
+color: var(--primary);
+}
+на моб версии 
+{
+  font-size: 28px;
+line-height: 130%
+}
+

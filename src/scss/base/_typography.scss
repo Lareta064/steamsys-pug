@@ -52,3 +52,20 @@
 .ss-semi-16 { font-size: 16px; font-weight: 600; line-height: 1.4; }
 .ss-semi-14 { font-size: 14px; font-weight: 600; line-height: 1.4; }
 .ss-semi-12 { font-size: 12px; font-weight: 600; line-height: 1.4; }
+
+
+// ==== Kicker (eyebrow) ====
+// Короткая uppercase-надпись над заголовком в section-header / hero.
+// Цвет по умолчанию — accent1, без !important — можно переопределить
+// через .ss-txt-* (например, на тёмном фоне поставить .ss-txt-accent3).
+.ss-kicker {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	text-transform: uppercase;
+	color: var(--accent1);
+
+	@include down($xl) { font-size: 16px; } // 768 – 1199
+	@include down($md) { font-size: 14px; } // < 768
+}

@@ -13,7 +13,20 @@
 
 
 // ==== Декорация ====
-.ss-txt-underline { text-decoration: underline; }
+.ss-txt-underline {
+	text-decoration: underline;
+	text-decoration-skip-ink: none;
+ }
+
+
+// ==== Фон секций и блоков ====
+// background — !important (фон утилиты перебивает компонент).
+// color — БЕЗ !important: bundled как default, чтобы точечно
+// переопределить через .ss-txt-* (у которого color !important).
+.ss-bg-white     { background-color: var(--white)      !important; color: var(--primary); }
+.ss-bg-gray      { background-color: var(--secondary3) !important; color: var(--primary); }
+.ss-bg-primary1  { background-color: var(--primary1)   !important; color: var(--white);   }
+.ss-bg-primary   { background-color: var(--primary)    !important; color: var(--white);   }
 
 
 // ==== Цвет текста ====

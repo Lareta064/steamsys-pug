@@ -1,0 +1,21 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-section-header — простая строка над секцией:
+// слева kicker, справа заголовок .ss-h2 (или другой .ss-h*).
+// На mobile (< $md) — колонка, kicker сверху, заголовок снизу.
+// Цвет заголовка не задаётся — наследуется от контекста
+// (для тёмного фона поверх кладём .ss-txt-white или .ss-bg-* с bundle).
+// ==============================
+.ss-section-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	column-gap: 40px;
+
+	@include down($md) {
+		flex-direction: column;
+		align-items: flex-start;
+		row-gap: 20px;
+	}
+}

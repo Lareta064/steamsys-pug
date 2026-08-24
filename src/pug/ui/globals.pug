@@ -1,0 +1,205 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	//- Данные для секций ---------------------------------------------------
+	- var bgs = [{ cls: 'ss-bg-white', token: '--white #FFFFFF', txt: '--primary' }, { cls: 'ss-bg-gray', token: '--secondary3 #F8F9F9', txt: '--primary' }, { cls: 'ss-bg-primary1', token: '--primary1 #243A45', txt: '--white' }, { cls: 'ss-bg-primary', token: '--primary #031D2A', txt: '--white' }]
+
+	- var colors = [{ cls: 'ss-txt-white', token: '--white #FFFFFF', onDark: true }, { cls: 'ss-txt-black', token: '--black #000000' }, { cls: 'ss-txt-primary', token: '--primary #031D2A' }, { cls: 'ss-txt-primary1', token: '--primary1 #243A45' }, { cls: 'ss-txt-secondary', token: '--secondary #7C8A93' }, { cls: 'ss-txt-secondary1', token: '--secondary1 #A4AEB4' }, { cls: 'ss-txt-accent1', token: '--accent1 #0044BB' }, { cls: 'ss-txt-accent2', token: '--accent2 #08428C' }, { cls: 'ss-txt-accent3', token: '--accent3 #79B0E3' }, { cls: 'ss-txt-accent4', token: '--accent4 #5F97CC' }, { cls: 'ss-txt-error', token: '--error #BB0000' }]
+
+	- var longText = 'Инжиниринговый интегратор пароконденсатных систем: снижаем расход пара, возвращаем конденсат, стабилизируем давление и температуру, проектируем и внедряем инженерные системы под параметры вашего предприятия. Больше 20 лет на рынке.'
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Глобальные классы
+
+		.container-dashboard__content
+
+			p.globals-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Утилиты из
+				code src/scss/base/_global.scss
+				| . Все имена классов написаны текстом — работает
+				code Ctrl+F
+				| .
+
+			//- ========== Оглавление ==========
+			nav.globals-catalog__toc
+				h3.globals-catalog__toc-title Оглавление
+				ul.globals-catalog__toc-list
+					li: a(href='#bg') Фоны секций и блоков
+					li: a(href='#color') Цвет текста
+					li: a(href='#align') Выравнивание
+					li: a(href='#case') Регистр, перенос, декорация
+					li: a(href='#clamp') Обрезка
+					li: a(href='#combo') Комбинации
+
+			//- ========== Фоны ==========
+			section.globals-catalog__section#bg
+				h3.globals-catalog__section-title Фоны
+				p.globals-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Класс задаёт
+					code background-color !important
+					| и парой дефолтный
+					code color
+					| (без
+					code !important
+					| ) — цвет текста можно переопределить утилитой
+					code .ss-txt-*
+					| .
+
+				ul.globals-catalog__grid
+					each bg in bgs
+						li.globals-catalog__card
+							.globals-catalog__preview(class=bg.cls)
+								span.globals-catalog__preview-text Пример текста Aa
+							.globals-catalog__meta
+								code.globals-catalog__name .#{bg.cls}
+								span.globals-catalog__token= 'bg: ' + bg.token
+								span.globals-catalog__token= 'text: ' + bg.txt
+								pre.globals-catalog__snippet
+									code section.#{bg.cls}
+
+			//- ========== Цвет текста ==========
+			section.globals-catalog__section#color
+				h3.globals-catalog__section-title Цвет текста
+				p.globals-catalog__hint.ss-reg-14.ss-txt-secondary
+					code color !important
+					| — всегда перебивает цвет компонента и дефолтный текст утилиты фона.
+
+				ul.globals-catalog__grid
+					each c in colors
+						li.globals-catalog__card(class=(c.onDark ? 'globals-catalog__card--on-dark' : ''))
+							.globals-catalog__preview
+								span.globals-catalog__preview-text(class=c.cls) Съешь ещё этих Aa
+							.globals-catalog__meta
+								code.globals-catalog__name .#{c.cls}
+								span.globals-catalog__token= c.token
+								pre.globals-catalog__snippet
+									code p.#{c.cls} Текст
+
+			//- ========== Выравнивание ==========
+			section.globals-catalog__section#align
+				h3.globals-catalog__section-title Выравнивание
+				p.globals-catalog__hint.ss-reg-14.ss-txt-secondary
+					code text-align !important
+					| .
+
+				ul.globals-catalog__grid
+					li.globals-catalog__card
+						.globals-catalog__preview
+							p.ss-txt-left Слева выровненный текст
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-txt-left
+							pre.globals-catalog__snippet
+								code p.ss-txt-left …
+					li.globals-catalog__card
+						.globals-catalog__preview
+							p.ss-txt-center По центру
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-txt-center
+							pre.globals-catalog__snippet
+								code p.ss-txt-center …
+					li.globals-catalog__card
+						.globals-catalog__preview
+							p.ss-txt-right Справа
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-txt-right
+							pre.globals-catalog__snippet
+								code p.ss-txt-right …
+
+			//- ========== Регистр / перенос / декорация ==========
+			section.globals-catalog__section#case
+				h3.globals-catalog__section-title Регистр, перенос, декорация
+
+				ul.globals-catalog__grid
+					li.globals-catalog__card
+						.globals-catalog__preview
+							span.ss-txt-upper Верхний регистр
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-txt-upper
+							span.globals-catalog__token text-transform: uppercase
+							pre.globals-catalog__snippet
+								code span.ss-txt-upper …
+
+					li.globals-catalog__card
+						.globals-catalog__preview
+							span.ss-txt-nowrap Этот текст не переносится
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-txt-nowrap
+							span.globals-catalog__token white-space: nowrap
+							pre.globals-catalog__snippet
+								code span.ss-txt-nowrap …
+
+					li.globals-catalog__card
+						.globals-catalog__preview
+							span.ss-txt-underline Подчёркнутый текст
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-txt-underline
+							span.globals-catalog__token text-decoration: underline
+							pre.globals-catalog__snippet
+								code span.ss-txt-underline …
+
+			//- ========== Обрезка ==========
+			section.globals-catalog__section#clamp
+				h3.globals-catalog__section-title Обрезка
+				p.globals-catalog__hint.ss-reg-14.ss-txt-secondary Каждый пример помещён в узкий контейнер — видно, где текст обрезается.
+
+				ul.globals-catalog__grid
+					li.globals-catalog__card
+						.globals-catalog__preview
+							.globals-catalog__narrow
+								p.ss-txt-truncate= longText
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-txt-truncate
+							span.globals-catalog__token Обрезка в 1 строку с многоточием
+							pre.globals-catalog__snippet
+								code p.ss-txt-truncate …
+
+					li.globals-catalog__card
+						.globals-catalog__preview
+							.globals-catalog__narrow
+								p.ss-txt-clamp-2= longText
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-txt-clamp-2
+							span.globals-catalog__token Обрезка в 2 строки
+							pre.globals-catalog__snippet
+								code p.ss-txt-clamp-2 …
+
+					li.globals-catalog__card
+						.globals-catalog__preview
+							.globals-catalog__narrow
+								p.ss-txt-clamp-3= longText
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-txt-clamp-3
+							span.globals-catalog__token Обрезка в 3 строки
+							pre.globals-catalog__snippet
+								code p.ss-txt-clamp-3 …
+
+			//- ========== Комбинации ==========
+			section.globals-catalog__section#combo
+				h3.globals-catalog__section-title Комбинации
+				p.globals-catalog__hint.ss-reg-14.ss-txt-secondary Типовые сочетания для боевых страниц.
+
+				ul.globals-catalog__grid
+					li.globals-catalog__card
+						.globals-catalog__preview.ss-bg-primary
+							p.ss-txt-accent3 Тёмный фон + акцентный текст
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-bg-primary + .ss-txt-accent3
+							span.globals-catalog__token Дефолтный белый переопределён на accent3
+							pre.globals-catalog__snippet
+								code section.ss-bg-primary p.ss-txt-accent3 …
+
+					li.globals-catalog__card
+						.globals-catalog__preview.ss-bg-gray
+							p.ss-txt-primary1.ss-txt-center Секция на светло-сером
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-bg-gray + .ss-txt-primary1 + .ss-txt-center
+							pre.globals-catalog__snippet
+								code section.ss-bg-gray p.ss-txt-primary1.ss-txt-center …
+
+					li.globals-catalog__card
+						.globals-catalog__preview.ss-bg-primary1
+							p.ss-txt-white.ss-txt-upper.ss-txt-nowrap Хедер
+						.globals-catalog__meta
+							code.globals-catalog__name .ss-bg-primary1 + .ss-txt-upper + .ss-txt-nowrap
+							pre.globals-catalog__snippet
+								code section.ss-bg-primary1 p.ss-txt-upper.ss-txt-nowrap …

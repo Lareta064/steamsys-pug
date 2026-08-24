@@ -1,0 +1,105 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Заголовки секций
+
+		.container-dashboard__content
+
+			p.section-headers-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Компоненты и утилиты для оформления шапок секций. Стили — в
+				code src/scss/base/_typography.scss
+				| (kicker) и последующих файлах.
+
+			//- ========== Оглавление ==========
+			nav.section-headers-catalog__toc
+				h3.section-headers-catalog__toc-title Оглавление
+				ul.section-headers-catalog__toc-list
+					li: a(href='#kicker') .ss-kicker
+					li: a(href='#section-header') .ss-section-header
+
+			//- ========== Kicker ==========
+			section.section-headers-catalog__section#kicker
+				h3.section-headers-catalog__section-title .ss-kicker
+				p.section-headers-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Uppercase-надпись над заголовком секции. Цвет по умолчанию —
+					code var(--accent1)
+					| , можно переопределить утилитой
+					code .ss-txt-*
+					| . Размер адаптируется: 18 (xl+), 16 (768–1199), 14 (&lt; 768).
+
+				ul.section-headers-catalog__grid
+					//- На светлом фоне
+					li.section-headers-catalog__card
+						.section-headers-catalog__preview
+							span.ss-kicker Клиенты
+						.section-headers-catalog__meta
+							code.section-headers-catalog__name .ss-kicker
+							span.section-headers-catalog__token На светлом фоне · accent1
+							pre.section-headers-catalog__snippet
+								code span.ss-kicker Клиенты
+
+					//- На тёмном фоне — accent3
+					li.section-headers-catalog__card.section-headers-catalog__card--on-dark
+						.section-headers-catalog__preview.ss-bg-primary
+							span.ss-kicker.ss-txt-accent3 Процесс
+						.section-headers-catalog__meta
+							code.section-headers-catalog__name .ss-kicker.ss-txt-accent3
+							span.section-headers-catalog__token На тёмном фоне · accent3
+							pre.section-headers-catalog__snippet
+								code span.ss-kicker.ss-txt-accent3 Процесс
+
+					//- На тёмном фоне — white
+					li.section-headers-catalog__card.section-headers-catalog__card--on-dark
+						.section-headers-catalog__preview.ss-bg-primary1
+							span.ss-kicker.ss-txt-white Преимущества
+						.section-headers-catalog__meta
+							code.section-headers-catalog__name .ss-kicker.ss-txt-white
+							span.section-headers-catalog__token На тёмном фоне · white
+							pre.section-headers-catalog__snippet
+								code span.ss-kicker.ss-txt-white Преимущества
+
+				p.section-headers-catalog__hint.ss-reg-14.ss-txt-secondary(style="margin-top:16px;")
+					| Живой пример в связке с заголовком:
+
+				.section-headers-catalog__demo
+					span.ss-kicker Задачи
+					h2.ss-h2(style="margin-top:8px;") Какие задачи решаем
+
+			//- ========== Section header ==========
+			section.section-headers-catalog__section#section-header
+				h3.section-headers-catalog__section-title .ss-section-header
+				p.section-headers-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Простая строка над секцией: kicker слева, заголовок
+					code .ss-h2
+					| справа, разведены через
+					code space-between
+					| . На экранах ниже
+					code $md
+					| — колонка (kicker сверху, заголовок снизу), row-gap 20.
+
+				//- Живой пример на светлом фоне
+				h4.section-headers-catalog__subtitle На светлом фоне
+				.section-headers-catalog__demo
+					.ss-section-header
+						span.ss-kicker Задачи
+						h2.ss-h2 Какие задачи решаем
+
+				//- Живой пример на тёмном фоне
+				h4.section-headers-catalog__subtitle На тёмном фоне (bg + text bundle)
+				.section-headers-catalog__demo.ss-bg-primary(style="padding:32px 24px;")
+					.ss-section-header
+						span.ss-kicker.ss-txt-accent3 Процесс
+						h2.ss-h2 Как проходит работа с нами
+
+				//- Сниппет
+				pre.section-headers-catalog__snippet(style="margin-top:16px;")
+					code
+						| .ss-section-header
+						|     span.ss-kicker Задачи
+						|     h2.ss-h2 Какие задачи решаем
+
+				p.section-headers-catalog__hint.ss-reg-14.ss-txt-secondary(style="margin-top:16px;")
+					| Сузь окно браузера до &lt; 768 — kicker и заголовок встанут в колонку с
+					code row-gap: 20
+					| .
