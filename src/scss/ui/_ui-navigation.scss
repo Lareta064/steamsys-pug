@@ -421,3 +421,53 @@
 		margin-top: 12px;
 	}
 }
+
+// ===== Каталог сетки (страница grid.html) =====
+.container-dashboard {
+	.grid-catalog__intro {
+		margin-bottom: 24px;
+
+		code {
+			margin: 0 4px;
+		}
+	}
+
+	.grid-catalog__section-title {
+		margin: 32px 0 12px;
+		font-size: 18px;
+		font-weight: 600;
+		color: #031D2A;
+	}
+
+	.grid-catalog__subtitle {
+		margin: 16px 0 8px;
+		font-size: 13px;
+		font-weight: 500;
+		color: #7C8A93;
+	}
+
+	.grid-catalog__hint {
+		margin: 4px 0 12px;
+
+		code {
+			margin: 0 4px;
+		}
+	}
+
+	.grid-catalog__demo {
+		margin-bottom: 12px;
+		padding: 16px;
+		background: #F8F9F9;
+		border: 1px dashed #DEE2E4;
+		border-radius: 8px;
+	}
+
+	.grid-catalog__cell {
+		padding: 16px 12px;
+		background: #DEE2E4;
+		color: #031D2A;
+		border-radius: 6px;
+		font-size: 13px;
+		text-align: center;
+	}
+}

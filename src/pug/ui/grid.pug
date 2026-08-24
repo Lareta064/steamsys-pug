@@ -1,0 +1,122 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	mixin cell(label)
+		.grid-catalog__cell= label
+
+	.container-dashboard
+		h2.db-h2 Сетка (Grid)
+		.container-dashboard__content
+			p.grid-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Базовая сетка
+				code .ss-grid
+				| — 12 колонок. Модификатор
+				code .ss-grid--10
+				| — 10 колонок.
+
+			//- ===== Дочерние span'ы =====
+			h3.grid-catalog__section-title Дочерние span'ы (.ss-col-N)
+			p.grid-catalog__hint.ss-reg-14.ss-txt-secondary Ребёнок сам задаёт ширину — сколько из 12 колонок он занимает.
+
+			h4.grid-catalog__subtitle 6 + 6 (пополам)
+			.ss-grid.grid-catalog__demo
+				.ss-col-6
+					+cell('.ss-col-6')
+				.ss-col-6
+					+cell('.ss-col-6')
+
+			h4.grid-catalog__subtitle 4 + 8
+			.ss-grid.grid-catalog__demo
+				.ss-col-4
+					+cell('.ss-col-4')
+				.ss-col-8
+					+cell('.ss-col-8')
+
+			h4.grid-catalog__subtitle 4 + 4 + 4 (три равных)
+			.ss-grid.grid-catalog__demo
+				.ss-col-4
+					+cell('.ss-col-4')
+				.ss-col-4
+					+cell('.ss-col-4')
+				.ss-col-4
+					+cell('.ss-col-4')
+
+			h4.grid-catalog__subtitle 3 + 3 + 3 + 3
+			.ss-grid.grid-catalog__demo
+				.ss-col-3
+					+cell('.ss-col-3')
+				.ss-col-3
+					+cell('.ss-col-3')
+				.ss-col-3
+					+cell('.ss-col-3')
+				.ss-col-3
+					+cell('.ss-col-3')
+
+			//- ===== Адаптивные span'ы =====
+			h3.grid-catalog__section-title Адаптивные span'ы
+			p.grid-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Сузь окно браузера, чтобы увидеть переключение. Пример:
+				code .ss-col-4.ss-col-lg-6.ss-col-md-12
+				| — 3 в ряд от 1200, 2 в ряд от 768 до 1199, 1 в ряд ниже 768.
+
+			.ss-grid.grid-catalog__demo
+				.ss-col-4.ss-col-lg-6.ss-col-md-12
+					+cell('4 / lg-6 / md-12')
+				.ss-col-4.ss-col-lg-6.ss-col-md-12
+					+cell('4 / lg-6 / md-12')
+				.ss-col-4.ss-col-lg-12.ss-col-md-12
+					+cell('4 / lg-12 / md-12')
+
+			//- ===== Родительский row-N =====
+			h3.grid-catalog__section-title Родительский модификатор «N в ряду»
+			p.grid-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Короткий способ: все дети одинаковой ширины. Пример:
+				code .ss-grid.ss-grid--row-3
+				| — 3 в ряду.
+
+			h4.grid-catalog__subtitle .ss-grid.ss-grid--row-3
+			.ss-grid.ss-grid--row-3.grid-catalog__demo
+				+cell('1')
+				+cell('2')
+				+cell('3')
+
+			h4.grid-catalog__subtitle .ss-grid.ss-grid--row-4
+			.ss-grid.ss-grid--row-4.grid-catalog__demo
+				+cell('1')
+				+cell('2')
+				+cell('3')
+				+cell('4')
+
+			h4.grid-catalog__subtitle .ss-grid.ss-grid--row-3.ss-grid--md-row-1
+			p.grid-catalog__hint.ss-reg-14.ss-txt-secondary Ниже 768 — по одному в ряд.
+			.ss-grid.ss-grid--row-3.ss-grid--md-row-1.grid-catalog__demo
+				+cell('1')
+				+cell('2')
+				+cell('3')
+
+			//- ===== 10-колоночная сетка =====
+			h3.grid-catalog__section-title Сетка на 10 колонок (.ss-grid--10)
+			p.grid-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Общее число колонок — 10 вместо 12. Дочерние span считаются от 10 (но классы
+				code .ss-col-N
+				| максимум до 12 — используй значения ≤ 10).
+
+			h4.grid-catalog__subtitle .ss-col-5 + .ss-col-5
+			.ss-grid.ss-grid--10.grid-catalog__demo
+				.ss-col-5
+					+cell('.ss-col-5')
+				.ss-col-5
+					+cell('.ss-col-5')
+
+			h4.grid-catalog__subtitle .ss-col-2 × 5
+			.ss-grid.ss-grid--10.grid-catalog__demo
+				.ss-col-2
+					+cell('2')
+				.ss-col-2
+					+cell('2')
+				.ss-col-2
+					+cell('2')
+				.ss-col-2
+					+cell('2')
+				.ss-col-2
+					+cell('2')

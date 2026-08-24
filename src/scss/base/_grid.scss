@@ -1,0 +1,108 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-grid — базовая сетка редизайна.
+// По умолчанию 12 колонок. Модификатор .ss-grid--10 переключает на 10.
+// Column-gap = row-gap: 30 (xl+) / 20 (down $xl) / 10 (down $md).
+// Дочерние элементы задают ширину через .ss-col-N либо через
+// родительский .ss-grid--row-N («N в ряду»).
+// Desktop-first: адаптивные модификаторы применяются через @include down.
+// ==============================
+.ss-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--ss-cols, 12), 1fr);
+	column-gap: 30px;
+	row-gap: 30px;
+
+	@include down($xl) {
+		column-gap: 20px;
+		row-gap: 20px;
+	}
+
+	@include down($md) {
+		column-gap: 10px;
+		row-gap: 10px;
+	}
+}
+
+// 10-колоночная сетка
+.ss-grid--10 {
+	--ss-cols: 10;
+}
+
+// ==============================
+// Дочерние спаны .ss-col-N (N = 1..12)
+// ==============================
+@for $i from 1 through 12 {
+	.ss-col-#{$i} {
+		grid-column: span #{$i};
+	}
+}
+
+// ==============================
+// Адаптивные дочерние спаны .ss-col-{bp}-N
+// Desktop-first: каждый bp перекрывает предыдущий на меньших экранах.
+// Порядок в CSS: от большего bp к меньшему.
+// ==============================
+@include down($xxl) {
+	@for $i from 1 through 12 {
+		.ss-col-xxl-#{$i} { grid-column: span #{$i}; }
+	}
+}
+
+@include down($xl) {
+	@for $i from 1 through 12 {
+		.ss-col-xl-#{$i} { grid-column: span #{$i}; }
+	}
+}
+
+@include down($lg) {
+	@for $i from 1 through 12 {
+		.ss-col-lg-#{$i} { grid-column: span #{$i}; }
+	}
+}
+
+@include down($md) {
+	@for $i from 1 through 12 {
+		.ss-col-md-#{$i} { grid-column: span #{$i}; }
+	}
+}
+
+// ==============================
+// Родительский модификатор «N в ряду».
+// .ss-grid--row-N — все дети занимают одинаковую ширину.
+// Работает только для 12-колоночной сетки (базовой).
+// Допустимые N: 1, 2, 3, 4, 6, 12 — те, на которые 12 делится нацело.
+// ==============================
+$row-map: (1: 12, 2: 6, 3: 4, 4: 3, 6: 2, 12: 1);
+
+@each $n, $span in $row-map {
+	.ss-grid--row-#{$n} > * {
+		grid-column: span #{$span};
+	}
+}
+
+// Адаптивные версии .ss-grid--{bp}-row-N
+@include down($xxl) {
+	@each $n, $span in $row-map {
+		.ss-grid--xxl-row-#{$n} > * { grid-column: span #{$span}; }
+	}
+}
+
+@include down($xl) {
+	@each $n, $span in $row-map {
+		.ss-grid--xl-row-#{$n} > * { grid-column: span #{$span}; }
+	}
+}
+
+@include down($lg) {
+	@each $n, $span in $row-map {
+		.ss-grid--lg-row-#{$n} > * { grid-column: span #{$span}; }
+	}
+}
+
+@include down($md) {
+	@each $n, $span in $row-map {
+		.ss-grid--md-row-#{$n} > * { grid-column: span #{$span}; }
+	}
+}
