@@ -17,6 +17,7 @@ block content
 				ul.section-headers-catalog__toc-list
 					li: a(href='#kicker') .ss-kicker
 					li: a(href='#section-header') .ss-section-header
+					li: a(href='#section-intro') .ss-section-intro
 
 			//- ========== Kicker ==========
 			section.section-headers-catalog__section#kicker
@@ -103,3 +104,67 @@ block content
 					| Сузь окно браузера до &lt; 768 — kicker и заголовок встанут в колонку с
 					code row-gap: 20
 					| .
+
+			//- ========== Section intro ==========
+			section.section-headers-catalog__section#section-intro
+				h3.section-headers-catalog__section-title .ss-section-intro
+				p.section-headers-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Стек-колонка из трёх строк: kicker · заголовок+описание · CTA. По умолчанию
+					code row-gap: 20
+					| . Между заголовком и описанием — фиксированные
+					code 10px
+					| .
+
+				//- Полный вариант
+				h4.section-headers-catalog__subtitle Все три строки
+				.section-headers-catalog__demo
+					.ss-section-intro
+						span.ss-kicker Комплексный подход
+						.ss-section-intro__body
+							h2.ss-h2 Берём на себя весь цикл работ — от аудита до сервисной поддержки
+							p.ss-section-intro__description Анализируем систему, проектируем, поставляем оборудование, обеспечиваем стабильную работу 24/7.
+						+ssLink('Подробнее о подходе')
+
+				//- Без CTA
+				h4.section-headers-catalog__subtitle Без CTA
+				.section-headers-catalog__demo
+					.ss-section-intro
+						span.ss-kicker Клиенты
+						.ss-section-intro__body
+							h2.ss-h2 Для кого работаем
+							p.ss-section-intro__description Главные инженеры, энергетики, технологи, закупщики, проектировщики.
+
+				//- На тёмном фоне (bundle)
+				h4.section-headers-catalog__subtitle На тёмном фоне (bg + text bundle)
+				.section-headers-catalog__demo.ss-bg-primary(style="padding:32px 24px;")
+					.ss-section-intro
+						span.ss-kicker.ss-txt-accent3 Процесс
+						.ss-section-intro__body
+							h2.ss-h2 Как проходит работа с нами
+							p.ss-section-intro__description Пять этапов от заявки до сдачи в эксплуатацию.
+						+ssLink('Смотреть все проекты', { variant: 'white' })
+
+				//- Stretch модификатор
+				h4.section-headers-catalog__subtitle .ss-section-intro--stretch (в grid-ряду с высоким соседом)
+				p.section-headers-catalog__hint.ss-reg-14.ss-txt-secondary Три строки разведены к краям через space-between.
+				.section-headers-catalog__demo
+					.ss-grid
+						.ss-col-6
+							.ss-section-intro.ss-section-intro--stretch
+								span.ss-kicker Опыт
+								.ss-section-intro__body
+									h2.ss-h2 Опыт в ключевых отраслях
+									p.ss-section-intro__description Пищевая, фарм, химия, энергетика.
+								+ssLink('Смотреть все кейсы')
+						.ss-col-6
+							.section-headers-catalog__filler(style="min-height:280px; background:#DEE2E4; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#7C8A93;") Высокий сосед (карточки/фото)
+
+				//- Сниппет
+				pre.section-headers-catalog__snippet(style="margin-top:16px;")
+					code
+						| .ss-section-intro
+						|     span.ss-kicker Kicker
+						|     .ss-section-intro__body
+						|         h2.ss-h2 Заголовок
+						|         p.ss-section-intro__description Описание
+						|     +ssLink('CTA')

@@ -515,6 +515,35 @@ color: var(--primary);
 на моб версии 
 {
   font-size: 28px;
-line-height: 130%
+  line-height: 130%
 }
 
+3. .ss-section-intro
+- Заголовок такой же, как .ss-h2
+- текст описание
+{
+  font-family: var(--font-family);
+font-weight: 400;
+font-size: 24px;
+line-height: 130%;
+color: var(--primary);
+}
+на моб версии 
+{
+  font-size: 16px;
+
+}
+между заголовокм и описанием 10пкс
+- ссылка со стрелкой - такой компонент уже есть
+{
+  font-family: var(--font-family);
+font-weight: 500;
+font-size: 18px;
+line-height: 140%;
+color: var(--accent1);
+}
+на моб версии 
+{
+  font-size: 18px;
+
+}

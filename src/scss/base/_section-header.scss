@@ -19,3 +19,46 @@
 		row-gap: 20px;
 	}
 }
+
+
+// ==============================
+// .ss-section-intro — три строки в колонку:
+//   1) kicker
+//   2) заголовок + описание (гэп между ними всегда 10px)
+//   3) CTA (обычно .ss-link)
+// По умолчанию row-gap 20 между строками.
+// Модификатор --stretch: занимает всю высоту родителя и
+// распределяет три строки через space-between (когда intro
+// стоит в grid-колонке рядом с высоким блоком).
+// ==============================
+.ss-section-intro {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.ss-section-intro--stretch {
+	height: 100%;
+	justify-content: space-between;
+	row-gap: 0;
+}
+
+// Средняя строка — заголовок + описание с фикс-гэпом 10.
+.ss-section-intro__body {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+}
+
+// Описание — 24/1.3 → 16 на mobile. Цвет не задаём:
+// наследуется от контекста (bundle через .ss-bg-*).
+.ss-section-intro__description {
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 1.3;
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
