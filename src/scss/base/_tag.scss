@@ -1,0 +1,34 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-tag — статичная плашка-метка (характеристики, фичи).
+// По умолчанию — белая с accent1 текстом.
+// Модификатор --dark — тёмная плашка с белым текстом.
+// Тэг элемента — <span> (inline, вкладывается в текст).
+// ==============================
+.ss-tag {
+	display: inline-flex;
+	align-items: center;
+	height: 38px;
+	padding: 8px 16px;
+	border-radius: 10px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 1.4;
+	background: var(--white);
+	color: var(--accent1);
+	white-space: nowrap;
+}
+
+.ss-tag--dark {
+	background: var(--primary);
+	color: var(--white);
+}
+
+// Группа тэгов — flex-wrap с фикс-гэпом.
+.ss-tag-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}

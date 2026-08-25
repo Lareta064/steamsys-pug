@@ -759,3 +759,60 @@
 		color: #7C8A93;
 	}
 }
+
+// ===== Каталог tags (страница tags.html) =====
+.container-dashboard {
+	.tags-catalog__intro {
+		margin-bottom: 24px;
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+	}
+
+	.tags-catalog__section-title {
+		margin: 32px 0 8px;
+		font-size: 18px;
+		font-weight: 600;
+		color: #031D2A;
+	}
+
+	.tags-catalog__subtitle {
+		margin: 16px 0 8px;
+		font-size: 13px;
+		font-weight: 500;
+		color: #7C8A93;
+	}
+
+	.tags-catalog__hint {
+		margin: 0 0 12px;
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+	}
+
+	.tags-catalog__demo {
+		padding: 24px;
+		border: 1px dashed #DEE2E4;
+		border-radius: 8px;
+	}
+
+	.tags-catalog__snippet {
+		margin: 8px 0 0;
+		padding: 12px 14px;
+		background: #031D2A;
+		color: #F8F9F9;
+		border-radius: 6px;
+		font-size: 12px;
+		overflow: auto;
+	}
+}

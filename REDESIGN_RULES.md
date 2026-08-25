@@ -545,5 +545,27 @@ color: var(--accent1);
 на моб версии 
 {
   font-size: 18px;
-
 }
+
+## TAGS-LABELS
+ширина по контенту,
+- стили компонента на белом фоне
+{
+  background: var(--white);
+  border-radius: 10px;
+  padding: 8px 16px;
+  height: 38px;
+
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  color: var(--accent1)
+}
+На моб версии стили те же
+- на темном фоне
+{
+  background: var(--primary);
+  color: var(--white);
+}
+-для группы компонентов: флекс родитель с wrap:wrap; и gap: 10px; 
