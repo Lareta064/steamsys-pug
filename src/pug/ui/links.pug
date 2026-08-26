@@ -61,3 +61,21 @@ block content
 				+ssLink('Normal')
 				+ssLink('Disabled', { disabled: true })
 			p.links-catalog__hint.ss-reg-14.ss-txt-secondary Наведи мышью — hover.
+
+			//- ===== Ссылка-плашка (.ss-link--strip) =====
+			h3.links-catalog__section-title Плашка (.ss-link--strip)
+			p.links-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Широкая полоса: текст слева, иконка справа (через
+				code space-between
+				| ). Собственный визуал перебивает базовый
+				code .ss-link
+				| . Ширина — по родителю (обычно ограничена родительской колонкой).
+
+			.links-catalog__strip
+				+ssLink('Расчёт потерь пара', { variant: 'strip', icon: 'calc' })
+				+ssLink('Расчёт возврата конденсата', { variant: 'strip', icon: 'calc' })
+				+ssLink('Экономический эффект', { variant: 'strip', icon: 'calc' })
+				+ssLink('Подбор РОУ / БРОУ', { variant: 'strip', icon: 'calc' })
+
+			pre.links-catalog__snippet(style="margin-top:16px;")
+				code +ssLink('Расчёт потерь пара', { variant: 'strip', icon: 'calc' })

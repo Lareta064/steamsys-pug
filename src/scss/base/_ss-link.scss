@@ -83,3 +83,39 @@
 
 	&:hover { color: var(--white); }
 }
+
+
+// ==============================
+// .ss-link--strip — плашка-ссылка (широкая полоса с текстом слева и иконкой справа).
+// Полный визуал переопределяет базу: собственный layout, размер, box.
+// Иконка внутри — accent3.
+// Ширина — по родителю; обычно родитель ограничивает max-width.
+// ==============================
+.ss-link--strip {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	box-sizing: border-box;
+	min-height: 70px;
+	padding: 0 30px;
+	column-gap: 20px;
+	background: var(--secondary3);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	svg {
+		width: 30px;
+		height: 30px;
+		color: var(--accent3);
+	}
+
+	&:hover {
+		color: var(--primary);
+		border-color: var(--accent3);
+	}
+}

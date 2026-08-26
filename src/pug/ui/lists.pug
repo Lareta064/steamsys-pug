@@ -1,0 +1,75 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	//- Данные для примеров
+	- var bulletItems = ['Стабильность температуры и давления', 'Меньше брака от нестабильных режимов', 'Точность регулирования в процессе']
+	- var iconItems = ['Опросные листы', 'Типовые схемы', 'Паспорта и сертификаты', 'CAD / 3D / BIM-модели', 'Каталоги и инструкции']
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Lists
+
+		.container-dashboard__content
+
+			p.lists-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Стили — в
+				code src/scss/base/_list.scss
+				| . Точка через
+				code ::before
+				|  + абсолютное позиционирование — многострочный текст не уходит под точку.
+
+			//- ========== Оглавление ==========
+			nav.lists-catalog__toc
+				h3.lists-catalog__toc-title Оглавление
+				ul.lists-catalog__toc-list
+					li: a(href='#bullet') .ss-list (bullet)
+					li: a(href='#icon') .ss-list--icon
+
+			//- ========== Bullet list ==========
+			section.lists-catalog__section#bullet
+				h3.lists-catalog__section-title .ss-list (bullet)
+				p.lists-catalog__hint.ss-reg-14.ss-txt-secondary Простой список с точкой. Цвет наследуется от контекста, точка = currentColor.
+
+				h4.lists-catalog__subtitle На светлом фоне
+				.lists-catalog__demo.ss-bg-gray
+					ul.ss-list
+						each item in bulletItems
+							li.ss-list__item= item
+
+				h4.lists-catalog__subtitle На тёмном фоне (.ss-bg-primary + .ss-txt-white)
+				.lists-catalog__demo.ss-bg-primary
+					ul.ss-list.ss-txt-white
+						each item in bulletItems
+							li.ss-list__item= item
+
+				pre.lists-catalog__snippet
+					code
+						| ul.ss-list
+						|     li.ss-list__item Пункт списка
+						|     li.ss-list__item Ещё пункт
+
+			//- ========== Icon list ==========
+			section.lists-catalog__section#icon
+				h3.lists-catalog__section-title .ss-list--icon
+				p.lists-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Список с badge-маркером (иконка в тёмном скруглённом квадратике). Маркер — обёртка
+					code .ss-list__marker
+					| с иконкой внутри через
+					code +svgIcon('check')
+					| .
+
+				h4.lists-catalog__subtitle С галочкой (svg-check)
+				.lists-catalog__demo.ss-bg-gray
+					ul.ss-list.ss-list--icon
+						each item in iconItems
+							li.ss-list__item
+								span.ss-list__marker
+									+svgIcon('check')
+								span= item
+
+				pre.lists-catalog__snippet
+					code
+						| ul.ss-list.ss-list--icon
+						|     li.ss-list__item
+						|         span.ss-list__marker
+						|             +svgIcon('check')
+						|         span Текст пункта

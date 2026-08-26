@@ -1,0 +1,71 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-list — базовый простой bullet-список.
+// Точка через ::before + position: absolute
+// (hanging indent: вторая строка НЕ уходит под точку).
+// Цвет точки = currentColor — наследуется от текста.
+// Модификатор .ss-list--icon — вместо точки badge с иконкой.
+// ==============================
+.ss-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	row-gap: 6px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary1);
+}
+
+.ss-list__item {
+	position: relative;
+	padding-left: 16px;
+}
+
+.ss-list__item::before {
+	content: '';
+	position: absolute;
+	left: 4px;
+	top: 0.55em;
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: currentColor;
+}
+
+
+// ==============================
+// .ss-list--icon — список с badge-маркером (иконка в тёмном квадратике).
+// ==============================
+.ss-list--icon {
+
+	.ss-list__item {
+		padding-left: 0;
+		display: grid;
+		grid-template-columns: auto 1fr;
+		column-gap: 15px;
+		align-items: center;
+		font-weight: 500;
+	}
+
+	.ss-list__item::before {
+		display: none;
+	}
+}
+
+.ss-list__marker {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 6px;
+	border-radius: 10px;
+	background: var(--primary1);
+	color: var(--white);
+}

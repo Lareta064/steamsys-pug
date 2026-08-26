@@ -498,6 +498,23 @@
 	.links-catalog__hint {
 		margin-top: 12px;
 	}
+
+	.links-catalog {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		max-width: 716px;
+	}
+
+	.links-catalog__snippet {
+		margin: 8px 0 0;
+		padding: 12px 14px;
+		background: #031D2A;
+		color: #F8F9F9;
+		border-radius: 6px;
+		font-size: 12px;
+		overflow: auto;
+	}
 }
 
 // ===== Каталог сетки (страница grid.html) =====
@@ -982,6 +999,103 @@
 	}
 
 	.cards-catalog__snippet {
+		margin: 12px 0 0;
+		padding: 12px 14px;
+		background: #031D2A;
+		color: #F8F9F9;
+		border-radius: 6px;
+		font-size: 12px;
+		overflow: auto;
+	}
+}
+
+// ===== Каталог списков (страница lists.html) =====
+.container-dashboard {
+	.lists-catalog__intro {
+		margin-bottom: 24px;
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+	}
+
+	.lists-catalog__toc {
+		margin-bottom: 32px;
+		padding: 16px 20px;
+		background: #F8F9F9;
+		border: 1px solid #DEE2E4;
+		border-radius: 8px;
+	}
+
+	.lists-catalog__toc-title {
+		margin: 0 0 8px;
+		font-size: 13px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: #7C8A93;
+	}
+
+	.lists-catalog__toc-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 20px;
+
+		a {
+			color: #0044BB;
+			text-decoration: none;
+			font-size: 14px;
+
+			&:hover { text-decoration: underline; }
+		}
+	}
+
+	.lists-catalog__section {
+		margin-top: 40px;
+		scroll-margin-top: 20px;
+
+		&:first-of-type { margin-top: 8px; }
+	}
+
+	.lists-catalog__section-title {
+		margin: 0 0 8px;
+		font-size: 18px;
+		font-weight: 600;
+		color: #031D2A;
+	}
+
+	.lists-catalog__hint {
+		margin: 0 0 16px;
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+	}
+
+	.lists-catalog__subtitle {
+		margin: 20px 0 8px;
+		font-size: 13px;
+		font-weight: 500;
+		color: #7C8A93;
+	}
+
+	.lists-catalog__demo {
+		padding: 24px;
+		border-radius: 8px;
+	}
+
+	.lists-catalog__snippet {
 		margin: 12px 0 0;
 		padding: 12px 14px;
 		background: #031D2A;
