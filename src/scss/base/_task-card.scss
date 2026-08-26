@@ -31,10 +31,10 @@
 	align-items: center;
 	justify-content: center;
 	height: 215px;
-	padding-block: 40px;
+	padding: 30px 40px;
 
 	@include down($md) {
-		padding-block: 30px;
+		padding: 20px 30px;
 	}
 
 	img {

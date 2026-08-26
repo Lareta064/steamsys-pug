@@ -21,9 +21,29 @@
 	white-space: nowrap;
 }
 
+// Заливной синий (accent1 + белый текст).
+.ss-tag--primary {
+	background: var(--accent1);
+	color: var(--white);
+}
+
+// Заливной голубой (accent3 + белый текст).
+.ss-tag--light {
+	background: var(--accent3);
+	color: var(--white);
+}
+
+// Заливной тёмный (primary + белый текст).
 .ss-tag--dark {
 	background: var(--primary);
 	color: var(--white);
+}
+
+// Плоский — без фона, цвет наследуется от контекста.
+// Оттенок задаётся утилитой (.ss-txt-accent1, .ss-txt-accent3 и т.п.).
+.ss-tag--plain {
+	background: transparent;
+	color: inherit;
 }
 
 // Группа тэгов — flex-wrap с фикс-гэпом.

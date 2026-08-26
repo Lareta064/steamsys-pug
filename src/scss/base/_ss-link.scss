@@ -107,6 +107,7 @@
 	font-size: 20px;
 	line-height: 1.4;
 	color: var(--primary);
+	transition: color .2s;
 
 	svg {
 		width: 30px;
@@ -115,7 +116,6 @@
 	}
 
 	&:hover {
-		color: var(--primary);
-		border-color: var(--accent3);
+		color: var(--accent3);
 	}
 }
