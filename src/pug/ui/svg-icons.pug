@@ -3,25 +3,126 @@ include ../mixins/_svg-icons.pug
 
 block content
 	//- Каталог всех иконок из src/img/ss-sprite.svg.
-	//- При добавлении новой иконки — дополни массив ниже.
-	- var icons = [{ name: 'plus-circle', note: '28×28' }, { name: 'arrow-right', note: '28×28' }, { name: 'cross', note: '26×26' }]
+	//- При добавлении новой иконки — дополни соответствующую группу ниже.
+	- var iconGroups = [{ title: 'Базовые UI', icons: [{ name: 'plus-circle', note: '28×28' }, { name: 'arrow-right', note: '28×28' }, { name: 'cross', note: '26×26' }] }, { title: 'Сервисные (48×48)', icons: [{ name: 'target', note: '48×48' }, { name: 'doc', note: '48×48' }, { name: 'tool', note: '48×48' }, { name: 'headset', note: '48×48' }] }]
 
 	.container-dashboard.ss-wrapper
 		h2.db-h2 SVG иконки
+
 		.container-dashboard__content
+
 			p.icons-catalog__intro.ss-reg-14.ss-txt-secondary
 				| Иконки подключаются через миксин
 				code +svgIcon('name')
 				| из
 				code src/pug/mixins/_svg-icons.pug
+				| . Все имена — plain text, работает
+				code Ctrl+F
+				| .
 
-			ul.icons-catalog
-				each icon in icons
-					li.icons-catalog__item
-						.icons-catalog__preview
-							+svgIcon(icon.name)
-						.icons-catalog__meta
-							code.icons-catalog__name .svg-#{icon.name}
-							span.icons-catalog__note.ss-reg-12.ss-txt-secondary= icon.note
-							pre.icons-catalog__snippet
-								code +svgIcon('#{icon.name}')
+			//- ========== Группы иконок ==========
+			each group in iconGroups
+				h3.icons-catalog__section-title= group.title
+				ul.icons-catalog
+					each icon in group.icons
+						li.icons-catalog__item
+							.icons-catalog__preview
+								+svgIcon(icon.name)
+							.icons-catalog__meta
+								code.icons-catalog__name .svg-#{icon.name}
+								span.icons-catalog__note.ss-reg-12.ss-txt-secondary= icon.note
+								pre.icons-catalog__snippet
+									code +svgIcon('#{icon.name}')
+
+			//- ========== Как добавить новую иконку ==========
+			h3.icons-catalog__section-title Как добавить новую иконку
+
+			ol.icons-catalog__steps
+				li
+					strong Экспорт из Figma.
+					| Выделить иконку → Export → SVG. Получишь код вида
+					code &lt;svg viewBox="0 0 N N" ...&gt;&lt;path fill="#XXXXXX" d="..." /&gt;&lt;/svg&gt;
+					| .
+
+				li
+					strong Добавить symbol в спрайт.
+					| В файле
+					code src/img/ss-sprite.svg
+					| — новый блок:
+					pre.icons-catalog__snippet
+						code
+							| &lt;symbol id="svg-name" viewBox="0 0 N N"&gt;
+							|     &lt;g&gt;
+							|         &lt;path d="..." fill="currentColor" /&gt;
+							|     &lt;/g&gt;
+							| &lt;/symbol&gt;
+
+				li
+					strong Заменить fill.
+					| Все жёстко заданные
+					code fill="#XXXXXX"
+					| →
+					code fill="currentColor"
+					| . Так цвет иконки будет управляться CSS-свойством
+					code color
+					| .
+
+				li
+					strong Прописать размер в SCSS.
+					| В
+					code src/scss/base/_svg-icons.scss
+					| — правило по имени. Пример:
+					pre.icons-catalog__snippet
+						code
+							| .svg-name {
+							|     width: 28px;
+							|     height: 28px;
+							| }
+					| Если иконка одного пака (например, «сервисные 48×48»), можно добавить в общее правило, не плодя отдельные.
+
+				li
+					strong Добавить в каталог.
+					| В этом файле (
+					code src/pug/ui/svg-icons.pug
+					| ) — дополнить массив
+					code iconGroups
+					| именем и размером новой иконки. Появится в сетке автоматически.
+
+				li
+					strong Проверить.
+					code npm run build
+					| , открыть
+					code /ui/svg-icons.html
+					| — иконка должна отобразиться.
+
+			//- ========== Правила именования ==========
+			h3.icons-catalog__section-title Правила именования
+
+			ul.icons-catalog__rules
+				li
+					strong kebab-case:
+					code svg-plus-circle
+					| , не
+					code svg-plusCircle
+					| и не
+					code svg-plus_circle
+					| .
+				li
+					strong По визуалу, не по назначению:
+					code target
+					| /
+					code wrench
+					| /
+					code headset
+					| . Тогда иконку можно переиспользовать в другом контексте.
+				li
+					strong Префикс
+					code svg-
+					| зарезервирован ТОЛЬКО под иконки из спрайта. Не использовать для сеток/обёрток — они подхватят базовые стили иконки.
+				li
+					strong currentColor обязательно.
+					| Все
+					code fill
+					| внутри symbol — только
+					code currentColor
+					| .

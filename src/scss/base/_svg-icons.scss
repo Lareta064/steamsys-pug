@@ -26,3 +26,13 @@
 	height: 26px;
 	color: var(--primary);
 }
+
+// ==== Сервисные иконки (карточки-услуги, 48×48) ====
+.svg-target,
+.svg-doc,
+.svg-tool,
+.svg-headset {
+	width: 48px;
+	height: 48px;
+	color: var(--accent1);
+}

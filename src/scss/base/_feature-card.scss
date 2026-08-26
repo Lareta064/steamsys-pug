@@ -1,0 +1,53 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-feature-card — универсальная карточка с иконкой + заголовок + описание.
+// Desktop: иконка сверху, столбцом.
+// Mobile (< $md): иконка слева, в ряд.
+// Раскладку N в ряд решает родительский .ss-grid.
+// ==============================
+.ss-feature-card {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+	padding: 40px 30px;
+	background: var(--white);
+	border-radius: 10px;
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.03);
+
+	@include down($md) {
+		flex-direction: row;
+		align-items: flex-start;
+		column-gap: 10px;
+		row-gap: 0;
+		padding: 20px;
+	}
+}
+
+.ss-feature-card__body {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	min-width: 0;
+}
+
+.ss-feature-card__title {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-feature-card__text {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}

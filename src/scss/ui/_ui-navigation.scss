@@ -248,6 +248,84 @@
 		font-size: 12px;
 		overflow: auto;
 	}
+
+	.icons-catalog__section-title {
+		margin: 32px 0 12px;
+		font-size: 18px;
+		font-weight: 600;
+		color: #031D2A;
+	}
+
+	.icons-catalog__steps,
+	.icons-catalog__rules {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+
+		li {
+			padding: 12px 16px;
+			background: #F8F9F9;
+			border: 1px solid #DEE2E4;
+			border-radius: 8px;
+			font-size: 14px;
+			line-height: 1.5;
+		}
+
+		strong {
+			display: inline-block;
+			margin-right: 6px;
+			color: #031D2A;
+		}
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+
+		.icons-catalog__snippet {
+			margin-top: 8px;
+			font-size: 12px;
+
+			code {
+				background: transparent;
+				padding: 0;
+				color: inherit;
+			}
+		}
+	}
+
+	.icons-catalog__steps {
+		counter-reset: step;
+
+		li {
+			counter-increment: step;
+			position: relative;
+			padding-left: 44px;
+
+			&::before {
+				content: counter(step);
+				position: absolute;
+				top: 12px;
+				left: 12px;
+				width: 22px;
+				height: 22px;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				background: #0044BB;
+				color: #fff;
+				border-radius: 50%;
+				font-size: 12px;
+				font-weight: 600;
+			}
+		}
+	}
 }
 
 // ===== Каталог кнопок (страница buttons.html) =====
@@ -808,6 +886,103 @@
 
 	.tags-catalog__snippet {
 		margin: 8px 0 0;
+		padding: 12px 14px;
+		background: #031D2A;
+		color: #F8F9F9;
+		border-radius: 6px;
+		font-size: 12px;
+		overflow: auto;
+	}
+}
+
+// ===== Каталог карточек (страница cards.html) =====
+.container-dashboard {
+	.cards-catalog__intro {
+		margin-bottom: 24px;
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+	}
+
+	.cards-catalog__toc {
+		margin-bottom: 32px;
+		padding: 16px 20px;
+		background: #F8F9F9;
+		border: 1px solid #DEE2E4;
+		border-radius: 8px;
+	}
+
+	.cards-catalog__toc-title {
+		margin: 0 0 8px;
+		font-size: 13px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: #7C8A93;
+	}
+
+	.cards-catalog__toc-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 20px;
+
+		a {
+			color: #0044BB;
+			text-decoration: none;
+			font-size: 14px;
+
+			&:hover { text-decoration: underline; }
+		}
+	}
+
+	.cards-catalog__section {
+		margin-top: 40px;
+		scroll-margin-top: 20px;
+
+		&:first-of-type { margin-top: 8px; }
+	}
+
+	.cards-catalog__section-title {
+		margin: 0 0 8px;
+		font-size: 18px;
+		font-weight: 600;
+		color: #031D2A;
+	}
+
+	.cards-catalog__hint {
+		margin: 0 0 16px;
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+	}
+
+	.cards-catalog__subtitle {
+		margin: 20px 0 8px;
+		font-size: 13px;
+		font-weight: 500;
+		color: #7C8A93;
+	}
+
+	.cards-catalog__demo {
+		padding: 24px;
+		border-radius: 8px;
+	}
+
+	.cards-catalog__snippet {
+		margin: 12px 0 0;
 		padding: 12px 14px;
 		background: #031D2A;
 		color: #F8F9F9;

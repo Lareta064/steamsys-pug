@@ -1,0 +1,58 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	//- Данные для feature-card demo
+	- var featureItems = [{ icon: 'target', title: 'Аудит и диагностика', text: 'Анализируем систему, выявляем потери и точки роста эффективности' }, { icon: 'doc', title: 'Проектирование', text: 'Проектируем надёжные системы под задачи вашего производства' }, { icon: 'tool', title: 'Внедрение', text: 'Поставляем оборудование, выполняем монтаж и пусконаладочные работы' }, { icon: 'headset', title: 'Сервис и поддержка', text: 'Обслуживаем системы и обеспечиваем стабильную работу 24/7' }]
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Cards
+
+		.container-dashboard__content
+
+			p.cards-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Компоненты-карточки редизайна. Раскладку N в ряд решает родительский
+				code .ss-grid
+				| .
+
+			//- ========== Оглавление ==========
+			nav.cards-catalog__toc
+				h3.cards-catalog__toc-title Оглавление
+				ul.cards-catalog__toc-list
+					li: a(href='#feature-card') .ss-feature-card
+
+			//- ========== Feature card ==========
+			section.cards-catalog__section#feature-card
+				h3.cards-catalog__section-title .ss-feature-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Универсальная карточка «иконка + заголовок + описание». Для этапов, преимуществ, услуг. На
+					code &lt; $md
+					| иконка съезжает влево (в ряд).
+
+				//- Раскладка: 4 в ряд (≥1024) / 2 (768–1023) / 1 (<768)
+				h4.cards-catalog__subtitle 4 / 2 / 1 в ряд (.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1)
+				.cards-catalog__demo.ss-bg-gray
+					.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+						each item in featureItems
+							.ss-feature-card
+								+svgIcon(item.icon)
+								.ss-feature-card__body
+									p.ss-feature-card__title= item.title
+									p.ss-feature-card__text= item.text
+
+				//- Одиночная карточка (для наглядности)
+				h4.cards-catalog__subtitle Одиночная (для сравнения desktop/mobile — сузь окно)
+				.cards-catalog__demo.ss-bg-gray
+					.ss-feature-card(style="max-width:280px;")
+						+svgIcon('target')
+						.ss-feature-card__body
+							p.ss-feature-card__title Аудит и диагностика
+							p.ss-feature-card__text Анализируем систему, выявляем потери и точки роста эффективности
+
+				//- Сниппет
+				pre.cards-catalog__snippet
+					code
+						| .ss-feature-card
+						|     +svgIcon('target')
+						|     .ss-feature-card__body
+						|         p.ss-feature-card__title Заголовок
+						|         p.ss-feature-card__text Описание

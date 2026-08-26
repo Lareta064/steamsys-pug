@@ -419,9 +419,9 @@ div
 
 - `.ss-grid` — 12 колонок, `display: grid`, `grid-template-columns: repeat(12, 1fr)`.
 - `column-gap` = `row-gap`:
-  - **30px** (xl+, база);
-  - **20px** (ниже `$xl`, 0–1199);
-  - **10px** (ниже `$md`, 0–767).
+  - **30px** (xxl+, база, 1440+);
+  - **20px** (ниже `$xxl`, 0–1439);
+  - **10px** (ниже `$lg`, 0–1023).
 
 ### Модификатор общего числа колонок
 
@@ -568,4 +568,4 @@ color: var(--accent1);
   background: var(--primary);
   color: var(--white);
 }
--для группы компонентов: флекс родитель с wrap:wrap; и gap: 10px; 
+-для группы компонентов: флекс родитель с wrap:wrap; и gap: 10px;
