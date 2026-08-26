@@ -19,6 +19,7 @@ block content
 				h3.cards-catalog__toc-title Оглавление
 				ul.cards-catalog__toc-list
 					li: a(href='#feature-card') .ss-feature-card
+					li: a(href='#task-card') .ss-task-card
 
 			//- ========== Feature card ==========
 			section.cards-catalog__section#feature-card
@@ -56,3 +57,44 @@ block content
 						|     .ss-feature-card__body
 						|         p.ss-feature-card__title Заголовок
 						|         p.ss-feature-card__text Описание
+
+			//- ========== Task card ==========
+			- var taskItems = [{ img: 'task-icon1', title: 'Потери конденсата', text: 'Организуем возврат конденсата до 90%, снижаем нагрузку на химводоподготовку и расход воды', link: 'Станция возврата конденсата' }, { img: 'task-icon2', title: 'Нестабильное давление и температура', text: 'Обеспечиваем стабильные параметры пара для технологических процессов — исключаем брак и аварии', link: 'РОУ / БРОУ' }, { img: 'task-icon3', title: 'Неравномерный нагрев теплообменников', text: 'Выравниваем температуру по поверхности нагрева — точная теплопередача без перегретых зон', link: 'Обвязка калориферов и ТО' }, { img: 'task-icon4', title: 'Высокие эксплуатационные затраты', text: 'Рассчитываем экономию пара, воды и энергии — КП с инженерным расчётом за 4 часа', link: 'Калькуляторы экономии' }]
+
+			section.cards-catalog__section#task-card
+				h3.cards-catalog__section-title .ss-task-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Карточка задачи с картинкой сверху и ссылкой прижатой к низу. Высота фиксирована — 534 desktop / 440 mobile.
+					| Картинка через
+					code &lt;picture&gt;
+					| с
+					code srcset
+					| 1x/2x для retina. Ссылка —
+					code +ssLink(text, {variant: 'light'})
+					| .
+
+				h4.cards-catalog__subtitle 4 в ряд (.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1)
+				.cards-catalog__demo.ss-bg-gray
+					.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+						each item in taskItems
+							.ss-task-card
+								picture.ss-task-card__image
+									source(srcset='/img/' + item.img + '.webp 1x, /img/' + item.img + '@2x.webp 2x')
+									img(src='/img/' + item.img + '.webp' alt=item.title)
+								.ss-task-card__body
+									p.ss-task-card__title= item.title
+									p.ss-task-card__text= item.text
+								.ss-task-card__footer
+									+ssLink(item.link, { variant: 'light' })
+
+				pre.cards-catalog__snippet
+					code
+						| .ss-task-card
+						|     picture.ss-task-card__image
+						|         source(srcset='/img/name.webp 1x, /img/name@2x.webp 2x')
+						|         img(src='/img/name.webp' alt='...')
+						|     .ss-task-card__body
+						|         p.ss-task-card__title Заголовок
+						|         p.ss-task-card__text Описание
+						|     .ss-task-card__footer
+						|         +ssLink('Ссылка', { variant: 'light' })

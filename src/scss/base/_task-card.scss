@@ -1,0 +1,88 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-task-card — карточка задачи (секция «Какие задачи решаем»).
+// 3 flex-ряда: image / body / footer.
+// body с flex-grow: 1 прижимает footer (ссылку) к нижнему краю
+// — все ссылки в ряду карточек оказываются на одной линии.
+// Фиксированная высота: 534 desktop / 440 mobile.
+// ==============================
+.ss-task-card {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+	height: 534px;
+	padding: 0 0 40px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+
+	@include down($md) {
+		height: 440px;
+		row-gap: 10px;
+	}
+}
+
+// Блок под картинку — фиксированной высоты, картинка по центру.
+// box-sizing: border-box — padding входит в 215.
+.ss-task-card__image {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 215px;
+	padding-block: 40px;
+
+	@include down($md) {
+		padding-block: 30px;
+	}
+
+	img {
+		height: 100%;
+		width: auto;
+		object-fit: contain;
+	}
+}
+
+// Средний ряд — заголовок + описание. Растягивается по высоте.
+.ss-task-card__body {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	padding: 0 30px;
+	min-width: 0;
+
+	@include down($md) {
+		padding: 0 20px;
+	}
+}
+
+.ss-task-card__title {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-task-card__text {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+// Нижний ряд — ссылка, прижата к низу.
+.ss-task-card__footer {
+	padding: 0 30px;
+
+	@include down($md) {
+		padding: 0 20px;
+	}
+}
