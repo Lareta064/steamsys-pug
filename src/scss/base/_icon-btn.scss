@@ -1,0 +1,51 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-icon-btn — квадратная кнопка только с иконкой.
+// Используется, например, для «перейти» на карточке решения.
+// ==============================
+.ss-icon-btn {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 65px;
+	height: 64px;
+	border: 0;
+	border-radius: 10px;
+	background: var(--primary);
+	color: var(--white);
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color .2s;
+
+	svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	&:hover {
+		background: var(--accent1);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+
+	&[disabled],
+	&.is-disabled {
+		pointer-events: none;
+		opacity: .4;
+	}
+}
+
+// Синий вариант (bg accent1) — для CTA-подобного контекста
+// (напр., верхний ряд карточки .ss-experience-card).
+.ss-icon-btn--accent {
+	background: var(--accent1);
+
+	&:hover {
+		background: var(--accent2);
+	}
+}

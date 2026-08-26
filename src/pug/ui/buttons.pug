@@ -63,3 +63,15 @@ block content
 			//- ===== Full width =====
 			h3.buttons-catalog__section-title На всю ширину
 			+ssBtn('Кнопка на всю ширину', { variant: 'primary', full: true, icon: 'plus-circle' })
+
+			//- ===== Квадратная кнопка с иконкой =====
+			h3.buttons-catalog__section-title Квадратная кнопка (.ss-icon-btn)
+			p.buttons-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Отдельный компонент — квадратная кнопка 65×64 с иконкой по центру. Используется, например, на карточке решения.
+
+			.buttons-catalog__row(style="gap:16px;")
+				+ssIconBtn('arrow-up-right', { label: 'Перейти к решению' })
+				+ssIconBtn('arrow-right', { label: 'Далее' })
+				+ssIconBtn('plus-circle', { label: 'Добавить' })
+				+ssIconBtn('arrow-up-right', { tag: 'a', href: '#', label: 'Ссылка' })
+				+ssIconBtn('arrow-up-right', { label: 'Disabled', disabled: true })

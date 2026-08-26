@@ -1,0 +1,25 @@
+//- ssIconBtn(iconName, [opts]) — квадратная кнопка с иконкой.
+//-
+//- iconName — имя иконки без префикса `svg-`.
+//- opts — необязательный объект настроек:
+//-     tag       button | a          (default: button)
+//-     href      URL (только при tag='a')
+//-     label     aria-label (обязателен: кнопка без текста нуждается в имени)
+//-     disabled  true → атрибут disabled (button) или .is-disabled (a)
+//-
+//- Примеры:
+//-   +ssIconBtn('arrow-up-right', { label: 'Перейти к решению' })
+//-   +ssIconBtn('arrow-up-right', { tag: 'a', href: '/solutions/svk', label: 'Перейти' })
+mixin ssIconBtn(iconName, opts)
+	-
+		var o = opts || {};
+		var tag = o.tag || 'button';
+		var classes = 'ss-icon-btn';
+		if (tag === 'a' && o.disabled) classes += ' is-disabled';
+
+	if tag === 'a'
+		a(class=classes href=o.href aria-label=o.label)&attributes(attributes)
+			+svgIcon(iconName)
+	else
+		button(class=classes type='button' disabled=o.disabled aria-label=o.label)&attributes(attributes)
+			+svgIcon(iconName)

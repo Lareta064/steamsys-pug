@@ -1,0 +1,142 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-solution-card — карточка «Готового решения».
+// Фон: <picture> внутри карточки (per-card, разные картинки для разных карточек).
+// Поверх — два градиента через ::before.
+// По hover: картинка + градиенты плавно исчезают, остаётся primary1.
+//
+// Кликабельность (простой overlay pattern):
+//   __overlay — пустая <a>, position absolute (z-index 3).
+//   __content — position relative без z-index (не создаёт stacking context).
+//   .ss-btn   — «Получить расчёт», z-index 4 (выше overlay), ловит собственный клик.
+//   .ss-icon-btn — декоративная стрелка (span). Клики уходят к overlay.
+// ==============================
+.ss-solution-card {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	min-height: 320px;
+	border-radius: 10px;
+	background-color: var(--primary1);
+	color: var(--white);
+	cursor: pointer;
+
+	// Градиенты поверх картинки. z-index auto → step 6, поверх __bg (z-index -1),
+	// но под контентом (тоже step 6, но позже в DOM → рисуется сверху).
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background:
+			linear-gradient(360deg, rgba(3, 29, 42, 0) 0%, rgba(3, 29, 42, 0.3) 100%),
+			linear-gradient(rgba(0, 36, 99, 0.3), rgba(0, 36, 99, 0.3));
+		transition: opacity .3s;
+	}
+
+	// По hover: и градиенты, и картинка тают.
+	&:hover::before,
+	&:hover .ss-solution-card__bg {
+		opacity: 0;
+	}
+
+	// Декоративный icon-btn меняет цвет вместе с наведением на всю карточку.
+	&:hover .ss-icon-btn {
+		background: var(--accent1);
+	}
+}
+
+// Фоновая картинка. z-index -1 — уходит под контент, но остаётся
+// внутри stacking-контекста карточки (isolation: isolate), не проваливается
+// за primary1 background-color.
+.ss-solution-card__bg {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	transition: opacity .3s;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+// Прозрачный <a> — вся кликабельная область карточки.
+.ss-solution-card__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+}
+
+// Контент карточки. position: relative БЕЗ z-index — не создаём stacking context,
+// чтобы z-index у .ss-btn (3) корректно работал ОТНОСИТЕЛЬНО overlay (2), а не
+// внутри контекста контента. Content всё равно рисуется поверх ::before
+// (оба step 6 в порядке отрисовки, content позже в DOM → выигрывает).
+.ss-solution-card__content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	padding: 30px;
+	min-height: inherit;
+	box-sizing: border-box;
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+.ss-solution-card__head {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+}
+
+.ss-solution-card__title {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 22px;
+	line-height: 1.3;
+	color: var(--white);
+
+	@include down($md) {
+		font-size: 16px;
+		line-height: 1.4;
+	}
+}
+
+.ss-solution-card__text {
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--white);
+
+	@include down($md) {
+		font-size: 14px;
+	}
+}
+
+// Ряд тегов: gap до головы 20; между тегами — 10 (наследуется от .ss-tag-group).
+.ss-solution-card__content .ss-tag-group {
+	margin-top: 20px;
+}
+
+// Нижний ряд — CTA + декоративная стрелка, разведены к краям.
+.ss-solution-card__footer {
+	margin-top: 52px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+
+	@include down($md) {
+		margin-top: 60px;
+	}
+}
+
+// CTA — поднят над overlay: ловит собственный клик на другую страницу.
+.ss-solution-card__footer > .ss-btn {
+	position: relative;
+	z-index: 3;
+}

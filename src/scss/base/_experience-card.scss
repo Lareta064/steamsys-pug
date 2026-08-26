@@ -1,0 +1,150 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-experience-card — карточка отраслевого опыта.
+// Фон: картинка + градиент (без hover-эффектов на фоне).
+// 2 ряда: сверху CTA-полоска (текст «Смотреть решение» скрыт, появляется на hover),
+// снизу — заголовок отрасли + маркированный список особенностей.
+//
+// Кликабельность: вся карточка — одна ссылка (__overlay).
+// Card высота фиксирована (height 677 desktop).
+// ==============================
+.ss-experience-card {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	height: 677px;
+	border-radius: 10px;
+	background-color: var(--primary1);
+	color: var(--white);
+	cursor: pointer;
+
+	// Градиент поверх картинки (снизу вверх). z-index auto → step 6,
+	// поверх __bg (z-index -1), но под контентом.
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(179.94deg, rgba(3, 29, 42, 0) 45.28%, rgba(3, 29, 42, 0.7) 76.82%, rgba(3, 29, 42, 0.8) 90.27%);
+	}
+
+	// На hover проявляется CTA-текст.
+	&:hover .ss-experience-card__cta-text {
+		opacity: 1;
+	}
+}
+
+// Фоновая картинка. z-index -1 — уходит под контент, но остаётся
+// внутри stacking-контекста карточки (isolation: isolate).
+.ss-experience-card__bg {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+// Прозрачный <a> — вся кликабельная область.
+.ss-experience-card__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+}
+
+// Контент карточки. position: relative БЕЗ z-index — не создаём stacking context.
+.ss-experience-card__content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+	padding: 30px;
+	box-sizing: border-box;
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+// Верхний ряд — CTA справа.
+.ss-experience-card__top {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+// CTA — единая плашка. В нормальном виде показывает только иконку (65×64).
+// На hover карточки текст «выезжает» через max-width, плашка расширяется.
+.ss-experience-card__cta {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	height: 64px;
+	padding: 0 20px;
+	background: var(--accent1);
+	border-radius: 10px;
+	color: var(--white);
+	overflow: hidden;
+
+	svg {
+		width: 24px;
+		height: 24px;
+		flex-shrink: 0;
+	}
+}
+
+.ss-experience-card__cta-text {
+	display: block;
+	max-width: 0;
+	margin-right: 0;
+	overflow: hidden;
+	// text-align: right — текст «прибит» к правому краю своего слота (у иконки).
+	// При росте max-width слот расширяется влево, и текст раскатывается вместе
+	// с плашкой — как единое движение, а не текст отдельно от bg.
+	text-align: right;
+	white-space: nowrap;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--white);
+	transition: max-width .5s, margin-right .5s;
+}
+
+.ss-experience-card:hover .ss-experience-card__cta-text {
+	max-width: 220px;
+	margin-right: 10px;
+}
+
+// Нижний ряд — заголовок + список.
+.ss-experience-card__body {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.ss-experience-card__title {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--white);
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+// Реюзаем компонент .ss-list, локально перекрашиваем в белый
+// и правим mobile-размер.
+.ss-experience-card .ss-list {
+	color: inherit;
+
+	@include down($md) {
+		font-size: 14px;
+	}
+}

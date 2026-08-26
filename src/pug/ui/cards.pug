@@ -20,6 +20,8 @@ block content
 				ul.cards-catalog__toc-list
 					li: a(href='#feature-card') .ss-feature-card
 					li: a(href='#task-card') .ss-task-card
+					li: a(href='#solution-card') .ss-solution-card
+					li: a(href='#experience-card') .ss-experience-card
 
 			//- ========== Feature card ==========
 			section.cards-catalog__section#feature-card
@@ -98,3 +100,96 @@ block content
 						|         p.ss-task-card__text Описание
 						|     .ss-task-card__footer
 						|         +ssLink('Ссылка', { variant: 'light' })
+
+			//- ========== Solution card ==========
+			section.cards-catalog__section#solution-card
+				h3.cards-catalog__section-title .ss-solution-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Карточка «Готового решения»: фон-картинка внутри карточки (
+					code &lt;picture&gt;
+					| — своя для каждой карточки) + два градиента поверх, по hover картинка/градиенты плавно исчезают. Вся карточка кликабельна (через
+					code __overlay
+					| ), кнопка «Получить расчёт» кликается отдельно.
+
+				h4.cards-catalog__subtitle Одиночная карточка (наведи мышь — фон меняется)
+				.cards-catalog__demo.ss-bg-gray
+					article.ss-solution-card
+						picture.ss-solution-card__bg
+							img(src='/img/solution1.webp' alt='')
+						a.ss-solution-card__overlay(href='#solution-page' aria-label='Готовое решение — Станция возврата конденсата')
+						.ss-solution-card__content
+							.ss-solution-card__head
+								h3.ss-solution-card__title Станция возврата конденсата (СВК)
+								p.ss-solution-card__text Организуем возврат конденсата в котельную. Снижение расхода воды и химреагентов, экономия до 90% тепловой энергии конденсата.
+							.ss-tag-group
+								span.ss-tag до 90% возврата
+								span.ss-tag Авт. управление
+							.ss-solution-card__footer
+								+ssBtn('Получить расчёт', { variant: 'primary', size: 'mini', tag: 'a', href: '#calc-page' })
+								span.ss-icon-btn(aria-hidden='true')
+									+svgIcon('arrow-up-right')
+
+				pre.cards-catalog__snippet
+					code
+						| article.ss-solution-card
+						|     picture.ss-solution-card__bg
+						|         source(srcset='/img/sol1.webp 1x, /img/sol1@2x.webp 2x')
+						|         img(src='/img/sol1.webp' alt='')
+						|     a.ss-solution-card__overlay(href='/solutions/svk' aria-label='…')
+						|     .ss-solution-card__content
+						|         .ss-solution-card__head
+						|             h3.ss-solution-card__title Заголовок
+						|             p.ss-solution-card__text Описание
+						|         .ss-tag-group
+						|             span.ss-tag Тег 1
+						|         .ss-solution-card__footer
+						|             +ssBtn('Получить расчёт', { variant: 'primary', size: 'mini', tag: 'a', href: '/calc' })
+						|             span.ss-icon-btn(aria-hidden='true')
+						|                 +svgIcon('arrow-up-right')
+
+			//- ========== Experience card ==========
+			section.cards-catalog__section#experience-card
+				h3.cards-catalog__section-title .ss-experience-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Карточка отраслевого опыта: фон-картинка (
+					code &lt;picture&gt;
+					| — своя для каждой карточки) с градиентом снизу, сверху справа декоративный CTA (текст «Смотреть решение» скрыт, появляется на hover), снизу — заголовок отрасли + список особенностей (реюзаем
+					code .ss-list
+					| ). Вся карточка — одна ссылка.
+
+				h4.cards-catalog__subtitle Одиночная карточка (наведи мышь — плашка «выедет» с текстом)
+				.cards-catalog__demo.ss-bg-gray
+					article.ss-experience-card(style="max-width: 400px;")
+						picture.ss-experience-card__bg
+							img(src='/img/expiriance1.webp' alt='')
+						a.ss-experience-card__overlay(href='#experience-page' aria-label='Пищевая промышленность — опыт')
+						.ss-experience-card__content
+							.ss-experience-card__top
+								span.ss-experience-card__cta(aria-hidden='true')
+									span.ss-experience-card__cta-text Смотреть решение
+									+svgIcon('arrow-up-right')
+							.ss-experience-card__body
+								h3.ss-experience-card__title Пищевая промышленность
+								ul.ss-list
+									li.ss-list__item Стабильность температуры и давления
+									li.ss-list__item Точное регулирование параметров пара
+									li.ss-list__item Гарантированная производительность
+									li.ss-list__item Соответствие ГОСТ
+
+				pre.cards-catalog__snippet
+					code
+						| article.ss-experience-card
+						|     picture.ss-experience-card__bg
+						|         source(srcset='/img/exp2.webp 1x, /img/exp2@2x.webp 2x')
+						|         img(src='/img/exp2.webp' alt='')
+						|     a.ss-experience-card__overlay(href='/experience/food' aria-label='…')
+						|     .ss-experience-card__content
+						|         .ss-experience-card__top
+						|             span.ss-experience-card__cta(aria-hidden='true')
+						|                 span.ss-experience-card__cta-text Смотреть решение
+						|                 +svgIcon('arrow-up-right')
+						|         .ss-experience-card__body
+						|             h3.ss-experience-card__title Отрасль
+						|             ul.ss-list
+						|                 li.ss-list__item Пункт 1
+						|                 li.ss-list__item Пункт 2
