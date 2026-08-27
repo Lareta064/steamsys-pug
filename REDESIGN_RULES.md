@@ -97,7 +97,7 @@ div
 
 Иконки редизайна складываем в общий SVG-спрайт `src/img/ss-sprite.svg` и подключаем через `<use>` внешним файлом (не inline в layout).
 
-Источник иконок — [UI Kit Figma](https://www.figma.com/design/GNusOAwms0rjIjDfqDHG2o/%D0%9F%D0%B0%D1%80%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B?node-id=5741-15542). Иконки берём поштучно по мере надобности — на текущем этапе только `plus-circle` (используется в ui кнопок).
+Источник иконок — [UI Kit Figma](https://www.figma.com/design/GNusOAwms0rjIjDfqDHG2o/%D0%9F%D0%B0%D1%80%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B?node-id=5741-15542). Иконки берём поштучно по мере надобности. Актуальный список — в каталоге `/ui/svg-icons.html` (источник: `src/pug/ui/svg-icons.pug`), там же инструкция по добавлению новой.
 
 ### Спрайт `src/img/ss-sprite.svg`
 
