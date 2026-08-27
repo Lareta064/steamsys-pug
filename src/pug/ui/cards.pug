@@ -115,6 +115,8 @@ block content
 				.cards-catalog__demo.ss-bg-gray
 					article.ss-solution-card
 						picture.ss-solution-card__bg
+							source(media='(max-width: 767px)' srcset='/img/solution1-mob.webp 1x, /img/solution1-mob@2x.webp 2x')
+							source(media='(min-width: 768px)' srcset='/img/solution1.webp 1x, /img/solution1@2x.webp 2x')
 							img(src='/img/solution1.webp' alt='')
 						a.ss-solution-card__overlay(href='#solution-page' aria-label='Готовое решение — Станция возврата конденсата')
 						.ss-solution-card__content
@@ -133,7 +135,8 @@ block content
 					code
 						| article.ss-solution-card
 						|     picture.ss-solution-card__bg
-						|         source(srcset='/img/sol1.webp 1x, /img/sol1@2x.webp 2x')
+						|         source(media='(max-width: 767px)' srcset='/img/sol1-mob.webp 1x, /img/sol1-mob@2x.webp 2x')
+						|         source(media='(min-width: 768px)' srcset='/img/sol1.webp 1x, /img/sol1@2x.webp 2x')
 						|         img(src='/img/sol1.webp' alt='')
 						|     a.ss-solution-card__overlay(href='/solutions/svk' aria-label='…')
 						|     .ss-solution-card__content
@@ -161,7 +164,9 @@ block content
 				.cards-catalog__demo.ss-bg-gray
 					article.ss-experience-card(style="max-width: 400px;")
 						picture.ss-experience-card__bg
-							img(src='/img/expiriance1.webp' alt='')
+							source(media='(max-width: 767px)' srcset='/img/gallery1-mob.webp 1x, /img/gallery1-mob@2x.webp 2x')
+							source(media='(min-width: 768px)' srcset='/img/gallery1.webp 1x, /img/gallery1@2x.webp 2x')
+							img(src='/img/gallery1.webp' alt='')
 						a.ss-experience-card__overlay(href='#experience-page' aria-label='Пищевая промышленность — опыт')
 						.ss-experience-card__content
 							.ss-experience-card__top
@@ -180,7 +185,8 @@ block content
 					code
 						| article.ss-experience-card
 						|     picture.ss-experience-card__bg
-						|         source(srcset='/img/exp2.webp 1x, /img/exp2@2x.webp 2x')
+						|         source(media='(max-width: 767px)' srcset='/img/exp2-mob.webp 1x, /img/exp2-mob@2x.webp 2x')
+						|         source(media='(min-width: 768px)' srcset='/img/exp2.webp 1x, /img/exp2@2x.webp 2x')
 						|         img(src='/img/exp2.webp' alt='')
 						|     a.ss-experience-card__overlay(href='/experience/food' aria-label='…')
 						|     .ss-experience-card__content

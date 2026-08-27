@@ -2,6 +2,21 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Project documentation — read these first
+
+Before making any changes, get up to speed on project state via these tracked files:
+
+- **`REDESIGN_RULES.md`** — stable reference: project conventions, naming rules, and API documentation for all completed components (Buttons, Links, Cards, Grid, typography, utilities). This is the single source of truth for how things are built and named.
+- **`TASKS.md`** — active work: current tasks and design discussions with the designer. Short-lived — when a task ships, its final API moves to RULES and the working notes here are cleaned up.
+- **`build/ui/docs.html`** (source: `src/pug/ui/docs.pug`) — team-facing onboarding for backend/Bitrix developers and SEO. Includes a catalog of live `/ui/*.html` component examples.
+- **`git log --oneline`** — commit history with descriptive messages. Fastest way to see what's been done recently.
+
+## Working across multiple machines
+
+All meaningful project context lives in the repo (files above + git history). Any Claude session on any machine can get fully in context by reading these files and scanning `git log`.
+
+Local Claude memory files at `~/.claude/projects/…/memory/` are **not** synced via git and do **not** need to be. The repo is the single source of truth. On a fresh machine, start by reading `REDESIGN_RULES.md` and `TASKS.md`, then run `git log --oneline -30` — that's all it takes.
+
 ## Commands
 
 - `npm start` — clean, build, launch BrowserSync (serves `./build`, auto-opens browser) and watch every source type.

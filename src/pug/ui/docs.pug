@@ -1,13 +1,345 @@
 extends ../layouts/layout-ui.pug
+
 block content
 	.container-dashboard.ss-wrapper
-		h1.mb-12 Описание
-		p Верстка выполнена с использованием подхода #[strong desktop-first]
-		h3 Точки перелома
-		ul
-			li от 375px - до 744px
-			li от 745px - до 1023px
-			li от 1024px - до 1199px
-			li от 1200px - до 1439px
-			li от 1440px - до 1919px
-			li от 1920px
+		h2.db-h2 Описание проекта
+
+		.container-dashboard__content
+
+			p.docs-catalog__lead Справочник для разработчиков и SEO-специалистов, работающих с этой версткой.
+
+			//- ===== Оглавление =====
+			nav.docs-catalog__toc
+				h3.docs-catalog__toc-title Оглавление
+				ul.docs-catalog__toc-list
+					li: a(href='#overview') О проекте
+					li: a(href='#for-devs') Для программистов (Bitrix)
+					li: a(href='#for-seo') Для SEO
+					li: a(href='#images') Изображения и перформанс
+					li: a(href='#breakpoints') Точки перелома
+					li: a(href='#catalog') Каталог компонентов
+					li: a(href='#docs') Смежные документы
+
+			//- ===== О проекте =====
+			section.docs-catalog__section#overview
+				h3.docs-catalog__section-title О проекте
+				p Проект — постепенный редизайн действующего сайта STEAMSYS. Новая верстка внедряется поэтапно и сосуществует с legacy-версткой на одной странице.
+				p Изоляция обеспечивается через префиксы классов:
+				ul
+					li
+						code .ss-*
+						|  — новая верстка редизайна.
+					li
+						code .sts-*
+						|  — существующая legacy-верстка (не трогаем и не переопределяем).
+					li
+						code .svg-*
+						|  — зарезервировано под SVG-иконки из общего спрайта.
+				p
+					| Вся новая верстка на странице должна лежать внутри
+					code .ss-wrapper
+					|  — это корневой контейнер, изолирующий сбросы стилей от legacy.
+
+			//- ===== Для программистов =====
+			section.docs-catalog__section#for-devs
+				h3.docs-catalog__section-title Для программистов (интеграция в Bitrix)
+
+				h4.docs-catalog__subtitle Ключевое правило: стили на классах, а не на тегах
+				p Все стили компонентов привязаны к классам. Тег элемента можно менять при интеграции — визуал не изменится.
+				p
+					| Пример: если SEO-специалист заменит
+					code p.ss-h3
+					|  на
+					code h3.ss-h3
+					| , шрифт, отступы и цвет останутся теми же.
+
+				h4.docs-catalog__subtitle .ss-wrapper обязателен
+				p
+					| Вокруг новой верстки на странице всегда должен быть родитель с классом
+					code .ss-wrapper
+					| . Без него сбросы стилей (border на button, margin на p, etc.) не применятся, и компоненты будут выглядеть криво.
+
+				h4.docs-catalog__subtitle Как использовать компоненты
+				ol
+					li
+						strong Через pug-миксины (рекомендую).
+						|  Готовые:
+						code +ssBtn
+						| ,
+						code +ssLink
+						| ,
+						code +ssIconBtn
+						| ,
+						code +svgIcon
+						| . Подключены глобально через
+						code src/pug/layouts/_mixins-links.pug
+						| .
+					li
+						strong Копированием разметки.
+						|  Открываешь нужную страницу каталога (
+						code /ui/*.html
+						| ), View Source, копируешь готовую разметку с классами.
+					li
+						strong Классами напрямую.
+						|  Просто вешаешь класс на свою разметку. Работает для всех компонентов и утилит.
+
+			//- ===== Для SEO =====
+			section.docs-catalog__section#for-seo
+				h3.docs-catalog__section-title Для SEO
+
+				h4.docs-catalog__subtitle Заголовки: только h1 и h2 в моей разметке
+				.docs-catalog__note
+					p
+						strong Важно.
+						|  В верстке используются только
+						code &lt;h1&gt;
+						|  и
+						code &lt;h2&gt;
+						| . Все остальные визуальные заголовки я оформляю как
+						code &lt;p&gt;
+						|  с классом
+						code .ss-h3
+						|  /
+						code .ss-h4
+						|  /
+						code .ss-h5
+						|  /
+						code .ss-h6
+						| .
+					p
+						| SEO-специалист заменяет
+						code &lt;p&gt;
+						|  на
+						code &lt;h3&gt;
+						| /
+						code &lt;h4&gt;
+						|  и т.д. там, где нужна семантика заголовков в дереве. Визуал не изменится — стили привязаны к классам.
+
+				p Пример:
+				pre.docs-catalog__code
+					code
+						| //- Верстка от меня
+						| p.ss-h3 Заголовок подсекции
+						|
+						| //- После работы SEO
+						| h3.ss-h3 Заголовок подсекции
+
+				h4.docs-catalog__subtitle aria-label на пустых интерактивах
+				p
+					| Ссылки и кнопки без видимого текста должны иметь атрибут
+					code aria-label
+					|  с осмысленным описанием. Причины:
+				ul
+					li Скринридеры (доступность для слабовидящих).
+					li SEO-роботы читают
+						code aria-label
+						|  как содержимое пустой ссылки.
+					li Голосовое управление, автотесты.
+
+				p Где встречается в этой верстке:
+				ul
+					li Overlay-ссылки на карточках (
+						code .ss-solution-card__overlay
+						| ,
+						code .ss-experience-card__overlay
+						| ).
+					li Icon-only кнопки (
+						code .ss-icon-btn
+						| ) — миксин
+						code +ssIconBtn
+						|  принимает параметр
+						code label
+						| , который прописывается в
+						code aria-label
+						| .
+
+				p Плохо:
+				pre.docs-catalog__code
+					code a(href='/solutions/svk')
+				p Хорошо:
+				pre.docs-catalog__code
+					code a(href='/solutions/svk' aria-label='Готовое решение — Станция возврата конденсата')
+
+				h4.docs-catalog__subtitle alt на картинках
+				ul
+					li Декоративная фоновая картинка →
+						code alt=""
+						|  (пустой).
+					li Смысловая (иллюстрация, схема, фото продукта) → короткое осмысленное описание.
+
+			//- ===== Изображения =====
+			section.docs-catalog__section#images
+				h3.docs-catalog__section-title Изображения и перформанс
+
+				h4.docs-catalog__subtitle Retina — 2 файла на картинку
+				p По умолчанию каждая картинка сохраняется в двух размерах:
+				ul
+					li
+						code name.png
+						|  — 1x (обычные экраны).
+					li
+						code name@2x.png
+						|  — 2x (retina, HiDPI).
+
+				p
+					| Gulp автоматически конвертит все PNG/JPG в WebP. Ссылка через
+					code &lt;picture&gt;
+					|  +
+					code srcset
+					| :
+
+				pre.docs-catalog__code
+					code
+						| picture
+						|     source(srcset='/img/name.webp 1x, /img/name@2x.webp 2x')
+						|     img(src='/img/name.webp' alt='')
+
+				h4.docs-catalog__subtitle Responsive — 4 файла, если разница большая
+				p Если картинка на мобиле сильно уже, чем на десктопе (более чем в ~2 раза), добавляем ещё пару мобильных вариантов:
+				ul
+					li
+						code name-mob.png
+						|  — мобильный 1x.
+					li
+						code name-mob@2x.png
+						|  — мобильный 2x.
+
+				p
+					| Разметка с двумя
+					code &lt;source media&gt;
+					| :
+
+				pre.docs-catalog__code
+					code
+						| picture
+						|     source(media='(max-width: 767px)' srcset='/img/name-mob.webp 1x, /img/name-mob@2x.webp 2x')
+						|     source(media='(min-width: 768px)' srcset='/img/name.webp 1x, /img/name@2x.webp 2x')
+						|     img(src='/img/name.webp' alt='')
+
+				p
+					| Точка перехода —
+					code $md
+					|  (768px).
+
+				.docs-catalog__note
+					p
+						strong Зачем.
+						|  PageSpeed Insights → аудит «Properly size images». На мобильной сети лишние сотни kB картинки бьют в LCP (Core Web Vitals) — SEO-фактор в 2026.
+
+			//- ===== Точки перелома =====
+			section.docs-catalog__section#breakpoints
+				h3.docs-catalog__section-title Точки перелома
+
+				p
+					| Проект использует desktop-first подход — базовые стили пишутся для больших экранов, при сужении применяются
+					code max-width
+					|  медиа-запросы через миксин
+					code down()
+					| .
+
+				table.docs-catalog__table
+					thead
+						tr
+							th Ключ
+							th Значение
+							th Диапазон
+							th Устройство
+					tbody
+						tr
+							td: code $xs
+							td 360px
+							td 360–767
+							td Телефоны
+						tr
+							td: code $md
+							td 768px
+							td 768–1023
+							td Планшеты portrait
+						tr
+							td: code $lg
+							td 1024px
+							td 1024–1199
+							td Планшеты landscape / малый laptop
+						tr
+							td: code $xl
+							td 1200px
+							td 1200–1439
+							td Десктоп
+						tr
+							td: code $xxl
+							td 1440px
+							td 1440–1919
+							td Большой десктоп
+						tr
+							td: code $xxxl
+							td 1920px
+							td 1920+
+							td Огромный экран
+
+				p Ниже 360px не поддерживаем.
+
+			//- ===== Каталог компонентов =====
+			section.docs-catalog__section#catalog
+				h3.docs-catalog__section-title Каталог компонентов
+				p Живые примеры всех компонентов и утилит со сниппетами.
+
+				ul.docs-catalog__grid
+					li
+						a.docs-catalog__card(href='colors.html')
+							strong Цветовая палитра
+							span --accent, --primary, --secondary — все переменные проекта.
+					li
+						a.docs-catalog__card(href='typography.html')
+							strong Типография
+							span .ss-h1..h6, .ss-reg-N, .ss-medi-N, .ss-semi-N, .ss-kicker.
+					li
+						a.docs-catalog__card(href='svg-icons.html')
+							strong SVG-иконки
+							span Все иконки из спрайта, миксин +svgIcon, как добавлять новые.
+					li
+						a.docs-catalog__card(href='buttons.html')
+							strong Кнопки
+							span .ss-btn (7 вариантов), .ss-icon-btn, миксины +ssBtn, +ssIconBtn.
+					li
+						a.docs-catalog__card(href='links.html')
+							strong Ссылки
+							span .ss-link (варианты, размеры), .ss-link--strip.
+					li
+						a.docs-catalog__card(href='tags.html')
+							strong Теги
+							span .ss-tag (5 вариантов), .ss-tag-group.
+					li
+						a.docs-catalog__card(href='lists.html')
+							strong Списки
+							span .ss-list (bullet), .ss-list--icon (маркер-иконка).
+					li
+						a.docs-catalog__card(href='cards.html')
+							strong Карточки
+							span .ss-feature-card, .ss-task-card, .ss-solution-card, .ss-experience-card.
+					li
+						a.docs-catalog__card(href='section-headers.html')
+							strong Заголовки секций
+							span .ss-kicker, .ss-section-header, .ss-section-intro, .ss-section-hero.
+					li
+						a.docs-catalog__card(href='grid.html')
+							strong Сетка
+							span .ss-grid (12 колонок), .ss-col-N, адаптивные модификаторы.
+					li
+						a.docs-catalog__card(href='globals.html')
+							strong Утилиты
+							span .ss-bg-*, .ss-txt-*, обрезка, выравнивание, регистр.
+
+			//- ===== Смежные документы =====
+			section.docs-catalog__section#docs
+				h3.docs-catalog__section-title Смежные документы
+
+				ul
+					li
+						code REDESIGN_RULES.md
+						|  — полные правила проекта: конвенции, изоляция, документация всех компонентов. Живёт в корне репозитория.
+					li
+						code TASKS.md
+						|  — активные задачи и переписка с дизайнером. Обновляется по мере работы. Живёт в корне репозитория.
+					li
+						code /ui/*.html
+						|  — живой каталог компонентов (страницы этого раздела).
