@@ -1,0 +1,140 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-stage-card — карточка этапа работы («Этапы работы»).
+// Белая, без рамки. Колонки и отступы между ними разводит
+// родительский .ss-grid.
+//
+// Верхний ряд: слева номер + иконка в синем квадрате,
+// справа — индикатор прогресса из шести кубиков (сетка 3×2).
+// Синий тот кубик, чей порядковый номер равен номеру этапа.
+// ==============================
+.ss-stage-card {
+	padding: 30px;
+	border-radius: 10px;
+	background: var(--white);
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+// ===== Верхний ряд =====
+// align-items: flex-start — индикатор прижат к верху ряда (по макету),
+// а номер с иконкой центрируются между собой внутри .__stage.
+.ss-stage-card__head {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+.ss-stage-card__stage {
+	display: flex;
+	align-items: center;
+}
+
+.ss-stage-card__num {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 46px;
+	line-height: 1.2;
+	color: var(--accent1);
+
+	// Бокс номера фиксирован, как в макете (70px при кегле 46), иначе иконка
+	// «плавала» бы от этапа к этапу: у Inter пропорциональные цифры, и «01»
+	// уже «04» на 9px. Заведомо не tabular-nums — тот раздувает боковые
+	// просветы, и номер отходит от левого края заголовка (в макете просвет 2px).
+	// Единицы em — бокс привязан к кеглю (70px при 46px).
+	min-width: 1.52em;
+}
+
+// Синий квадрат с иконкой.
+.ss-stage-card__icon {
+	display: grid;
+	place-items: center;
+	flex-shrink: 0;
+	width: 48px;
+	height: 48px;
+	border-radius: 10px;
+	background: var(--accent1);
+	color: var(--white);
+
+	// Иконка внутри квадрата всегда 24×24 и белая. Правило нужно, потому что
+	// tool и headset уже описаны в _svg-icons.scss как сервисные 48×48 с accent1 —
+	// здесь они идут в другом контексте.
+	svg {
+		width: 24px;
+		height: 24px;
+		color: inherit;
+	}
+}
+
+// ===== Индикатор этапов =====
+// Шесть кубиков 10×10 с гэпом 4 — ровно 38×24 по макету.
+.ss-stage-card__steps {
+	display: grid;
+	grid-template-columns: repeat(3, 10px);
+	gap: 4px;
+	flex-shrink: 0;
+}
+
+.ss-stage-card__step {
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+	background: var(--secondary1);
+}
+
+.ss-stage-card__step--active {
+	background: var(--accent1);
+}
+
+// ===== Текстовый блок =====
+.ss-stage-card__body {
+	margin-top: 20px;
+}
+
+.ss-stage-card__title {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-stage-card__text {
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+// ===== «Клиент получает» =====
+.ss-stage-card__result {
+	margin-top: 20px;
+}
+
+.ss-stage-card__result-label {
+	display: block;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	text-transform: uppercase;
+	color: var(--accent1);
+
+	@include down($md) {
+		font-size: 12px;
+	}
+}
+
+// Ряд тегов: 10 до лейбла, между тегами — 10 из .ss-tag-group.
+.ss-stage-card__result .ss-tag-group {
+	margin-top: 10px;
+}
