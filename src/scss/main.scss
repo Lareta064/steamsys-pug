@@ -22,10 +22,12 @@
 @use "blocks/_role-card";
 @use "blocks/_benefit-card";
 
-// sections — базовая обёртка + именованные модификаторы
+// sections — базовая обёртка + именованные модификаторы + общие Swiper-стили
 @use "sections/_section";
+@use "sections/_swiper";
 @use "sections/_section-roles";
 @use "sections/_section-benefits";
+@use "sections/_section-experience";
 
 // ui
 @use "ui/_ui-navigation";

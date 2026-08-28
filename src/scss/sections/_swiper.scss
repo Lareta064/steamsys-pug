@@ -1,0 +1,53 @@
+@use '../base/_var' as *;
+
+// ==============================
+// Общие стили для слайдера Swiper — единый визуальный язык
+// стрелок и пагинации на всех слайдерах проекта.
+// Индивидуальные слайдеры могут перекрывать через свои классы.
+// ==============================
+
+// ------- Стрелки навигации -------
+// Круглые кнопки с тонкой тенью. Дефолтные ::after (стрелки Swiper)
+// перекрашиваем под цвет primary. Отключённое состояние — 50% opacity.
+.swiper.swiper-pb{
+	padding-bottom: 50px;
+}
+.swiper-button-prev,
+.swiper-button-next {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: var(--white);
+	box-shadow: 0 4px 16px rgba(3, 29, 42, 0.12);
+	color: var(--primary);
+	transition: opacity 0.2s ease, transform 0.2s ease;
+
+	&::after {
+		font-size: 18px;
+		font-weight: 700;
+	}
+
+	&:hover:not(.swiper-button-disabled) {
+		transform: scale(1.05);
+	}
+
+	&.swiper-button-disabled {
+		opacity: 0.4;
+		cursor: default;
+	}
+}
+
+// ------- Пагинация (точки внизу) -------
+.swiper.swiper-pb .swiper-pagination-bullets{bottom: 0;} 
+.swiper-pagination-bullet {
+	width: 8px;
+	height: 8px;
+	background: var(--secondary1);
+	opacity: 1;
+	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.swiper-pagination-bullet-active {
+	background: var(--accent1);
+	transform: scale(1.25);
+}

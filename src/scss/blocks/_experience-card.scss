@@ -32,6 +32,9 @@
 	&:hover .ss-experience-card__cta-text {
 		opacity: 1;
 	}
+	@include down($md) {
+		height: 463px;
+	}
 }
 
 // Фоновая картинка. z-index -1 — уходит под контент, но остаётся
@@ -124,7 +127,7 @@
 .ss-experience-card__body {
 	display: flex;
 	flex-direction: column;
-	row-gap: 20px;
+	row-gap: 10px;
 }
 
 .ss-experience-card__title {
@@ -143,8 +146,9 @@
 // и правим mobile-размер.
 .ss-experience-card .ss-list {
 	color: inherit;
-
+    row-gap:4px;
 	@include down($md) {
 		font-size: 14px;
+		 row-gap:0;
 	}
 }

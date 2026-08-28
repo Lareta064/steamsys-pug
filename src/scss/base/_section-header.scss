@@ -6,18 +6,37 @@
 // На mobile (< $md) — колонка, kicker сверху, заголовок снизу.
 // Цвет заголовка не задаётся — наследуется от контекста
 // (для тёмного фона поверх кладём .ss-txt-white или .ss-bg-* с bundle).
+//
+// margin-bottom 40 — базовый просвет до нижнего контента секции.
+// Отдельные секции могут переопределять (например .ss-section-experience
+// поднимает до 60 на desktop). Отступ живёт на самом заголовке, а не на
+// контейнере — чтобы .ss-container оставался нейтральной обёрткой ширины
+// и не превращался в flex-родителя (иначе ломается вложенный Swiper и т.п.).
 // ==============================
 .ss-section-header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	column-gap: 40px;
+	margin-bottom: 60px;
 
 	@include down($md) {
 		flex-direction: column;
 		align-items: flex-start;
 		row-gap: 10px;
+		margin-bottom: 40px;
 	}
+}
+
+// ==============================
+// .ss-section-header__title — левая колонка «kicker сверху / h2 снизу».
+// Используется когда в .ss-section-header нужна вертикальная связка
+// kicker+h2 плюс CTA (ссылка/кнопка) справа. row-gap 10 между строк.
+// ==============================
+.ss-section-header__title {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
 }
 
 
