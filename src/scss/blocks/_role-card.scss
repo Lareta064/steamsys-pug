@@ -1,4 +1,4 @@
-@use '_var' as *;
+@use '../base/_var' as *;
 
 // ==============================
 // .ss-role-card — карточка «для роли/аудитории» (секция «Клиентам»).
@@ -56,8 +56,7 @@ $role-card-border: 2px;
 .ss-role-card {
 	display: flex;
 	flex-direction: column;
-	flex: 0 0 356px;
-	background: var(--white);
+	flex: 0 0 356px;	
 
 	@include down($xl) {
 		flex: 0 0 320px;

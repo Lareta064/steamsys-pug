@@ -53,8 +53,19 @@
 	font-family: var(--font-family);
 	&.body-dashboard--full{
 		padding-left: 0;
-		.container-dashboard{
-			
+		.ui-back-link{
+			text-decoration: none;
+			width: 120px;
+			height: 30px;
+			border-radius: 5px;
+			background-color: #031D2A;
+			color:#fff;
+			font-size: 16px;
+			text-align: center;
+			line-height: 30px;
+			position: absolute;
+			top: 20px;
+			left: 20px;
 		}
 	}
 	.ui-panel{transition: .3s; }
