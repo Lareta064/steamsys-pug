@@ -14,37 +14,72 @@ $role-card-dot-size: 10px;
 $role-card-border: 2px;
 
 // ==============================
-// Контейнер (5 колонок плотно / mobile — свайп)
+// Контейнер (десктоп ≥1200 — flex-стрип с drag-скроллом / mobile — свайп)
 // ==============================
+// От 1200 карточки имеют фиксированные ширины (356/346), в сумме 1760 —
+// как в макете 1920. Блок сам растягивается от левого края контейнера
+// до правого края экрана: width: calc(50% + 50vw). Когда карточки не
+// помещаются — прокрутка мышкой (drag), скроллбар скрыт. Логика drag —
+// в src/js/role-card-drag.js.
 .ss-role-card-group {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	// gap: 0 — карточки плотно, «просвет» создаётся padding'ом .ss-role-card__box
+	display: flex;
+	width: calc(50% + 50vw);
+	overflow-x: auto;
+	overscroll-behavior-x: contain;
+	cursor: grab;
 
-	@include down($md) {
-		display: flex;
-		overflow-x: auto;
+	// Скрываем нативный scrollbar — прокрутка через drag.
+	scrollbar-width: none;
+	&::-webkit-scrollbar { display: none; }
+
+	// Класс навешивается JS'ом на время протяжки.
+	&.is-dragging {
+		cursor: grabbing;
+		user-select: none;
+	}
+
+	@include down($xl) {
+		// Мобильный вид: свайп + snap, ширина по контейнеру.
+		width: auto;
 		scroll-snap-type: x mandatory;
 		-webkit-overflow-scrolling: touch;
-
-		// Скрываем стандартный scrollbar (можно опционально показать декоративные точки).
-		scrollbar-width: none;
-		&::-webkit-scrollbar { display: none; }
+		cursor: auto;
 	}
 }
 
 // ==============================
 // Карточка
 // ==============================
+// display: flex column — чтобы .ss-role-card__box растягивался на всю
+// высоту (равная высота карточек за счёт align-items: stretch у flex-родителя).
+// Фикс. ширины по макету: 356 / 346-346 (первая/последняя). Итого 1760.
 .ss-role-card {
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 356px;
 	background: var(--white);
 
-	@include down($md) {
+	@include down($xl) {
 		flex: 0 0 320px;
 		scroll-snap-align: start;
 	}
 }
 
+// Первая и последняя карточка — на 10px уже, компенсируется отсутствие
+// padding-left/right у их __box. В итоге все серые __body одинаковой ширины.
+// Применяем только на десктопе — на мобиле все карточки 320px.
+@include up($xl) {
+	.ss-role-card-group > .ss-role-card:first-child,
+	.ss-role-card-group > .ss-role-card:last-child {
+		flex-basis: 346px;
+	}
+	.ss-role-card-group > .ss-role-card:last-child {
+		flex-basis: 356px;margin-right: 10px;
+	}
+}
+@include up($xxxl) {.ss-role-card-group > .ss-role-card:last-child {
+		flex-basis: 346px;margin-right: 0;
+	}}
 // ==============================
 // Синий бэйдж с иконкой user
 // ==============================
@@ -60,7 +95,7 @@ $role-card-border: 2px;
 	background: var(--accent1);
 	color: var(--white);
 
-	@include down($md) {
+	@include down($xl) {
 		width: 48px;
 		height: 48px;
 		padding: 12px;
@@ -81,7 +116,7 @@ $role-card-border: 2px;
 	line-height: 1.4;
 	color: var(--primary1);
 
-	@include down($md) {
+	@include down($xl) {
 		margin-top: 10px;
 	}
 }
@@ -92,15 +127,20 @@ $role-card-border: 2px;
 // между серыми списками соседних карточек.
 // У первой карточки убираем padding-left (линия ровно от начала блока),
 // у последней — padding-right.
+// display: flex column + flex: 1 → занимает всю оставшуюся высоту карточки,
+// а .ss-role-card__body внутри растягивается до низа.
 // ==============================
 .ss-role-card__box {
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
 	margin-top: 20px;
 	padding: 20px 10px 0;
 	background: var(--white);
 	border-top: $role-card-border solid $role-card-line-color;
 
-	@include down($md) {
+	@include down($xl) {
 		margin-top: 10px;
 		padding-top: 10px;
 	}
@@ -129,7 +169,8 @@ $role-card-border: 2px;
 	// У первой карточки padding-left = 0, значит padding box left = border box left.
 	// Точку ставим прямо на left: 0.
 	&::before {
-		left: 0;
+		left: 5px;
+		
 	}
 }
 
@@ -142,7 +183,7 @@ $role-card-border: 2px;
 		content: '';
 		position: absolute;
 		top: calc(-1 * (#{$role-card-border} / 2 + #{$role-card-dot-size} / 2));
-		right: 0;
+		right: 5px;
 		transform: translateX(50%);
 		width: $role-card-dot-size;
 		height: $role-card-dot-size;
@@ -152,35 +193,39 @@ $role-card-border: 2px;
 }
 
 // ==============================
-// __body — серый контейнер со списком и ссылкой
+// __body — серый контейнер со списком и ссылкой.
+// flex: 1 — тянется на высоту __box (равная высота карточек).
+// row-gap заменяет прежний margin-top у ссылки, а .ss-list flex: 1
+// прижимает ссылку к низу — так ссылки на всех карточках стоят на одной горизонтали.
 // ==============================
 .ss-role-card__body {
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
+	flex: 1 1 auto;
+	row-gap: 26px;
 	padding: 40px 30px;
 	min-height: 270px;
 	background: var(--secondary2);
 	border-radius: 10px;
 
-	@include down($md) {
+	@include down($xl) {
 		width: 300px;
 		padding: 30px 20px;
 		min-height: 240px;
+		row-gap: 10px;
 	}
 
 	// Список (.ss-list) — цвет наследуется от body,
 	// у нас на светло-сером фоне контекст → тёмный текст default.
+	// flex: 1 — растягивается, прижимает ссылку к низу.
 	.ss-list {
+		flex: 1 1 auto;
 		color: var(--primary1);
 	}
 
-	// Ссылка внизу — фикс 26px от списка (на mobile 10px как «остальные 20 → 10» гэпы).
 	.ss-link {
-		margin-top: 26px;
-
-		@include down($md) {
-			margin-top: 10px;
+		@include down($xl) {
 			font-size: 14px;
 			line-height: 1.4;
 		}
