@@ -23,6 +23,7 @@ block content
 					li: a(href='#solution-card') .ss-solution-card
 					li: a(href='#experience-card') .ss-experience-card
 					li: a(href='#stage-card') .ss-stage-card
+					li: a(href='#role-card') .ss-role-card
 
 			//- ========== Feature card ==========
 			section.cards-catalog__section#feature-card
@@ -254,3 +255,49 @@ block content
 						|         span.ss-stage-card__result-label Клиент получает
 						|         .ss-tag-group
 						|             span.ss-tag.ss-tag--dark Отчет
+
+			//- ========== Role card ==========
+			- var roleItems = [{ title: 'Главному инженеру', list: ['Готовые технические решения', 'Повышение надёжности', 'Снижение затрат'], link: 'Смотреть готовые системы' }, { title: 'Главному энергетику', list: ['Снижение расхода пара и затрат', 'Возврат конденсата — до 90%', 'Расчёт окупаемости за 4 часа'], link: 'Рассчитать экономию пара' }, { title: 'Технологу', list: ['Стабильность температуры и давления', 'Меньше брака от нестабильных режимов', 'Точность регулирования в процессе'], link: 'Стабилизация давления пара' }, { title: 'Закупщику', list: ['Оптимальные предложения', 'Документы и сертификаты', 'Поставка в срок'], link: 'Отправить спецификацию' }, { title: 'Проектировщику', list: ['BIM / CAD-модели', 'Опросные листы', 'Техническая поддержка'], link: 'Запросить CAD/3D/BIM' }]
+
+			section.cards-catalog__section#role-card
+				h3.cards-catalog__section-title .ss-role-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Секция «Клиентам»: 5 карточек-ролей плотно друг к другу, соединены сквозной синей линией через
+					code border-top
+					|  элемента
+					code __box
+					| . Точки — псевдо-элементы
+					code ::before
+					|  каждой карточки. На mobile блок превращается в горизонтальный свайп-слайдер через
+					code scroll-snap
+					| .
+
+				h4.cards-catalog__subtitle 5 в ряд плотно (desktop) / свайп (mobile — сузь окно &lt; 768)
+				.cards-catalog__demo
+					.ss-role-card-group
+						each item in roleItems
+							.ss-role-card
+								.ss-role-card__badge
+									+svgIcon('user')
+								p.ss-role-card__title= item.title
+								.ss-role-card__box
+									.ss-role-card__body
+										ul.ss-list
+											each i in item.list
+												li.ss-list__item= i
+										+ssLink(item.link, { size: 'md' })
+
+				pre.cards-catalog__snippet
+					code
+						| .ss-role-card-group
+						|     .ss-role-card
+						|         .ss-role-card__badge
+						|             +svgIcon('user')
+						|         p.ss-role-card__title Главному инженеру
+						|         .ss-role-card__box
+						|             .ss-role-card__body
+						|                 ul.ss-list
+						|                     li.ss-list__item Готовые технические решения
+						|                     li.ss-list__item Повышение надёжности
+						|                 +ssLink('Смотреть готовые системы', { size: 'md' })
+						|     //- ... ещё 4 карточки .ss-role-card

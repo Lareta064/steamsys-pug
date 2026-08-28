@@ -1,0 +1,188 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-role-card — карточка «для роли/аудитории» (секция «Клиентам»).
+// В блоке 5 карточек плотно, соединены сквозной синей линией сверху
+// от __box (border-top) с точками через ::before у каждой карточки.
+// Контейнер — .ss-role-card-group (grid из 5 равных колонок, БЕЗ column-gap).
+// На mobile — горизонтальный свайп через scroll-snap.
+// ==============================
+
+// Общее число карточек / ширина карточки на мобиле — управляем через переменные.
+$role-card-line-color: var(--accent1);
+$role-card-dot-size: 10px;
+$role-card-border: 2px;
+
+// ==============================
+// Контейнер (5 колонок плотно / mobile — свайп)
+// ==============================
+.ss-role-card-group {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	// gap: 0 — карточки плотно, «просвет» создаётся padding'ом .ss-role-card__box
+
+	@include down($md) {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		-webkit-overflow-scrolling: touch;
+
+		// Скрываем стандартный scrollbar (можно опционально показать декоративные точки).
+		scrollbar-width: none;
+		&::-webkit-scrollbar { display: none; }
+	}
+}
+
+// ==============================
+// Карточка
+// ==============================
+.ss-role-card {
+	background: var(--white);
+
+	@include down($md) {
+		flex: 0 0 320px;
+		scroll-snap-align: start;
+	}
+}
+
+// ==============================
+// Синий бэйдж с иконкой user
+// ==============================
+.ss-role-card__badge {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 68px;
+	height: 68px;
+	padding: 18px;
+	border-radius: 10px;
+	background: var(--accent1);
+	color: var(--white);
+
+	@include down($md) {
+		width: 48px;
+		height: 48px;
+		padding: 12px;
+
+		// svg-user по умолчанию 32×32; на мобиле бэйдж 48 с padding 12 → content 24×24
+		svg { width: 24px; height: 24px; }
+	}
+}
+
+// ==============================
+// Заголовок роли
+// ==============================
+.ss-role-card__title {
+	margin-top: 20px;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--primary1);
+
+	@include down($md) {
+		margin-top: 10px;
+	}
+}
+
+// ==============================
+// __box — див с синим border-top (сквозная линия) + точка (::before).
+// Занимает всю ширину карточки. Padding-inline создаёт визуальный «просвет»
+// между серыми списками соседних карточек.
+// У первой карточки убираем padding-left (линия ровно от начала блока),
+// у последней — padding-right.
+// ==============================
+.ss-role-card__box {
+	position: relative;
+	margin-top: 20px;
+	padding: 20px 10px 0;
+	background: var(--white);
+	border-top: $role-card-border solid $role-card-line-color;
+
+	@include down($md) {
+		margin-top: 10px;
+		padding-top: 10px;
+	}
+
+	// Точка на ЛЕВОМ краю карточки (border box left edge).
+	// left: -10px → сдвигаем от padding box (padding-left 10) обратно к border box left.
+	// transform translateX(-50%) → центр точки на этой границе (точка половиной вне).
+	// top: -(border/2 + dot/2) → центр точки совпадает с центром бордера.
+	&::before {
+		content: '';
+		position: absolute;
+		top: calc(-1 * (#{$role-card-border} / 2 + #{$role-card-dot-size} / 2));
+		left: 0;
+		transform: translateX(-50%);
+		width: $role-card-dot-size;
+		height: $role-card-dot-size;
+		border-radius: 50%;
+		background: $role-card-line-color;
+	}
+}
+
+// Крайние карточки — убираем внешний padding-inline у box.
+.ss-role-card-group > .ss-role-card:first-child .ss-role-card__box {
+	padding-left: 0;
+
+	// У первой карточки padding-left = 0, значит padding box left = border box left.
+	// Точку ставим прямо на left: 0.
+	&::before {
+		left: 0;
+	}
+}
+
+.ss-role-card-group > .ss-role-card:last-child .ss-role-card__box {
+	padding-right: 0;
+
+	// Дополнительная точка на ПРАВОМ краю последней карточки (6-я точка).
+	// right: 0 → padding box right (= border box right при padding-right: 0) = карточка's right.
+	&::after {
+		content: '';
+		position: absolute;
+		top: calc(-1 * (#{$role-card-border} / 2 + #{$role-card-dot-size} / 2));
+		right: 0;
+		transform: translateX(50%);
+		width: $role-card-dot-size;
+		height: $role-card-dot-size;
+		border-radius: 50%;
+		background: $role-card-line-color;
+	}
+}
+
+// ==============================
+// __body — серый контейнер со списком и ссылкой
+// ==============================
+.ss-role-card__body {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	padding: 40px 30px;
+	min-height: 270px;
+	background: var(--secondary2);
+	border-radius: 10px;
+
+	@include down($md) {
+		width: 300px;
+		padding: 30px 20px;
+		min-height: 240px;
+	}
+
+	// Список (.ss-list) — цвет наследуется от body,
+	// у нас на светло-сером фоне контекст → тёмный текст default.
+	.ss-list {
+		color: var(--primary1);
+	}
+
+	// Ссылка внизу — фикс 26px от списка (на mobile 10px как «остальные 20 → 10» гэпы).
+	.ss-link {
+		margin-top: 26px;
+
+		@include down($md) {
+			margin-top: 10px;
+			font-size: 14px;
+			line-height: 1.4;
+		}
+	}
+}
