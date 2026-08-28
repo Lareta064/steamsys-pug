@@ -5,6 +5,7 @@
 @use "base/_typography";
 @use "base/_svg-icons";
 @use "base/_container";
+@use "base/_section";
 @use "base/_grid";
 @use "base/_buttons";
 @use "base/_ss-link";
@@ -18,6 +19,7 @@
 @use "base/_experience-card";
 @use "base/_stage-card";
 @use "base/_role-card";
+@use "base/_benefit-card";
 
 // ui
 @use "ui/_ui-navigation";

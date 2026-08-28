@@ -271,3 +271,75 @@ color: var(--accent1);
 
 ### Клиентам - адаптив от 1200
 1. Дизайнер предлагает на экранах от 1200px оставить все размеры такими, как на макете от 1920px. И для случая, когда контент не помещается в ширину экрана, разрешить перемещение блока вправо / влево при помощи мыши. При этом блок с карточками по левому краю должен быть в контейнере, а по правому краю быть до края экрана. То есть, блоку, в котором все каротчки, задать ширину calc(50% + 50vw). Что скажешь?
+
+## секция Преимущества
+Секция Преимущества состоит из карточек, увидеть можно по ссылке https://www.figma.com/design/qpuOXA1xESrrFU2JGrx6jv/%D0%9F%D0%B0%D1%80%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B--Copy-?node-id=25764-1315&t=4Tq85XyPIfeVxqeY-4
+
+При адаптиве карточки переносятся на новые ряды, в итоге на моб версии колонка карточек https://www.figma.com/design/qpuOXA1xESrrFU2JGrx6jv/%D0%9F%D0%B0%D1%80%D0%BE%D0%B2%D1%8B%D0%B5-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B--Copy-?node-id=25804-3396&t=4Tq85XyPIfeVxqeY-4
+
+- синяя карточка:
+background: linear-gradient(90deg, #04b 0%, #79b0e3 100%);
+border-radius: 10px;
+padding: 60px 40px;
+min-height: 254px;
+
+на моб версии:
+border-radius: 10px;
+padding: 30px 20px;
+width: 388px;
+min-height: unset;
+
+заголовок:
+font-family: var(--font-family);
+font-weight: 600;
+font-size: 62px;
+line-height: 120%;
+color: var(--white);
+
+на моб версии:
+font-family: var(--font-family);
+font-weight: 600;
+font-size: 32px;
+line-height: 130%;
+color: var(--white);
+
+описание:
+font-family: var(--font-family);
+font-weight: 500;
+font-size: 18px;
+line-height: 140%;
+color: var(--white);
+
+на моб версии:
+font-family: var(--font-family);
+font-weight: 500;
+font-size: 14px;
+line-height: 140%;
+color: var(--white);
+
+-белая карточка:
+border: 1px solid var(--secondary2);
+border-radius: 10px;
+padding: 60px 40px;
+width: 417px;
+height: 254px;
+background: var(--white);
+
+заголовок:
+font-family: var(--font-family);
+font-weight: 500;
+font-size: 18px;
+line-height: 140%;
+text-transform: uppercase;
+color: var(--primary);
+
+на моб версии: font-size: 16px;
+описание:
+font-family: var(--font-family);
+font-weight: 500;
+font-size: 16px;
+line-height: 140%;
+color: var(--secondary);
+на моб версии: font-size: 14px;
+
+Между заголовком и описанием всегда отступ в 10 пикс.

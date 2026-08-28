@@ -1,0 +1,16 @@
+extends ../layouts/layout-ui-sections.pug
+
+block content
+	- var benefitItems = [{ stat: true, title: '2008', text: 'год основания — 18 лет на рынке пароконденсатных систем' }, { stat: false, title: 'Собственный инжиниринг — единая ответственность', text: 'Проектирование, монтаж и пусконаладка собственными силами. Один договор, один ответственный за результат.' }, { stat: true, title: '7 000+', text: 'предприятий-клиентов: пищевая, фарма, химия, энергетика' }, { stat: false, title: '12 месяцев гарантии, поставки по всей России', text: 'Склад в Санкт-Петербурге, сервисные выезды по всей стране, гарантийное и постгарантийное обслуживание.' }, { stat: false, title: 'Официальные дистрибьюторы TLV, BAELZ', text: 'Прямые поставки от производителей. Оригинальные комплектующие, полный пакет сертификатов и документации.' }, { stat: true, title: '85 000+', text: 'единиц оборудования поставлено на предприятия России' }, { stat: false, title: 'КП за 4 часа с инженерным расчётом', text: 'Инженерный расчёт и коммерческое предложение — в день обращения в рабочие часы.' }, { stat: true, title: '24/7', text: 'техническая поддержка и аварийный выезд по всей России' }]
+
+	section.ss-section
+		.ss-container.ss-wrapper
+			.ss-section-header
+				span.ss-kicker Преимущества
+				h2.ss-h2 Почему паровые системы
+
+			.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+				each item in benefitItems
+					.ss-benefit-card(class=item.stat ? 'ss-benefit-card--stat' : null)
+						p.ss-benefit-card__title= item.title
+						p.ss-benefit-card__text= item.text
