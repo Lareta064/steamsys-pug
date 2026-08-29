@@ -15,6 +15,7 @@
 		new Swiper(el, {
 			slidesPerView: 1,
 			spaceBetween: 10,
+			speed: 800,
 			pagination: {
 				el: el.querySelector('.swiper-pagination'),
 				clickable: true

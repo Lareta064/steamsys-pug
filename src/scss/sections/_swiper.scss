@@ -51,3 +51,36 @@
 	background: var(--accent1);
 	transform: scale(1.25);
 }
+
+// ==============================
+// .swiper-bars — модификатор swiper'а: пагинация в виде горизонтальных полосок
+// (вместо точек по дефолту). 80×10 desktop / 56×10 mobile, gap 10,
+// primary1 / accent3-active.
+// Используется в секциях «Опыт», «Задачи» и любых других, где по макету
+// пагинация оформлена полосками.
+// ==============================
+.swiper-bars {
+	.swiper-pagination {
+		display: flex;
+		justify-content: center;
+		gap: 10px;
+	}
+
+	.swiper-pagination-bullet {
+		width: 80px;
+		height: 10px;
+		border-radius: 6px;
+		background: var(--primary1);
+		opacity: 1;
+		transform: none; // отменяем scale из базового .swiper-pagination-bullet
+
+		@include down($md) {
+			width: 56px;
+		}
+	}
+
+	.swiper-pagination-bullet-active {
+		background: var(--accent3);
+		transform: none;
+	}
+}

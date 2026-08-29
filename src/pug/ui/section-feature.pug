@@ -1,0 +1,30 @@
+extends ../layouts/layout-ui-sections.pug
+
+block content
+	- var featureItems = [{ icon: 'target', title: 'Аудит и диагностика', text: 'Анализируем систему, выявляем потери и точки роста эффективности' }, { icon: 'doc', title: 'Проектирование', text: 'Проектируем надёжные системы под задачи вашего производства' }, { icon: 'tool', title: 'Внедрение', text: 'Поставляем оборудование, выполняем монтаж и пусконаладочные работы' }, { icon: 'headset', title: 'Сервис и поддержка', text: 'Обслуживаем системы и обеспечиваем стабильную работу 24/7' }]
+
+	section.ss-section.ss-section-feature
+		.ss-container.ss-wrapper
+			.ss-grid
+				//- Левая колонка: intro (kicker → h2 → ссылка), распределены по высоте.
+				//- На mobile ссылка скрывается, её дубль появляется под карточками.
+				.ss-col-4.ss-col-lg-12
+					.ss-section-intro.ss-section-intro--stretch
+						span.ss-kicker Комплексный подход
+						.ss-section-intro__body
+							h2.ss-h6 Берём на себя весь цикл работ — от аудита до сервисной поддержки и экономического эффекта
+						.ss-section-feature__link-desktop
+							+ssLink('Подробнее о подходе')
+
+				//- Правая колонка: 4 feature-карточки в ряд (→ 2 → 1 адаптивно) + mobile-дубль ссылки.
+				.ss-col-8.ss-col-lg-12
+					.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+						each item in featureItems
+							.ss-feature-card
+								+svgIcon(item.icon)
+								.ss-feature-card__body
+									p.ss-feature-card__title= item.title
+									p.ss-feature-card__text= item.text
+
+					.ss-section-feature__link-mobile
+						+ssLink('Подробнее о подходе')

@@ -3,53 +3,27 @@
 // ==============================
 // .ss-section-experience — секция «Опыт в ключевых отраслях».
 // Индивидуальные правки поверх базовой .ss-section:
-//  · просвет между заголовочным блоком и слайдером — 60 desktop / 40 mobile
-//    (переопределяем базовый margin-bottom 40 у .ss-section-header).
+//  · заголовок выровнен по нижнему краю (kicker+h2 слева, ссылка справа),
+//    на mobile колонка с бо́льшим row-gap.
 //  · в правой ссылке заголовка на mobile скрываем текст, оставляем только иконку.
-//  · пагинация Swiper — горизонтальные полоски (80×10 / 56×10) вместо точек.
 //
-// Важно: не превращаем .ss-container в flex-колонку — это ломает Swiper
-// (слайды получают неверную ширину). Отступ живёт на самом заголовке.
+// Пагинация-полоски приходит из шаред-класса .swiper-bars (см. _swiper.scss)
+// — тут дублировать её больше не нужно.
 // ==============================
 .ss-section-experience {
 	.ss-section-header {
-		align-items:flex-end;
+		align-items: flex-end;
+
 		// На mobile CTA в заголовке — только стрелка, текст (span) скрыт.
 		.ss-link span {
 			@include down($md) {
 				display: none;
 			}
 		}
-		@include down($md) {
-			align-items:flex-start;
-			row-gap:40px;
-		}
-	}
-
-	// ------- Пагинация — полоски вместо точек -------
-	// Родитель Swiper по умолчанию — position: absolute, text-align: center.
-	// Меняем на flex-ряд с gap 10.
-	.swiper-pagination {
-		display: flex;
-		justify-content: center;
-		gap: 10px;
-	}
-
-	.swiper-pagination-bullet {
-		width: 80px;
-		height: 10px;
-		border-radius: 6px;
-		background: var(--primary1);
-		opacity: 1;
-		transform: none; // отменяем scale из общего _swiper.scss
 
 		@include down($md) {
-			width: 56px;
+			align-items: flex-start;
+			row-gap: 40px;
 		}
-	}
-
-	.swiper-pagination-bullet-active {
-		background: var(--accent3);
-		transform: none;
 	}
 }

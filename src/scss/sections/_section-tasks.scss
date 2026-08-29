@@ -1,0 +1,47 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-tasks — секция «Какие задачи решаем».
+// Раскладка:
+//  · ≥1440 (up $xxl) — статичный ряд 4-в-один, без свайпа. Swiper НЕ инициализируется
+//    (см. src/js/tasks-swiper.js: matchMedia init/destroy). Разметка .swiper остаётся
+//    в DOM — превращаем .swiper-wrapper в CSS Grid, скрываем пагинацию.
+//  · ≤1439 (down $xxl) — Swiper: slidesPerView='auto', слайд width 388px, gap 10.
+//    Пагинация — полоски из шаред-класса .swiper-bars (см. _swiper.scss).
+//
+// !important на .swiper-slide { width } нужен, чтобы перекрыть inline-стили,
+// которые Swiper выставляет каждому слайду в режиме slidesPerView='auto'.
+// ==============================
+.ss-section-tasks {
+	// Мобильно-планшетный режим — слайды фикс-ширины по спеке.
+	.swiper-tasks .swiper-slide {
+		width: 388px !important;
+	}
+
+	// Desktop — сбрасываем flex-стек Swiper'а, делаем 4-колоночную сетку,
+	// прячем пагинацию (там свайпа нет — она не нужна).
+	@include up($xxl) {
+		.swiper-tasks {
+			.swiper-wrapper {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				column-gap: 30px;
+				transform: none !important; // страховка от inline transform Swiper'а
+			}
+
+			.swiper-slide {
+				width: auto !important; // сбрасываем 388px
+			}
+
+			.swiper-pagination {
+				display: none;
+			}
+		}
+
+		// .swiper-pb добавляет padding-bottom под пагинацию — на desktop
+		// пагинация скрыта, лишний отступ не нужен.
+		.swiper-tasks.swiper-pb {
+			padding-bottom: 0;
+		}
+	}
+}

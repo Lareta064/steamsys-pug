@@ -1,0 +1,75 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-feature — секция «Комплексный подход».
+// Раскладка:
+//  · ≥1920 — 2 колонки в внешнем .ss-grid: .ss-col-4 (intro) + .ss-col-8 (карточки),
+//    внутри правой колонки — сетка карточек 4-в-ряд. Intro тянется на высоту через
+//    .ss-section-intro--stretch: kicker сверху, h2 в середине, ссылка снизу (space-between).
+//  · <1920 — все gap внутри секции = 20 (по спеке; base .ss-grid на 1920+ = 30).
+//  · <1600 — карточки становятся 2×2 (span 6 из 12). Intro теряет --stretch: правая
+//    колонка удваивается по высоте, и space-between даёт некрасивые разрывы; вместо
+//    этого — обычный стек с row-gap 40.
+//  · <1024 — стек: kicker → h2 → карточки → ссылка. Дубль ссылки под карточками, оригинал
+//    в intro-блоке скрывается (SEO ok — тот же href/текст, стандартный responsive-паттерн:
+//    контент виден в одном из состояний в любой момент, это не hidden text и не cloaking).
+//    row-gap intro сжимается до 10 (kicker → h2), между внешними колонками стека 20
+//    (унаследовано от общего правила «gap 20 на <1920»).
+// ==============================
+.ss-section-feature {
+	// Локальный цвет для заголовка секции (в утилите .ss-h6 color не задан).
+	.ss-h6 {
+		color: var(--primary);
+	}
+
+	// <1920 — все gap внутри секции = 20 (перекрываем базовый 30 у .ss-grid на 1920+).
+	// Затрагивает и внешний grid (intro/cards), и вложенную сетку карточек.
+	@media (max-width: 1919px) {
+		.ss-grid {
+			gap: 20px;
+		}
+	}
+
+	// <1600 — карточки 2 в ряд. Диапазон min-width: 1024 обязателен, чтобы это правило
+	// не перебивало .ss-grid--lg-row-1 на <1024 (там нужен span 12, а не 6).
+	@media (min-width: 1024px) and (max-width: 1599px) {
+		.ss-grid--row-4 > * {
+			grid-column: span 6;
+		}
+	}
+
+	// <1600 — отменяем --stretch у intro. При 2×2 карточек правая колонка становится
+	// вдвое выше — space-between даёт слишком большие разрывы между kicker/h2/link.
+	@media (max-width: 1599px) {
+		.ss-section-intro--stretch {
+			height: auto;
+			justify-content: initial;
+			row-gap: 40px;
+		}
+	}
+
+	// <768 — mobile: intro row-gap ужимается до 10 (kicker → h2 по спеке).
+	@include down($lg) {
+		.ss-section-intro--stretch {
+			row-gap: 10px;
+		}
+	}
+
+	// Ссылка внутри intro-колонки — только desktop. На mobile её дубль под карточками.
+	&__link-desktop {
+		@include down($lg) {
+			display: none;
+		}
+	}
+
+	// Дубль ссылки под карточками — только mobile. margin-top 20 — от нижнего края
+	// сетки карточек до ссылки (по спеке).
+	&__link-mobile {
+		display: none;
+
+		@include down($lg) {
+			display: block;
+			margin-top: 20px;
+		}
+	}
+}
