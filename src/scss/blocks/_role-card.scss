@@ -94,6 +94,15 @@ $role-card-border: 2px;
 	background: var(--accent1);
 	color: var(--white);
 
+	// Растровая картинка на случай, если админ загрузит PNG/JPG вместо SVG-иконки.
+	// Размеры совпадают с content-областью бэйджа (68 − 2·18 = 32 desktop / 48 − 2·12 = 24 mobile),
+	// object-fit: contain — чтобы непропорциональная картинка не искажалась и не вылезала.
+	img {
+		width: 32px;
+		height: 32px;
+		object-fit: contain;
+	}
+
 	@include down($xl) {
 		width: 48px;
 		height: 48px;
@@ -101,6 +110,7 @@ $role-card-border: 2px;
 
 		// svg-user по умолчанию 32×32; на мобиле бэйдж 48 с padding 12 → content 24×24
 		svg { width: 24px; height: 24px; }
+		img { width: 24px; height: 24px; }
 	}
 }
 
