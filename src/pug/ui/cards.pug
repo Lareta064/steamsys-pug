@@ -64,7 +64,7 @@ block content
 						|         p.ss-feature-card__text Описание
 
 			//- ========== Task card ==========
-			- var taskItems = [{ img: 'task-icon1', title: 'Потери конденсата', text: 'Организуем возврат конденсата до 90%, снижаем нагрузку на химводоподготовку и расход воды', link: 'Станция возврата конденсата' }, { img: 'task-icon2', title: 'Нестабильное давление и температура', text: 'Обеспечиваем стабильные параметры пара для технологических процессов — исключаем брак и аварии', link: 'РОУ / БРОУ' }, { img: 'task-icon3', title: 'Неравномерный нагрев теплообменников', text: 'Выравниваем температуру по поверхности нагрева — точная теплопередача без перегретых зон', link: 'Обвязка калориферов и ТО' }, { img: 'task-icon4', title: 'Высокие эксплуатационные затраты', text: 'Рассчитываем экономию пара, воды и энергии — КП с инженерным расчётом за 4 часа', link: 'Калькуляторы экономии' }]
+			- var taskItems = [{ img: 'task-icon1', w: 210, h: 133, title: 'Потери конденсата', text: 'Организуем возврат конденсата до 90%, снижаем нагрузку на химводоподготовку и расход воды', link: 'Станция возврата конденсата' }, { img: 'task-icon2', w: 250, h: 125, title: 'Нестабильное давление и температура', text: 'Обеспечиваем стабильные параметры пара для технологических процессов — исключаем брак и аварии', link: 'РОУ / БРОУ' }, { img: 'task-icon3', w: 244, h: 135, title: 'Неравномерный нагрев теплообменников', text: 'Выравниваем температуру по поверхности нагрева — точная теплопередача без перегретых зон', link: 'Обвязка калориферов и ТО' }, { img: 'task-icon4', w: 136, h: 127, title: 'Высокие эксплуатационные затраты', text: 'Рассчитываем экономию пара, воды и энергии — КП с инженерным расчётом за 4 часа', link: 'Калькуляторы экономии' }]
 
 			section.cards-catalog__section#task-card
 				h3.cards-catalog__section-title .ss-task-card
@@ -85,7 +85,7 @@ block content
 							.ss-task-card
 								picture.ss-task-card__image
 									source(srcset='/img/' + item.img + '.webp 1x, /img/' + item.img + '@2x.webp 2x')
-									img(src='/img/' + item.img + '.webp' alt=item.title)
+									img(src='/img/' + item.img + '.webp' width=item.w height=item.h alt=item.title)
 								.ss-task-card__body
 									p.ss-task-card__title= item.title
 									p.ss-task-card__text= item.text
@@ -97,7 +97,7 @@ block content
 						| .ss-task-card
 						|     picture.ss-task-card__image
 						|         source(srcset='/img/name.webp 1x, /img/name@2x.webp 2x')
-						|         img(src='/img/name.webp' alt='...')
+						|         img(src='/img/name.webp' width='250' height='125' alt='...')
 						|     .ss-task-card__body
 						|         p.ss-task-card__title Заголовок
 						|         p.ss-task-card__text Описание
@@ -169,7 +169,7 @@ block content
 						picture.ss-experience-card__bg
 							source(media='(max-width: 767px)' srcset='/img/gallery1-mob.webp 1x, /img/gallery1-mob@2x.webp 2x')
 							source(media='(min-width: 768px)' srcset='/img/gallery1.webp 1x, /img/gallery1@2x.webp 2x')
-							img(src='/img/gallery1.webp' alt='')
+							img(src='/img/gallery1.webp' width='567' height='677' alt='')
 						a.ss-experience-card__overlay(href='#experience-page' aria-label='Пищевая промышленность — опыт')
 						.ss-experience-card__content
 							.ss-experience-card__top
@@ -190,7 +190,7 @@ block content
 						|     picture.ss-experience-card__bg
 						|         source(media='(max-width: 767px)' srcset='/img/exp2-mob.webp 1x, /img/exp2-mob@2x.webp 2x')
 						|         source(media='(min-width: 768px)' srcset='/img/exp2.webp 1x, /img/exp2@2x.webp 2x')
-						|         img(src='/img/exp2.webp' alt='')
+						|         img(src='/img/exp2.webp' width='567' height='677' alt='')
 						|     a.ss-experience-card__overlay(href='/experience/food' aria-label='…')
 						|     .ss-experience-card__content
 						|         .ss-experience-card__top
