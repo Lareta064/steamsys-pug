@@ -1,0 +1,144 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-calc-docs — секция «Калькуляторы и документация».
+// Раскладка:
+//  · ≥1920 — 3 колонки в один ряд: .ss-col-3 (kicker) + .ss-col-5 (калькуляторы) +
+//    .ss-col-4 (документы). При gap 30 на xxl+ это точно даёт 417 / 30 / 716 / 30 / 567 = 1760.
+//  · 1024–1919 — kicker уходит на отдельный ряд (span 12), калькуляторы и документы
+//    делят следующий ряд в соотношении 7:5 (span 7 / span 5). Локальный override
+//    через @media-диапазон — базовые .ss-col-N в этой полосе перекрываются.
+//  · <1024 — стек: kicker → калькуляторы → документы. Гэпы между внешними блоками
+//    делаем margin-based, а grid row-gap обнуляем — так удобнее задавать разные
+//    отступы (30 kicker→h2, 40 калькуляторы→документы) независимо от базового gap 10.
+//
+// Внутренние вертикальные отступы каждой колонки (h2 → strips 60/30,
+// strips → button 30/14, h2 → docs-box 60/30) — margin-based, чтобы держать
+// точные значения из спеки дизайна.
+// ==============================
+.ss-section-calc-docs {
+
+	// ==== Заголовки колонок ====
+	// h2 → следующий блок: 60 desktop / 30 mobile.
+	&__title {
+		margin-bottom: 60px;
+
+		@include down($lg) {
+			margin-bottom: 30px;
+		}
+	}
+
+	// ==== Col 2: калькуляторы ====
+	// Стек: strips → button (40 desktop / 14 mobile).
+	&__strips {
+		display: flex;
+		flex-direction: column;
+		row-gap: 20px;
+		margin-bottom: 40px;
+
+		@include down($lg) {
+			margin-bottom: 14px;
+		}
+	}
+
+	// ==== Col 3: документы ====
+	// Плашка с рамкой и серым фоном. flex-column: body → actions (row-gap 20).
+	&__docs-box {
+		display: flex;
+		flex-direction: column;
+		row-gap: 20px;
+		padding: 30px;
+		background: var(--secondary3);
+		border: 1px solid var(--secondary2);
+		border-radius: 10px;
+
+		@include down($lg) {
+			padding: 20px;
+		}
+	}
+
+	// Верхний ряд коробки: список слева + картинка справа. gap 30.
+	// На <$lg переходим в колонку (image сверху через column-reverse — DOM-порядок
+	// остаётся «список, картинка», но визуально картинка выше). Гэп 20, выравнивание
+	// по левой стороне (align-items: flex-start).
+	&__docs-body {
+		display: flex;
+		flex-direction: row;
+		column-gap: 30px;
+		@include down($xxxl) {
+			column-gap: 10px;
+		}
+		@include down($lg) {
+			flex-direction: column-reverse;
+			row-gap: 20px;
+			align-items: flex-start;
+		}
+	}
+
+	&__docs-list {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	// Картинка каталога. Desktop — интринзик 1x (226×164). Mobile — растягиваем
+	// до ширины контейнера с cap на спек-размер (348 макс) и фиксированной
+	// высотой 240 (per спека). object-fit: cover — небольшое расхождение aspect
+	// intrinsic (226/164 ≈ 1.38) vs 348/240 (1.45) закрываем cover-обрезкой.
+	&__docs-img {
+		flex-shrink: 0;
+		display: block;
+		width: 226px;
+		height: 164px;
+
+		@include down($lg) {
+			width: 100%;
+			max-width: 348px;
+			height: 240px;
+		}
+
+		img {
+			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	// Стек из 3 кнопок. row-gap 10, все full-width внутри коробки.
+	&__docs-actions {
+		display: flex;
+		flex-direction: column;
+		row-gap: 10px;
+	}
+
+	// ==== Middle tier: 1024–1919 ====
+	// Kicker уходит на весь ряд, калькуляторы + документы делят следующий ряд 7:5.
+	// Селекторы `> ... > .ss-col-N` целят ТОЛЬКО прямых grid-детей — вложенные
+	// .ss-col-* (если появятся) не задеваем.
+	@media (min-width: 1024px) and (max-width: 1439px) {
+		> .ss-container > .ss-grid > .ss-col-3 { grid-column: span 12; }
+		> .ss-container > .ss-grid > .ss-col-5 { grid-column: span 5; }
+		> .ss-container > .ss-grid > .ss-col-4 { grid-column: span 7; }
+	}
+	@media (min-width: 1440px) and (max-width: 1919px) {
+		> .ss-container > .ss-grid > .ss-col-3 { grid-column: span 2; }
+		> .ss-container > .ss-grid > .ss-col-5 { grid-column: span 5; }
+		> .ss-container > .ss-grid > .ss-col-4 { grid-column: span 5; }
+	}
+	// ==== Mobile-стек всей секции ====
+	// Обнуляем базовый row-gap внешнего grid'а — гэпы между колонками
+	// задаём margin-top на __calc / __docs.
+	@include down($lg) {
+		> .ss-container > .ss-grid {
+			row-gap: 0;
+		}
+
+		&__calc {
+			margin-top: 30px; // kicker → h2 калькуляторов
+		}
+
+		&__docs {
+			margin-top: 40px; // кнопка «Все калькуляторы» → h2 документов (спека)
+		}
+	}
+}
