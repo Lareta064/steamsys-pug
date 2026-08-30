@@ -1,0 +1,173 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-profit — секция «Экономический эффект».
+// Раскладка:
+//  · ≥1024 — full-bleed background image (profit.webp 1920×960) + два линейных градиента
+//    поверх (значения из Figma). Контент — max-width: 865px, прижат к правому краю
+//    контейнера через margin-left: auto. Слева картинка сквозит из background секции.
+//    Когда контейнер сам становится уже 865 (совсем узкие вьюпорты в этом брейкпоинте)
+//    — контент естественно занимает всю доступную ширину, никаких breakpoint-скачков.
+//  · <1024 — фон и градиенты снимаются, контент занимает всю ширину, картинка становится
+//    отдельным <picture>-элементом внутри контента (388×217, radius 10). Компонент
+//    .ss-profit сам снимает свой backdrop-filter на этом брейкпоинте (см. _profit.scss).
+//
+// Отступы в правой колонке:
+//  · Desktop: kicker → h2 = 30, между блоками (h2 → panel → actions) = 60.
+//  · Mobile: kicker → h2 = 20, между блоками (h2 → img → panel → actions) = 40, между кнопками = 10.
+// ==============================
+.ss-section-profit {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	background-color: var(--primary);
+	background-image: url('/img/profit.webp');
+	background-size: cover;
+	background-position: center;
+
+	// Два градиента поверх картинки — каждый в собственном псевдо-элементе
+	// с backdrop-filter blur. Значения (углы/stops/alpha) взяты из Figma-фиталей.
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	// Gradient 1 — основной затемняющий (74.78deg, от прозрачного к тёмному).
+	&::before {
+		background: linear-gradient(74.78deg,
+			rgba(16, 36, 48, 0) 41.07%,
+			rgba(16, 36, 48, 0.62) 53.12%,
+			rgba(14, 32, 42, 0.84) 64.7%,
+			rgba(12, 27, 36, 0.85) 75.69%,
+			rgba(12, 27, 36, 0.95) 97.98%);
+		
+	}
+
+	// Gradient 2 — дополнительный (293.1deg, лёгкая полу-прозрачная плёнка).
+	&::after {
+		background: linear-gradient(293.1deg,
+			rgba(16, 36, 48, 0.56) 19.43%,
+			rgba(16, 36, 48, 0.5) 22.95%,
+			rgba(16, 36, 48, 0.34) 27.55%,
+			rgba(16, 36, 48, 0) 46.35%);
+		
+	}
+
+	// Контент — поверх оверлеев.
+	> .ss-container {
+		position: relative;
+		z-index: 1;
+	}
+
+	// Mobile: снимаем фон и градиенты (компонент собирается на плоском фоне,
+	// картинка становится отдельным элементом внутри контента).
+	@include down($lg) {
+		background-image: none;
+
+		&::before,
+		&::after {
+			display: none;
+		}
+	}
+}
+
+// ==============================
+// .ss-section-profit__content — контент, прижатый к правому краю контейнера
+// через margin-left: auto, с cap max-width: 865px.
+// ==============================
+.ss-section-profit__content {
+	width: 100%;
+	max-width: 865px;
+	margin-left: auto;
+
+	@include down($lg) {
+		max-width: none;
+		margin-left: 0;
+	}
+
+	// Kicker и h2 — светлые на тёмном фоне.
+	// display: block нужно, чтобы text-align сработал (в базе .ss-kicker — inline span,
+	// а text-align на inline-элементе не выравнивает его сам, только текст внутри).
+	.ss-kicker {
+		display: block;
+		color: var(--accent3);
+		text-align: right;
+	}
+
+	.ss-h2 {
+		color: var(--white);
+		text-align: right;
+	}
+
+	// Вертикальные отступы между элементами. Margin-based, чтобы точно попадать
+	// в значения из спеки (у h2 — 30/20 от kicker; у остальных — 60/40 между собой).
+	.ss-h2 {
+		margin-top: 30px;
+	}
+
+	.ss-profit,
+	.ss-section-profit__img,
+	.ss-section-profit__actions {
+		margin-top: 60px;
+	}
+
+	@include down($lg) {
+		.ss-h2 {
+			margin-top: 20px;
+			text-align: left;
+		}
+		.ss-kicker{text-align: left;}
+		.ss-profit,
+		.ss-section-profit__img,
+		.ss-section-profit__actions {
+			margin-top: 40px;
+		}
+	}
+}
+
+// ==============================
+// .ss-section-profit__img — картинка только для mobile (на desktop заменяется
+// фоном секции). 388×217 по спеке, cap по контейнеру на очень узких экранах.
+// ==============================
+.ss-section-profit__img {
+	display: none;
+
+	@include down($lg) {
+		display: block;
+		width: 100%;
+		max-width: 388px;
+		aspect-ratio: 388 / 217;
+		border-radius: 10px;
+		overflow: hidden;
+
+		img {
+			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+}
+
+// ==============================
+// .ss-section-profit__actions — CTA-ряд: primary кнопка + outline-light кнопка.
+// Desktop — flex row (gap 20). Mobile — column (gap 10), кнопки на всю ширину.
+// ==============================
+.ss-section-profit__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+
+	@include down($lg) {
+		flex-direction: column;
+		gap: 10px;
+
+		> .ss-btn {
+			width: 100%;
+		}
+	}
+}

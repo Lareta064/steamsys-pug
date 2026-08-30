@@ -494,3 +494,16 @@ line-height: 140%;
 color: var(--secondary2);
 
 Когда будешь добавлять компонент .ss-profit на ui  страницу, то задай под ним  background: var(--primary);
+
+### сборка секции Выгода
+Скрин полной секции можно увидеть по адресу temps/section-profit.png  и temps/section-profit-mob.png
+На десктоп версии у секции есть градиент:
+Их значения показала на скринах temps/profit-gradient-1.png и temps/profit-gradient-2.png
+
+Блок с карточками занимает в правой части ширину 865px
+На моб версии, стили картинки{
+   border-radius: 10px;
+   width: 388px;
+   height: 217px;
+   margin-bottom:40px;
+}
