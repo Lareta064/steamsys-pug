@@ -1,0 +1,61 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-stages — секция «Как проходит работа с нами».
+// Раскладка:
+//  · Header: kicker «Процесс» слева + h2 справа (стандартный .ss-section-header).
+//  · Grid: 6 карточек .ss-stage-card (3 в ряд → 2 → 1 через .ss-grid--row-3 / --lg-row-2 / --md-row-1).
+//
+// Фон:
+//  · ≥768 — полноширный process.webp (1920×966) с retina через image-set.
+//  · <768 — process-mob.webp (428×2002, вертикальный) — покрывает высоту стека из 6 карточек.
+//  · Поверх картинки — линейный градиент из спеки (значения из Figma), затемняет
+//    верх и правую часть для читаемости заголовка/карточек. Без backdrop-filter blur
+//    (карточки белые, чёткие поверх картинки).
+// ==============================
+.ss-stages {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	background-color: var(--primary);
+	background-image: image-set(url('/img/process.webp') 1x, url('/img/process@2x.webp') 2x);
+	background-size: cover;
+	background-position: center;
+
+	// Мобильный фон — своя вертикальная картинка под стек 1-в-колонку.
+	@include down($md) {
+		background-image: image-set(url('/img/process-mob.webp') 1x, url('/img/process-mob@2x.webp') 2x);
+	}
+
+	// Градиент-оверлей из спеки.
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 0;
+		background: linear-gradient(178.57deg,
+			rgba(12, 27, 36, 0.72) 0%,
+			rgba(12, 27, 36, 0.57) 39.89%,
+			rgba(14, 32, 42, 0.46) 59.56%,
+			rgba(16, 36, 48, 0.36) 80.28%,
+			rgba(16, 36, 48, 0) 101.86%);
+	}
+
+	// Контент — поверх оверлея.
+	> .ss-container {
+		position: relative;
+		z-index: 1;
+	}
+
+	// Заголовок на тёмном фоне — kicker светло-голубой, h2 белый.
+	.ss-section-header {
+		.ss-kicker {
+			color: var(--accent3);
+		}
+
+		.ss-h2 {
+			color: var(--white);
+		}
+	}
+}

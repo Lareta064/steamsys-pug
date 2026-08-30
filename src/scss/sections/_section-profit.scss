@@ -21,7 +21,7 @@
 	isolation: isolate;
 	overflow: hidden;
 	background-color: var(--primary);
-	background-image: url('/img/profit.webp');
+	// background-image задаётся inline на <section> в pug — для редактирования из админки.
 	background-size: cover;
 	background-position: center;
 
@@ -65,8 +65,10 @@
 
 	// Mobile: снимаем фон и градиенты (компонент собирается на плоском фоне,
 	// картинка становится отдельным элементом внутри контента).
+	// !important — потому что background-image задан inline (для админки),
+	// а inline специфичнее любого внешнего селектора.
 	@include down($lg) {
-		background-image: none;
+		background-image: none !important;
 
 		&::before,
 		&::after {

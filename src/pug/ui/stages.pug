@@ -1,0 +1,30 @@
+extends ../layouts/layout-ui-sections.pug
+
+block content
+	- var stageItems = [{ n: 1, icon: 'chart', title: 'Анализ и аудит', text: 'Проводим обследование системы и выявляем проблемы', tags: ['Отчет', 'Список проблем', 'Рекомендации'] }, { n: 2, icon: 'sliders', title: 'Проектирование', text: 'Разрабатываем схему под параметры объекта', tags: ['Схема', 'Спецификация', 'Расчёт'] }, { n: 3, icon: 'cog', title: 'Подбор оборудования', text: 'Подбираем оборудование и готовим спецификацию поставки', tags: ['КП', 'Сроки', 'Документы'] }, { n: 4, icon: 'tool', title: 'Монтаж', text: 'Выполняем монтаж и обвязку по исполнительной документации', tags: ['Акты', 'Исполнительная'] }, { n: 5, icon: 'cable', title: 'Пусконаладка', text: 'Настраиваем и тестируем систему для стабильной работы', tags: ['Протокол', 'Паспорт'] }, { n: 6, icon: 'headset', title: 'Сервис 24/7', text: 'Поддержка и обслуживание на всём жизненном цикле', tags: ['SLA', 'Аварийный выезд'] }]
+
+	section.ss-section.ss-stages
+		.ss-container.ss-wrapper
+			.ss-section-header
+				span.ss-kicker Процесс
+				h2.ss-h2 Как проходит работа с нами
+
+			.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1
+				each item in stageItems
+					article.ss-stage-card
+						.ss-stage-card__head
+							.ss-stage-card__stage
+								span.ss-stage-card__num= ('0' + item.n).slice(-2)
+								span.ss-stage-card__icon
+									+svgIcon(item.icon)
+							.ss-stage-card__steps(role='img' aria-label='Этап ' + item.n + ' из 6')
+								each s in [1, 2, 3, 4, 5, 6]
+									span(class=s === item.n ? 'ss-stage-card__step ss-stage-card__step--active' : 'ss-stage-card__step')
+						.ss-stage-card__body
+							h3.ss-stage-card__title= item.title
+							p.ss-stage-card__text= item.text
+						.ss-stage-card__result
+							span.ss-stage-card__result-label Клиент получает
+							.ss-tag-group
+								each tag in item.tags
+									span.ss-tag.ss-tag--dark= tag

@@ -3,7 +3,10 @@ extends ../layouts/layout-ui-sections.pug
 block content
 	- var profitItems = [{ title: '15–20%', desc: 'снижение расхода пара после внедрения системы диагностики и возврата конденсата' }, { title: 'до 90%', desc: 'возврат конденсата — экономия на химводоподготовке и водопотреблении' }, { title: '6–18 мес.', desc: 'срок окупаемости СВК и РОУ — зависит от объёма, параметров объекта и режима работы' }, { title: '4 часа', desc: 'КП с инженерным расчётом и оценкой экономического эффекта для вашего объекта' }]
 
-	section.ss-section.ss-section-profit
+	//- background-image прописан inline через image-set (1x + 2x для retina) —
+	//- чтобы админ Bitrix мог менять URL фона секции через CMS без правок SCSS.
+	//- background-size/position и mobile-override — в _section-profit.scss.
+	section.ss-section.ss-section-profit(style="background-image: image-set(url('/img/profit.webp') 1x, url('/img/profit@2x.webp') 2x)")
 		.ss-container.ss-wrapper
 			//- Контент — max-width 865px, прижат к правому краю контейнера (margin-left: auto).
 			//- Слева фоновая картинка секции сквозит. На узких вьюпортах (когда контейнер
