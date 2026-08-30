@@ -453,3 +453,44 @@ image: solution4
 - Между второй и третьей колонкой на моб версии, когда они в колонку, расстояние 40px
 -Размеры картинки на моб версии 348х240, на моб версии выравниваем по левой стороне картинку и список.
 Какие вопросы?
+
+## Выгода
+Секция содержит блок компонентов, который выглядит как на картинках в папке temps/effect.png и temps/effect-mobile .png
+- верстаем этот, задаем класс .ss-profit, а элементам .ss-profit__item.
+Стили родительской обертки .ss-profit:
+{
+   border: 1px solid var(--secondary);
+   border-radius: 10px;
+   backdrop-filter: blur(17px);
+  background: rgba(3, 29, 42, 0.3);
+  padding: 40px 30px;
+}
+На моб версии стили:{
+   border: 1px solid var(--secondary);
+   border-radius: 10px;
+   padding: 20px;
+   backdrop-filter - отсутствует.
+   На десктоп версии этот компонент поверх фоновой картинки, поэтому задается backdrop-filter. на моб версии, когда компонент просто на фоне, backdrop-filter удаляется
+}
+Внутри него можно добавить список .ss-profit-list c 
+{
+   column-gap:60px;
+   row-gap:30px; (на моб версии: 20px)
+}
+.ss-profit__item
+{
+   border-left: 1px solid var(--secondary1); (на моб версии border-bottom, а border-left нулевой)
+   padding: 0 0 0 40px; (на моб версии padding: 0 0 20px 0;)
+}
+у последнего .ss-profit__item на моб версии, когда элементы в колонку, нет нижнего бордера
+
+Заголовок одного элемента .ss-h3
+отступ до описания 10пикс
+
+Описание:
+font-weight: 500;
+font-size: 18px; (на моб версии: 14px)
+line-height: 140%;
+color: var(--secondary2);
+
+Когда будешь добавлять компонент .ss-profit на ui  страницу, то задай под ним  background: var(--primary);

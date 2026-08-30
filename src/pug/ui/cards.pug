@@ -25,6 +25,7 @@ block content
 					li: a(href='#stage-card') .ss-stage-card
 					li: a(href='#role-card') .ss-role-card
 					li: a(href='#benefit-card') .ss-benefit-card
+					li: a(href='#profit') .ss-profit
 
 			//- ========== Feature card ==========
 			section.cards-catalog__section#feature-card
@@ -327,3 +328,37 @@ block content
 						| .ss-benefit-card.ss-benefit-card--stat
 						|     p.ss-benefit-card__title 7 000+
 						|     p.ss-benefit-card__text предприятий-клиентов: пищевая, фарма...
+
+			//- ========== Profit panel ==========
+			- var profitItems = [{ title: '15–20%', desc: 'снижение расхода пара после внедрения системы диагностики и возврата конденсата' }, { title: 'до 90%', desc: 'возврат конденсата — экономия на химводоподготовке и водопотреблении' }, { title: '6–18 мес.', desc: 'срок окупаемости СВК и РОУ — зависит от объёма, параметров объекта и режима работы' }, { title: '4 часа', desc: 'КП с инженерным расчётом и оценкой экономического эффекта для вашего объекта' }]
+
+			section.cards-catalog__section#profit
+				h3.cards-catalog__section-title .ss-profit
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Панель «Выгода» — единая коробка на тёмном полу-прозрачном фоне с 4 stat-элементами (2×2 desktop / стек mobile <768). На ≥1024 включён
+					code backdrop-filter: blur(17px)
+					| — панель рассчитана на размещение поверх фоновой картинки; в диапазоне 768–1023 padding уменьшается до 20 и blur убирается.
+					| Демо показываем поверх
+					code .ss-bg-primary
+					| , чтобы полу-прозрачный фон панели читался.
+
+				h4.cards-catalog__subtitle Одиночная панель на тёмном фоне
+				.cards-catalog__demo.ss-bg-primary
+					.ss-profit
+						ul.ss-profit-list
+							each item in profitItems
+								li.ss-profit__item
+									p.ss-h3= item.title
+									p.ss-profit__desc= item.desc
+
+				pre.cards-catalog__snippet
+					code
+						| .ss-profit
+						|     ul.ss-profit-list
+						|         li.ss-profit__item
+						|             p.ss-h3 15–20%
+						|             p.ss-profit__desc Описание
+						|         li.ss-profit__item
+						|             p.ss-h3 до 90%
+						|             p.ss-profit__desc Описание
+						|         //- ... ещё 2 item'а

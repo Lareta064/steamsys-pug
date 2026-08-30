@@ -1,0 +1,87 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-profit — панель «Выгода» с 4 stat-элементами (2×2 desktop / 1-в-стек mobile).
+// Раскладка:
+//  · ≥1024 — панель с полу-прозрачным фоном (rgba primary 0.3) + backdrop-filter blur.
+//    Рассчитано на размещение поверх фоновой картинки — блюр даёт «стеклянный» эффект.
+//    padding 40 vertical / 30 horizontal.
+//  · 768–1023 — layout ещё 2×2, но padding 20 и backdrop-filter убран (в этом диапазоне
+//    компонент обычно на «плоском» фоне без картинки — блюр не нужен).
+//  · <768 — элементы в столбик. У item border-bottom вместо border-left,
+//    у последнего — без border-bottom.
+// ==============================
+.ss-profit {
+	box-sizing: border-box;
+	border: 1px solid var(--secondary);
+	border-radius: 10px;
+	padding: 40px 30px;
+	backdrop-filter: blur(17px);
+	background: rgba(3, 29, 42, 0.3);
+
+	@include down($lg) {
+		padding: 20px;
+		backdrop-filter: none;
+	}
+}
+
+// ==============================
+// .ss-profit-list — грид items внутри панели.
+// 2 колонки desktop → 1 mobile. column-gap 60, row-gap 30/20.
+// ==============================
+.ss-profit-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 60px;
+	row-gap: 30px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		row-gap: 20px;
+	}
+}
+
+// ==============================
+// .ss-profit__item — один stat-блок (заголовок .ss-h3 + описание).
+// Divider: border-left desktop → border-bottom mobile (кроме последнего).
+// ==============================
+.ss-profit__item {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	border-left: 1px solid var(--secondary1);
+	padding: 0 0 0 40px;
+
+	@include down($md) {
+		border-left: none;
+		border-bottom: 1px solid var(--secondary1);
+		padding: 0 0 20px 0;
+
+		&:last-child {
+			border-bottom: none;
+			padding-bottom: 0;
+		}
+	}
+}
+
+// Заголовок — .ss-h3 (fluid 28→46 из базовой типографики).
+// Локально задаём accent3 (светло-голубой) на тёмном фоне панели.
+.ss-profit__item .ss-h3 {
+	color: var(--accent3);
+}
+
+// Описание — 18/1.4 desktop, 14 mobile, weight 500, secondary2 (светло-серый).
+.ss-profit__desc {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--secondary2);
+
+	@include down($md) {
+		font-size: 14px;
+	}
+}
