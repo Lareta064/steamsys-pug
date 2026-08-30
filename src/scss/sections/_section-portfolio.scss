@@ -1,0 +1,52 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-portfolio — секция «Готовые системы и решения».
+// Раскладка:
+//  · ≥1024 — 2-колоночная сетка через .ss-grid--row-2. Intro (kicker + h2 +
+//    description + link) — первая ячейка, тянется на высоту карточки в 1 ряду
+//    через .ss-section-intro--stretch (space-between между kicker / body / link).
+//    Дальше 5 карточек .ss-solution-card заполняют ряды 1–3 (Bitrix foreach лёг бы
+//    ровно сюда).
+//  · <1024 — стек: intro (kicker → h2 → description) → 5 карточек → дубль ссылки.
+//    Оригинал ссылки в intro-блоке скрывается (SEO ok — тот же href/текст, стандартный
+//    responsive-паттерн). Расчёт сетки на 6 ячеек (1 intro + 5 карточек), 5 карточек
+//    даёт ровные 3 ряда × 2 колонки. Если на bitrix-выдаче число карточек изменится
+//    (4, 6, 7 и т.д.) — последний ряд может стать неполным. Правило: на главной
+//    показываем ровно 5 решений.
+// ==============================
+.ss-section-portfolio {
+	// <1024 — стек, увеличиваем row-gap внешнего grid'а до 20 (дефолт .ss-grid
+	// на <$lg = 10). Ссылка становится грид-ячейкой в самом конце.
+	@include down($lg) {
+		> .ss-container > .ss-grid {
+			row-gap: 20px;
+		}
+
+		// Отменяем --stretch у intro: становится обычным стеком с row-gap 10
+		// (kicker → __body). Скрытая на mobile десктоп-ссылка не участвует в row-gap
+		// (display: none пропускается flex).
+		.ss-section-intro--stretch {
+			height: auto;
+			justify-content: initial;
+			row-gap: 10px;
+		}
+	}
+
+	// Ссылка внутри intro-колонки — только desktop.
+	&__link-desktop {
+		@include down($lg) {
+			display: none;
+		}
+	}
+
+	// Дубль ссылки под карточками — только mobile. На desktop display: none —
+	// грид-ячейка не выделяется, раскладка 3×2 остаётся ровной.
+	&__link-mobile {
+		display: none;
+
+		@include down($lg) {
+			display: block;
+		}
+	}
+}
