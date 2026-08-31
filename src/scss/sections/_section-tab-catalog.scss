@@ -1,0 +1,237 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-tab-catalog — секция «Каталог продуктов через табы».
+//
+// Верх секции: kicker + H2 (общий, вне сетки).
+// Ниже — сетка: слева табы, справа панели активного таба.
+// Внутри каждой панели дублируется название активного таба (h3 subtitle) —
+// показывается на всех разрешениях.
+//
+// Раскладка (≥1440):
+//   [ aside 417px | panels ]  column-gap 30, align-items: center.
+//   Панель = flex-строка text (1fr) | image (418×388), align-items: stretch, gap 30.
+//   Внутри text: subtitle → 20 → desc → 40 → tags   (сверху)
+//                ...                       link      (снизу, margin-top: auto).
+//
+// Раскладка (<1440, ≥768):
+//   Сетка становится одноколонной: aside поверх панелей.
+//   Табы разворачиваются в строку с бордером снизу, ширина по контенту,
+//   шрифт флуидный 14→20, wrap если не помещаются.
+//   Панель остаётся flex-строкой text | image (418×388).
+//
+// Раскладка (<768):
+//   Табы — горизонтальный swipe-стрип (overflow-x auto), ширина по контенту, 12px.
+//   Панель — flex-колонка gap 20: subtitle → desc → image (388×340) → tags → link.
+//   Порядок собирается через display: contents на .text + flex-order на детях.
+// ==============================
+
+.ss-section-tab-catalog .ss-kicker {
+	margin-bottom: 20px;
+}
+
+.ss-section-tab-catalog__title {
+	margin: 0 0 60px;
+
+	@include down($md) {
+		margin-bottom: 40px;
+	}
+}
+
+.ss-section-tab-catalog__grid {
+	display: grid;
+	grid-template-columns: 417px 1fr;
+	column-gap: 30px;
+	align-items: center;
+
+	@include down($xxl) {
+		grid-template-columns: 1fr;
+		row-gap: 40px;
+		align-items: stretch;
+	}
+}
+
+// ------------------------------
+// Табы <$xxl — переключаемся в горизонтальную раскладку.
+// Ширина кнопок по контенту, паддинги 30/30 (и на 768-1439, и на <768).
+// 768-1439: wrap (кнопки помещаются в 1-2 ряда) + флуидный шрифт 14→20.
+// <768: nowrap + горизонтальный скролл (свайп пальцем).
+// ------------------------------
+@include down($xxl) {
+	.ss-section-tab-catalog__aside .ss-tabs__list {
+		flex-direction: row;
+		align-items: stretch;
+		gap: 18px;
+
+		@include up($md) {
+			flex-wrap: wrap;
+		}
+
+		@include down($md) {
+			flex-wrap: nowrap;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+			-ms-overflow-style: none;
+
+			&::-webkit-scrollbar { display: none; }
+		}
+	}
+
+	.ss-section-tab-catalog__aside .ss-tabs__tab {
+		flex: 0 0 auto;
+		min-height: auto;
+		padding: 0 30px 20px 30px;
+		font-size: 12px;
+		text-align: center;
+		justify-content: center;
+
+		&::before {
+			left: 0;
+			right: 0;
+			top: auto;
+			bottom: 0;
+			width: auto;
+			height: 8px;
+		}
+
+		&::after {
+			left: 0;
+			right: 30px;
+			top: auto;
+			bottom: 0;
+			width: auto;
+			height: 8px;
+			transform: scaleX(0);
+			transform-origin: left;
+		}
+
+		&.is-active::after {
+			transform: scaleX(1);
+		}
+
+		@include up($md) {
+			font-size: clamp(14px, calc(14px + (100vw - 768px) * 6 / 672), 20px);
+		}
+	}
+}
+
+// ------------------------------
+// Панель активного таба.
+// align-items: stretch — чтобы text-колонка растянулась по высоте картинки,
+// а link внутри неё можно было прижать к низу через margin-top: auto.
+// ------------------------------
+.ss-section-tab-catalog__panel {
+	display: flex;
+	align-items: stretch;
+	gap: 30px;
+
+	@include down($md) {
+		flex-direction: column;
+		gap: 20px;
+	}
+}
+
+// Текстовая колонка. На десктопе — flex-элемент с остатком ширины
+// (до 716 при полном разрешении). На мобилке «раскрывается» через
+// display:contents, чтобы дети (subtitle/desc/tags/link) могли
+// перемешаться с картинкой через flex-order.
+.ss-section-tab-catalog__text {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+
+	@include down($md) {
+		display: contents;
+	}
+}
+
+// Подзаголовок панели (= название активного таба).
+.ss-section-tab-catalog__panel-title {
+	margin: 0;
+
+	@include down($md) {
+		font-size: 16px;
+		order: 1;
+	}
+}
+
+.ss-section-tab-catalog__desc {
+	margin-top: 20px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	@include down($md) {
+		margin-top: 0;
+		font-size: 16px;
+		order: 2;
+	}
+}
+
+// Гэпы внутри text-колонки на десктопе задаются margin-top.
+// Верхний блок subtitle → 20 → desc → 40 → tags идёт от верха колонки,
+// link прижат к низу через margin-top: auto (text-col растянута align-items:stretch).
+.ss-section-tab-catalog__panel .ss-tag-group {
+	margin-top: 40px;
+
+	@include down($md) {
+		margin-top: 0;
+		order: 4;
+	}
+}
+
+.ss-section-tab-catalog__panel .ss-link {
+	margin-top: auto;
+	align-self: flex-start;
+
+	@include down($md) {
+		margin-top: 0;
+		order: 5;
+	}
+}
+
+// ------------------------------
+// Картинка продукта — карточка со скруглением и тенью.
+// ≥$lg (1024+): 418×388. align-self: center — если текст-колонка вырастет
+// выше картинки (много контента), картинка визуально центрируется.
+// <$lg (768-1023): переходим на мобильный размер 388×340 (панель ещё flex-row).
+// <$md (<768): 100% ширины (макс 388), высота 340, встаёт в стек (order: 3).
+// ------------------------------
+.ss-section-tab-catalog__image {
+	display: block;
+	flex: 0 0 418px;
+	align-self: center;
+	width: 418px;
+	height: 388px;
+	border-radius: 10px;
+	overflow: hidden;
+	background: var(--white);
+	box-shadow: 0 2px 20px 0 rgba(0, 0, 0, .1);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: center;
+	}
+
+	@include down($lg) {
+		flex: 0 0 388px;
+		width: 388px;
+		height: 340px;
+	}
+
+	@include down($md) {
+		flex: 0 0 auto;
+		align-self: stretch;
+		width: 100%;
+		max-width: 388px;
+		margin-inline: auto;
+		order: 3;
+	}
+}

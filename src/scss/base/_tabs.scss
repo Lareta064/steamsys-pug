@@ -1,7 +1,11 @@
 @use '_var' as *;
 
 // ==============================
-// .ss-tabs — компонент табов с панелями контента.
+// .ss-tabs — семантическая обёртка табов + JS-скоуп для переключения.
+// Собственной раскладки не имеет: консьюмер задаёт её сам (например,
+// .ss-tabs--split для дефолтного демо или .ss-section-tab-catalog__grid
+// для секции каталога).
+//
 // Кнопки могут использоваться и отдельно — только .ss-tabs__list с .ss-tabs__tab
 // внутри, без обёртки .ss-tabs (когда нужен переключатель без панелей).
 //
@@ -12,7 +16,9 @@
 // справа не доходит 30px.
 // ==============================
 
-.ss-tabs {
+// Модификатор .ss-tabs--split — простая двухколоночная раскладка:
+// слева список кнопок (до 300px), справа панели. На мобилке — стек.
+.ss-tabs--split {
 	display: grid;
 	grid-template-columns: minmax(0, 300px) 1fr;
 	column-gap: 40px;
@@ -143,6 +149,8 @@
 
 // ------------------------------
 // Панели контента (переключение — через JS: класс .is-active).
+// Активная панель плавно проявляется через fade-in + лёгкий сдвиг вверх.
+// prefers-reduced-motion — уважаем, анимация отключается.
 // ------------------------------
 .ss-tabs__panels {
 	position: relative;
@@ -153,5 +161,23 @@
 
 	&.is-active {
 		display: block;
+		animation: ss-tabs-panel-in .35s ease both;
+	}
+}
+
+@keyframes ss-tabs-panel-in {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ss-tabs__panel.is-active {
+		animation: none;
 	}
 }

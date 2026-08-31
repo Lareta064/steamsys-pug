@@ -64,7 +64,7 @@ block content
 					| .
 
 				.tabs-catalog__demo
-					.ss-tabs
+					.ss-tabs.ss-tabs--split
 						.ss-tabs__list
 							each label, i in tabs
 								button.ss-tabs__tab(type='button', class=(i === 0 ? 'is-active' : null))= label
@@ -92,7 +92,7 @@ block content
 			h4.tabs-catalog__subtitle Компонент с панелями
 			pre.tabs-catalog__snippet
 				code
-					| .ss-tabs
+					| .ss-tabs.ss-tabs--split
 					|     .ss-tabs__list
 					|         button.ss-tabs__tab.is-active(type='button') Таб 1
 					|         button.ss-tabs__tab(type='button') Таб 2
