@@ -1,0 +1,157 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-tabs — компонент табов с панелями контента.
+// Кнопки могут использоваться и отдельно — только .ss-tabs__list с .ss-tabs__tab
+// внутри, без обёртки .ss-tabs (когда нужен переключатель без панелей).
+//
+// Десктоп: кнопки в колонку, серая полоса-бордер СЛЕВА (8px, --secondary2).
+// У активной поверх серой — акцентная полоска (--accent3): снизу равняется с серой,
+// сверху не доходит 30px.
+// Мобилка (<768): кнопки в строку, полоса СНИЗУ. Акцентная: слева равняется с серой,
+// справа не доходит 30px.
+// ==============================
+
+.ss-tabs {
+	display: grid;
+	grid-template-columns: minmax(0, 300px) 1fr;
+	column-gap: 40px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		row-gap: 24px;
+	}
+}
+
+// ------------------------------
+// Список кнопок
+// ------------------------------
+.ss-tabs__list {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	@include down($md) {
+		flex-direction: row;
+		align-items: stretch;
+		gap: 18px;
+	}
+}
+
+// ------------------------------
+// Кнопка таба
+// ------------------------------
+.ss-tabs__tab {
+	position: relative;
+	display: flex;
+	align-items: center;
+	min-height: 120px;
+	padding: 10px 24px 10px 32px; // 32 = 24 (padding по спеке) + 8 (ширина полоски-псевдоэлемента)
+	background: none;
+	border: none;
+	text-align: left;
+	cursor: pointer;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--secondary1);
+	transition: color .2s;
+
+	// Серая полоса-бордер (по умолчанию — слева, 8px, во всю высоту).
+	&::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 8px;
+		border-radius: 4px;
+		background: var(--secondary2);
+	}
+
+	// Акцентная полоска поверх серой у активной кнопки.
+	// Снизу равняется с серой, сверху не доходит 30px.
+	// Растёт снизу вверх через scaleY при активации.
+	&::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 30px;
+		bottom: 0;
+		width: 8px;
+		border-radius: 4px;
+		background: var(--accent3);
+		transform: scaleY(0);
+		transform-origin: bottom;
+		transition: transform .4s ease;
+	}
+
+	&:hover {
+		color: var(--secondary);
+	}
+
+	&.is-active {
+		color: var(--primary1);
+
+		&::after { transform: scaleY(1); }
+	}
+
+	&[disabled],
+	&.is-disabled {
+		pointer-events: none;
+		opacity: .4;
+	}
+
+	@include down($md) {
+		flex: 1 1 0;
+		min-width: 0;
+		min-height: auto;
+		padding: 0 0 20px 0; // место под полосу снизу
+		font-size: 12px;
+		text-align: center;
+		justify-content: center;
+
+		// Полоса переезжает вниз.
+		&::before {
+			left: 0;
+			right: 0;
+			top: auto;
+			bottom: 0;
+			width: auto;
+			height: 8px;
+		}
+
+		// Слева равняется с серой, справа не доходит 30px.
+		// Растёт слева направо через scaleX при активации.
+		&::after {
+			left: 0;
+			right: 30px;
+			top: auto;
+			bottom: 0;
+			width: auto;
+			height: 8px;
+			transform: scaleX(0);
+			transform-origin: left;
+		}
+
+		&.is-active::after {
+			transform: scaleX(1);
+		}
+	}
+}
+
+// ------------------------------
+// Панели контента (переключение — через JS: класс .is-active).
+// ------------------------------
+.ss-tabs__panels {
+	position: relative;
+}
+
+.ss-tabs__panel {
+	display: none;
+
+	&.is-active {
+		display: block;
+	}
+}

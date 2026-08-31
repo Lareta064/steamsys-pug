@@ -1,0 +1,103 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	//- Данные для примеров
+	- var tabs = ['Конденсатоотводчики', 'Регулирующая арматура', 'КИПиА и измерения']
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Tabs
+
+		.container-dashboard__content
+
+			p.tabs-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Стили — в
+				code src/scss/base/_tabs.scss
+				| . На больших экранах кнопки расположены в колонку с бордером слева,
+				| на мобилке — в строку с бордером снизу. Активная кнопка — класс
+				code .is-active
+				| .
+
+			//- ========== Оглавление ==========
+			nav.tabs-catalog__toc
+				h3.tabs-catalog__toc-title Оглавление
+				ul.tabs-catalog__toc-list
+					li: a(href='#buttons') Кнопки таба (без панелей)
+					li: a(href='#component') Компонент .ss-tabs (кнопки + панели)
+
+			//- ========== Только кнопки ==========
+			section.tabs-catalog__section#buttons
+				h3.tabs-catalog__section-title Кнопки таба (без панелей)
+				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Можно использовать
+					code .ss-tabs__list
+					|  и
+					code .ss-tabs__tab
+					|  без родителя
+					code .ss-tabs
+					| , если нужен только переключатель без панелей контента.
+
+				h4.tabs-catalog__subtitle Десктоп (колонка)
+				.tabs-catalog__demo
+					.tabs-catalog__stage
+						.ss-tabs__list
+							each label, i in tabs
+								button.ss-tabs__tab(type='button', class=(i === 0 ? 'is-active' : null))= label
+
+				h4.tabs-catalog__subtitle Состояния
+				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary Normal / hover (наведи) / active / disabled.
+				.tabs-catalog__demo
+					.tabs-catalog__stage
+						.ss-tabs__list
+							button.ss-tabs__tab(type='button') Normal
+							button.ss-tabs__tab.is-active(type='button') Active
+							button.ss-tabs__tab(type='button', disabled) Disabled
+
+			//- ========== Полный компонент ==========
+			section.tabs-catalog__section#component
+				h3.tabs-catalog__section-title Компонент .ss-tabs (кнопки + панели)
+				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Родитель
+					code .ss-tabs
+					|  — grid: слева список кнопок, справа панели. Ниже 768px раскладка колонная (кнопки сверху, панель снизу).
+					| Переключение активной кнопки/панели — задача JS: снимать/ставить класс
+					code .is-active
+					| .
+
+				.tabs-catalog__demo
+					.ss-tabs
+						.ss-tabs__list
+							each label, i in tabs
+								button.ss-tabs__tab(type='button', class=(i === 0 ? 'is-active' : null))= label
+						.ss-tabs__panels
+							.ss-tabs__panel.is-active
+								h4.ss-h3 Конденсатоотводчики
+								p Термостатические, поплавковые, опрокидывающиеся — подбор под параметры пара, среды и режима работы.
+							.ss-tabs__panel
+								h4.ss-h3 Регулирующая арматура
+								p Клапаны прямого действия, регуляторы давления «до себя» и «после себя», редукционно-охладительные установки.
+							.ss-tabs__panel
+								h4.ss-h3 КИПиА и измерения
+								p Датчики давления и температуры, расходомеры, вторичные приборы, системы мониторинга и учёта.
+
+			//- ========== Сниппеты ==========
+			h3.tabs-catalog__section-title Сниппеты
+			h4.tabs-catalog__subtitle Только кнопки
+			pre.tabs-catalog__snippet
+				code
+					| .ss-tabs__list
+					|     button.ss-tabs__tab.is-active(type='button') Конденсатоотводчики
+					|     button.ss-tabs__tab(type='button') Регулирующая арматура
+					|     button.ss-tabs__tab(type='button') КИПиА и измерения
+
+			h4.tabs-catalog__subtitle Компонент с панелями
+			pre.tabs-catalog__snippet
+				code
+					| .ss-tabs
+					|     .ss-tabs__list
+					|         button.ss-tabs__tab.is-active(type='button') Таб 1
+					|         button.ss-tabs__tab(type='button') Таб 2
+					|     .ss-tabs__panels
+					|         .ss-tabs__panel.is-active
+					|             p Контент первой панели
+					|         .ss-tabs__panel
+					|             p Контент второй панели
