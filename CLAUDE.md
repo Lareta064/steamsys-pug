@@ -8,6 +8,7 @@ Before making any changes, get up to speed on project state via these tracked fi
 
 - **`REDESIGN_RULES.md`** — stable reference: project conventions, naming rules, and API documentation for all completed components (Buttons, Links, Cards, Grid, typography, utilities). This is the single source of truth for how things are built and named.
 - **`TASKS.md`** — active work: current tasks and design discussions with the designer. Short-lived — when a task ships, its final API moves to RULES and the working notes here are cleaned up.
+- **`temps/`** — designer's screenshots and design references (e.g. `temps/cases-section-desktop.png`). Referenced from `TASKS.md`. Tracked in git so they sync between machines.
 - **`build/ui/docs.html`** (source: `src/pug/ui/docs.pug`) — team-facing onboarding for backend/Bitrix developers and SEO. Includes a catalog of live `/ui/*.html` component examples.
 - **`git log --oneline`** — commit history with descriptive messages. Fastest way to see what's been done recently.
 

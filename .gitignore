@@ -17,7 +17,6 @@ app/bower/
 build/
 dist/
 .tmp/
-temps/
 .idea
 
 # OS or Editor folders
