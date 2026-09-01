@@ -1,0 +1,154 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Элементы формы
+
+		.container-dashboard__content
+
+			p.form-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Стили —
+				code src/scss/base/_form.scss
+				| . Компоненты рассчитаны на тёмный фон (текст/иконки — светлые, border —
+				code --secondary
+				| ). Демо ниже — на подложке
+				code .ss-bg-primary
+				| .
+
+			//- ========== Оглавление ==========
+			nav.form-catalog__toc
+				h3.form-catalog__toc-title Оглавление
+				ul.form-catalog__toc-list
+					li: a(href='#input') .ss-input
+					li: a(href='#textarea') .ss-textarea
+					li: a(href='#file') .ss-file
+					li: a(href='#checkbox') .ss-checkbox
+					li: a(href='#composed') Полный пример
+
+			//- ========== Input ==========
+			section.form-catalog__section#input
+				h3.form-catalog__section-title .ss-input
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Однострочное поле. Высота 65, скругление 10, прозрачный фон,
+					code border: 1px solid --secondary
+					| . Placeholder — цвет
+					code --secondary
+					| , текст ввода — белый.
+
+				.form-catalog__demo.ss-bg-primary
+					.ss-form-item
+						input.ss-input(type='text', placeholder='Ваше имя')
+
+				pre.form-catalog__snippet
+					code
+						| .ss-form-item
+						|     input.ss-input(type='text', placeholder='Ваше имя')
+
+			//- ========== Textarea ==========
+			section.form-catalog__section#textarea
+				h3.form-catalog__section-title .ss-textarea
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Многострочное поле. Высота 120,
+					code resize: none
+					| . Остальные стили — как у
+					code .ss-input
+					| .
+
+				.form-catalog__demo.ss-bg-primary
+					.ss-form-item
+						textarea.ss-textarea(placeholder='Комментарий к файлу или краткое описание задачи')
+
+				pre.form-catalog__snippet
+					code
+						| .ss-form-item
+						|     textarea.ss-textarea(placeholder='Комментарий…')
+
+			//- ========== File ==========
+			section.form-catalog__section#file
+				h3.form-catalog__section-title .ss-file
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					|
+					code &lt;label&gt;
+					|  с визуально скрытым
+					code &lt;input type="file"&gt;
+					| . Квадратная кнопка с иконкой
+					code clip
+					|  + подпись справа. Клик на всём лейбле открывает диалог выбора файла.
+
+				.form-catalog__demo.ss-bg-primary
+					.ss-form-item
+						label.ss-file
+							input.ss-file__input(type='file')
+							span.ss-file__icon
+								+svgIcon('clip')
+							span.ss-file__label Прикрепить ТЗ, спецификацию или опросный лист
+
+				pre.form-catalog__snippet
+					code
+						| .ss-form-item
+						|     label.ss-file
+						|         input.ss-file__input(type='file')
+						|         span.ss-file__icon
+						|             +svgIcon('clip')
+						|         span.ss-file__label Прикрепить …
+
+			//- ========== Checkbox ==========
+			section.form-catalog__section#checkbox
+				h3.form-catalog__section-title .ss-checkbox
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Кастомный чекбокс: скрытый нативный
+					code &lt;input&gt;
+					|  + видимый
+					code span.ss-checkbox__box
+					| . В подпись можно вложить ссылку.
+
+				.form-catalog__demo.ss-bg-primary
+					.ss-form-item
+						label.ss-checkbox
+							input.ss-checkbox__input(type='checkbox')
+							span.ss-checkbox__box
+							span.ss-checkbox__label
+								| Нажимая кнопку, вы соглашаетесь с
+								a(href='#') политикой конфиденциальности
+
+				pre.form-catalog__snippet
+					code
+						| .ss-form-item
+						|     label.ss-checkbox
+						|         input.ss-checkbox__input(type='checkbox')
+						|         span.ss-checkbox__box
+						|         span.ss-checkbox__label
+						|             | Нажимая кнопку, вы соглашаетесь с
+						|             a(href='#') политикой конфиденциальности
+
+			//- ========== Composed ==========
+			section.form-catalog__section#composed
+				h3.form-catalog__section-title Полный пример
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Собранная форма по макету
+					code temps/form.png
+					| . Раскладка (2 в ряд для имени/телефона) — на консьюмере (grid / flex),
+					| компоненты никак от неё не зависят.
+
+				.form-catalog__demo.ss-bg-primary
+					form.form-catalog__form
+						.form-catalog__row
+							.ss-form-item: input.ss-input(type='text', placeholder='Ваше имя')
+							.ss-form-item: input.ss-input(type='tel', placeholder='Телефон')
+						.ss-form-item
+							input.ss-input(type='email', placeholder='Email для отправки КП')
+						.ss-form-item
+							label.ss-file
+								input.ss-file__input(type='file')
+								span.ss-file__icon
+									+svgIcon('clip')
+								span.ss-file__label Прикрепить ТЗ, спецификацию или опросный лист
+						.ss-form-item
+							textarea.ss-textarea(placeholder='Комментарий к файлу или краткое описание задачи')
+						.ss-form-item
+							label.ss-checkbox
+								input.ss-checkbox__input(type='checkbox')
+								span.ss-checkbox__box
+								span.ss-checkbox__label
+									| Нажимая кнопку, вы соглашаетесь с
+									a(href='#') политикой конфиденциальности

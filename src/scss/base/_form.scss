@@ -1,0 +1,225 @@
+@use '_var' as *;
+
+// ==============================
+// Элементы формы. Рассчитаны на тёмный фон (текст/иконки — светлые,
+// border — --secondary). При необходимости для светлого фона — доп.
+// модификаторы вводим по мере появления макетов.
+//
+// Компоненты:
+//   .ss-form-item  — обёртка одного поля. По умолчанию — просто структура,
+//                    можно ставить в grid/flex-контейнер формы.
+//   .ss-input      — <input>: текст, email, tel, password.
+//   .ss-textarea   — <textarea>: многострочный ввод.
+//   .ss-file       — <label> с hidden <input type="file">: квадратная
+//                    кнопка с иконкой + подпись справа.
+//   .ss-checkbox   — <label> с hidden <input type="checkbox">: квадратный
+//                    маркер + подпись (может содержать ссылку).
+// ==============================
+
+// ------------------------------
+// .ss-form-item — обёртка одного поля формы.
+// Пока без собственных стилей — служит структурным маркером,
+// на которого консьюмер может повесить grid-span или собственный gap.
+// ------------------------------
+.ss-form-item {
+	// зарезервировано для будущих grid/spacing правил
+}
+
+// ------------------------------
+// .ss-input — однострочное поле ввода.
+// ------------------------------
+.ss-input {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	height: 65px;
+	padding-inline: 20px;
+	border: 1px solid var(--secondary);
+	border-radius: 10px;
+	background: transparent;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--white);
+	outline: none;
+	transition: border-color .2s;
+
+	&::placeholder {
+		font-family: inherit;
+		font-size: inherit;
+		color: var(--secondary);
+	}
+
+	&:focus-visible {
+		border-color: var(--accent3);
+	}
+}
+
+// ------------------------------
+// .ss-textarea — многострочное поле ввода.
+// ------------------------------
+.ss-textarea {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	height: 120px;
+	padding: 10px 20px;
+	border: 1px solid var(--secondary);
+	border-radius: 10px;
+	background: transparent;
+	resize: none;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--white);
+	outline: none;
+	transition: border-color .2s;
+
+	&::placeholder {
+		font-family: inherit;
+		font-size: inherit;
+		color: var(--secondary);
+	}
+
+	&:focus-visible {
+		border-color: var(--accent3);
+	}
+}
+
+// ------------------------------
+// .ss-file — кнопка «прикрепить файл» + подпись.
+// Разметка:
+//   label.ss-file
+//     input.ss-file__input(type='file' hidden)
+//     span.ss-file__icon → +svgIcon('clip')
+//     span.ss-file__label Прикрепить …
+// ------------------------------
+.ss-file {
+	display: inline-flex;
+	align-items: center;
+	column-gap: 20px;
+	cursor: pointer;
+}
+
+.ss-file__input {
+	// Нативный input скрыт визуально, но остаётся доступным для ассистивных технологий.
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.ss-file__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 50px;
+	height: 50px;
+	border: 1px solid var(--secondary);
+	border-radius: 10px;
+	color: var(--secondary2);
+	transition: border-color .2s, color .2s;
+
+	.ss-file:hover &,
+	.ss-file__input:focus-visible + & {
+		border-color: var(--accent3);
+		color: var(--accent3);
+	}
+}
+
+.ss-file__label {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--white);
+}
+
+// ------------------------------
+// .ss-checkbox — кастомизированный чекбокс + подпись (может содержать ссылку).
+// Разметка:
+//   label.ss-checkbox
+//     input.ss-checkbox__input(type='checkbox')
+//     span.ss-checkbox__box
+//     span.ss-checkbox__label Согласен с ...
+// ------------------------------
+.ss-checkbox {
+	display: inline-flex;
+	align-items: center;
+	column-gap: 10px;
+	cursor: pointer;
+}
+
+.ss-checkbox__input {
+	// Скрыт визуально, доступен ассистивным.
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.ss-checkbox__box {
+	position: relative;
+	flex-shrink: 0;
+	width: 18px;
+	height: 18px;
+	border: 1px solid var(--secondary);
+	border-radius: 4px;
+	background: transparent;
+	transition: border-color .2s, background-color .2s;
+
+	// Галочка — виден только когда input:checked.
+	&::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 45%;
+		width: 10px;
+		height: 6px;
+		border-left: 2px solid var(--white);
+		border-bottom: 2px solid var(--white);
+		transform: translate(-50%, -50%) rotate(-45deg);
+		opacity: 0;
+		transition: opacity .15s;
+	}
+
+	.ss-checkbox__input:checked + & {
+		border-color: var(--accent3);
+		background: var(--accent3);
+
+		&::after { opacity: 1; }
+	}
+
+	.ss-checkbox__input:focus-visible + & {
+		outline: 2px solid var(--accent3);
+		outline-offset: 2px;
+	}
+}
+
+.ss-checkbox__label {
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+
+	a {
+		color: var(--accent3);
+		text-decoration: none;
+
+		&:hover { text-decoration: underline; }
+	}
+}
