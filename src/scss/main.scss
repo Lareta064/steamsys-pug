@@ -23,6 +23,8 @@
 @use "blocks/_role-card";
 @use "blocks/_benefit-card";
 @use "blocks/_profit";
+@use "blocks/_partner-card";
+@use "blocks/_partners-slider";
 
 // sections — базовая обёртка + именованные модификаторы + общие Swiper-стили
 @use "sections/_section";

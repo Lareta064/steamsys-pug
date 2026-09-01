@@ -1,0 +1,91 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-partners-slider — обёртка слайдера партнёров.
+// Стрелки навигации живут В ОДНОМ РОДИТЕЛЕ со слайдером (на уровне контента,
+// не оверлеем поверх слайдов). Раскладка: prev-arrow | swiper | next-arrow,
+// gap 10 (между слайдами и до стрелок).
+// ==============================
+.ss-partners-slider {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+// Обёртка swiper внутри — занимает всё оставшееся место, min-width: 0
+// обязательно, иначе flex-контейнер не даст свайперу ужаться.
+.ss-partners-slider__swiper {
+	flex: 1;
+	min-width: 0;
+}
+
+// ------------------------------
+// Кнопка навигации prev/next
+// ------------------------------
+.ss-partners-slider__nav {
+	// Сброс браузерных стилей <button>
+	padding: 0;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	color: var(--primary);
+	
+	transition: background-color .2s, color .2s, opacity .2s;
+
+	&:hover:not(:disabled):not(.swiper-button-disabled) {
+		
+		color: var(--white);
+	}
+
+	&:disabled,
+	&.swiper-button-disabled {
+		opacity: .35;
+		cursor: default;
+		pointer-events: none;
+	}
+}
+
+// ------------------------------
+// Ширина слайда — фиксированная 187px.
+// При slidesPerView: 'auto' Swiper уважает эту ширину и считает,
+// сколько слайдов помещается сам.
+// ------------------------------
+.ss-partners-slider__swiper .swiper-slide {
+	width: 187px;
+}
+
+// Пагинация скрыта по умолчанию (десктоп — навигация через стрелки).
+// Специфичность 3 класса — чтобы перебить .swiper-bars .swiper-pagination
+// из _swiper.scss (2 класса).
+.ss-partners-slider .swiper > .swiper-pagination {
+	display: none;
+}
+
+// ------------------------------
+// Мобилка (<$md).
+// ------------------------------
+@include down($md) {
+	// Стрелки скрыты — только свайп + пагинация.
+	.ss-partners-slider__nav {
+		display: none;
+	}
+
+	// Слайдер уходит от левого края контейнера до правого края экрана.
+	// .ss-container на <$md имеет padding-inline: 20px, компенсируем справа.
+	.ss-partners-slider__swiper {
+		margin-right: -20px;
+		padding-bottom: 30px; // место под пагинацию-полоски
+	}
+
+	// Показываем пагинацию (бар-стили приезжают из .swiper-bars в _swiper.scss).
+	.ss-partners-slider .swiper > .swiper-pagination {
+		display: flex;
+	}
+}

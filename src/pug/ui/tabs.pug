@@ -10,19 +10,72 @@ block content
 		.container-dashboard__content
 
 			p.tabs-catalog__intro.ss-reg-14.ss-txt-secondary
-				| Стили — в
+				| Стили —
 				code src/scss/base/_tabs.scss
-				| . На больших экранах кнопки расположены в колонку с бордером слева,
-				| на мобилке — в строку с бордером снизу. Активная кнопка — класс
-				code .is-active
-				| .
+				| , скрипт —
+				code src/js/ss-tabs.js
+				| . Компонент состоит из списка кнопок (
+				code .ss-tabs__list
+				| ) и панелей контента (
+				code .ss-tabs__panels
+				| ). Обёртка
+				code .ss-tabs
+				|  собственной раскладки не имеет — она нужна как JS-скоуп (чтобы клик по кнопке переключал соответствующую панель по индексу) и точка приложения модификатора раскладки.
 
 			//- ========== Оглавление ==========
 			nav.tabs-catalog__toc
 				h3.tabs-catalog__toc-title Оглавление
 				ul.tabs-catalog__toc-list
+					li: a(href='#api') API
 					li: a(href='#buttons') Кнопки таба (без панелей)
-					li: a(href='#component') Компонент .ss-tabs (кнопки + панели)
+					li: a(href='#states') Состояния кнопки
+					li: a(href='#component') Компонент с панелями
+					li: a(href='#example') Реальный пример
+					li: a(href='#snippets') Сниппеты
+
+			//- ========== API ==========
+			section.tabs-catalog__section#api
+				h3.tabs-catalog__section-title API
+				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary Классы разметки:
+				ul.tabs-catalog__api
+					li
+						code .ss-tabs
+						|  — обёртка + JS-скоуп. Без раскладки; консьюмер задаёт её сам.
+					li
+						code .ss-tabs--split
+						|  — модификатор дефолтной раскладки: слева список кнопок (до 300px), справа панели. Ниже 768px — стек.
+					li
+						code .ss-tabs__list
+						|  — контейнер кнопок. Флекс-колонка на десктопе, флекс-строка с полосой снизу на &lt;768.
+					li
+						code .ss-tabs__tab
+						|  — кнопка таба (
+						code &lt;button type="button"&gt;
+						| ). Активная — класс
+						code .is-active
+						| .
+					li
+						code .ss-tabs__panels
+						|  — контейнер панелей.
+					li
+						code .ss-tabs__panel
+						|  — панель. Видима когда есть
+						code .is-active
+						| ; появляется через fade-in +
+						code translateY(8→0)
+						|  за .35s.
+
+				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Скрипт
+					code src/js/ss-tabs.js
+					|  сам ловит клики на
+					code .ss-tabs__list
+					|  и переключает
+					code .is-active
+					|  на кнопках. Если список внутри обёртки
+					code .ss-tabs
+					| , скрипт также переключает панель по индексу.
+					| prefers-reduced-motion — уважаем, анимация панели отключается.
 
 			//- ========== Только кнопки ==========
 			section.tabs-catalog__section#buttons
@@ -30,11 +83,9 @@ block content
 				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary
 					| Можно использовать
 					code .ss-tabs__list
-					|  и
-					code .ss-tabs__tab
-					|  без родителя
+					|  без обёртки
 					code .ss-tabs
-					| , если нужен только переключатель без панелей контента.
+					|  — работает только переключение активной кнопки, без панелей.
 
 				h4.tabs-catalog__subtitle Десктоп (колонка)
 				.tabs-catalog__demo
@@ -43,8 +94,18 @@ block content
 							each label, i in tabs
 								button.ss-tabs__tab(type='button', class=(i === 0 ? 'is-active' : null))= label
 
-				h4.tabs-catalog__subtitle Состояния
-				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary Normal / hover (наведи) / active / disabled.
+			//- ========== Состояния ==========
+			section.tabs-catalog__section#states
+				h3.tabs-catalog__section-title Состояния кнопки
+				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Normal / hover (наведи) / focus-visible (Tab с клавиатуры) / active / disabled.
+					| У активной акцентная полоска (
+					code --accent3
+					| ) плавно растёт от анкорной стороны серой (
+					code --secondary2
+					| ) —
+					| снизу вверх на десктопе, слева направо на &lt;768.
+
 				.tabs-catalog__demo
 					.tabs-catalog__stage
 						.ss-tabs__list
@@ -54,14 +115,14 @@ block content
 
 			//- ========== Полный компонент ==========
 			section.tabs-catalog__section#component
-				h3.tabs-catalog__section-title Компонент .ss-tabs (кнопки + панели)
+				h3.tabs-catalog__section-title Компонент с панелями (
+					code .ss-tabs.ss-tabs--split
+					| )
 				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary
-					| Родитель
-					code .ss-tabs
-					|  — grid: слева список кнопок, справа панели. Ниже 768px раскладка колонная (кнопки сверху, панель снизу).
-					| Переключение активной кнопки/панели — задача JS: снимать/ставить класс
-					code .is-active
-					| .
+					| С модификатором
+					code .ss-tabs--split
+					|  — grid: слева кнопки (до 300px), справа панели. Ниже 768px — стек.
+					| Кликай по табам — панели переключаются автоматически (JS уже подключён).
 
 				.tabs-catalog__demo
 					.ss-tabs.ss-tabs--split
@@ -79,25 +140,37 @@ block content
 								h4.ss-h3 КИПиА и измерения
 								p Датчики давления и температуры, расходомеры, вторичные приборы, системы мониторинга и учёта.
 
-			//- ========== Сниппеты ==========
-			h3.tabs-catalog__section-title Сниппеты
-			h4.tabs-catalog__subtitle Только кнопки
-			pre.tabs-catalog__snippet
-				code
-					| .ss-tabs__list
-					|     button.ss-tabs__tab.is-active(type='button') Конденсатоотводчики
-					|     button.ss-tabs__tab(type='button') Регулирующая арматура
-					|     button.ss-tabs__tab(type='button') КИПиА и измерения
+			//- ========== Реальный пример ==========
+			section.tabs-catalog__section#example
+				h3.tabs-catalog__section-title Реальный пример
+				p.tabs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Секция «Каталог продуктов через табы» — реальный сценарий использования компонента с собственной раскладкой (не
+					code --split
+					| ), горизонтальным свайпом кнопок на мобилке, картинкой продукта и подзаголовком в панели.
+				p.tabs-catalog__hint.ss-reg-14
+					a(href='section-tab-catalog.html' target='_blank') Открыть демо →
 
-			h4.tabs-catalog__subtitle Компонент с панелями
-			pre.tabs-catalog__snippet
-				code
-					| .ss-tabs.ss-tabs--split
-					|     .ss-tabs__list
-					|         button.ss-tabs__tab.is-active(type='button') Таб 1
-					|         button.ss-tabs__tab(type='button') Таб 2
-					|     .ss-tabs__panels
-					|         .ss-tabs__panel.is-active
-					|             p Контент первой панели
-					|         .ss-tabs__panel
-					|             p Контент второй панели
+			//- ========== Сниппеты ==========
+			section.tabs-catalog__section#snippets
+				h3.tabs-catalog__section-title Сниппеты
+
+				h4.tabs-catalog__subtitle Только кнопки (без панелей)
+				pre.tabs-catalog__snippet
+					code
+						| .ss-tabs__list
+						|     button.ss-tabs__tab.is-active(type='button') Таб 1
+						|     button.ss-tabs__tab(type='button') Таб 2
+						|     button.ss-tabs__tab(type='button') Таб 3
+
+				h4.tabs-catalog__subtitle Компонент с панелями и авто-переключением
+				pre.tabs-catalog__snippet
+					code
+						| .ss-tabs.ss-tabs--split
+						|     .ss-tabs__list
+						|         button.ss-tabs__tab.is-active(type='button') Таб 1
+						|         button.ss-tabs__tab(type='button') Таб 2
+						|     .ss-tabs__panels
+						|         .ss-tabs__panel.is-active
+						|             p Контент первой панели
+						|         .ss-tabs__panel
+						|             p Контент второй панели

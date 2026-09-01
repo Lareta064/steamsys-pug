@@ -1,0 +1,72 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	//- Тестовые данные — 6 логотипов (partner1..4 повторяются, чтобы было что листать)
+	- var partners = [{ name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }, { name: 'partner3', alt: 'Партнёр 3' }, { name: 'partner4', alt: 'Партнёр 4' }, { name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }]
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Слайдер партнёров
+
+		.container-dashboard__content
+
+			p.partners-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Стили —
+				code src/scss/blocks/_partner-card.scss
+				|  и
+				code src/scss/blocks/_partners-slider.scss
+				| , скрипт —
+				code src/js/partners-swiper.js
+				| . Слайдер и стрелки навигации лежат в одной обёртке (
+				code .ss-partners-slider
+				| ) — стрелки идут вровень со слайдами, не оверлеем поверх.
+				| Ширина слайда фиксирована 187px, количество видимых —
+				code slidesPerView: 'auto'
+				| . На &lt;768 стрелки скрыты, показывается пагинация-полоски; слайдер уходит от правого края контейнера до края экрана.
+
+			h3.partners-catalog__section-title Демо
+			.partners-catalog__demo
+				.ss-partners-slider.js-partners-slider
+					button.ss-partners-slider__nav.ss-partners-slider__nav--prev(type='button', aria-label='Предыдущий')
+						+svgIcon('chevron-left')
+					.ss-partners-slider__swiper
+						.swiper.swiper-bars
+							.swiper-wrapper
+								each p in partners
+									.swiper-slide
+										.ss-partner-card
+											picture
+												source(srcset='../img/' + p.name + '.webp 1x, ../img/' + p.name + '@2x.webp 2x')
+												img(src='../img/' + p.name + '.webp', width=200, height=90, alt=p.alt)
+							.swiper-pagination
+					button.ss-partners-slider__nav.ss-partners-slider__nav--next(type='button', aria-label='Следующий')
+						+svgIcon('chevron-right')
+
+			h3.partners-catalog__section-title Одна карточка (
+				code .ss-partner-card
+				| )
+			p.partners-catalog__hint.ss-reg-14.ss-txt-secondary
+				| 110px высота, белый фон, паддинги 10, скругление 20. Логотип внутри —
+				code object-fit: contain
+				| , вписывается в inner-область.
+			.partners-catalog__demo(style='max-width: 250px;')
+				.ss-partner-card
+					picture
+						source(srcset='../img/partner1.webp 1x, ../img/partner1@2x.webp 2x')
+						img(src='../img/partner1.webp', width=200, height=90, alt='Балтика')
+
+			h3.partners-catalog__section-title Сниппет
+			pre.partners-catalog__snippet
+				code
+					| .ss-partners-slider.js-partners-slider
+					|     button.ss-partners-slider__nav.ss-partners-slider__nav--prev(type='button')
+					|         +svgIcon('chevron-left')
+					|     .ss-partners-slider__swiper
+					|         .swiper.swiper-bars
+					|             .swiper-wrapper
+					|                 .swiper-slide
+					|                     .ss-partner-card
+					|                         picture
+					|                             img(src='...', alt='')
+					|             .swiper-pagination
+					|     button.ss-partners-slider__nav.ss-partners-slider__nav--next(type='button')
+					|         +svgIcon('chevron-right')

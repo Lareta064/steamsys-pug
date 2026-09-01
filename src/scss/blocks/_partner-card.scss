@@ -1,0 +1,31 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-partner-card — карточка логотипа партнёра.
+// Высота 110px, белый фон, скругление 20, паддинги 10 со всех сторон.
+// Внутри — картинка логотипа (contain, вписывается в inner 90×fluid).
+// Используется как содержимое слайда в слайдере партнёров.
+// ==============================
+.ss-partner-card {
+	box-sizing: border-box;
+	height: 110px;
+	padding: 10px;
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.03);
+    background: var(--white);
+	border-radius: 20px;
+	overflow: hidden;
+
+	picture {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: center;
+	}
+}
