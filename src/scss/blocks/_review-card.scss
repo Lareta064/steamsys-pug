@@ -1,0 +1,118 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-review-card — карточка отзыва клиента.
+// Два ряда с row-gap 40 (моб 20):
+//   1) .ss-review-card__quote — заголовок + описание, снизу бордер.
+//   2) .ss-review-card__author — аватар 65×65 + имя/должность.
+// ==============================
+
+.ss-review-card {
+	display: flex;
+	flex-direction: column;
+	row-gap: 40px;
+
+	@include down($md) {
+		row-gap: 20px;
+	}
+}
+
+// ------------------------------
+// Ряд «отзыв» — заголовок + описание, снизу бордер.
+// ------------------------------
+.ss-review-card__quote {
+	padding-bottom: 40px;
+	border-bottom: 1px solid var(--secondary2);
+
+	@include down($md) {
+		padding-bottom: 20px;
+	}
+}
+
+.ss-review-card__title {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	@include down($md) {
+		margin-bottom: 10px;
+		font-size: 16px;
+	}
+}
+
+// Описание — обрезаем текст многоточием до N строк.
+// В спеке был указан однострочный трюк (white-space:nowrap + text-overflow:ellipsis),
+// но задача — обрезать до 4 (моб — 3) строк. Правильный способ — line-clamp.
+.ss-review-card__text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 4;
+	line-clamp: 4;
+	overflow: hidden;
+
+	@include down($md) {
+		font-size: 14px;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+	}
+}
+
+// ------------------------------
+// Ряд «автор» — аватар + имя/должность.
+// ------------------------------
+.ss-review-card__author {
+	display: flex;
+	align-items: center;
+	column-gap: 20px;
+}
+
+.ss-review-card__avatar {
+	display: block;
+	flex-shrink: 0;
+	width: 65px;
+	height: 65px;
+	border-radius: 10px;
+	overflow: hidden;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.ss-review-card__author-meta {
+	display: flex;
+	flex-direction: column;
+	row-gap: 5px;
+	min-width: 0;
+}
+
+.ss-review-card__author-name {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+}
+
+.ss-review-card__author-position {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+}

@@ -4,26 +4,38 @@ block content
 	//- Тестовые данные — 6 логотипов (partner1..4 повторяются, чтобы было что листать)
 	- var partners = [{ name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }, { name: 'partner3', alt: 'Партнёр 3' }, { name: 'partner4', alt: 'Партнёр 4' }, { name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }]
 
+	//- Тестовые данные для отзывов
+	- var reviews = [{ title: 'ООО «Молочный Комбинат»', text: 'Компания «Паровые системы» поставляет на наши предприятия поплавковые конденсатоотводчики, системы вентиляции, а также в технологические линии. Надёжный сервис работает без нареканий. Оборудование прошло у нас все производственные испытания, и мы готовы масштабировать закупку по всем производственным площадкам.', author: 'Пётр Иванов', position: 'Главный энергетик, ООО «Молочный Комбинат»' }, { title: 'ООО «Балтика»', text: 'Второй сезон работаем с командой «Паровые системы». За это время внедрили комплекс парогенераторов, реализовали проект возврата конденсата и модернизировали КИПиА. Всё в срок, без остановки производства. Рекомендуем.', author: 'Анна Смирнова', position: 'Начальник инженерной службы, ООО «Балтика»' }, { title: 'ЗАО «Химзавод №5»', text: 'Обратились с задачей стабилизации параметров пара для реактора. Инженеры подобрали регулирующую арматуру, провели пусконаладку. Результат — снижение отклонений давления в 3 раза, повышение стабильности процесса.', author: 'Сергей Кузнецов', position: 'Технический директор, ЗАО «Химзавод №5»' }]
+
 	.container-dashboard.ss-wrapper
-		h2.db-h2 Слайдер партнёров
+		h2.db-h2 Слайдеры для секции «Кейсы и отзывы»
 
 		.container-dashboard__content
 
 			p.partners-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Два независимых слайдера, оба живут в правой колонке секции «Кейсы и отзывы» друг над другом.
+				| Верхний — логотипы партнёров со стрелками (компоненты
+				code .ss-partner-card
+				| /
+				code .ss-partners-slider
+				| ). Нижний — отзывы клиентов (
+				code .ss-review-card
+				| ).
+
+			//- ========== Верхний слайдер: партнёры ==========
+			h3.partners-catalog__section-title 1. Слайдер партнёров
+			p.partners-catalog__hint.ss-reg-14.ss-txt-secondary
 				| Стили —
 				code src/scss/blocks/_partner-card.scss
 				|  и
 				code src/scss/blocks/_partners-slider.scss
 				| , скрипт —
 				code src/js/partners-swiper.js
-				| . Слайдер и стрелки навигации лежат в одной обёртке (
-				code .ss-partners-slider
-				| ) — стрелки идут вровень со слайдами, не оверлеем поверх.
-				| Ширина слайда фиксирована 187px, количество видимых —
+				| . Слайдер и стрелки навигации в одной обёртке (стрелки на уровне контента).
+				| Ширина слайда 187px,
 				code slidesPerView: 'auto'
-				| . На &lt;768 стрелки скрыты, показывается пагинация-полоски; слайдер уходит от правого края контейнера до края экрана.
+				| . На &lt;768 стрелки скрыты, пагинация-полоски; слайдер уходит от правого края контейнера до края экрана.
 
-			h3.partners-catalog__section-title Демо
 			.partners-catalog__demo
 				.ss-partners-slider.js-partners-slider
 					button.ss-partners-slider__nav.ss-partners-slider__nav--prev(type='button', aria-label='Предыдущий')
@@ -54,7 +66,7 @@ block content
 						source(srcset='../img/partner1.webp 1x, ../img/partner1@2x.webp 2x')
 						img(src='../img/partner1.webp', width=200, height=90, alt='Балтика')
 
-			h3.partners-catalog__section-title Сниппет
+			h3.partners-catalog__section-title Сниппет партнёров
 			pre.partners-catalog__snippet
 				code
 					| .ss-partners-slider.js-partners-slider
@@ -70,3 +82,65 @@ block content
 					|             .swiper-pagination
 					|     button.ss-partners-slider__nav.ss-partners-slider__nav--next(type='button')
 					|         +svgIcon('chevron-right')
+
+			//- ========== Нижний слайдер: отзывы ==========
+			h3.partners-catalog__section-title 2. Слайдер отзывов
+			p.partners-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Стили —
+				code src/scss/blocks/_review-card.scss
+				| , скрипт —
+				code src/js/reviews-swiper.js
+				| . Один слайд на видимую область, пагинация-полоски внизу.
+				| Карточка = ряд с отзывом (заголовок + описание, обрезано до 4 строк / 3 на моб) + ряд автора (аватар 65×65 + имя + должность).
+
+			.partners-catalog__demo
+				.swiper.swiper-pb.swiper-bars.js-reviews-slider
+					.swiper-wrapper
+						each r in reviews
+							.swiper-slide
+								article.ss-review-card
+									.ss-review-card__quote
+										h4.ss-review-card__title= r.title
+										p.ss-review-card__text= r.text
+									.ss-review-card__author
+										picture.ss-review-card__avatar
+											source(srcset='../img/ava.webp 1x, ../img/ava@2x.webp 2x')
+											img(src='../img/ava.webp', width=65, height=65, alt=r.author)
+										.ss-review-card__author-meta
+											p.ss-review-card__author-name= r.author
+											p.ss-review-card__author-position= r.position
+					.swiper-pagination
+
+			h3.partners-catalog__section-title Одна карточка отзыва (
+				code .ss-review-card
+				| )
+			.partners-catalog__demo
+				article.ss-review-card
+					.ss-review-card__quote
+						h4.ss-review-card__title= reviews[0].title
+						p.ss-review-card__text= reviews[0].text
+					.ss-review-card__author
+						picture.ss-review-card__avatar
+							source(srcset='../img/ava.webp 1x, ../img/ava@2x.webp 2x')
+							img(src='../img/ava.webp', width=65, height=65, alt=reviews[0].author)
+						.ss-review-card__author-meta
+							p.ss-review-card__author-name= reviews[0].author
+							p.ss-review-card__author-position= reviews[0].position
+
+			h3.partners-catalog__section-title Сниппет отзывов
+			pre.partners-catalog__snippet
+				code
+					| .swiper.swiper-pb.swiper-bars.js-reviews-slider
+					|     .swiper-wrapper
+					|         .swiper-slide
+					|             article.ss-review-card
+					|                 .ss-review-card__quote
+					|                     h4.ss-review-card__title Компания
+					|                     p.ss-review-card__text Отзыв…
+					|                 .ss-review-card__author
+					|                     picture.ss-review-card__avatar
+					|                         img(src='...', alt='')
+					|                     .ss-review-card__author-meta
+					|                         p.ss-review-card__author-name Имя
+					|                         p.ss-review-card__author-position Должность
+					|     .swiper-pagination

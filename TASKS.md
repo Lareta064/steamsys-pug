@@ -20,7 +20,10 @@
   `.ss-partners-slider` (`src/scss/blocks/_partners-slider.scss`),
   инициализация — `src/js/partners-swiper.js`.
   Иконки `chevron-left`/`chevron-right` — в спрайте.
-- ⏳ **Нижний слайдер отзывов** — ждём спецификацию.
+- ✅ **Нижний слайдер отзывов** — готов, там же на `/ui/partners-slider.html`.
+  Компонент карточки `.ss-review-card` (`src/scss/blocks/_review-card.scss`),
+  инициализация — `src/js/reviews-swiper.js`. 1 слайд, пагинация-полоски.
+  Многолинейный ellipsis описания через `-webkit-line-clamp` (4 строки десктоп / 3 моб).
 - ⏳ **Левая колонка (карточка кейса)** — ждём спецификацию.
 - ⏳ **Сборка секции целиком** — после готовности всех подкомпонентов.
 
