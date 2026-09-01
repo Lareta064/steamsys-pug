@@ -1,0 +1,157 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-feedback — секция «Обратная связь».
+// Фон --primary1. Две колонки равной ширины (grid 1fr 1fr, gap 30).
+// Ниже $lg (<1024) — стек, row-gap 40.
+//
+// Левая колонка:
+//   Сверху kicker + h2, снизу список контактов (justify-content: space-between).
+//
+// Правая колонка:
+//   Бордер-бокс с title + формой. Паддинги:
+//     ≥1920: 60 | 1440–1919: 40 | 768–1439: 30 | <768: 20
+//   Title → форма — 40 (моб 20). Форма — grid gap 20 (моб 10).
+// ==============================
+
+.ss-section-feedback {
+	background: var(--primary1);
+}
+
+.ss-section-feedback__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	align-items: stretch;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		row-gap: 40px;
+	}
+}
+
+// ------------------------------
+// Левая колонка — kicker+h2 сверху, контакты внизу.
+// На мобилке space-between не нужен (стек естественный).
+// ------------------------------
+.ss-section-feedback__left {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	row-gap: 40px;
+
+	@include down($lg) {
+		row-gap: 40px;
+	}
+}
+
+.ss-section-feedback__header {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.ss-section-feedback__header .ss-h2 {
+	margin: 0;
+	color: var(--white);
+}
+
+// ------------------------------
+// Список контактов.
+// ------------------------------
+.ss-section-feedback__contacts {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	row-gap: 40px;
+}
+
+.ss-section-feedback__contact-label {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	text-transform: uppercase;
+	color: var(--secondary);
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-section-feedback__contact-value {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 40px;
+	line-height: 1.2;
+	color: var(--white);
+
+	@include down($md) {
+		font-size: 24px;
+		line-height: 1.3;
+	}
+}
+
+// Мелкая версия значения — для «Режим работы» (расписание).
+.ss-section-feedback__contact-value--sm {
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 1.4;
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+// ------------------------------
+// Правая колонка — бордер-бокс с формой.
+// ------------------------------
+.ss-section-feedback__form-box {
+	box-sizing: border-box;
+	border: 1px solid var(--secondary);
+	border-radius: 10px;
+	padding: 60px;
+
+	@include down($xxxl) { padding: 40px; }
+	@include down($xxl)  { padding: 30px; }
+	@include down($md)   { padding: 20px; }
+}
+
+.ss-section-feedback__form-title {
+	margin: 0 0 40px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--white);
+
+	@include down($md) {
+		margin-bottom: 20px;
+	}
+}
+
+.ss-section-feedback__form {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+
+	@include down($md) {
+		row-gap: 10px;
+	}
+}
+
+// Ряд с двумя полями в одну строку (имя + телефон).
+.ss-section-feedback__form-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 20px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		row-gap: 10px;
+	}
+}

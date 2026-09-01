@@ -174,8 +174,8 @@
 .ss-checkbox__box {
 	position: relative;
 	flex-shrink: 0;
-	width: 18px;
-	height: 18px;
+	width: 20px;
+	height: 20px;
 	border: 1px solid var(--secondary);
 	border-radius: 4px;
 	background: transparent;
@@ -211,7 +211,7 @@
 
 .ss-checkbox__label {
 	font-family: var(--font-family);
-	font-weight: 400;
+	font-weight: 500;
 	font-size: 14px;
 	line-height: 1.4;
 	color: var(--secondary);
