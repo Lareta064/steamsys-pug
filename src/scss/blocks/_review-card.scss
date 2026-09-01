@@ -95,8 +95,9 @@
 .ss-review-card__author-meta {
 	display: flex;
 	flex-direction: column;
-	row-gap: 5px;
+	row-gap: 10px;
 	min-width: 0;
+	@include down($md){row-gap: 5px;}
 }
 
 .ss-review-card__author-name {

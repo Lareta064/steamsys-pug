@@ -26,6 +26,7 @@ block content
 					li: a(href='#role-card') .ss-role-card
 					li: a(href='#benefit-card') .ss-benefit-card
 					li: a(href='#profit') .ss-profit
+					li: a(href='#metrics') .ss-metrics
 
 			//- ========== Feature card ==========
 			section.cards-catalog__section#feature-card
@@ -362,3 +363,37 @@ block content
 						|             p.ss-h3 до 90%
 						|             p.ss-profit__desc Описание
 						|         //- ... ещё 2 item'а
+
+			//- ========== Metrics panel ==========
+			section.cards-catalog__section#metrics
+				h3.cards-catalog__section-title .ss-metrics
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Тёмная плашка с ключевыми метриками (крупное значение + подпись).
+					| Между items — тонкие вертикальные разделители. Количество items не фиксировано —
+					code flex: 1
+					|  автораспределяется. Используется, например, внутри карточки кейса.
+
+				.cards-catalog__demo
+					.ss-metrics
+						.ss-metrics__item
+							p.ss-metrics__value -22%
+							p.ss-metrics__label потери пара
+						.ss-metrics__item
+							p.ss-metrics__value 9 мес.
+							p.ss-metrics__label окупаемость
+						.ss-metrics__item
+							p.ss-metrics__value 100%
+							p.ss-metrics__label надёжность системы
+
+				pre.cards-catalog__snippet
+					code
+						| .ss-metrics
+						|     .ss-metrics__item
+						|         p.ss-metrics__value -22%
+						|         p.ss-metrics__label потери пара
+						|     .ss-metrics__item
+						|         p.ss-metrics__value 9 мес.
+						|         p.ss-metrics__label окупаемость
+						|     .ss-metrics__item
+						|         p.ss-metrics__value 100%
+						|         p.ss-metrics__label надёжность системы

@@ -1,0 +1,113 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-cases — секция «Кейсы и отзывы».
+//
+// Раскладка:
+//   [ kicker | h2 ]           — заголовочный ряд, 6/6, gap 30
+//   [ case card | right col ] — контентный ряд, 6/6, gap 30
+// Обе колонки равной ширины, header визуально повторяет ту же 6/6 сетку
+// (kicker над левой, h2 — над правой).
+//
+// Правая колонка — flex-стек row-gap 30:
+//   1) intro (заголовок + описание блока «Нам доверяют…»)
+//   2) слайдер партнёров
+//   3) белый блок со слайдером отзывов (padding 40, скругление, тень)
+//
+// На <$md — всё в один столбец: kicker, h2, case card, intro, partners, reviews.
+// ==============================
+
+.ss-section-cases {
+	background: var(--secondary3);
+}
+
+// ------------------------------
+// Заголовочный ряд секции — kicker (col1) + h2 (col2).
+// ------------------------------
+.ss-section-cases__header {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	align-items: end;
+	margin-bottom: 60px;
+
+	@include down($md) {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		row-gap: 20px;
+		margin-bottom: 40px;
+	}
+}
+
+.ss-section-cases__header .ss-h2 {
+	margin: 0;
+}
+
+// ------------------------------
+// Контентный ряд — левая карточка кейса и правая колонка.
+// ------------------------------
+.ss-section-cases__body {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	align-items: stretch;
+  .ss-section-cases__reviews{flex-grow:1;}
+	@include down($md) {
+		grid-template-columns: 1fr;
+		row-gap: 30px;
+	}
+}
+
+// ------------------------------
+// Правая колонка — стек intro + partners + reviews.
+// ------------------------------
+.ss-section-cases__right {
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
+	min-width: 0;
+}
+
+.ss-section-cases__intro-title {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 32px;
+	line-height: 1.3;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 20px;
+		line-height: 1.4;
+	}
+}
+
+.ss-section-cases__intro-desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 14px;
+	}
+}
+
+// Белый бокс со слайдером отзывов.
+.ss-section-cases__reviews {
+	padding: 40px;
+	background: var(--white);
+	border-radius: 10px;
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.03);
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+.js-reviews-slider .swiper-pagination{justify-content: flex-start;}
+.ss-partners-slider .swiper.swiper-pb{
+	@media(min-width:768px){padding-bottom: 0;}
+}

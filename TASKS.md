@@ -79,3 +79,73 @@
 
 10. **JS-файл:** `src/js/main.js` или отдельным `src/js/header-menu.js` с concat?
     Ответ: —
+
+## Кейсы и отзывы
+Секция имеет серый фон background: var(--secondary3);
+Заголовок секции состоит из киккера и .ss-h2 , но расположены они на десктоп версии, как заголовки блоков под ними.
+А под ними ряд из двух равных колонок, которые на моб версии выстраиваются в колонку с row-gap: 30px;
+### Левый блок на 6 колонок имеет состоит из трех рядов с row-gap:30px (на моб версии так же 30 пикс) и его стили
+box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.03);
+background: var(--white);
+Ряд1: картинка пропорция 865/360 (моб версия-388/200)
+Поверх картинки есть tag отстоящий на 30 пикс (20 пикс на моб версии) слева и снизу от картинки. 
+Картинка добавлена в img/cases.png (для моб версии отдельная)
+Ряд2: заголовок + описание +ss-metricks
+Отступы справа и слева по 40 пикс (на моб версии 20 пикс)
+Заголовок:
+{
+   font-family: var(--font-family);
+font-weight: 600;
+font-size: 22px;(16 пикс на моб версии)
+line-height: 130%;
+color: var(--primary);
+margin-bottom:10px;
+}
+Описание:
+{
+   font-family: var(--font-family);
+font-weight: 400;
+font-size: 18px;(14 пикс на моб версии)
+line-height: 140%;
+color: var(--primary);
+}
+расстояние до блока metriks 20 пикс
+Ряд 3: ссылка.
+{
+   font-family: var(--font-family);
+font-weight: 500;
+font-size: 18px;
+line-height: 140%;
+color: var(--accent1);
+}
+
+### Правый блок на 6 колонок состоит из трех рядов  с row-gap: 30px
+Ряд заголовок + описание
+Заголовок
+{
+   font-family: var(--font-family);
+font-weight: 600;
+font-size: 32px;(на моб версии font-size: 20px;)
+line-height: 130%;(на моб версии line-height: 140%;)
+color: var(--primary);
+margin-bottom: 10px;
+}
+Описание{
+   font-family: var(--font-family);
+font-weight: 400;
+font-size: 18px;(font-size: 14px;)
+line-height: 140%;
+color: var(--primary);
+
+}
+
+Ряд 2 Слайдер клиентов
+Ряд 3 блок со слайдером отзывов
+Этот блок, внутри которого слайдер, имеет стили
+{
+   box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.03);
+   background: var(--white);
+   padding:40px;(на моб версии 20px)
+   border-radius: 10px;
+}
+скрины сеуции в паке temps

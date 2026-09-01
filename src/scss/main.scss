@@ -26,6 +26,8 @@
 @use "blocks/_partner-card";
 @use "blocks/_partners-slider";
 @use "blocks/_review-card";
+@use "blocks/_metrics";
+@use "blocks/_case-card";
 
 // sections — базовая обёртка + именованные модификаторы + общие Swiper-стили
 @use "sections/_section";
@@ -40,6 +42,7 @@
 @use "sections/_section-profit";
 @use "sections/_stages";
 @use "sections/_section-tab-catalog";
+@use "sections/_section-cases";
 
 // ui
 @use "ui/_ui-navigation";

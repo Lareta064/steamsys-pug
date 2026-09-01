@@ -1,0 +1,125 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-case-card — карточка кейса в левой колонке секции «Кейсы и отзывы».
+// Три ряда с row-gap 30:
+//   1) картинка 865/360 (моб 388/200) с абсолютным тегом внизу-слева;
+//   2) тело — заголовок + описание + .ss-metrics (паддинги 40 по бокам);
+//   3) футер — ссылка «Смотреть кейс».
+// Обёртка — белый фон, скругление 10, лёгкая тень, overflow: hidden
+// (чтобы картинка обрезалась по скруглению).
+// Флекс-стек. margin-top: auto на футере — если grid растянет карточку
+// по высоте правой колонки, ссылка прижмётся к низу.
+// ==============================
+
+.ss-case-card {
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
+	background: var(--white);
+	border-radius: 10px;
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.03);
+	overflow: hidden;
+}
+
+// ------------------------------
+// Ряд 1 — картинка с оверлеем-тегом.
+// ------------------------------
+.ss-case-card__image {
+	position: relative;
+	aspect-ratio: 865 / 360;
+	overflow: hidden;
+
+	@include down($md) {
+		aspect-ratio: 388 / 200;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+
+	.ss-tag {
+		position: absolute;
+		left: 30px;
+		bottom: 30px;
+
+		@include down($md) {
+			left: 20px;
+			bottom: 20px;
+		}
+	}
+}
+
+// ------------------------------
+// Ряд 2 — тело (заголовок + описание + метрики).
+// Паддинги — только по бокам, вертикальные ритм задан row-gap на карточке.
+// ------------------------------
+.ss-case-card__body {
+	padding: 0 40px;
+	
+	@include down($md) {
+		padding: 0 20px;
+	}
+	@media(max-width:1364px){
+		.ss-metrics{
+			flex-direction: column;
+			align-items: stretch;
+		    padding: 20px;
+		}
+		.ss-metrics__item{
+			display: flex;
+			align-items: baseline;
+			column-gap: 10px;
+			padding: 10px 0;
+			text-align: left;
+			width: 100%;
+
+			&:first-child { text-align: left; }
+			&:not(:first-child) { border-left: none; }
+			&:not(:last-child) { border-bottom: 1px solid var(--secondary2); }
+		}
+	}
+}
+
+.ss-case-card__title {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 22px;
+	line-height: 1.3;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-case-card__text {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 14px;
+	}
+}
+
+// ------------------------------
+// Ряд 3 — футер со ссылкой. margin-top: auto прижимает к низу
+// при растянутой карточке (align-items: stretch grid).
+// ------------------------------
+.ss-case-card__footer {
+	margin-top: auto;
+	padding: 0 40px 30px;
+
+	@include down($md) {
+		padding: 0 20px 30px;
+	}
+}

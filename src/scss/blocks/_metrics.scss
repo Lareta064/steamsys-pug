@@ -1,0 +1,80 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-metrics — тёмная плашка с ключевыми метриками (значение + подпись).
+// Используется, например, внутри карточки кейса.
+// Раскладка: flex-row с равными долями, между items — тонкие вертикальные
+// разделители (rgba белого с прозрачностью, чтобы читалось на тёмном фоне).
+// Количество items не фиксировано — flex: 1 автораспределяется.
+// ==============================
+.ss-metrics {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 30px 20px;
+	background: var(--primary1);
+	border-radius: 10px;
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.03);
+
+	// Мобилка — стек в колонку.
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+		padding: 20px;
+	}
+}
+
+.ss-metrics__item {
+	position: relative;
+	padding: 0 60px;
+    text-align: center;
+	width: fit-content;
+	&:first-child { text-align: right; padding-left: 0;}
+	&:last-child { padding-right: 0;}
+	// Вертикальный разделитель — слева у всех, кроме первого.
+	&:not(:first-child) {
+		border-left: 1px solid var(--secondary2);
+	}
+    @include down($xxxl) {padding: 0 2vw;}
+	// Мобилка — value + label в ряд по baseline, разделитель снизу
+	// у всех кроме последнего (вместо вертикального слева).
+	@include down($md) {
+		display: flex;
+		align-items: baseline;
+		column-gap: 10px;
+		padding: 10px 0;
+		text-align: left;
+        width: 100%;
+		&:first-child { text-align: left; }
+		&:not(:first-child) { border-left: none; }
+		&:not(:last-child) { border-bottom: 1px solid var(--secondary2); }
+	}
+}
+
+.ss-metrics__value {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 32px;
+	line-height: 1.3;
+	color: var(--accent3);
+
+	@include down($md) {
+		font-size: 24px;
+	}
+}
+
+.ss-metrics__label {
+	margin: 10px 0 0;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary2);
+
+	// В ряду с value — свой margin-top не нужен, гэп задан column-gap на item.
+	@include down($md) {
+		margin: 0;
+		font-size: 14px;
+	}
+}
