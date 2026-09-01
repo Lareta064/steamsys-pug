@@ -244,6 +244,11 @@
 		background: #F8F9F9;
 	}
 
+	// Тёмная подложка (например, для лого в белом варианте).
+	.icons-catalog__preview--dark {
+		background: #031D2A;
+	}
+
 	.icons-catalog__meta {
 		padding: 12px 14px;
 		display: flex;

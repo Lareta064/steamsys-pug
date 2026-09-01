@@ -34,6 +34,36 @@ block content
 								pre.icons-catalog__snippet
 									code +svgIcon('#{icon.name}')
 
+			//- ========== Логотип ==========
+			h3.icons-catalog__section-title Логотип
+			p.icons-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Логотип живёт в
+				strong  отдельном
+				|  внешнем спрайте
+				code src/img/logo-sprite.svg
+				|  (файл крупный — не смешиваем с
+				code ss-sprite.svg
+				|  для иконок). Размер 160×76. Дефолт наследует цвет от контекста; модификатор
+				code .svg-logo--white
+				|  форсит белый (для тёмных подложек — хедер, футер, feedback-секция).
+
+			ul.icons-catalog
+				li.icons-catalog__item
+					.icons-catalog__preview.icons-catalog__preview--dark
+						+svgIcon('logo', { sprite: 'logo-sprite' })(class='svg-logo--white')
+					.icons-catalog__meta
+						code.icons-catalog__name .svg-logo.svg-logo--white
+						span.icons-catalog__note.ss-reg-12.ss-txt-secondary 160×76 на тёмном фоне
+						pre.icons-catalog__snippet
+							code +svgIcon('logo', { sprite: 'logo-sprite' })(class='svg-logo--white')
+				li.icons-catalog__item
+					.icons-catalog__preview
+						+svgIcon('logo', { sprite: 'logo-sprite' })
+					.icons-catalog__meta
+						code.icons-catalog__name .svg-logo
+						span.icons-catalog__note.ss-reg-12.ss-txt-secondary 160×76 на тёмном фоне
+						pre.icons-catalog__snippet
+							code +svgIcon('logo', { sprite: 'logo-sprite' })	
 			//- ========== Как добавить новую иконку ==========
 			h3.icons-catalog__section-title Как добавить новую иконку
 

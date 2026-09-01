@@ -37,6 +37,22 @@
 	height: 20px;
 }
 
+// ==== Логотип ====
+//- Живёт в ОТДЕЛЬНОМ внешнем спрайте: src/img/logo-sprite.svg
+//- (файл большой, отделили от ss-sprite.svg с иконками).
+//- Дефолт наследует цвет от контекста. Модификатор --white — форсит белый
+//- (для тёмных подложек: хедер, футер, feedback-секция и т.п.).
+//- Использование в pug: +svgIcon('logo', { sprite: 'logo-sprite' })
+.svg-logo {
+	width: 160px;
+	height: 76px;
+	color: var(--accent1);
+}
+
+.svg-logo--white {
+	color: var(--white);
+}
+
 .svg-user {
 	width: 32px;
 	height: 32px;
