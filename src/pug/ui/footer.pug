@@ -1,0 +1,51 @@
+extends ../layouts/layout-ui-sections.pug
+
+block content
+	//- Данные для nav
+	- var navItems = [{ id: 'nav-1', title: 'Решения', links: [{ text: 'Все решения', href: '#' }, { text: 'РОУ и БРОУ', href: '#' }, { text: 'СВК', href: '#' }, { text: 'ОУ / ИТП ГВС', href: '#' }, { text: 'Обвязка калориферов', href: '#' }, { text: 'Обвязка теплообменников', href: '#' }] }, { id: 'nav-2', title: 'Оборудование', links: [{ text: 'Всё оборудование', href: '#' }, { text: 'Конденсатоотводчики', href: '#' }, { text: 'Конденсатные насосы', href: '#' }, { text: 'Клапаны и арматура', href: '#' }, { text: 'Автоматика', href: '#' }, { text: 'Бренды', href: '#' }] }, { id: 'nav-3', title: 'Отрасли и опыт', links: [{ text: 'Все отрасли', href: '#' }, { text: 'Кейсы', href: '#' }, { text: 'Отзывы', href: '#' }, { text: 'Медиа', href: '#' }] }, { id: 'nav-4', title: 'Инструменты', links: [{ text: 'Калькуляторы', href: '#' }, { text: 'Опросные листы', href: '#' }, { text: 'Документация', href: '#' }, { text: 'База знаний', href: '#' }, { text: 'CAD / 3D / BIM', href: '#' }] }, { id: 'nav-5', title: 'Компания', links: [{ text: 'О компании', href: '#' }, { text: 'Команда', href: '#' }, { text: 'Карьера', href: '#' }, { text: 'Реквизиты', href: '#' }, { text: 'Вопросы и ответы', href: '#' }, { text: 'Контакты', href: '#' }] }]
+
+	//- Миксин для одного контакт-айтема
+	mixin contactItem(label, value, sizeClass)
+		li.ss-contacts-list__item
+			p.ss-contacts-list__label= label
+			p.ss-contacts-list__value(class=sizeClass)!= value
+
+	footer.ss-footer.ss-wrapper
+		.ss-container
+
+			//- ==================== Ряд 1: top (brand + nav) ====================
+			.ss-footer__top
+				.ss-footer__brand
+					+svgIcon('logo', { sprite: 'logo-sprite' })(class='svg-logo--white')
+					p.ss-footer__brand-desc.ss-medi-16 Пароконденсатные системы для промышленности
+					+socialGroup(['whatsapp', 'telegram'])(class='ss-social--white')
+
+				.ss-footer__nav
+					each item in navItems
+						.ss-footer-nav__item
+							input.ss-footer-nav__toggle(type='checkbox', id='ftr-' + item.id, hidden)
+							label.ss-footer-nav__title(for='ftr-' + item.id)
+								span.ss-footer-nav__title-text= item.title
+								+svgIcon('chevron-down')(class='ss-footer-nav__arrow')
+							ul.ss-footer-nav__list
+								each link in item.links
+									li: a.ss-footer-nav__link(href=link.href)= link.text
+
+			//- ==================== Ряд 2: contacts + buttons ====================
+			.ss-footer__contacts
+				ul.ss-contacts-list.ss-contacts-list--row
+					+contactItem('Телефон', '+7 (812) 602-77-70')
+					+contactItem('Почта', 'info@steamsys.ru')
+					+contactItem('Режим работы', 'Работаем: Пн - Пт с 9:00 до 18:00<br>Выходной: Сб - Вс', 'ss-medi-16')
+					+contactItem('Адрес', 'Санкт-Петербург,<br>ул. Воронежская, д. 5, оф. 123', 'ss-medi-16')
+				.ss-footer__contacts-actions
+					+ssBtn('Реквизиты', { variant: 'white', size: 'mini', icon: 'book' })
+					+ssBtn('Получить КП', { variant: 'primary', size: 'mini', icon: 'arrow-right' })
+
+			//- ==================== Ряд 3: bottom (copyright / links / KOGIT) ====================
+			.ss-footer-bottom
+				p.ss-footer-bottom__copy.ss-medi-16 © 2008–2026 | ООО «Паровые системы» | ИНН 7816436595 | Все права защищены
+				a.ss-footer-bottom__link.ss-medi-14(href='#') СОУТ
+				a.ss-footer-bottom__link.ss-medi-14(href='#') Политика конфиденциальности
+				p.ss-footer-bottom__dev.ss-reg-14
+					| Разработка сайта: #[a(href='#') KOGIT]

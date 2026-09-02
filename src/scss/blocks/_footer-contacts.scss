@@ -26,10 +26,14 @@
 	padding-block: 30px;
 	border-top: 1px solid var(--secondary);
 
-	@include down($md) {
+	// <1600 — коллапсируем в column (кнопки уезжают под contacts list).
+	@media (max-width: 1599px) {
 		flex-direction: column;
 		align-items: stretch;
 		row-gap: 30px;
+	}
+
+	@include down($md) {
 		padding: 30px 20px;
 	}
 }

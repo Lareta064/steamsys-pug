@@ -51,7 +51,7 @@
 	border: none;
 	cursor: default;
 
-	@include down($md) {
+	@include down($lg) {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -70,7 +70,7 @@
 	color: var(--accent3);
 	transition: transform .25s;
 
-	@include down($md) {
+	@include down($lg) {
 		display: inline-block;
 		width: 22px;
 		height: 22px;
@@ -89,7 +89,7 @@
 	flex-direction: column;
 	row-gap: 10px;
 
-	@include down($md) {
+	@include down($lg) {
 		display: none;
 		padding-bottom: 15px;
 	}
@@ -113,7 +113,7 @@
 // Состояние open (только на мобилке).
 // input:checked ~ title/list — доступ через sibling-селектор.
 // ------------------------------
-@include down($md) {
+@include down($lg) {
 	// Тонкий разделитель между items по умолчанию (закрытые).
 	.ss-footer-nav__title {
 		border-bottom: 1px solid rgba(255, 255, 255, .08);

@@ -32,6 +32,7 @@
 @use "blocks/_footer-nav-item";
 @use "blocks/_contacts-list";
 @use "blocks/_footer-contacts";
+@use "blocks/_footer-bottom";
 
 // sections — базовая обёртка + именованные модификаторы + общие Swiper-стили
 @use "sections/_section";
@@ -48,6 +49,7 @@
 @use "sections/_section-tab-catalog";
 @use "sections/_section-cases";
 @use "sections/_section-feedback";
+@use "sections/_footer";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

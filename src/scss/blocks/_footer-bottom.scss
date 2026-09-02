@@ -1,0 +1,86 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-footer-bottom — нижний ряд футера (copyright / служебные ссылки / кредит).
+// Сверху — тонкая линия --secondary (как у .ss-footer__contacts).
+// padding-block 20 (обе версии).
+//
+// Раскладка:
+//   ≥$md: flex-row justify-content: space-between (copyright — слева,
+//         kogit-кредит — справа, ссылки СОУТ / Политика — равномерно между).
+//   <$md: flex-column row-gap 20. Copyright может переноситься на 2 строки
+//         естественно (текст длинный).
+//
+// Разметка:
+//   .ss-footer-bottom
+//     p.ss-footer-bottom__copy.ss-medi-16 © 2008–2026 | ...
+//     a.ss-footer-bottom__link.ss-medi-14(href='#') СОУТ
+//     a.ss-footer-bottom__link.ss-medi-14(href='#') Политика конфиденциальности
+//     p.ss-footer-bottom__dev.ss-reg-14
+//       | Разработка сайта: #[a(href='#') KOGIT]
+//
+// Типографика (.ss-medi-16 / .ss-medi-14 / .ss-reg-14) добавляется
+// вторым классом — размер приезжает из base/_typography.scss.
+// ==============================
+
+.ss-footer-bottom {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	column-gap: 20px;
+	flex-wrap: wrap;
+	padding-block: 20px;
+	border-top: 1px solid var(--secondary);
+
+	// <$xxl (<1440) — copyright переносится в свою строку (width: 100%),
+	// ссылки уезжают на второй ряд. Даём вертикальный gap.
+	@include down($xxl) {
+		row-gap: 10px;
+	}
+
+	@include down($md) {
+		flex-direction: column;
+		align-items: flex-start;
+		row-gap: 20px;
+	}
+}
+
+.ss-footer-bottom__copy {
+	margin: 0;
+	color: var(--secondary);
+
+	// <$xxl (<1440) — copyright занимает всю ширину ряда,
+	// остальные ссылки (СОУТ / Политика / KOGIT) переносятся на второй ряд
+	// благодаря flex-wrap: wrap на .ss-footer-bottom.
+	@include down($xxl) {
+		width: 100%;
+	}
+}
+
+.ss-footer-bottom__link {
+	color: var(--secondary1);
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--white);
+	}
+}
+
+// «Разработка сайта: KOGIT» — базовый цвет --secondary,
+// внутри ссылка (KOGIT) — --secondary1.
+.ss-footer-bottom__dev {
+	margin: 0;
+	color: var(--secondary);
+
+	a {
+		color: var(--secondary1);
+		text-decoration: none;
+		transition: color .2s;
+		margin-left: 4px;
+
+		&:hover {
+			color: var(--white);
+		}
+	}
+}

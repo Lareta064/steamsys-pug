@@ -1,0 +1,84 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-footer — сборка футера.
+//
+// Три ряда:
+//   1) top   — левая колонка (brand: лого + текст + социалки) + правая (nav)
+//   2) contacts — уже готовый .ss-footer__contacts (contacts list + buttons)
+//   3) bottom  — уже готовый .ss-footer-bottom (copyright / links / KOGIT)
+//
+// Верхний ряд имеет padding-bottom 80 (моб 60) — задаёт отступ до contacts.
+// Внутри contacts / bottom — их собственные padding-block / border-top.
+//
+// Раскладка top-ряда:
+//   ≥$md: grid 230px | 1fr, column-gap 30. В правой колонке nav-элементы
+//         с justify-content: flex-end (прижаты к правому краю). Gap между
+//         nav-колонками: 80 на ≥1920, fluid ниже, стек на <$md.
+//   <$md: grid 1fr — brand сверху, nav ниже. Row-gap 40 между ними.
+//
+// Общий фон .ss-footer — var(--primary). Внутри — стандартный .ss-container
+// для max-width + horizontal padding.
+// ==============================
+
+.ss-footer {
+	background: var(--primary);
+	padding: 80px 0 0;
+	color: var(--white);
+
+	@include down($md) {
+		padding-top: 60px;
+	}
+}
+
+// ------------------------------
+// Ряд 1 — top-блок.
+// ------------------------------
+.ss-footer__top {
+	display: grid;
+	grid-template-columns: 230px 1fr;
+	column-gap: 30px;
+	padding-bottom: 80px;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		row-gap: 40px;
+		padding-bottom: 60px;
+	}
+}
+
+// Левая колонка — бренд: лого, описание, социалки.
+.ss-footer__brand {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.ss-footer__brand-desc {
+	margin: 0;
+	color: var(--white);
+}
+
+// Правая колонка — 5 nav-элементов, прижаты вправо.
+// gap 80 на ≥1920, fluid ниже, стек на <$md.
+.ss-footer__nav {
+	display: flex;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	gap: 80px;
+
+	@include down($xxxl) {
+		gap: clamp(20px, 4vw, 80px);
+	}
+
+	// <1600 — прижимаем nav к левому краю (по спеке, чтобы не разрывать
+	// компактную группу колонок при сужении экрана).
+	@media (max-width: 1599px) {
+		justify-content: flex-start;
+	}
+
+	@include down($lg) {
+		flex-direction: column;
+		gap: 0;
+	}
+}

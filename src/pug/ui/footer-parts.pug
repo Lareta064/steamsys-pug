@@ -162,3 +162,39 @@ block content
 					|     .ss-footer__contacts-actions
 					|         +ssBtn('Реквизиты',   { variant: 'white', size: 'mini', icon: 'book' })
 					|         +ssBtn('Получить КП', { variant: 'primary', size: 'mini', icon: 'arrow-right' })
+
+			//- ========== .ss-footer-bottom ==========
+			h3.footer-catalog__section-title .ss-footer-bottom
+			p.footer-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Нижний ряд футера: копирайт слева, ссылки СОУТ / Политика конфиденциальности,
+				| справа кредит «Разработка сайта: KOGIT». Раскладка
+				code justify-content: space-between
+				| , padding-block 20, border-top --secondary.
+				br
+				| Размеры типографики — вторым классом:
+				code .ss-medi-16
+				|  (copy),
+				code .ss-medi-14
+				|  (ссылки),
+				code .ss-reg-14
+				|  (кредит).
+				br
+				| На &lt;$md — flex-column row-gap 20; copyright может переноситься на 2 строки без gap.
+
+			.footer-catalog__demo.ss-bg-primary(style='padding: 0 20px;')
+				.ss-footer-bottom
+					p.ss-footer-bottom__copy.ss-medi-16 © 2008–2026 | ООО «Паровые системы» | ИНН 7816436595 | Все права защищены
+					a.ss-footer-bottom__link.ss-medi-14(href='#') СОУТ
+					a.ss-footer-bottom__link.ss-medi-14(href='#') Политика конфиденциальности
+					p.ss-footer-bottom__dev.ss-reg-14
+						| Разработка сайта: #[a(href='#') KOGIT]
+
+			h4.footer-catalog__subtitle Сниппет
+			pre.footer-catalog__snippet
+				code
+					| .ss-footer-bottom
+					|     p.ss-footer-bottom__copy.ss-medi-16 © 2008–2026 | ...
+					|     a.ss-footer-bottom__link.ss-medi-14(href='#') СОУТ
+					|     a.ss-footer-bottom__link.ss-medi-14(href='#') Политика конфиденциальности
+					|     p.ss-footer-bottom__dev.ss-reg-14
+					|         | Разработка сайта: #[a(href='#') KOGIT]
