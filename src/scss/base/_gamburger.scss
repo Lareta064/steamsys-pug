@@ -1,0 +1,83 @@
+@use '_var' as *;
+/*========GAMBURGER======*/
+.menu-toggle {
+	display: none;
+	flex-shrink: 0;
+	width: 36px;
+	height: 36px;
+	background-color: #fff;
+	z-index: 11;
+	cursor: pointer;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+@media (max-width: 1199px) {
+	.menu-toggle {
+		display: flex;
+
+	}
+}
+@media (max-width: 1023px) {
+	.menu-toggle {
+		width: 36px;
+	    height: 36px;
+	}
+	
+}
+.menu-toggle span {
+	position: relative;
+	height: 2px;
+	width: 50%;
+	border-radius: 3px;
+	background-color: var(--primary);
+	-webkit-transition: .2s;
+	-o-transition: .2s;
+	transition: .2s;
+}
+
+.menu-toggle span:after,
+.menu-toggle span:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	height: 2px;
+	background-color: var(--primary);
+	border-radius: 5px;
+	right: 0;
+	-webkit-transition: .2s;
+	-o-transition: .2s;
+	transition: .2s;
+}
+
+.menu-toggle span:after {
+	top: -7px;
+}
+
+.menu-toggle span:before {
+	bottom: -7px;
+}
+.active.menu-toggle.active{
+	border-radius: 50%;
+}
+.active.menu-toggle span {
+	background-color: transparent !important;
+}
+
+
+.active.menu-toggle span:after {
+	top: 0px;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+	background-color:var(--primary);
+}
+
+.active.menu-toggle span:before {
+	bottom: 0px;
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	background-color: var(--primary);
+}
