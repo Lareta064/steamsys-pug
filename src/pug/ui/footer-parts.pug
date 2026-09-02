@@ -1,0 +1,53 @@
+extends ../layouts/layout-ui.pug
+
+block content
+	//- Данные для демо
+	- var navItems = [{ id: 'nav-1', title: 'Решения', links: [{ text: 'Все решения', href: '#' }, { text: 'РОУ и БРОУ', href: '#' }, { text: 'СВК', href: '#' }, { text: 'ОУ / ИТП ГВС', href: '#' }, { text: 'Обвязка калориферов', href: '#' }, { text: 'Обвязка теплообменников', href: '#' }] }, { id: 'nav-2', title: 'Оборудование', links: [{ text: 'Всё оборудование', href: '#' }, { text: 'Конденсатоотводчики', href: '#' }, { text: 'Конденсатные насосы', href: '#' }, { text: 'Клапаны и арматура', href: '#' }, { text: 'Автоматика', href: '#' }, { text: 'Бренды', href: '#' }] }, { id: 'nav-3', title: 'Отрасли и опыт', links: [{ text: 'Все отрасли', href: '#' }, { text: 'Кейсы', href: '#' }, { text: 'Отзывы', href: '#' }, { text: 'Медиа', href: '#' }] }, { id: 'nav-4', title: 'Инструменты', links: [{ text: 'Калькуляторы', href: '#' }, { text: 'Опросные листы', href: '#' }, { text: 'Документация', href: '#' }, { text: 'База знаний', href: '#' }, { text: 'CAD / 3D / BIM', href: '#' }] }, { id: 'nav-5', title: 'Компания', links: [{ text: 'О компании', href: '#' }, { text: 'Команда', href: '#' }, { text: 'Карьера', href: '#' }, { text: 'Реквизиты', href: '#' }, { text: 'Вопросы и ответы', href: '#' }, { text: 'Контакты', href: '#' }] }]
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Компоненты футера
+
+		.container-dashboard__content
+
+			p.footer-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Отдельные части футера. По готовности всех компонентов — соберём полный
+				code section.ss-footer
+				|  на отдельной странице. Все компоненты рассчитаны на тёмный фон, демо — на подложке
+				code .ss-bg-primary
+				| .
+
+			//- ========== .ss-footer-nav__item ==========
+			h3.footer-catalog__section-title .ss-footer-nav__item
+			p.footer-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Одна колонка навигации: киккер (accent3) + список ссылок.
+				| Десктоп (≥$md) — статичная колонка. Мобилка (<$md) — аккордеон: клик по заголовку разворачивает список,
+				| у открытого блока сверху и снизу бордер accent3. Реализовано без JS через скрытый
+				code input[type="checkbox"]
+				|  + label с
+				code for
+				| . Родитель (расположение по горизонтали на десктопе, стек на мобилке) — задача консьюмера.
+
+			.footer-catalog__demo.ss-bg-primary
+				.footer-catalog__nav-grid
+					each item in navItems
+						.ss-footer-nav__item
+							input.ss-footer-nav__toggle(type='checkbox', id='footer-' + item.id, hidden)
+							label.ss-footer-nav__title(for='footer-' + item.id)
+								span.ss-footer-nav__title-text= item.title
+								+svgIcon('chevron-down')(class='ss-footer-nav__arrow')
+							ul.ss-footer-nav__list
+								each link in item.links
+									li: a.ss-footer-nav__link(href=link.href)= link.text
+
+			h4.footer-catalog__subtitle Сниппет
+			pre.footer-catalog__snippet
+				code
+					| .ss-footer-nav__item
+					|     input.ss-footer-nav__toggle#footer-nav-1(type='checkbox' hidden)
+					|     label.ss-footer-nav__title(for='footer-nav-1')
+					|         span.ss-footer-nav__title-text Решения
+					|         +svgIcon('chevron-down')(class='ss-footer-nav__arrow')
+					|     ul.ss-footer-nav__list
+					|         li: a.ss-footer-nav__link(href='#') Все решения
+					|         li: a.ss-footer-nav__link(href='#') РОУ и БРОУ
+					|         //- ...

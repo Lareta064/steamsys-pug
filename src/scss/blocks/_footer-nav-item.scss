@@ -1,0 +1,138 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-footer-nav__item — одна колонка навигации в футере.
+//
+// На десктопе (≥$md) — статичная колонка: заголовок-киккер (accent3) + список ссылок.
+// На мобилке (<$md) — аккордеон: заголовок работает как кликабельная кнопка,
+// список скрыт по умолчанию, разворачивается по клику. У открытого блока
+// сверху и снизу бордеры accent3.
+//
+// Реализация без JS — через скрытый <input type="checkbox">.
+// Каждому item — свой уникальный id, label связан через for.
+//
+// Разметка:
+//   .ss-footer-nav__item
+//     input.ss-footer-nav__toggle#footer-nav-1(type='checkbox' hidden)
+//     label.ss-footer-nav__title(for='footer-nav-1')
+//       span.ss-footer-nav__title-text Решения
+//       +svgIcon('chevron-down')(class='ss-footer-nav__arrow')
+//     ul.ss-footer-nav__list
+//       li: a.ss-footer-nav__link(href='#') Все решения
+//       ...
+// ==============================
+
+.ss-footer-nav__item {
+	// Wrapper — контекст для sibling-селекторов input:checked ~ ...
+}
+
+// Скрытый checkbox — хранит состояние open/closed на мобилке.
+// hidden атрибут для доступности + display: none для точности.
+.ss-footer-nav__toggle {
+	display: none;
+}
+
+// ------------------------------
+// Заголовок-киккер (label связан с checkbox через for).
+// Десктоп: как обычный киккер (18/500 uppercase accent3), стрелка скрыта.
+// Мобилка: клик открывает/закрывает список; min-height 46, стрелка справа.
+// ------------------------------
+.ss-footer-nav__title {
+	display: block;
+	margin: 0 0 10px;
+	padding: 0;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	text-transform: uppercase;
+	color: var(--accent3);
+	background: none;
+	border: none;
+	cursor: default;
+
+	@include down($md) {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10px;
+		min-height: 46px;
+		margin: 0;
+		font-size: 14px;
+		cursor: pointer;
+	}
+}
+
+// Стрелка — только на мобилке. По ::checked разворачивается вверх.
+.ss-footer-nav__arrow {
+	display: none;
+	flex-shrink: 0;
+	color: var(--accent3);
+	transition: transform .25s;
+
+	@include down($md) {
+		display: inline-block;
+		width: 22px;
+		height: 22px;
+	}
+}
+
+// ------------------------------
+// Список ссылок.
+// Десктоп: всегда видим. Мобилка: скрыт, показывается при :checked.
+// ------------------------------
+.ss-footer-nav__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+
+	@include down($md) {
+		display: none;
+		padding-bottom: 15px;
+	}
+}
+
+.ss-footer-nav__link {
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--white);
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent3);
+	}
+}
+
+// ------------------------------
+// Состояние open (только на мобилке).
+// input:checked ~ title/list — доступ через sibling-селектор.
+// ------------------------------
+@include down($md) {
+	// Тонкий разделитель между items по умолчанию (закрытые).
+	.ss-footer-nav__title {
+		border-bottom: 1px solid rgba(255, 255, 255, .08);
+	}
+
+	// Открыт: убираем нижний бордер у title (он между title и list),
+	// добавляем accent3 сверху title и снизу list.
+	.ss-footer-nav__toggle:checked ~ .ss-footer-nav__title {
+		border-top: 1px solid var(--accent3);
+		border-bottom: none;
+	}
+
+	.ss-footer-nav__toggle:checked ~ .ss-footer-nav__list {
+		display: flex;
+		border-bottom: 1px solid var(--accent3);
+	}
+
+	// Стрелка вверх при :checked.
+	.ss-footer-nav__toggle:checked ~ .ss-footer-nav__title .ss-footer-nav__arrow {
+		transform: rotate(180deg);
+	}
+}

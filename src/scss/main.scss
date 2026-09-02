@@ -30,6 +30,7 @@
 @use "blocks/_review-card";
 @use "blocks/_metrics";
 @use "blocks/_case-card";
+@use "blocks/_footer-nav-item";
 
 // sections — базовая обёртка + именованные модификаторы + общие Swiper-стили
 @use "sections/_section";

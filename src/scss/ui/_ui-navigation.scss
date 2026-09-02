@@ -1433,6 +1433,84 @@
 	}
 }
 
+// ===== Каталог компонентов футера (footer-parts.html) =====
+.container-dashboard {
+	.footer-catalog__intro {
+		margin-bottom: 24px;
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+	}
+
+	.footer-catalog__section-title {
+		margin: 32px 0 8px;
+		font-size: 18px;
+		font-weight: 600;
+		color: #031D2A;
+
+		code {
+			margin-left: 6px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 13px;
+			font-weight: 500;
+		}
+	}
+
+	.footer-catalog__subtitle {
+		margin: 20px 0 8px;
+		font-size: 13px;
+		font-weight: 500;
+		color: #7C8A93;
+	}
+
+	.footer-catalog__hint {
+		margin: 0 0 16px;
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+	}
+
+	.footer-catalog__demo {
+		padding: 32px;
+		border-radius: 8px;
+	}
+
+	.footer-catalog__snippet {
+		margin: 12px 0 0;
+		padding: 12px 14px;
+		background: #031D2A;
+		color: #F8F9F9;
+		border-radius: 6px;
+		font-size: 12px;
+		overflow: auto;
+	}
+
+	// Раскладка навигационных колонок в демо: 5 колонок на десктопе,
+	// стек на мобилке (в реальном футере может отличаться — консьюмер решает).
+	.footer-catalog__nav-grid {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: 20px;
+
+		@media (max-width: 1023px) {
+			grid-template-columns: 1fr;
+			gap: 0;
+		}
+	}
+}
+
 // ===== Docs (страница docs.html) =====
 .container-dashboard {
 	.docs-catalog__lead {
