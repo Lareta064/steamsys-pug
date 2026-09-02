@@ -1,8 +1,15 @@
 extends ../layouts/layout-ui.pug
 
 block content
-	//- Данные для демо
+	//- Данные для демо nav
 	- var navItems = [{ id: 'nav-1', title: 'Решения', links: [{ text: 'Все решения', href: '#' }, { text: 'РОУ и БРОУ', href: '#' }, { text: 'СВК', href: '#' }, { text: 'ОУ / ИТП ГВС', href: '#' }, { text: 'Обвязка калориферов', href: '#' }, { text: 'Обвязка теплообменников', href: '#' }] }, { id: 'nav-2', title: 'Оборудование', links: [{ text: 'Всё оборудование', href: '#' }, { text: 'Конденсатоотводчики', href: '#' }, { text: 'Конденсатные насосы', href: '#' }, { text: 'Клапаны и арматура', href: '#' }, { text: 'Автоматика', href: '#' }, { text: 'Бренды', href: '#' }] }, { id: 'nav-3', title: 'Отрасли и опыт', links: [{ text: 'Все отрасли', href: '#' }, { text: 'Кейсы', href: '#' }, { text: 'Отзывы', href: '#' }, { text: 'Медиа', href: '#' }] }, { id: 'nav-4', title: 'Инструменты', links: [{ text: 'Калькуляторы', href: '#' }, { text: 'Опросные листы', href: '#' }, { text: 'Документация', href: '#' }, { text: 'База знаний', href: '#' }, { text: 'CAD / 3D / BIM', href: '#' }] }, { id: 'nav-5', title: 'Компания', links: [{ text: 'О компании', href: '#' }, { text: 'Команда', href: '#' }, { text: 'Карьера', href: '#' }, { text: 'Реквизиты', href: '#' }, { text: 'Вопросы и ответы', href: '#' }, { text: 'Контакты', href: '#' }] }]
+
+	//- Миксин для одного контакт-айтема. Опциональный класс типографики
+	//- для value (напр. 'ss-h4' в feedback, 'ss-medi-20' для расписания).
+	mixin contactItem(label, value, sizeClass)
+		li.ss-contacts-list__item
+			p.ss-contacts-list__label= label
+			p.ss-contacts-list__value(class=sizeClass)!= value
 
 	.container-dashboard.ss-wrapper
 		h2.db-h2 Компоненты футера
@@ -51,3 +58,69 @@ block content
 					|         li: a.ss-footer-nav__link(href='#') Все решения
 					|         li: a.ss-footer-nav__link(href='#') РОУ и БРОУ
 					|         //- ...
+
+			//- ========== .ss-contacts-list ==========
+			h3.footer-catalog__section-title .ss-contacts-list
+			p.footer-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Список контактов (label + value). Используется в футере, мобильном меню и в секции feedback.
+				br
+				| — База: column, value 20/600 десктоп → 16/600 при &lt;$xl.
+				br
+				|
+				code .ss-contacts-list--row
+				|  — горизонтальная раскладка (футер desktop).
+				br
+				|
+				code .ss-contacts-list--hero
+				|  — крупный row-gap 40 + крупный label 18/16 (для feedback).
+				br
+				| — Размер value кастомизируется через типографический класс вторым классом:
+				code .ss-h4
+				|  (24→40) для feedback,
+				code .ss-medi-20
+				|  для многострочного расписания/адреса,
+				code .ss-semi-20
+				|  для телефона в mob-меню и т.д.
+
+			h4.footer-catalog__subtitle База — column, компакт (футер mobile / mob-menu)
+			.footer-catalog__demo.ss-bg-primary(style='max-width: 300px;')
+				ul.ss-contacts-list
+					+contactItem('Телефон', '+7 (812) 602-77-70')
+					+contactItem('Почта', 'info@steamsys.ru')
+					+contactItem('Режим работы', 'Работаем: Пн - Пт с 9:00 до 18:00<br>Выходной: Сб - Вс', 'ss-medi-14')
+					+contactItem('Адрес', 'Санкт-Петербург,<br>ул. Воронежская, д. 5, оф. 123', 'ss-medi-14')
+
+			h4.footer-catalog__subtitle --row (для футера на десктопе)
+			.footer-catalog__demo.ss-bg-primary
+				ul.ss-contacts-list.ss-contacts-list--row
+					+contactItem('Телефон', '+7 (812) 602-77-70')
+					+contactItem('Почта', 'info@steamsys.ru')
+					+contactItem('Режим работы', 'Работаем: Пн - Пт с 9:00 до 18:00<br>Выходной: Сб - Вс', 'ss-medi-14')
+					+contactItem('Адрес', 'Санкт-Петербург,<br>ул. Воронежская, д. 5, оф. 123', 'ss-medi-14')
+
+			h4.footer-catalog__subtitle --hero (для секции feedback, размер value через .ss-h4 / .ss-medi-20)
+			.footer-catalog__demo.ss-bg-primary
+				ul.ss-contacts-list.ss-contacts-list--hero
+					+contactItem('Телефон', '+7 (812) 602-77-70', 'ss-h4')
+					+contactItem('Почта', 'info@steamsys.ru', 'ss-h4')
+					+contactItem('Режим работы', 'Работаем: Пн - Пт с 9:00 до 18:00<br>Выходной: Сб - Вс', 'ss-medi-20')
+
+			h4.footer-catalog__subtitle Сниппет
+			pre.footer-catalog__snippet
+				code
+					| ul.ss-contacts-list
+					|     li.ss-contacts-list__item
+					|         p.ss-contacts-list__label Телефон
+					|         p.ss-contacts-list__value +7 (812) 602-77-70
+					|     li.ss-contacts-list__item
+					|         p.ss-contacts-list__label Режим работы
+					|         p.ss-contacts-list__value.ss-medi-14
+					|             | Работаем: Пн - Пт с 9:00 до 18:00
+					|             br
+					|             | Выходной: Сб - Вс
+					|
+					| //- модификаторы + override размера value через типографику:
+					| ul.ss-contacts-list.ss-contacts-list--row       // горизонтально
+					| ul.ss-contacts-list.ss-contacts-list--hero      // крупный gap + label
+					| p.ss-contacts-list__value.ss-h4                  // 24→40 (feedback)
+					| p.ss-contacts-list__value.ss-semi-20            // 20 постоянно (mob-menu tel)

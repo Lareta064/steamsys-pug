@@ -2,7 +2,6 @@
 @use "base/_var" as *;
 @use "base/_base";
 @use "base/_global";
-@use "base/_typography";
 @use "base/_container";
 @use "base/_grid";
 @use "base/_svg-icons";
@@ -31,6 +30,7 @@
 @use "blocks/_metrics";
 @use "blocks/_case-card";
 @use "blocks/_footer-nav-item";
+@use "blocks/_contacts-list";
 
 // sections — базовая обёртка + именованные модификаторы + общие Swiper-стили
 @use "sections/_section";
@@ -47,6 +47,11 @@
 @use "sections/_section-tab-catalog";
 @use "sections/_section-cases";
 @use "sections/_section-feedback";
+
+// typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
+// работали как утилиты-override, когда добавлены вторым классом к компоненту
+// (например, `p.ss-contacts-list__value.ss-h4` в feedback).
+@use "base/_typography";
 
 // ui
 @use "ui/_ui-navigation";

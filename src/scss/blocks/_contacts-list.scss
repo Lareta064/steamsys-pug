@@ -1,0 +1,95 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-contacts-list — список контактов (Телефон / Почта / Режим работы / Адрес).
+// Item = label (uppercase secondary) + value (bold white).
+// Может использоваться в футере, в мобильном меню, в секции feedback.
+//
+// Разметка:
+//   ul.ss-contacts-list
+//     li.ss-contacts-list__item
+//       p.ss-contacts-list__label Телефон
+//       p.ss-contacts-list__value +7 (812) 602-77-70
+//     li.ss-contacts-list__item
+//       p.ss-contacts-list__label Режим работы
+//       p.ss-contacts-list__value.ss-medi-20
+//         | Работаем: Пн - Пт с 9:00 до 18:00
+//         br
+//         | Выходной: Сб - Вс
+//
+// Размер значения:
+//   Дефолт     — 20/600 десктоп, 16/600 при <$xl (компактно для футера/меню).
+//   Крупнее    — вторым классом типографического ряда: например .ss-h4 (24→40)
+//                для feedback-секции, .ss-semi-20 для телефона в мобильном меню.
+//   Меньше     — вторым классом типографики (напр. .ss-medi-14 для расписания).
+//   Типография подгружается ПОСЛЕ этого файла (см. main.scss), поэтому классы
+//   утилит побеждают дефолт size/weight.
+//
+// Модификаторы:
+//   .ss-contacts-list--row  — горизонтальная раскладка (футер desktop).
+//   .ss-contacts-list--hero — крупный отступ между items + крупный label
+//                             (для секции feedback).
+// ==============================
+
+// ------------------------------
+// База — вертикальный стек, компактные размеры.
+// ------------------------------
+.ss-contacts-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.ss-contacts-list__label {
+	margin: 0 0 5px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	text-transform: uppercase;
+	color: var(--secondary);
+}
+
+.ss-contacts-list__value {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--white);
+
+	@include down($xl) {
+		font-size: 16px;
+	}
+}
+
+// ------------------------------
+// Модификатор --row — горизонтальная раскладка (футер на десктопе).
+// ------------------------------
+.ss-contacts-list--row {
+	flex-direction: row;
+	flex-wrap: wrap;
+	column-gap: 40px;
+	row-gap: 20px;
+}
+
+// ------------------------------
+// Модификатор --hero — используется в секции feedback:
+// увеличенный row-gap (40) + крупный label (18/16).
+// Размер value задаётся ОТДЕЛЬНО через типографический класс (напр. .ss-h4).
+// ------------------------------
+.ss-contacts-list--hero {
+	row-gap: 40px;
+
+	.ss-contacts-list__label {
+		margin-bottom: 10px;
+		font-size: 18px;
+
+		@include down($md) {
+			font-size: 16px;
+		}
+	}
+}
