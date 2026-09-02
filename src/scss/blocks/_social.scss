@@ -1,0 +1,31 @@
+@use '../base/_var' as *;
+.ss-social{
+	display: flex;
+	gap:10px;
+	flex-wrap: wrap;
+	&--white{
+		.ss-social-item{
+			border: 1px solid var(--white);
+			background-color: var(--white);
+			
+		}
+		.ss-social-item:hover{
+			border: 1px solid var(--accent3);
+			background-color: transparent;
+			svg{color: var(--accent3);}
+		}
+	}
+}
+.ss-social-item{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid var(--primary1);
+	border-radius: 10px;
+	padding: 14px;
+	width: 52px;
+	height: 52px;
+	flex-shrink: 0;
+	transition: .2s;
+
+}

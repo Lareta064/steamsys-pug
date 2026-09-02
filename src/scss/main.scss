@@ -3,9 +3,9 @@
 @use "base/_base";
 @use "base/_global";
 @use "base/_typography";
-@use "base/_svg-icons";
 @use "base/_container";
 @use "base/_grid";
+@use "base/_svg-icons";
 @use "base/_buttons";
 @use "base/_ss-link";
 @use "base/_section-header";
@@ -16,6 +16,7 @@
 @use "base/_form";
 
 // blocks — карточки и повторяемые UI-компоненты
+@use "blocks/_social.scss";
 @use "blocks/_feature-card";
 @use "blocks/_task-card";
 @use "blocks/_solution-card";

@@ -4,8 +4,12 @@ include ../mixins/_svg-icons.pug
 block content
 	//- Каталог всех иконок из src/img/ss-sprite.svg.
 	//- При добавлении новой иконки — дополни соответствующую группу ниже.
-	- var iconGroups = [{ title: 'Базовые UI', icons: [{ name: 'plus-circle', note: '28×28' }, { name: 'arrow-right', note: '28×28' }, { name: 'arrow-up-right', note: '24×24' }, { name: 'chevron-left', note: '24×24' }, { name: 'chevron-right', note: '24×24' }, { name: 'cross', note: '26×26' }, { name: 'check', note: '14×10' }, { name: 'clip', note: '19×20' }, { name: 'calc', note: '30×30' }, { name: 'user', note: '32×32' }, { name: 'download', note: '24×24' }, { name: 'book', note: '24×24' }, { name: 'mail', note: '24×24' }] }, { title: 'Сервисные (48×48)', icons: [{ name: 'target', note: '48×48' }, { name: 'doc', note: '48×48' }, { name: 'tool', note: '48×48' }, { name: 'headset', note: '48×48' }] }, { title: 'Этапы работы (24×24)', icons: [{ name: 'chart', note: '24×24' }, { name: 'sliders', note: '24×24' }, { name: 'cog', note: '24×24' }, { name: 'cable', note: '24×24' }] }]
-
+	- var iconGroups = [{ title: 'Базовые UI', icons: [{ name: 'plus-circle', note: '28×28' }, { name: 'arrow-right', note: '28×28' }, { name: 'arrow-up-right', note: '24×24' }, { name: 'chevron-left', note: '24×24' }, { name: 'chevron-right', note: '24×24' }, { name: 'chevron-down', note: '28×28' }, { name: 'chevron-up', note: '28×28' }, { name: 'cross', note: '26×26' }, { name: 'check', note: '14×10' }, { name: 'clip', note: '19×20' }, { name: 'calc', note: '30×30' }, { name: 'user', note: '32×32' }, { name: 'download', note: '24×24' }, { name: 'book', note: '24×24' }, { name: 'mail', note: '24×24' }] }, { title: 'Сервисные (48×48)', icons: [{ name: 'target', note: '48×48' }, { name: 'doc', note: '48×48' }, { name: 'tool', note: '48×48' }, { name: 'headset', note: '48×48' }] }, { title: 'Этапы работы (24×24)', icons: [{ name: 'chart', note: '24×24' }, { name: 'sliders', note: '24×24' }, { name: 'cog', note: '24×24' }, { name: 'cable', note: '24×24' }] }]
+	
+	- var iconBrends = [{ title: 'Соц. сети', icons: [{ name: 'whatsapp', note: '24×24' },{ name: 'telegram', note: '24×24' },{ name: 'max', note: '24×24' },{ name: 'rutube', note: '20×21' },{ name: 'youtube', note: '24×18' },{ name: 'ok', note: '18×24' }]}]
+	
+	- var socialItems =['whatsapp','telegram']
+	
 	.container-dashboard.ss-wrapper
 		h2.db-h2 SVG иконки
 
@@ -33,7 +37,41 @@ block content
 								span.icons-catalog__note.ss-reg-12.ss-txt-secondary= icon.note
 								pre.icons-catalog__snippet
 									code +svgIcon('#{icon.name}')
-
+			
+			each group in iconBrends
+				h3.icons-catalog__section-title= group.title
+				ul.icons-catalog
+					each icon in group.icons
+						li.icons-catalog__item
+							.icons-catalog__preview
+								+svgIcon(icon.name,{ sprite: 'ss-sprite-brend'})
+							.icons-catalog__meta
+								code.icons-catalog__name .svg-#{icon.name}
+								span.icons-catalog__note.ss-reg-12.ss-txt-secondary= icon.note
+								pre.icons-catalog__snippet
+									code +svgIcon('#{icon.name}',{ sprite: 'ss-sprite-brend'})
+			
+			
+			h3.icons-catalog__section-title Соц сети
+			ul.icons-catalog
+				li.icons-catalog__item
+					.icons-catalog__preview
+						+socialGroup(socialItems)
+					.icons-catalog__meta
+						code.icons-catalog__name +socialGroup('whatsapp')
+						
+						pre.icons-catalog__snippet
+							code +socialGroup(['whatsapp','telegram'])
+				li.icons-catalog__item
+					.icons-catalog__preview.icons-catalog__preview--dark
+						+socialGroup(socialItems)(class="ss-social--white")
+					.icons-catalog__meta
+						code.icons-catalog__name +socialGroup('whatsapp')
+						
+						pre.icons-catalog__snippet
+							code +socialGroup(['whatsapp','telegram'])
+			
+			
 			//- ========== Логотип ==========
 			h3.icons-catalog__section-title Логотип
 			p.icons-catalog__intro.ss-reg-14.ss-txt-secondary
@@ -56,6 +94,7 @@ block content
 						span.icons-catalog__note.ss-reg-12.ss-txt-secondary 160×76 на тёмном фоне
 						pre.icons-catalog__snippet
 							code +svgIcon('logo', { sprite: 'logo-sprite' })(class='svg-logo--white')
+							
 				li.icons-catalog__item
 					.icons-catalog__preview
 						+svgIcon('logo', { sprite: 'logo-sprite' })

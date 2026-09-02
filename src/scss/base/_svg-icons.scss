@@ -96,7 +96,28 @@
 .svg-book,
 .svg-mail,
 .svg-chevron-left,
-.svg-chevron-right {
+.svg-chevron-right,
+.svg-whatsapp,
+.svg-telegram,
+.svg-max,
+.svg-vk {
 	width: 24px;
 	height: 24px;
+}
+.svg-whatsapp,
+.svg-telegram,
+.svg-max,
+.svg-vk,
+.svg-rutube,
+.svg-youtube,
+.svg-ok{
+	color: var(--primary1);
+	transition: .2s; 
+}
+.svg-rutube{width: 20px;height: 21px;}
+.svg-youtube{width: 24px;height: 18px;}
+.svg-ok{width: 18px;height: 24px;}
+.svg-chevron-up,.svg-chevron-down{
+	width: 28px;
+	height: 28px;
 }

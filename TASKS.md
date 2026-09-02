@@ -79,3 +79,5 @@
 
 10. **JS-файл:** `src/js/main.js` или отдельным `src/js/header-menu.js` с concat?
     Ответ: —
+## Компоненты футера .ss-footer
+### компонент .ss-footer-nav__item

@@ -1,0 +1,13 @@
+//- svgIcon(name, opts)
+//-   name — id иконки без префикса `svg-` (напр. 'plus-circle').
+//-   opts.sprite — имя файла спрайта без .svg (default: 'ss-sprite').
+//-                 Логотип живёт в отдельном спрайте: opts.sprite='logo-sprite'.
+//- Доп. классы/атрибуты передаются через &attributes:
+//-   +svgIcon('plus-circle')(class='some-extra')
+//-   +svgIcon('logo', { sprite: 'logo-sprite' })(class='svg-logo--white')
+mixin socialGroup(elements)
+	.ss-social&attributes(attributes)
+		each el in elements
+			a.ss-social-item(href="#!")
+				svg(class='svg-' + el)
+					use(href='/img/ss-sprite-brend.svg#svg-' + el)
