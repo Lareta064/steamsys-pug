@@ -1,0 +1,67 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-footer__contacts — «ряд с контактами» в футере.
+// Слева — список контактов (.ss-contacts-list.ss-contacts-list--row),
+// справа — группа кнопок (.ss-footer__contacts-actions).
+// Сверху — тонкая линия --secondary, разделяющая от блока навигации выше.
+//
+// Раскладка:
+//   ≥$md: flex-row, justify-content: space-between, column-gap 30, padding-block 30.
+//   <$md: flex-column, row-gap 30, padding 30 20. Кнопки — full-width.
+//
+// Разметка:
+//   .ss-footer__contacts
+//     ul.ss-contacts-list.ss-contacts-list--row  (label + value для каждого контакта)
+//     .ss-footer__contacts-actions
+//       +ssBtn(...)
+//       +ssBtn(...)
+// ==============================
+
+.ss-footer__contacts {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	column-gap: 30px;
+	padding-block: 30px;
+	border-top: 1px solid var(--secondary);
+
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+		row-gap: 30px;
+		padding: 30px 20px;
+	}
+}
+
+// Контекстный override: список контактов в футере имеет column-gap 10
+// (базовый --row задаёт 40). На мобилке коллапсируется в column row-gap 30.
+.ss-footer__contacts .ss-contacts-list--row {
+	column-gap: 30px;
+
+	@include down($md) {
+		flex-direction: column;
+		row-gap: 30px;
+	}
+}
+
+// ------------------------------
+// Группа кнопок справа.
+// ------------------------------
+.ss-footer__contacts-actions {
+	display: flex;
+	align-items: center;
+	column-gap: 20px;
+	flex-shrink: 0;
+
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+		row-gap: 20px;
+
+		// Кнопки на всю ширину на мобилке (по моку).
+		> .ss-btn {
+			width: 100%;
+		}
+	}
+}

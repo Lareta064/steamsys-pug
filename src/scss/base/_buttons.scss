@@ -128,6 +128,23 @@
 	&:focus-visible { outline-color: var(--primary1); }
 }
 
+// btn 8 — White: белый фон + тёмный (primary1) бордер и текст.
+// Визуально повторяет outline-dark, но с солидной белой заливкой.
+// Используется, например, для «Реквизиты» в футере на тёмном фоне.
+// На hover — border и текст переключаются на accent2, фон остаётся белым.
+.ss-btn--white {
+	background: var(--white);
+	color: var(--primary1);
+	border-color: var(--primary1);
+
+	&:hover {
+		background: var(--white);
+		color: var(--accent2);
+		border-color: var(--accent2);
+	}
+	&:focus-visible { outline-color: var(--primary1); }
+}
+
 // btn 5 — Dark (primary → hover accent1)
 .ss-btn--dark {
 	background: var(--primary);

@@ -140,7 +140,7 @@ div
 ### Класс и модификаторы
 
 - Базовый класс: `.ss-btn` — визуально совпадает с `.ss-btn--primary` (заливной синий).
-- Цветовые варианты: `.ss-btn--primary`, `--secondary`, `--outline`, `--outline-dark`, `--dark`, `--light`, `--outline-light` (см. таблицу ниже).
+- Цветовые варианты: `.ss-btn--primary`, `--secondary`, `--outline`, `--outline-dark`, `--dark`, `--light`, `--outline-light`, `--white` (см. таблицу ниже).
 - Размер: базовый — big (padding 22×46, gap 24, font 22/1.3). Малый — модификатор `.ss-btn--mini` (padding 20×30, gap 20, font 18/1.4).
 - На всю ширину: `.ss-btn--full` (`width: 100%`).
 - Radius у всех — 10px.
@@ -167,7 +167,7 @@ div
 Миксин `+ssBtn(text, opts)` из `src/pug/mixins/_ss-button.pug` (уже подключён в `layout-ui.pug` через `_mixins-links.pug`).
 
 Опции:
-- `variant` — `primary` | `secondary` | `outline` | `outline-dark` | `dark` | `light` | `outline-light` (default: `primary`).
+- `variant` — `primary` | `secondary` | `outline` | `outline-dark` | `dark` | `light` | `outline-light` | `white` (default: `primary`).
 - `size` — `big` | `mini` (default: `big`).
 - `full` — `true` для `width: 100%`.
 - `icon` — имя иконки без префикса `svg-` (напр. `plus-circle`); если не задан — иконки нет.
@@ -244,6 +244,14 @@ div
   bg (hover):--accent2
   border (hover):
   text (hover):--white
+  ────────────────────────────────────────
+  Вариант: btn 8 (white)
+  bg (normal): --white
+  border (normal): 1px solid var(--primary1);
+  text (normal): --primary1
+  bg (hover): --white
+  border (hover): --accent2
+  text (hover): --accent2
 
 
 ## Текстовые ссылки

@@ -124,3 +124,41 @@ block content
 					| ul.ss-contacts-list.ss-contacts-list--hero      // крупный gap + label
 					| p.ss-contacts-list__value.ss-h4                  // 24→40 (feedback)
 					| p.ss-contacts-list__value.ss-semi-20            // 20 постоянно (mob-menu tel)
+
+			//- ========== .ss-footer__contacts ==========
+			h3.footer-catalog__section-title .ss-footer__contacts
+			p.footer-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Ряд с контактами в футере: слева
+				code .ss-contacts-list--row
+				|  (column-gap 10 переопределён), справа группа кнопок
+				code .ss-footer__contacts-actions
+				| . Сверху — тонкая линия
+				code --secondary
+				| , padding-block 30 (моб 30 20).
+				br
+				| На &lt;$md весь ряд разворачивается в колонку: список — column row-gap 30,
+				| кнопки — column row-gap 20 full-width.
+
+			.footer-catalog__demo.ss-bg-primary(style='padding: 0 20px;')
+				.ss-footer__contacts
+					ul.ss-contacts-list.ss-contacts-list--row
+						+contactItem('Телефон', '+7 (812) 602-77-70')
+						+contactItem('Почта', 'info@steamsys.ru')
+						+contactItem('Режим работы', 'Работаем: Пн - Пт с 9:00 до 18:00<br>Выходной: Сб - Вс', 'ss-medi-16')
+						+contactItem('Адрес', 'Санкт-Петербург,<br>ул. Воронежская, д. 5, оф. 123', 'ss-medi-16')
+					.ss-footer__contacts-actions
+						+ssBtn('Реквизиты', { variant: 'white', size: 'mini', icon: 'book' })
+						+ssBtn('Получить КП', { variant: 'primary', size: 'mini', icon: 'arrow-right' })
+
+			h4.footer-catalog__subtitle Сниппет
+			pre.footer-catalog__snippet
+				code
+					| .ss-footer__contacts
+					|     ul.ss-contacts-list.ss-contacts-list--row
+					|         li.ss-contacts-list__item
+					|             p.ss-contacts-list__label Телефон
+					|             p.ss-contacts-list__value +7 (812) 602-77-70
+					|         //- ... остальные items
+					|     .ss-footer__contacts-actions
+					|         +ssBtn('Реквизиты',   { variant: 'white', size: 'mini', icon: 'book' })
+					|         +ssBtn('Получить КП', { variant: 'primary', size: 'mini', icon: 'arrow-right' })
