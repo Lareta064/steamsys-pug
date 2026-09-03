@@ -1511,6 +1511,65 @@
 	}
 }
 
+// ===== Тестовая hero-секция (для preview шапки на header.html) =====
+.demo-hero {
+	position: relative;
+	min-height: 100vh;
+	max-height: 800px;
+	background:
+		linear-gradient(135deg, rgba(3, 29, 42, .85) 0%, rgba(36, 58, 69, .85) 100%),
+		#031D2A;
+	color: #fff;
+	padding-top: 126px; // высота шапки (Phase 1)
+	display: flex;
+	align-items: center;
+}
+
+.demo-hero__inner {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 40px;
+}
+
+.demo-hero__eyebrow {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: #79B0E3;
+}
+
+.demo-hero__title {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 48px;
+	line-height: 1.2;
+}
+
+.demo-hero__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.4;
+	color: #A4AEB4;
+	max-width: 600px;
+}
+
+// Скролл-спейсер под hero — для теста sticky-режима шапки.
+.demo-scroll-spacer {
+	min-height: 200vh;
+	padding: 80px 40px;
+	background: #F8F9F9;
+	color: #7C8A93;
+	font-size: 16px;
+	text-align: center;
+}
+
 // ===== Docs (страница docs.html) =====
 .container-dashboard {
 	.docs-catalog__lead {

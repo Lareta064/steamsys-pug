@@ -3,9 +3,8 @@
 .menu-toggle {
 	display: none;
 	flex-shrink: 0;
-	width: 36px;
-	height: 36px;
-	background-color: #fff;
+	width: 40px;
+	height: 40px;	
 	z-index: 11;
 	cursor: pointer;
 	justify-content: center;
@@ -19,13 +18,7 @@
 
 	}
 }
-@media (max-width: 1023px) {
-	.menu-toggle {
-		width: 36px;
-	    height: 36px;
-	}
-	
-}
+
 .menu-toggle span {
 	position: relative;
 	height: 2px;
@@ -52,15 +45,13 @@
 }
 
 .menu-toggle span:after {
-	top: -7px;
+	top: -6px;
 }
 
 .menu-toggle span:before {
-	bottom: -7px;
+	bottom: -6px;
 }
-.active.menu-toggle.active{
-	border-radius: 50%;
-}
+
 .active.menu-toggle span {
 	background-color: transparent !important;
 }

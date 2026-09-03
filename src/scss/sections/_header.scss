@@ -1,0 +1,180 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-header — шапка сайта.
+// Полупрозрачный белый фон + backdrop-blur (виден hero под шапкой).
+// Позиционируется абсолютом над первым экраном.
+// Sticky-состояние (сжатие) добавляется в Фазе 4 через .ss-header--sticky.
+//
+// Раскладка:
+//   логотип | menu (flex-grow) | телефон | кнопка «Получить КП» | бургер (моб)
+//
+// Меню и телефон/кнопка скрываются на <$xl (1200) — вместо них бургер и
+// мобильное меню (Фаза 3).
+// ==============================
+
+// Шапка всегда fixed — не уезжает при скролле. При scrollY > 0 добавляется
+// класс .ss-header--sticky, который сжимает шапку по высоте и уменьшает лого.
+// Первая секция (hero) должна иметь padding-top равный статической высоте
+// шапки, чтобы контент не заходил под неё.
+.ss-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	background: rgba(255, 255, 255, .85);
+	backdrop-filter: blur(5px);
+	-webkit-backdrop-filter: blur(5px);
+	min-height: 126px;
+	padding-block: 24px;
+	transition: min-height .25s, padding-block .25s;
+
+	@include down($xl) {
+		min-height: 100px;
+		padding-block: 20px;
+	}
+}
+
+// Sticky — только сжимает высоту (лого уменьшается через ниже).
+// Никакой slide-in анимации: шапка уже на месте, только меняется размер.
+.ss-header--sticky {
+	@include up($md) {
+		min-height: 89px;
+		padding-block: 16px;
+	}
+}
+
+.ss-header__inner {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	@media(max-width:1799px){padding-inline: 40px;}
+}
+
+// ------------------------------
+// Логотип 164×77 (моб 120×57 после sticky, отдельная спека — Фаза 4).
+// Использует цвет primary (лого через currentColor из logo-sprite).
+// ------------------------------
+// Ширина контейнера логотипа зафиксирована (164 десктоп / 127 моб),
+// чтобы при сжатии SVG в sticky-состоянии остальной контент шапки
+// не сдвигался влево. SVG внутри свободно уменьшается, пустое место
+// справа от лого — визуально незаметно.
+.ss-header__logo {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	width: 164px;
+	color: var(--primary);
+	text-decoration: none;
+
+	@include down($xl) {
+		width: 127px;
+	}
+
+	svg {
+		width: 164px;
+		height: 77px;
+		transition: width .45s, height .45s;
+
+		// Sticky на десктопе — сжатый логотип 120×57.
+		.ss-header--sticky & {
+			@include up($md) {
+				width: 120px;
+				height: 57px;
+			}
+		}
+
+		@include down($xl) {
+			width: 127px;
+			height: 60px;
+		}
+	}
+}
+
+// ------------------------------
+// Nav — обёртка меню. Занимает всё свободное пространство между лого и правой группой.
+// min-width: 0 — критично: позволяет flex сжимать nav ниже min-content его детей
+// (иначе nav.clientWidth = сумма всех пунктов, и JS overflow не сработает).
+// overflow НЕ ставим — иначе клипнутся раскрывающиеся подменю (position: absolute).
+// Кратковременный «flash» пунктов на overflow до отработки JS — приемлем.
+// ------------------------------
+.ss-header__nav {
+	flex-grow: 1;
+	min-width: 0;
+
+	@include down($xl) {
+		display: none;
+	}
+}
+
+// ------------------------------
+// Телефон.
+// ------------------------------
+.ss-header__phone {
+	flex-shrink: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--primary);
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent1);
+	}
+
+	// 1200-1799 — уменьшаем шрифт, чтобы шапка была компактнее.
+	@media (min-width: 1200px) and (max-width: 1799px) {
+		font-size: 18px;
+	}
+
+	@include down($xl) {
+		display: none;
+	}
+}
+
+// ------------------------------
+// Кнопка «Получить КП» — заглушка под будущую модалку (data-modal="request").
+// margin-left: 0 — gap задан на inner (20px), не нужно доп. отступа.
+// ------------------------------
+.ss-header__cta {
+	flex-shrink: 0;
+
+	@include down($xl) {
+		display: none;
+	}
+}
+
+// Переопределяем стили .ss-btn в контексте шапки: паддинги 30 по бокам,
+// шрифт 18. Высоту base (74) и остальное — не трогаем.
+.ss-header__inner .ss-btn {
+	padding-inline: 30px;
+	font-size: 18px;
+	height: 65px;
+	// 1200-1799 — уменьшаем шрифт кнопки.
+	@media (min-width: 1200px) and (max-width: 1799px) {
+		font-size: 16px;
+	}
+}
+
+// ------------------------------
+// Бургер — использует существующий .menu-toggle из _gamburger.scss
+// (display: none по умолчанию, flex при <1200).
+// ------------------------------
+.ss-header__burger {
+	flex-shrink: 0;
+	margin-left: auto; // прижимаем к правому краю на мобилке (когда nav/phone/cta скрыты)
+}
+
+// ------------------------------
+// Клавиатурный focus (Tab) для всех интерактивных элементов шапки.
+// :focus-visible — outline виден только при keyboard-навигации, не при мышке.
+// ------------------------------
+.ss-header a:focus-visible,
+.ss-header button:focus-visible {
+	outline: 2px solid var(--accent4);
+	outline-offset: 4px;
+	border-radius: 2px;
+}

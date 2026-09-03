@@ -52,6 +52,9 @@
 @use "sections/_section-cases";
 @use "sections/_section-feedback";
 @use "sections/_footer";
+@use "sections/_header";
+@use "blocks/_menu";
+@use "blocks/_mobile-menu";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

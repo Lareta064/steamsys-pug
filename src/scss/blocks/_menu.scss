@@ -1,0 +1,220 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-menu — menubar в шапке (десктоп).
+//
+// Разметка:
+//   nav.ss-header__nav
+//     ul.ss-menu__list
+//       li.ss-menu__item
+//         a.ss-menu__link(href='/x')
+//           span Решения
+//           +svgIcon('chevron-down')(class='ss-menu__chevron')
+//         .ss-menu__submenu.ss-menu__submenu--mega  (или --simple)
+//           .ss-menu__submenu-inner
+//             .ss-menu__submenu-item
+//               a.ss-menu__submenu-link Заголовок
+//               .ss-menu__submenu-subs (опционально — 3-й уровень)
+//                 a.ss-menu__submenu-sub Chip
+//
+// Позиционирование submenu — JS (header-menu.js) считает left/top,
+// поскольку mega должен span container inner width, а simple — под item.
+// ==============================
+
+.ss-menu__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.ss-menu__item {
+	position: relative;
+}
+
+.ss-menu__link {
+	display: inline-flex;
+	align-items: center;
+	column-gap: 4px;
+	padding-block: 4px; // hover-зона побольше
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+	text-decoration: none;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: color .2s;
+
+	// 1200-1799 — уменьшаем шрифт, чтобы уместить больше пунктов в ряд.
+	@media (min-width: 1200px) and (max-width: 1799px) {
+		font-size: 16px;
+	}
+
+	&:hover {
+		color: var(--accent4);
+	}
+}
+
+// Активный (когда открыто подменю) — акцентный цвет + повёрнутый chevron.
+.ss-menu__item.is-open > .ss-menu__link {
+	color: var(--accent4);
+
+	.ss-menu__chevron {
+		transform: rotate(180deg);
+	}
+}
+
+.ss-menu__chevron {
+	width: 24px;
+	height: 24px;
+	color: inherit;
+	transition: transform .25s;
+
+	// 1200-1799 — компактная стрелка вместе с уменьшенным шрифтом ссылок.
+	@media (min-width: 1200px) and (max-width: 1799px) {
+		width: 16px;
+		height: 16px;
+	}
+}
+
+// Триггер «…» для overflow-меню. Стилево — как обычный пункт menubar,
+// только текстовый символ вместо слова + чуть увеличенный font-size (лучше видно).
+.ss-menu__item--more .ss-menu__link {
+	font-size: 22px;
+	line-height: 1;
+	letter-spacing: 2px;
+
+	@media (min-width: 1200px) and (max-width: 1799px) {
+		font-size: 20px;
+	}
+}
+
+// ------------------------------
+// Submenu (общая база — mega и simple).
+// Позиционирование через JS: top/left/width устанавливаются inline
+// при показе; в CSS только сам стиль панели и переход открытия/закрытия.
+// ------------------------------
+.ss-menu__submenu {
+	position: absolute;
+	background: var(--white);
+	border-radius: 10px;
+	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .03);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-6px);
+	transition: opacity .2s, transform .2s, visibility 0s .2s;
+	z-index: 5;
+
+	&.is-open {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+		transition: opacity .2s, transform .2s, visibility 0s 0s;
+	}
+}
+
+// ------------------------------
+// Mega — широкая панель, 3 колонки, padding 40, column-gap 20.
+// ------------------------------
+.ss-menu__submenu--mega {
+	padding: 40px;
+
+	.ss-menu__submenu-inner {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		column-gap: 20px;
+		row-gap: 20px;
+
+		@include down($xl) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	.ss-menu__submenu-col {
+		display: flex;
+		flex-direction: column;
+		row-gap: 20px;
+	}
+}
+
+// ------------------------------
+// Simple — узкий вертикальный список, padding 20.
+// ------------------------------
+.ss-menu__submenu--simple {
+	min-width: 240px;
+	padding: 20px;
+
+	.ss-menu__submenu-inner {
+		display: flex;
+		flex-direction: column;
+		row-gap: 16px;
+	}
+}
+
+// ------------------------------
+// Item внутри mega/simple — линк с синим bullet + опциональные chips 3-го уровня.
+// ------------------------------
+.ss-menu__submenu-item {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+}
+
+// Ссылка 2-го уровня. Bullet — псевдоэлемент с градиентом.
+.ss-menu__submenu-link {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	column-gap: 6px;
+	padding-left: 14px; // 8px bullet + 6px gap
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+	text-decoration: none;
+	transition: color .2s;
+
+	// Синий bullet 8×8 с линейным градиентом.
+	&::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: linear-gradient(90deg, #04b 0%, #79b0e3 100%);
+	}
+
+	&:hover {
+		color: var(--accent4);
+	}
+}
+
+// Chips 3-го уровня — inline-ряд с wrap, gap 10.
+.ss-menu__submenu-subs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	padding-left: 14px; // отступ под bullet родителя
+}
+
+.ss-menu__submenu-sub {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary1);
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent4);
+	}
+}

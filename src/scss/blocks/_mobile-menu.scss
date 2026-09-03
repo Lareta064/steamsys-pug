@@ -1,0 +1,261 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-mobile-menu — sheet-меню на мобилке (<$xl / <1200).
+//
+// Открывается ПОД шапкой (top = --header-height, ставит JS).
+// Слева выезжает панель максимум 480px шириной, справа полупрозрачный overlay.
+// Клик по overlay / Escape / повторный клик по бургеру — закрывают. Своей копии
+// логотипа и кнопки-закрытия в меню НЕТ — используется существующая шапка
+// (бургер трансформируется в X через .menu-toggle.active из _gamburger.scss).
+// При открытом меню body.lock блокирует скролл.
+//
+// Пункт 1-го уровня с подменю — checkbox-аккордеон (без JS).
+// Внутри подменю: дублирующий линк 1-го уровня (18/500, без буллита) +
+// список 2-го уровня (16/400 с синим bullet-градиентом, padding-block 14,
+// border-bottom secondary2, у первого — border-top тоже) + chips 3-го уровня
+// (12/500 secondary1, max-height 130 + overflow-y auto).
+// ==============================
+
+// Блокировка скролла body при открытом меню.
+body.lock {
+	overflow: hidden;
+	height: 100vh;
+}
+
+// ------------------------------
+// Обёртка (fixed, начинается ПОД шапкой) + overlay + panel
+// ------------------------------
+.ss-mobile-menu {
+	position: fixed;
+	top: var(--header-height, 100px);
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 90; // ниже шапки (100), чтобы шапка оставалась поверх
+	visibility: hidden;
+	pointer-events: none;
+	transition: visibility 0s .3s;
+
+	&.is-open {
+		visibility: visible;
+		pointer-events: auto;
+		transition: visibility 0s 0s;
+	}
+
+	// На десктопе (≥$xl) — не рендерим.
+	@include up($xl) {
+		display: none;
+	}
+}
+
+.ss-mobile-menu__overlay {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, .5);
+	opacity: 0;
+	transition: opacity .3s;
+
+	.ss-mobile-menu.is-open & {
+		opacity: 1;
+	}
+}
+
+.ss-mobile-menu__panel {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	max-width: 480px;
+	padding: 30px 20px;
+	background: var(--white);
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
+	transform: translateX(-100%);
+	transition: transform .3s;
+
+	// Не даём flex-детям сжиматься при переполнении (кнопка «Получить КП»
+	// с фикс. высотой 74px иначе схлопывается до content-size). При нехватке
+	// места панель прокручивается внутренне (overflow-y: auto выше).
+	> * {
+		flex-shrink: 0;
+	}
+
+	.ss-mobile-menu.is-open & {
+		transform: translateX(0);
+	}
+}
+
+// ------------------------------
+// Список пунктов 1-го уровня.
+// ------------------------------
+.ss-mobile-menu__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.ss-mobile-menu__toggle {
+	display: none;
+}
+
+// Заголовок пункта: и <a>-версия (без submenu), и <label>-версия (с submenu).
+.ss-mobile-menu__link,
+.ss-mobile-menu__title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+	text-decoration: none;
+	cursor: pointer;
+	background: none;
+	border: none;
+	padding: 0;
+}
+
+.ss-mobile-menu__arrow {
+	width: 24px;
+	height: 24px;
+	color: var(--primary);
+	transition: transform .25s;
+	flex-shrink: 0;
+}
+
+// Открытое состояние аккордеона.
+.ss-mobile-menu__toggle:checked ~ .ss-mobile-menu__title {
+	color: var(--accent1);
+
+	.ss-mobile-menu__arrow {
+		transform: rotate(180deg);
+		color: var(--accent1);
+	}
+}
+
+// ------------------------------
+// Подменю (скрыто до :checked)
+// ------------------------------
+.ss-mobile-menu__submenu {
+	display: none;
+	padding-top: 10px;
+}
+
+.ss-mobile-menu__toggle:checked ~ .ss-mobile-menu__submenu {
+	display: block;
+}
+
+// Дублирующий линк 1-го уровня — стили как у 1-го уровня, без буллита.
+.ss-mobile-menu__dupe {
+	display: block;
+	padding: 14px 0;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+	text-decoration: none;
+	border-top: 1px solid var(--secondary2);
+}
+
+// ------------------------------
+// Список 2-го уровня.
+// ------------------------------
+.ss-mobile-menu__level2 {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.ss-mobile-menu__level2-item {
+	padding-block: 14px;
+	border-bottom: 1px solid var(--secondary2);
+
+	&:first-child {
+		border-top: 1px solid var(--secondary2);
+	}
+}
+
+.ss-mobile-menu__level2-link {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	padding-left: 14px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+	text-decoration: none;
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: linear-gradient(90deg, #04b 0%, #79b0e3 100%);
+	}
+}
+
+// ------------------------------
+// Chips 3-го уровня — ограничены по высоте с scroll.
+// ------------------------------
+.ss-mobile-menu__level3 {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-top: 10px;
+	padding-left: 14px;
+	max-height: 130px;
+	overflow-y: auto;
+}
+
+.ss-mobile-menu__level3-link {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary1);
+	text-decoration: none;
+}
+
+// ------------------------------
+// Блок контактов (border-top от меню, row-gap 20 внутри).
+// Значения контактов на белом фоне мобильного меню — primary (не white).
+// ------------------------------
+.ss-mobile-menu__contacts {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+	padding-top: 30px;
+	border-top: 1px solid var(--secondary2);
+
+	.ss-contacts-list__value {
+		color: var(--primary);
+	}
+}
+
+// ------------------------------
+// Клавиатурный focus в мобильном меню.
+// :focus-visible — только для keyboard-навигации.
+// ------------------------------
+.ss-mobile-menu a:focus-visible,
+.ss-mobile-menu button:focus-visible,
+.ss-mobile-menu label:focus-visible {
+	outline: 2px solid var(--accent4);
+	outline-offset: 2px;
+	border-radius: 2px;
+}
