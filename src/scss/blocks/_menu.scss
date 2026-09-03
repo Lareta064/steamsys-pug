@@ -28,6 +28,9 @@
 	display: flex;
 	align-items: center;
 	gap: 20px;
+	@include up($xl){
+		padding-left: 25px;
+	}	
 }
 
 .ss-menu__item {
@@ -50,9 +53,9 @@
 	transition: color .2s;
 
 	// 1200-1799 — уменьшаем шрифт, чтобы уместить больше пунктов в ряд.
-	@media (min-width: 1200px) and (max-width: 1799px) {
-		font-size: 16px;
-	}
+	// @media (min-width: 1200px) and (max-width: 1799px) {
+	// 	font-size: 16px;
+	// }
 
 	&:hover {
 		color: var(--accent4);
@@ -83,13 +86,91 @@
 
 // Триггер «…» для overflow-меню. Стилево — как обычный пункт menubar,
 // только текстовый символ вместо слова + чуть увеличенный font-size (лучше видно).
-.ss-menu__item--more .ss-menu__link {
+// > — direct child, чтобы стиль применялся только к линку самого триггера,
+// не к линкам items, перенесённых внутрь его дропдауна.
+.ss-menu__item--more > .ss-menu__link {
 	font-size: 22px;
 	line-height: 1;
 	letter-spacing: 2px;
 
 	@media (min-width: 1200px) and (max-width: 1799px) {
 		font-size: 20px;
+	}
+}
+
+// ==============================
+// Items ВНУТРИ «…» дропдауна (перемещены JS'ом из главного menubar).
+// Рендерятся вертикально (родитель — flex-col row-gap 16).
+// Nested submenu (уровень 2) разворачивается АККОРДЕОНОМ inline под родителем.
+//
+// Важно: базовый .ss-menu__submenu в закрытом состоянии — opacity/visibility
+// (для fade-transition), но при этом занимает место в потоке. Для nested
+// переключаем через display: none/block — иначе огромные просветы между items.
+// ==============================
+.ss-menu__item--more .ss-menu__submenu {
+	min-width: 260px;
+
+	// 1-й уровень items в «…» дропдауне: chevron прижат к правому краю
+	// (по макету — стрелки в столбик выровнены). Base .ss-menu__link — inline-flex,
+	// здесь переопределяем на flex + space-between + width 100%.
+	.ss-menu__link {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	// Nested submenu (уровень 2). Inline-аккордеон под родителем.
+	.ss-menu__submenu {
+		position: static !important;
+		display: none;
+		background: none;
+		box-shadow: none;
+		border-radius: 0;
+		padding: 0;
+		margin: 0;
+		width: auto !important;
+		min-width: 0;
+		opacity: 1;
+		visibility: visible;
+		transform: none !important;
+		transition: none;
+	}
+
+	.ss-menu__submenu.is-open {
+		display: block;
+		margin-top: 10px;
+	}
+
+	// Плотный контейнер — items идут вплотную (borders между ними).
+	.ss-menu__submenu .ss-menu__submenu-inner {
+		row-gap: 0;
+	}
+
+	// 2-й уровень (Калькуляторы, Опросные листы, …) — как в mega: bullet 8×8,
+	// шрифт 16, плюс padding-block 14 и border-bottom secondary2.
+	// У первого — также border-top.
+	.ss-menu__submenu .ss-menu__submenu-link {
+		display: block;
+		padding-top: 14px;
+		padding-bottom: 14px;
+		font-size: 16px;
+		border-bottom: 1px solid var(--secondary2);
+
+		&:first-child {
+			border-top: 1px solid var(--secondary2);
+		}
+	}
+
+	// Если корневой mega попал в «…» — превращаем в одноколоночный inline-список.
+	.ss-menu__submenu--mega {
+		.ss-menu__submenu-inner {
+			grid-template-columns: 1fr;
+			row-gap: 0;
+		}
+
+		.ss-menu__submenu-col {
+			row-gap: 0;
+		}
 	}
 }
 

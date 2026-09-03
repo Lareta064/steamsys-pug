@@ -1,0 +1,305 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-hero — hero-секция главной.
+//
+// Desktop (≥$md):
+//   - Высота 100vh max 960
+//   - Фоновая картинка (absolute) + 2 gradient-overlay
+//   - Контент: слева kicker + H1 + desc + actions (ширина ~5/12 grid col)
+//   - Metriks-полоса прибита к низу (justify-content: space-between)
+//
+// Mobile (<$md):
+//   - Фон --primary (без картинки-фона)
+//   - Картинка идёт В ПОТОКЕ (img) между desc и actions
+//   - Metriks — стек в column
+//
+// Padding-top учитывает fixed-шапку: calc(60/30 + --header-height).
+// ==============================
+
+.ss-section-hero {
+	position: relative;
+	padding: calc(60px + var(--header-height, 126px)) 0 55px;
+	overflow: hidden;
+	background: var(--primary);
+	color: var(--white);
+
+	@include up($md) {
+		min-height: 100vh;
+		max-height: 960px;
+		display: flex;
+		flex-direction: column;
+	}
+
+	@include down($md) {
+		padding: calc(30px + var(--header-height, 100px)) 0 30px;
+	}
+}
+
+// ------------------------------
+// Фоновая картинка (только десктоп).
+// ------------------------------
+.ss-section-hero__bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	@include down($md) {
+		display: none;
+	}
+}
+
+// ------------------------------
+// Gradient-overlays поверх картинки (только десктоп).
+// ------------------------------
+.ss-section-hero__gradient-1,
+.ss-section-hero__gradient-2 {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+
+	@include down($md) {
+		display: none;
+	}
+}
+
+.ss-section-hero__gradient-1 {
+	backdrop-filter: blur(5px);
+	background: linear-gradient(20.08deg, rgba(16, 36, 48, 0.56) 14.51%, rgba(16, 36, 48, 0.5) 18.39%, rgba(16, 36, 48, 0.34) 23.47%, rgba(16, 36, 48, 0) 44.23%);
+}
+
+.ss-section-hero__gradient-2 {
+	backdrop-filter: blur(5px);
+	background: linear-gradient(86.24deg, rgba(12, 27, 36, 0.95) 3.62%, rgba(12, 27, 36, 0.85) 21.54%, rgba(14, 32, 42, 0.84) 29.67%, rgba(16, 36, 48, 0.57) 37.21%, rgba(16, 36, 48, 0) 50.02%);
+}
+
+// ------------------------------
+// Внутренний контейнер — flex-col, десктоп с space-between (metriks к низу).
+// ------------------------------
+.ss-section-hero__inner {
+	position: relative;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+
+	@include up($md) {
+		flex-grow: 1;
+		justify-content: space-between;
+	}
+
+	@include down($md) {
+		row-gap: 30px;
+	}
+}
+
+// ------------------------------
+// Content-колонка (слева на десктопе): kicker + H1 + desc + [pic-mob] + actions.
+// Ширина: max 729 (1800+), 440 (1200-1799). ~5/12 сетки.
+// ------------------------------
+.ss-section-hero__content {
+	display: flex;
+	flex-direction: column;
+	max-width: 729px;
+
+	@media (min-width: 1200px) and (max-width: 1799px) {
+		max-width: 440px;
+	}
+}
+
+.ss-section-hero__content .ss-kicker {
+	margin: 0;
+}
+
+.ss-section-hero__content .ss-h1 {
+	margin: 20px 0 0;
+}
+
+.ss-section-hero__desc {
+	margin: 20px 0 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	// clamp: 16px на 768, 24px на 1920.
+	font-size: clamp(16px, calc(16px + (100vw - 768px) * 8 / 1152), 24px);
+	line-height: 1.3;
+	color: var(--white);
+}
+
+// Мобильная картинка в потоке (только <$md).
+.ss-section-hero__pic-mob {
+	display: none;
+	margin-top: 30px;
+	border-radius: 10px;
+	overflow: hidden;
+
+	img {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	@include down($md) {
+		display: block;
+	}
+}
+
+// ------------------------------
+// Actions (кнопки).
+// Дефолт (<1920) — column, row-gap 10.
+// ≥1920 — row, column-gap 30.
+// Отступ сверху: 40 (десктоп) / 30 (моб).
+// ------------------------------
+.ss-section-hero__actions {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	margin-top: 40px;
+
+	@media (min-width: 1920px) {
+		flex-direction: row;
+		column-gap: 30px;
+		row-gap: 0;
+	}
+
+	@include down($md) {
+		margin-top: 30px;
+	}
+}
+
+// Кнопка «Обсудить задачу» — icon отдельного цвета secondary1.
+.ss-section-hero__cta-secondary svg {
+	color: var(--secondary1);
+}
+
+// ------------------------------
+// Metriks — панель с 4 метриками.
+// ≥1920: padding 24 60, gap 30, icon 94×94/svg 52×52, value 50/600, label 20/500.
+// 1200-1919: padding 20, gap 20, icon 52×52/svg 28×28, value 28/600, label 14/500.
+// <$md: стек в column.
+// ------------------------------
+.ss-section-hero__metriks {
+	list-style: none;
+	margin: 0;
+	padding: 24px 60px;
+	display: flex;
+	align-items: center;
+	gap: 30px;
+	border: 1px solid var(--secondary);
+	border-radius: 10px;
+	background: rgba(3, 29, 42, 0.3);
+	backdrop-filter: blur(5px);
+
+	@media (max-width: 1919px) {
+		padding: 20px;
+		gap: 20px;
+	}
+
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+		padding: 20px;
+		gap: 10px;
+	}
+}
+
+.ss-section-hero__metrik {
+	display: flex;
+	align-items: center;
+	column-gap: 30px;
+	padding-left: 60px;
+	padding-right: 30px;
+	border-left: 1px solid var(--secondary1);
+
+	&:first-child {
+		padding-left: 0;
+		border-left: none;
+	}
+
+	@media (max-width: 1919px) {
+		column-gap: 20px;
+		padding-left: 30px;
+		padding-right: 20px;
+	}
+
+	@include down($md) {
+		padding: 10px 0;
+		border-left: none;
+		border-bottom: 1px solid var(--secondary1);
+
+		&:first-child {
+			padding-left: 0;
+		}
+
+		&:last-child {
+			border-bottom: none;
+		}
+	}
+}
+
+.ss-section-hero__metrik-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 94px;
+	height: 94px;
+	border-radius: 10px;
+	// --secondary #7C8A93 → 20% opacity через rgba, чтобы SVG внутри не была прозрачной.
+	background: rgba(124, 138, 147, 0.2);
+
+	svg {
+		width: 52px;
+		height: 52px;
+		color: var(--accent3);
+	}
+
+	@media (max-width: 1919px) {
+		width: 52px;
+		height: 52px;
+
+		svg {
+			width: 28px;
+			height: 28px;
+		}
+	}
+}
+
+.ss-section-hero__metrik-body {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.ss-section-hero__metrik-value {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 50px;
+	line-height: 1.2;
+	color: var(--white);
+
+	@media (max-width: 1919px) {
+		font-size: 28px;
+		line-height: 1.3;
+	}
+}
+
+.ss-section-hero__metrik-label {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--secondary2);
+
+	@media (max-width: 1919px) {
+		font-size: 14px;
+	}
+}

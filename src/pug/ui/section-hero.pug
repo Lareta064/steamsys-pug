@@ -1,0 +1,61 @@
+extends ../layouts/layout-ui-sections.pug
+
+block content
+	- var metriks = [{ icon: 'chart', value: '18%', label: 'снижение потерь пара' }, { icon: 'calendar', value: '9 мес.', label: 'срок окупаемости' }, { icon: 'droplets', value: '90%', label: 'возврат конденсата' }, { icon: 'shield', value: '24/7', label: 'стабильность процессов' }]
+
+	//- Для preview hero-секция должна быть под шапкой. Рендерим только шапку
+	//- (упрощённая, без submenu — просто для визуальной композиции).
+	header.ss-header.ss-wrapper
+		.ss-container.ss-header__inner
+			a.ss-header__logo(href='/', aria-label='STEAMSYS')
+				+svgIcon('logo', { sprite: 'logo-sprite' })
+			nav.ss-header__nav(aria-label='Основная навигация')
+				ul.ss-menu__list
+					li.ss-menu__item: a.ss-menu__link(href='#') Решения
+					li.ss-menu__item: a.ss-menu__link(href='#') Отрасли
+					li.ss-menu__item: a.ss-menu__link(href='#') Оборудование
+					li.ss-menu__item: a.ss-menu__link(href='#') Кейсы
+					li.ss-menu__item: a.ss-menu__link(href='#') База знаний
+					li.ss-menu__item: a.ss-menu__link(href='#') Инструменты
+					li.ss-menu__item: a.ss-menu__link(href='#') Контакты
+			a.ss-header__phone(href='tel:+78126027770') +7 (812) 602-77-70
+			+ssBtn('Получить КП', { variant: 'primary', icon: 'arrow-right' })(class='ss-header__cta', data-modal='request')
+			button.menu-toggle.ss-header__burger#menu-toggle(type='button', aria-label='Открыть меню')
+				span
+
+	//- ==================== HERO ====================
+	section.ss-section-hero.ss-wrapper
+		//- Фоновая картинка (только десктоп)
+		picture.ss-section-hero__bg
+			source(srcset='../img/hero.webp 1x, ../img/hero@2x.webp 2x')
+			img(src='../img/hero.webp', alt='')
+
+		//- Gradient-overlays поверх картинки (только десктоп)
+		.ss-section-hero__gradient-1
+		.ss-section-hero__gradient-2
+
+		.ss-container.ss-section-hero__inner
+			.ss-section-hero__content
+				span.ss-kicker.ss-txt-accent3 Инжиниринговый интегратор пароконденсатных систем
+				h1.ss-h1 Инженерные решения для парокондесатных систем
+
+				p.ss-section-hero__desc
+					| Снижаем расход пара, возвращаем конденсат, стабилизируем давление и температуру. Проектируем и внедряем инженерные системы под параметры вашего предприятия.
+
+				//- Мобильная картинка в потоке (скрыта на десктопе)
+				picture.ss-section-hero__pic-mob
+					source(srcset='../img/hero-mob.webp 1x, ../img/hero-mob@2x.webp 2x')
+					img(src='../img/hero-mob.webp', width=388, height=200, alt='')
+
+				.ss-section-hero__actions
+					+ssBtn('Получить КП', { variant: 'primary', icon: 'arrow-right' })(data-modal='request')
+					+ssBtn('Обсудить задачу', { variant: 'outline-light', icon: 'message' })(class='ss-section-hero__cta-secondary')
+
+			ul.ss-section-hero__metriks
+				each m in metriks
+					li.ss-section-hero__metrik
+						.ss-section-hero__metrik-icon
+							+svgIcon(m.icon)
+						.ss-section-hero__metrik-body
+							p.ss-section-hero__metrik-value= m.value
+							p.ss-section-hero__metrik-label= m.label

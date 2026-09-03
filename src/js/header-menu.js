@@ -42,6 +42,17 @@
 		var CLOSE_DELAY = 200;
 
 		var positionSubmenu = function (item, submenu) {
+			// Если item ВНУТРИ другого submenu (например перенесён в дропдаун «…»),
+			// не позиционируем инлайн-стилями — CSS-правила right-flyout работают.
+			// Сбрасываем возможные ранее выставленные inline-стили.
+			var parentSubmenu = item.parentElement.closest('.ss-menu__submenu');
+			if (parentSubmenu) {
+				submenu.style.top = '';
+				submenu.style.left = '';
+				submenu.style.width = '';
+				return;
+			}
+
 			var headerRect = header.getBoundingClientRect();
 			var containerRect = container.getBoundingClientRect();
 			var itemRect = item.getBoundingClientRect();
@@ -71,12 +82,27 @@
 			if (submenu) submenu.classList.remove('is-open');
 			if (link && link.hasAttribute('aria-expanded')) link.setAttribute('aria-expanded', 'false');
 			item.classList.remove('is-open');
+
+			// Каскадно закрываем вложенные открытые items (например, nested внутри «…»).
+			var nestedOpen = item.querySelectorAll('.ss-menu__item.is-open');
+			nestedOpen.forEach(function (nested) {
+				var ns = nested.querySelector('.ss-menu__submenu');
+				var nl = nested.querySelector('.ss-menu__link');
+				if (ns) ns.classList.remove('is-open');
+				if (nl && nl.hasAttribute('aria-expanded')) nl.setAttribute('aria-expanded', 'false');
+				nested.classList.remove('is-open');
+			});
+
 			if (activeItem === item) activeItem = null;
 		};
 
 		var openItem = function (item) {
 			clearTimeout(closeTimer);
-			if (activeItem && activeItem !== item) closeItem(activeItem);
+			// Закрываем предыдущий активный, только если он НЕ предок текущего.
+			// Иначе при hover на nested-item внутри «…» родитель закрывался бы.
+			if (activeItem && activeItem !== item && !activeItem.contains(item)) {
+				closeItem(activeItem);
+			}
 			var submenu = item.querySelector('.ss-menu__submenu');
 			var link = item.querySelector('.ss-menu__link');
 			if (!submenu) return;
@@ -135,9 +161,14 @@
 				// На <$xl (1200) menubar скрыт — работа не нужна.
 				if (window.innerWidth < 1200) return;
 
-				// Сброс: показать все пункты, очистить копии в дропдауне триггера, спрятать триггер.
-				allItems.forEach(function (it) { it.style.display = ''; });
-				moreSubmenuInner.innerHTML = '';
+				// Сброс: возвращаем items обратно в основной список (перед триггером «…»).
+				// Так они сохраняют свои submenu и hover-логику — просто перемещаются
+				// между главным menubar и дропдауном «…».
+				Array.prototype.slice.call(moreSubmenuInner.children).forEach(function (child) {
+					if (child.classList && child.classList.contains('ss-menu__item')) {
+						mainList.insertBefore(child, moreItem);
+					}
+				});
 				moreItem.hidden = true;
 
 				// Есть ли переполнение при всех видимых?
@@ -169,21 +200,10 @@
 					accumulated += add;
 				}
 
-				// Прячем переполненные пункты и создаём simple-копии в submenu триггера.
+				// Перемещаем переполненные items В дропдаун «…» (реальные DOM-ноды,
+				// не копии) — их submenu и hover-listener'ы сохраняются.
 				for (var j = overflowStart; j < allItems.length; j++) {
-					var item = allItems[j];
-					item.style.display = 'none';
-
-					var origLink = item.querySelector('.ss-menu__link');
-					var span = origLink && origLink.querySelector('span');
-					var text = span ? span.textContent : (origLink ? origLink.textContent : '');
-					var href = origLink ? origLink.getAttribute('href') : '#';
-
-					var copy = document.createElement('a');
-					copy.className = 'ss-menu__submenu-link';
-					copy.setAttribute('href', href);
-					copy.textContent = text;
-					moreSubmenuInner.appendChild(copy);
+					moreSubmenuInner.appendChild(allItems[j]);
 				}
 			};
 

@@ -4,11 +4,15 @@ block content
 	//- Данные для nav
 	- var navItems = [{ id: 'nav-1', title: 'Решения', links: [{ text: 'Все решения', href: '#' }, { text: 'РОУ и БРОУ', href: '#' }, { text: 'СВК', href: '#' }, { text: 'ОУ / ИТП ГВС', href: '#' }, { text: 'Обвязка калориферов', href: '#' }, { text: 'Обвязка теплообменников', href: '#' }] }, { id: 'nav-2', title: 'Оборудование', links: [{ text: 'Всё оборудование', href: '#' }, { text: 'Конденсатоотводчики', href: '#' }, { text: 'Конденсатные насосы', href: '#' }, { text: 'Клапаны и арматура', href: '#' }, { text: 'Автоматика', href: '#' }, { text: 'Бренды', href: '#' }] }, { id: 'nav-3', title: 'Отрасли и опыт', links: [{ text: 'Все отрасли', href: '#' }, { text: 'Кейсы', href: '#' }, { text: 'Отзывы', href: '#' }, { text: 'Медиа', href: '#' }] }, { id: 'nav-4', title: 'Инструменты', links: [{ text: 'Калькуляторы', href: '#' }, { text: 'Опросные листы', href: '#' }, { text: 'Документация', href: '#' }, { text: 'База знаний', href: '#' }, { text: 'CAD / 3D / BIM', href: '#' }] }, { id: 'nav-5', title: 'Компания', links: [{ text: 'О компании', href: '#' }, { text: 'Команда', href: '#' }, { text: 'Карьера', href: '#' }, { text: 'Реквизиты', href: '#' }, { text: 'Вопросы и ответы', href: '#' }, { text: 'Контакты', href: '#' }] }]
 
-	//- Миксин для одного контакт-айтема
-	mixin contactItem(label, value, sizeClass)
+	//- Миксин для одного контакт-айтема. Опциональный href превращает значение
+	//- в кликабельную <a> (для телефона/почты — tel: / mailto:).
+	mixin contactItem(label, value, sizeClass, href)
 		li.ss-contacts-list__item
 			p.ss-contacts-list__label= label
-			p.ss-contacts-list__value(class=sizeClass)!= value
+			if href
+				a.ss-contacts-list__value(class=sizeClass, href=href)!= value
+			else
+				p.ss-contacts-list__value(class=sizeClass)!= value
 
 	footer.ss-footer.ss-wrapper
 		.ss-container
@@ -34,8 +38,8 @@ block content
 			//- ==================== Ряд 2: contacts + buttons ====================
 			.ss-footer__contacts
 				ul.ss-contacts-list.ss-contacts-list--row
-					+contactItem('Телефон', '+7 (812) 602-77-70')
-					+contactItem('Почта', 'info@steamsys.ru')
+					+contactItem('Телефон', '+7 (812) 602-77-70', null, 'tel:+78126027770')
+					+contactItem('Почта', 'info@steamsys.ru', null, 'mailto:info@steamsys.ru')
 					+contactItem('Режим работы', 'Работаем: Пн - Пт с 9:00 до 18:00<br>Выходной: Сб - Вс', 'ss-medi-16')
 					+contactItem('Адрес', 'Санкт-Петербург,<br>ул. Воронежская, д. 5, оф. 123', 'ss-medi-16')
 				.ss-footer__contacts-actions
