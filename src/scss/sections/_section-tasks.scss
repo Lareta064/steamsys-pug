@@ -2,30 +2,36 @@
 
 // ==============================
 // .ss-section-tasks — секция «Какие задачи решаем».
-// Раскладка:
-//  · ≥1440 (up $xxl) — статичный ряд 4-в-один, без свайпа. Swiper НЕ инициализируется
-//    (см. src/js/tasks-swiper.js: matchMedia init/destroy). Разметка .swiper остаётся
-//    в DOM — превращаем .swiper-wrapper в CSS Grid, скрываем пагинацию.
-//  · ≤1439 (down $xxl) — Swiper: slidesPerView='auto', слайд width 388px, gap 10.
-//    Пагинация — полоски из шаред-класса .swiper-bars (см. _swiper.scss).
 //
-// !important на .swiper-slide { width } нужен, чтобы перекрыть inline-стили,
+// Раскладка (по убыванию ширины экрана):
+//   · ≥1700               — grid 4-в-один, ВЕРТИКАЛЬНЫЕ карточки (как классика desktop).
+//   · 1440-1699           — grid 2×2, ГОРИЗОНТАЛЬНЫЕ карточки (image 40% ширины карточки).
+//   · 1200-1439           — grid 1×4 (колонка), ГОРИЗОНТАЛЬНЫЕ карточки (image фикс 285px).
+//   · <1200               — Swiper, slidesPerView='auto', слайд 388px, ВЕРТИКАЛЬНЫЕ карточки.
+//                          Пагинация — .swiper-bars (см. _swiper.scss).
+//
+// Swiper активен только <1200 (см. src/js/tasks-swiper.js).
+// На ≥1200 .swiper-wrapper через CSS превращается в grid; количество колонок
+// и раскладка карточки — переключаются media-запросами ниже.
+//
+// !important на .swiper-slide { width } — чтобы перекрыть inline-стили,
 // которые Swiper выставляет каждому слайду в режиме slidesPerView='auto'.
 // ==============================
+
 .ss-section-tasks {
-	// Мобильно-планшетный режим — слайды фикс-ширины по спеке.
+	// <1200 — swiper с фикс-шириной слайдов (вертикальные карточки).
 	.swiper-tasks .swiper-slide {
 		width: 388px !important;
 	}
 
-	// Desktop — сбрасываем flex-стек Swiper'а, делаем 4-колоночную сетку,
-	// прячем пагинацию (там свайпа нет — она не нужна).
-	@include up($xxl) {
+	// ≥1200 — swiper убираем, wrapper становится CSS Grid.
+	// Количество колонок определяется дополнительными media ниже.
+	@media (min-width: 1200px) {
 		.swiper-tasks {
 			.swiper-wrapper {
 				display: grid;
-				grid-template-columns: repeat(4, 1fr);
 				column-gap: 30px;
+				row-gap: 30px;
 				transform: none !important; // страховка от inline transform Swiper'а
 			}
 
@@ -38,10 +44,72 @@
 			}
 		}
 
-		// .swiper-pb добавляет padding-bottom под пагинацию — на desktop
-		// пагинация скрыта, лишний отступ не нужен.
+		// .swiper-pb добавляет padding-bottom под пагинацию — на desktop не нужно.
 		.swiper-tasks.swiper-pb {
 			padding-bottom: 0;
+		}
+	}
+
+	// ≥1700 — 4 колонки, ВЕРТИКАЛЬНЫЕ карточки.
+	@media (min-width: 1700px) {
+		.swiper-tasks .swiper-wrapper {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	// 1440-1699 — 2 колонки, ГОРИЗОНТАЛЬНЫЕ карточки.
+	@media (min-width: 1440px) and (max-width: 1699px) {
+		.swiper-tasks .swiper-wrapper {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	// 1200-1439 — 1 колонка, ГОРИЗОНТАЛЬНЫЕ карточки.
+	@media (min-width: 1200px) and (max-width: 1439px) {
+		.swiper-tasks .swiper-wrapper {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	// ============================================
+	// Горизонтальный режим карточки — 1200-1699.
+	// Переопределяет вертикальные дефолты из _task-card.scss.
+	// ============================================
+	@media (min-width: 1200px) and (max-width: 1699px) {
+		.ss-task-card {
+			flex-direction: row;
+			align-items: center;
+			column-gap: 30px;
+			row-gap: 0;
+			height: auto;
+			min-height: 175px;
+			padding: 20px 30px;
+		}
+
+		.ss-task-card__image {
+			flex-shrink: 0;
+			width: 30%;
+			height: 135px;
+			padding: 0;
+		}
+
+		.ss-task-card__body {
+			flex-grow: 1;
+			padding: 0;
+			row-gap: 10px;
+		}
+
+		// Ссылка в горизонтальном режиме идёт в потоке под текстом.
+		.ss-task-card__link {
+			margin-top: 0;
+		}
+	}
+
+	// На узком 2-колоночном (1440-1699) image отводим 40% ширины карточки.
+	// Резиновый % — сама подстраивается под ширину колонки при ресайзе.
+	@media (min-width: 1440px) and (max-width: 1699px) {
+		.ss-task-card__image {
+			width: 40%;
 		}
 	}
 }
