@@ -28,11 +28,12 @@
 		min-height: 100vh;
 		max-height: 960px;
 		display: flex;
-		flex-direction: column;
+		flex-direction: column;		
 	}
 
-	@include down($md) {
-		padding: calc(30px + var(--header-height, 100px)) 0 30px;
+	@include down($xl) {
+		padding-top: 130px;
+		padding-bottom: 30px;
 	}
 }
 
@@ -167,9 +168,15 @@
 		column-gap: 30px;
 		row-gap: 0;
 	}
-
+	@media (max-width: 1199px){
+		flex-direction: row;
+		column-gap: 30px;}
+	@media (max-width: 1920px) {
+		align-items:flex-start;
+	}
 	@include down($md) {
 		margin-top: 30px;
+		.ss-btn{width: 100%;max-width:430px;}
 	}
 }
 
@@ -206,6 +213,11 @@
 		align-items: stretch;
 		padding: 20px;
 		gap: 10px;
+		.ss-section-hero__metrik-body{
+			flex-direction: row;
+			align-items: center;
+			gap:10px;
+		}
 	}
 }
 
