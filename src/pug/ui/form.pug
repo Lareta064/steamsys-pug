@@ -22,7 +22,8 @@ block content
 					li: a(href='#input') .ss-input
 					li: a(href='#textarea') .ss-textarea
 					li: a(href='#file') .ss-file
-					li: a(href='#checkbox') .ss-checkbox
+					li: a(href='#checkbox') .ss-checkbox — тёмный / светлый
+					li: a(href='#radio') .ss-radio — тёмный / светлый
 					li: a(href='#composed') Полный пример
 
 			//- ========== Input ==========
@@ -101,25 +102,106 @@ block content
 					|  + видимый
 					code span.ss-checkbox__box
 					| . В подпись можно вложить ссылку.
+					br
+					| Checked-состояние одинаковое у обоих вариантов: border + bg =
+					code --accent3
+					| , галочка белая.
 
+				h4.form-catalog__subtitle Тёмный фон (default) —
+					code .ss-checkbox
 				.form-catalog__demo.ss-bg-primary
-					.ss-form-item
-						label.ss-checkbox
-							input.ss-checkbox__input(type='checkbox')
-							span.ss-checkbox__box
-							span.ss-checkbox__label
-								| Нажимая кнопку, вы соглашаетесь с
-								a(href='#') политикой конфиденциальности
+					label.ss-checkbox
+						input.ss-checkbox__input(type='checkbox')
+						span.ss-checkbox__box
+						span.ss-checkbox__label
+							| Нажимая кнопку, вы соглашаетесь с
+							a(href='#') политикой конфиденциальности
+
+				h4.form-catalog__subtitle Светлый фон —
+					code .ss-checkbox--light
+				.form-catalog__demo
+					label.ss-checkbox.ss-checkbox--light
+						input.ss-checkbox__input(type='checkbox')
+						span.ss-checkbox__box
+						span.ss-checkbox__label
+							| Нажимая кнопку, вы соглашаетесь с
+							a(href='#') политикой конфиденциальности
 
 				pre.form-catalog__snippet
 					code
-						| .ss-form-item
-						|     label.ss-checkbox
-						|         input.ss-checkbox__input(type='checkbox')
-						|         span.ss-checkbox__box
-						|         span.ss-checkbox__label
-						|             | Нажимая кнопку, вы соглашаетесь с
-						|             a(href='#') политикой конфиденциальности
+						| //- Тёмный
+						| label.ss-checkbox
+						|     input.ss-checkbox__input(type='checkbox')
+						|     span.ss-checkbox__box
+						|     span.ss-checkbox__label Подпись
+						|
+						| //- Светлый — добавляем модификатор --light
+						| label.ss-checkbox.ss-checkbox--light
+						|     input.ss-checkbox__input(type='checkbox')
+						|     span.ss-checkbox__box
+						|     span.ss-checkbox__label Подпись
+
+			//- ========== Radio ==========
+			section.form-catalog__section#radio
+				h3.form-catalog__section-title .ss-radio
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Круглая радиокнопка 20×20 с внутренним индикатором — закрашенный круг 10×10.
+					br
+					strong Unchecked:
+					|  только внешняя рамка (
+					code --secondary
+					|  для тёмного фона /
+					code --primary
+					|  для светлого), внутренний круг прозрачный.
+					br
+					strong Checked:
+					|  внешняя рамка становится
+					code --accent3
+					| , внутренний круг заливается
+					code --accent3
+					| . В отличие от чекбокса, наружная область НЕ заливается.
+					br
+					| Радиокнопки одной группы объединяются через одинаковый атрибут
+					code name
+					| .
+
+				h4.form-catalog__subtitle Тёмный фон (default) —
+					code .ss-radio
+				.form-catalog__demo.ss-bg-primary
+					label.ss-radio
+						input.ss-radio__input(type='radio', name='demo-dark', checked)
+						span.ss-radio__box
+						span.ss-radio__label Первый вариант
+					label.ss-radio(style='margin-left: 20px')
+						input.ss-radio__input(type='radio', name='demo-dark')
+						span.ss-radio__box
+						span.ss-radio__label Второй вариант
+
+				h4.form-catalog__subtitle Светлый фон —
+					code .ss-radio--light
+				.form-catalog__demo
+					label.ss-radio.ss-radio--light
+						input.ss-radio__input(type='radio', name='demo-light', checked)
+						span.ss-radio__box
+						span.ss-radio__label Первый вариант
+					label.ss-radio.ss-radio--light(style='margin-left: 20px')
+						input.ss-radio__input(type='radio', name='demo-light')
+						span.ss-radio__box
+						span.ss-radio__label Второй вариант
+
+				pre.form-catalog__snippet
+					code
+						| //- Тёмный
+						| label.ss-radio
+						|     input.ss-radio__input(type='radio', name='group1')
+						|     span.ss-radio__box
+						|     span.ss-radio__label Вариант
+						|
+						| //- Светлый — модификатор --light
+						| label.ss-radio.ss-radio--light
+						|     input.ss-radio__input(type='radio', name='group2')
+						|     span.ss-radio__box
+						|     span.ss-radio__label Вариант
 
 			//- ========== Composed ==========
 			section.form-catalog__section#composed
