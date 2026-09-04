@@ -91,8 +91,7 @@ block content
 								.ss-task-card__body
 									p.ss-task-card__title= item.title
 									p.ss-task-card__text= item.text
-								.ss-task-card__footer
-									+ssLink(item.link, { variant: 'light' })
+									+ssLink(item.link, { variant: 'light' })(class='ss-task-card__link')
 
 				pre.cards-catalog__snippet
 					code
@@ -103,8 +102,7 @@ block content
 						|     .ss-task-card__body
 						|         p.ss-task-card__title Заголовок
 						|         p.ss-task-card__text Описание
-						|     .ss-task-card__footer
-						|         +ssLink('Ссылка', { variant: 'light' })
+						|         +ssLink('Ссылка', { variant: 'light' })(class='ss-task-card__link')
 
 			//- ========== Solution card ==========
 			section.cards-catalog__section#solution-card

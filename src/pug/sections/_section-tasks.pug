@@ -15,8 +15,7 @@ section.ss-section.ss-section-tasks
 								source(srcset='/img/' + item.img + '.webp 1x, /img/' + item.img + '@2x.webp 2x')
 								img(src='/img/' + item.img + '.webp' width=item.w height=item.h alt=item.title)
 							.ss-task-card__body
-								p.ss-task-card__title !{item.title} 
+								p.ss-task-card__title !{item.title}
 								p.ss-task-card__text= item.text
-							.ss-task-card__footer
-								+ssLink(item.link, { variant: 'light' })
+								+ssLink(item.link, { variant: 'light' })(class='ss-task-card__link')
 			.swiper-pagination
