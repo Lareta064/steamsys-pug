@@ -89,18 +89,26 @@
 }
 
 // ------------------------------
-// .ss-file — кнопка «прикрепить файл» + подпись.
+// .ss-file — кнопка «прикрепить файл» + подпись + опциональная кнопка удаления.
 // Разметка:
 //   label.ss-file
 //     input.ss-file__input(type='file' hidden)
 //     span.ss-file__icon → +svgIcon('clip')
 //     span.ss-file__label Прикрепить …
+//     button.ss-file__remove(type='button', aria-label='Удалить файл')
+//       +svgIcon('delete')
+//
+// После выбора файла JS (src/js/file-input.js):
+//   · подменяет текст label'а на имя файла,
+//   · вешает на .ss-file класс .is-attached → показывается кнопка remove.
+// Клик по remove очищает input и возвращает всё в исходное состояние.
 // ------------------------------
 .ss-file {
-	display: inline-flex;
+	display: flex;
 	align-items: center;
 	column-gap: 20px;
 	cursor: pointer;
+	width: 100%;
 }
 
 .ss-file__input {
@@ -136,11 +144,48 @@
 }
 
 .ss-file__label {
+	flex: 1 1 auto;
+	min-width: 0;
 	font-family: var(--font-family);
 	font-weight: 500;
 	font-size: 18px;
 	line-height: 1.4;
 	color: var(--secondary2);
+	// Длинное имя файла обрезаем ellipsis'ом, чтобы не ломать вёрстку строки.
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// Кнопка «удалить прикреплённый файл». По умолчанию скрыта, появляется
+// когда JS вешает .is-attached на родительский .ss-file (файл выбран).
+.ss-file__remove {
+	display: none;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	background: none;
+	border: none;
+	color: var(--secondary2);
+	cursor: pointer;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent3);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent3);
+		outline-offset: 2px;
+		border-radius: 4px;
+	}
+}
+
+.ss-file.is-attached .ss-file__remove {
+	display: inline-flex;
 }
 
 // ------------------------------

@@ -36,6 +36,8 @@ section.ss-section.ss-section--tinted.ss-section-feedback
 							span.ss-file__icon
 								+svgIcon('clip')
 							span.ss-file__label Прикрепить ТЗ, спецификацию или опросный лист
+							button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
+								+svgIcon('delete')
 					.ss-form-item
 						textarea.ss-textarea(placeholder='Комментарий к файлу или краткое описание задачи')
 					.ss-form-item

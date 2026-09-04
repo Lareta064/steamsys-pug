@@ -75,6 +75,12 @@ block content
 					| . Квадратная кнопка с иконкой
 					code clip
 					|  + подпись справа. Клик на всём лейбле открывает диалог выбора файла.
+					br
+					| После выбора файла (JS
+					code src/js/file-input.js
+					| ): подпись меняется на имя файла + справа появляется кнопка удаления (
+					code svg-delete
+					| ). Клик по кнопке очищает input и возвращает всё в дефолт.
 
 				.form-catalog__demo.ss-bg-primary
 					.ss-form-item
@@ -83,6 +89,8 @@ block content
 							span.ss-file__icon
 								+svgIcon('clip')
 							span.ss-file__label Прикрепить ТЗ, спецификацию или опросный лист
+							button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
+								+svgIcon('delete')
 
 				pre.form-catalog__snippet
 					code
@@ -92,6 +100,8 @@ block content
 						|         span.ss-file__icon
 						|             +svgIcon('clip')
 						|         span.ss-file__label Прикрепить …
+						|         button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
+						|             +svgIcon('delete')
 
 			//- ========== Checkbox ==========
 			section.form-catalog__section#checkbox
@@ -225,6 +235,8 @@ block content
 								span.ss-file__icon
 									+svgIcon('clip')
 								span.ss-file__label Прикрепить ТЗ, спецификацию или опросный лист
+								button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
+									+svgIcon('delete')
 						.ss-form-item
 							textarea.ss-textarea(placeholder='Комментарий к файлу или краткое описание задачи')
 						.ss-form-item
