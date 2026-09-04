@@ -3,6 +3,11 @@
 	display: flex;
 	gap:10px;
 	flex-wrap: wrap;
+	.ss-social-item:hover{
+		border: 1px solid var(--accent1);
+		background-color: transparent;
+		svg{color: var(--accent1);}
+	}
 	&--white{
 		.ss-social-item{
 			border: 1px solid var(--white);
@@ -13,6 +18,14 @@
 			border: 1px solid var(--accent3);
 			background-color: transparent;
 			svg{color: var(--accent3);}
+		}
+	}
+	&--blue .ss-social-item{
+		border: 1px solid var(--accent3);
+		svg{color: var(--accent3)}
+		&:hover{
+			background-color: var(--accent3);
+			svg{color: var(--white)}
 		}
 	}
 }

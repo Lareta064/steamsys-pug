@@ -39,9 +39,11 @@
 // Sticky — только сжимает высоту (лого уменьшается через ниже).
 // Никакой slide-in анимации: шапка уже на месте, только меняется размер.
 .ss-header--sticky {
+	box-shadow: 0 0 10px rgba(0,0,0, .2);
 	@include up($md) {
 		min-height: 89px;
 		padding-block: 16px;
+		
 	}
 }
 

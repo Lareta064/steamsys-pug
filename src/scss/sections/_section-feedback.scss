@@ -43,6 +43,9 @@
 	@include down($lg) {
 		row-gap: 40px;
 	}
+	@include down($md) {
+		.ss-contacts-list__value.ss-h4{font-size: 24px;}
+	}
 }
 
 .ss-section-feedback__header {

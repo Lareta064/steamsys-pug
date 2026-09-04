@@ -52,26 +52,7 @@ block content
 									code +svgIcon('#{icon.name}',{ sprite: 'ss-sprite-brend'})
 			
 			
-			h3.icons-catalog__section-title Соц сети
-			ul.icons-catalog
-				li.icons-catalog__item
-					.icons-catalog__preview
-						+socialGroup(socialItems)
-					.icons-catalog__meta
-						code.icons-catalog__name +socialGroup('whatsapp')
-						
-						pre.icons-catalog__snippet
-							code +socialGroup(['whatsapp','telegram'])
-				li.icons-catalog__item
-					.icons-catalog__preview.icons-catalog__preview--dark
-						+socialGroup(socialItems)(class="ss-social--white")
-					.icons-catalog__meta
-						code.icons-catalog__name +socialGroup('whatsapp')
-						
-						pre.icons-catalog__snippet
-							code +socialGroup(['whatsapp','telegram'])
-			
-			
+
 			//- ========== Логотип ==========
 			h3.icons-catalog__section-title Логотип
 			p.icons-catalog__intro.ss-reg-14.ss-txt-secondary

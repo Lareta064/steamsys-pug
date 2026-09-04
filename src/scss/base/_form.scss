@@ -18,11 +18,15 @@
 
 // ------------------------------
 // .ss-form-item — обёртка одного поля формы.
-// Пока без собственных стилей — служит структурным маркером,
-// на которого консьюмер может повесить grid-span или собственный gap.
+// Служит структурным маркером; консьюмер может повесить grid-span или свой gap.
+//
+// min-width: 0 — критично для flex/grid-родителей: дефолтный min-width: auto
+// у flex/grid-items = min-content, а min-content .ss-file включает ширину
+// текста label'а с white-space: nowrap (напр. «Прикрепить ТЗ, спецификацию…»).
+// Без этого сброса форма даёт горизонтальный скролл на мобильных.
 // ------------------------------
 .ss-form-item {
-	// зарезервировано для будущих grid/spacing правил
+	min-width: 0;
 }
 
 // ------------------------------
@@ -152,9 +156,15 @@
 	line-height: 1.4;
 	color: var(--secondary2);
 	// Длинное имя файла обрезаем ellipsis'ом, чтобы не ломать вёрстку строки.
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+	// overflow: hidden;
+	// text-overflow: ellipsis;
+	// white-space: nowrap;
+	@include down($xxl){
+      font-size: 16px;
+	}
+	@include down($lg){
+      font-size: 14px;
+	}
 }
 
 // Кнопка «удалить прикреплённый файл». По умолчанию скрыта, появляется

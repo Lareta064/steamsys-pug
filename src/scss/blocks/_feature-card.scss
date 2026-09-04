@@ -22,6 +22,10 @@
 		column-gap: 10px;
 		row-gap: 0;
 		padding: 20px;
+		svg{
+			width: 32px;
+			height: 32px;
+		}
 	}
 }
 
@@ -30,6 +34,7 @@
 	flex-direction: column;
 	row-gap: 10px;
 	min-width: 0;
+	@include down($md) {row-gap: 0;}
 }
 
 .ss-feature-card__title {

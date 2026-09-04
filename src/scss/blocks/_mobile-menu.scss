@@ -245,6 +245,7 @@ body.lock {
 
 	.ss-contacts-list__value {
 		color: var(--primary);
+		&[href]{font-size: 20px;}
 	}
 }
 

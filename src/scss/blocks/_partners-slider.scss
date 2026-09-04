@@ -81,7 +81,7 @@
 	// .ss-container на <$md имеет padding-inline: 20px, компенсируем справа.
 	.ss-partners-slider__swiper {
 		margin-right: -20px;
-		padding-bottom: 30px; // место под пагинацию-полоски
+		.swiper-pb{padding-bottom: 30px;}
 	}
 
 	// Показываем пагинацию (бар-стили приезжают из .swiper-bars в _swiper.scss).

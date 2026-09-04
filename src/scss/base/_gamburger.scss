@@ -22,7 +22,7 @@
 .menu-toggle span {
 	position: relative;
 	height: 2px;
-	width: 50%;
+	width: 36px;
 	border-radius: 3px;
 	background-color: var(--primary);
 	-webkit-transition: .2s;
@@ -45,11 +45,11 @@
 }
 
 .menu-toggle span:after {
-	top: -6px;
+	top: -10px;
 }
 
 .menu-toggle span:before {
-	bottom: -6px;
+	bottom: -10px;
 }
 
 .active.menu-toggle span {

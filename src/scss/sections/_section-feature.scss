@@ -63,8 +63,13 @@
 		.ss-section-intro--stretch {
 			row-gap: 10px;
 		}
+		
 	}
-
+    @include down($md) {
+		.ss-grid {
+			gap: 10px;
+		}
+	}
 	// Ссылка внутри intro-колонки — только desktop. На mobile её дубль под карточками.
 	&__link-desktop {
 		@include down($lg) {

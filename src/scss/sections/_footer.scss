@@ -27,7 +27,8 @@
 	color: var(--white);
 
 	@include down($md) {
-		padding-top: 60px;
+		padding-block: 40px;
+		.ss-contacts-list__value[href]{font-size: 20px;}
 	}
 }
 

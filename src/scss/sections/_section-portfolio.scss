@@ -32,7 +32,13 @@
 			row-gap: 10px;
 		}
 	}
-
+    @include down($md) {
+		.ss-container > .ss-grid {
+			row-gap: 10px;
+		}
+		.ss-section-intro--stretch{margin-bottom: 30px;}
+		.ss-section-portfolio__link-mobile{margin-top: 30px;}
+	}
 	// Ссылка внутри intro-колонки — только desktop.
 	&__link-desktop {
 		@include down($lg) {

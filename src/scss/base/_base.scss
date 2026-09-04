@@ -63,6 +63,17 @@ body {
 	display: block;
 }
 
+// Box-sizing для всех потомков .ss-wrapper — выделено ОТДЕЛЬНЫМ правилом
+// (не через :where() внутри .ss-wrapper), чтобы специфичность 0,1,0 гарантированно
+// перебивала браузерный content-box дефолт. Это критично: если padding суммируется
+// с width/min-height, ломается вся сетка (см. историю бага с .ss-header 174px vs 126px
+// и горизонтальным скроллом моб-меню).
+.ss-wrapper *,
+.ss-wrapper *::before,
+.ss-wrapper *::after {
+	box-sizing: border-box;
+}
+
 .ss-wrapper {
 	// border-box на САМОЙ обёртке — иначе padding суммируется с width/height/min-height.
 	// Пример бага: .ss-header { min-height: 126; padding-block: 24 } → реальная высота 174 (не 126).
@@ -81,7 +92,6 @@ body {
 	// свободно перебивать сбросы без !important и без хаков
 	// вроде `.ss-wrapper .ss-btn`.
 	:where(*, *:after, *:before) {
-		box-sizing: border-box;
 		background-repeat: no-repeat;
 		background-position: center;
 	}

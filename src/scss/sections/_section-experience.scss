@@ -14,12 +14,7 @@
 	.ss-section-header {
 		align-items: flex-end;
 
-		// На mobile CTA в заголовке — только стрелка, текст (span) скрыт.
-		.ss-link span {
-			@include down($md) {
-				display: none;
-			}
-		}
+		
 
 		@include down($md) {
 			align-items: flex-start;
