@@ -65,21 +65,25 @@
 .ss-task-card__title {
 	font-family: var(--font-family);
 	font-weight: 600;
-	font-size: 18px;
+	font-size: 22px;
 	line-height: 1.4;
 	color: var(--primary);
+	min-height: 36px;
 
 	@include down($md) {
-		font-size: 16px;
+		font-size: 18px;
 	}
 }
 
 .ss-task-card__text {
 	font-family: var(--font-family);
-	font-weight: 500;
-	font-size: 14px;
+	font-weight: 400;
+	font-size: 18px;
 	line-height: 1.4;
 	color: var(--secondary);
+	@include down($xl){
+		font-size: 14px;
+	}
 }
 
 // Нижний ряд — ссылка, прижата к низу.

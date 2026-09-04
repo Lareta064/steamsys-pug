@@ -15,8 +15,8 @@ block content
 				| из
 				code src/pug/mixins/_ss-button.pug
 
-			//- ===== Варианты (big) =====
-			h3.buttons-catalog__section-title Варианты · big (по умолчанию)
+			//- ===== Варианты (по умолчанию — 65px) =====
+			h3.buttons-catalog__section-title Варианты · 65px (базовый размер, без опции)
 			ul.buttons-catalog
 				each v in variants
 					li.buttons-catalog__item
@@ -28,18 +28,20 @@ block content
 							pre.buttons-catalog__snippet
 								code +ssBtn('Текст', { variant: '#{v.code}', icon: 'plus-circle' })
 
-			//- ===== Варианты (mini) =====
-			h3.buttons-catalog__section-title Варианты · mini
+			//- ===== Варианты (big — 74px) =====
+			h3.buttons-catalog__section-title Варианты · big — 74px (модификатор
+				code .ss-btn--big
+				|, используется только для двух кнопок в hero)
 			ul.buttons-catalog
 				each v in variants
 					li.buttons-catalog__item
 						.buttons-catalog__preview
-							+ssBtn('Текст кнопки', { variant: v.code, size: 'mini', icon: 'plus-circle' })
+							+ssBtn('Текст кнопки', { variant: v.code, size: 'big', icon: 'plus-circle' })
 						.buttons-catalog__meta
-							span.buttons-catalog__label= v.label + ' · mini'
-							code.buttons-catalog__name .ss-btn.ss-btn--#{v.code}.ss-btn--mini
+							span.buttons-catalog__label= v.label + ' · big'
+							code.buttons-catalog__name .ss-btn.ss-btn--#{v.code}.ss-btn--big
 							pre.buttons-catalog__snippet
-								code +ssBtn('Текст', { variant: '#{v.code}', size: 'mini', icon: 'plus-circle' })
+								code +ssBtn('Текст', { variant: '#{v.code}', size: 'big', icon: 'plus-circle' })
 
 			//- ===== Иконка: справа / слева / без =====
 			h3.buttons-catalog__section-title Иконка

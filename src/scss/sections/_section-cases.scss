@@ -28,7 +28,6 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	column-gap: 30px;
-	align-items: end;
 	margin-bottom: 60px;
 
 	@include down($md) {

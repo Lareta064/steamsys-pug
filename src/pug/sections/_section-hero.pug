@@ -12,7 +12,7 @@ section.ss-section-hero.ss-wrapper
 			h1.ss-h1 Инженерные решения для парокондесатных систем
 
 			p.ss-section-hero__desc
-				| Снижаем расход пара, возвращаем конденсат, стабилизируем давление и температуру. Проектируем и внедряем инженерные системы под параметры вашего предприятия.
+				| Снижаем расход пара, возвращаем конденсат, стабилизируем давление и температуру.<br> Проектируем и внедряем инженерные системы под параметры вашего предприятия.
 
 			//- Мобильная картинка в потоке (скрыта на десктопе)
 			picture.ss-section-hero__pic-mob
@@ -20,8 +20,8 @@ section.ss-section-hero.ss-wrapper
 				img(src='/img/hero-mob.webp', width=388, height=200, alt='')
 
 			.ss-section-hero__actions
-				+ssBtn('Получить КП', { variant: 'primary', icon: 'arrow-right' })(data-modal='request')
-				+ssBtn('Обсудить задачу', { variant: 'outline-light', icon: 'message' })(class='ss-section-hero__cta-secondary')
+				+ssBtn('Получить КП', { variant: 'primary', size: 'big', icon: 'arrow-right' })(data-modal='request')
+				+ssBtn('Обсудить задачу', { variant: 'outline-light', size: 'big', icon: 'message' })(class='ss-section-hero__cta-secondary')
 
 		ul.ss-section-hero__metriks
 			each m in metriks

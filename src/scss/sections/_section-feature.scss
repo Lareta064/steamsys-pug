@@ -21,7 +21,7 @@
 	// Desktop: 55 top / 80 bottom (по спеке). Mobile: 60/60.
 	padding-top: 55px;
 	padding-bottom: 80px;
-
+	.ss-section-intro--stretch{padding-top: 30px;}
 	@include down($md) {
 		padding-block: 60px;
 	}
@@ -54,6 +54,7 @@
 			height: auto;
 			justify-content: initial;
 			row-gap: 40px;
+			padding-top: 0;
 		}
 	}
 

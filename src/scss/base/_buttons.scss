@@ -1,23 +1,25 @@
 @use '_var' as *;
 
 // ==============================
-// Базовая кнопка .ss-btn = big
-// Без модификатора визуально = .ss-btn--primary
+// Базовая кнопка .ss-btn = 65px (наиболее распространённый размер в макете).
+// Без модификатора визуально = .ss-btn--primary.
+// Крупный вариант — модификатор .ss-btn--big (74px). Используется, например,
+// в двух кнопках hero-секции.
 // ==============================
 .ss-btn {
 	box-sizing: border-box;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	column-gap: 24px;
-	height: 74px;
-	padding: 0 46px;
+	column-gap: 20px;
+	height: 65px;
+	padding: 0 30px;
 	border: 1px solid var(--accent1);
 	border-radius: 10px;
 	font-family: var(--font-family);
 	font-weight: 500;
-	font-size: 22px;
-	line-height: 1.3;
+	font-size: 18px;
+	line-height: 1.4;
 	color: var(--white);
 	background: var(--accent1);
 	white-space: nowrap;
@@ -25,8 +27,8 @@
 	transition: background-color .2s, color .2s, border-color .2s, outline-color .2s;
 
 	svg {
-		width: 30px;
-		height: 30px;
+		width: 24px;
+		height: 24px;
 	}
 
 	&:hover {
@@ -47,18 +49,18 @@
 }
 
 // ==============================
-// Модификатор размера
+// Модификатор размера — big (74px).
 // ==============================
-.ss-btn--mini {
-	height: 65px;
-	padding: 0 30px;
-	column-gap: 20px;
-	font-size: 18px;
-	line-height: 1.4;
+.ss-btn--big {
+	height: 74px;
+	padding: 0 46px;
+	column-gap: 24px;
+	font-size: 22px;
+	line-height: 1.3;
 
 	svg {
-		width: 24px;
-		height: 24px;
+		width: 30px;
+		height: 30px;
 	}
 }
 
