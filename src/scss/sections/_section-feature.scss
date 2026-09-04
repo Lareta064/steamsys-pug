@@ -17,6 +17,15 @@
 //    (унаследовано от общего правила «gap 20 на <1920»).
 // ==============================
 .ss-section-feature {
+	// Спец-паддинги (перебивают базовые .ss-section: 140/120/100).
+	// Desktop: 55 top / 80 bottom (по спеке). Mobile: 60/60.
+	padding-top: 55px;
+	padding-bottom: 80px;
+
+	@include down($md) {
+		padding-block: 60px;
+	}
+
 	// Локальный цвет для заголовка секции (в утилите .ss-h6 color не задан).
 	.ss-h6 {
 		color: var(--primary);

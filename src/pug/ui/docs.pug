@@ -17,6 +17,7 @@ block content
 					li: a(href='#for-seo') Для SEO
 					li: a(href='#images') Изображения и перформанс
 					li: a(href='#breakpoints') Точки перелома
+					li: a(href='#page-structure') Структура страницы и отступы между секциями
 					li: a(href='#catalog') Каталог компонентов
 					li: a(href='#docs') Смежные документы
 
@@ -277,6 +278,123 @@ block content
 							td Огромный экран
 
 				p Ниже 360px не поддерживаем.
+
+			//- ===== Структура страницы и отступы между секциями =====
+			section.docs-catalog__section#page-structure
+				h3.docs-catalog__section-title Структура страницы и отступы между секциями
+
+				h4.docs-catalog__subtitle Верхнеуровневая разметка
+				p Стандартный каркас страницы:
+				pre.docs-catalog__code
+					code
+						| header.ss-header ...        //- шапка (фиксированная)
+						| main.ss-main
+						|     section.ss-section ...   //- любое количество секций
+						|     section.ss-section ...
+						|     ...
+						| footer.ss-footer ...       //- футер
+
+				p
+					| Все секции лежат внутри
+					code main.ss-main
+					| . Это семантично (HTML5 landmark для скринридеров и SEO) и позволяет сиббинг-селектору
+					code .ss-section + .ss-section
+					|  корректно работать по прямым соседям.
+
+				h4.docs-catalog__subtitle Правило отступов
+				p
+					| Секции задают отступы через
+					strong padding-block
+					|  — margin не используется вообще. Стандартный
+					code .ss-section
+					|  имеет
+					strong 140px
+					|  (desktop) /
+					strong 120px
+					|  (768–1439) /
+					strong 100px
+					|  (&lt;768).
+
+				p
+					| Класс-модификатор
+					code .ss-section--tinted
+					|  ставим на секции с цветным фоном или фоновой картинкой (profit, home-roles, feedback, ...). Он не меняет padding — только маркирует секцию, чтобы соседний селектор её отличал от белой.
+
+				h4.docs-catalog__subtitle Как это даёт нужные gap'ы
+				table.docs-catalog__table
+					thead
+						tr
+							th Пара соседних секций
+							th Итоговый gap
+							th Почему
+					tbody
+						tr
+							td Белая + Белая
+							td 140px
+							td Селектор
+								code .ss-section:not(--tinted) + .ss-section:not(--tinted)
+								| снимает padding-top у второй → 140 + 0.
+						tr
+							td Белая + Цветная
+							td 280px
+							td Селектор не срабатывает (вторая — цветная) → padding'и суммируются 140 + 140.
+						tr
+							td Цветная + Белая
+							td 280px
+							td Селектор не срабатывает (первая — цветная) → 140 + 140.
+						tr
+							td Цветная + Цветная
+							td 280px
+							td Селектор не срабатывает → 140 + 140.
+
+				p
+					| Плюс модели — если завтра любую секцию временно скрыть, удалить или добавить новую, отступы остаются корректными автоматически. Никаких ручных margin-подгонок на стыках.
+
+				h4.docs-catalog__subtitle Спец-секции (вне общей модели)
+				p Секции со своей раскладкой не наследуют
+					code .ss-section
+					|  и работают со своими паддингами:
+				ul
+					li
+						code .ss-section-hero
+						|  — hero-секция с фоновой картинкой и метриками. Свой
+						code padding-top: calc(60 + var(--header-height))
+						| , свой bottom.
+					li
+						code .ss-section-running-line
+						|  — тонкая бегущая полоса. padding
+						code 20px 0
+						|  внутри тёмного bg.
+					li
+						code .ss-footer
+						|  — свои паддинги, «прилипает» к последней секции.
+
+				h4.docs-catalog__subtitle Спец-размер: feature
+				p
+					code .ss-section-feature
+					|  перебивает базовые паддинги на
+					strong 55 top / 80 bottom
+					|  (desktop) и
+					strong 60/60
+					|  (mobile). Это по спеке дизайна.
+
+				h4.docs-catalog__subtitle Как добавить новую секцию
+				ol
+					li Создать
+						code src/pug/sections/_section-имя.pug
+						|  с корневым элементом
+						code section.ss-section.имя-класса
+						| .
+					li Если фон цветной / картинка — добавить класс
+						code .ss-section--tinted
+						| . Иначе — не добавлять.
+					li Подключить через
+						code include
+						|  в
+						code pages/home.pug
+						|  (внутри
+						code main.ss-main
+						| ) на нужную позицию. Отступы посчитаются автоматически.
 
 			//- ===== Каталог компонентов =====
 			section.docs-catalog__section#catalog

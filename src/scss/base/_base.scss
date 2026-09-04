@@ -56,6 +56,13 @@ body {
 	padding: 0;
 }
 
+// .ss-main — семантическая обёртка контента страницы (между header и footer).
+// Внутри — все .ss-section (см. _section.scss для правил spacing'а).
+// display: block — на всякий случай (IE fallback, современным браузерам не нужно).
+.ss-main {
+	display: block;
+}
+
 .ss-wrapper {
 	// border-box на САМОЙ обёртке — иначе padding суммируется с width/height/min-height.
 	// Пример бага: .ss-header { min-height: 126; padding-block: 24 } → реальная высота 174 (не 126).
