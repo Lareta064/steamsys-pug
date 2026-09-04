@@ -264,8 +264,9 @@
 	a {
 		color: var(--accent3);
 		text-decoration: none;
-
-		&:hover { text-decoration: underline; }
+		padding-left: 5px;
+		transition: .2s; 
+		&:hover { color: white; }
 	}
 }
 

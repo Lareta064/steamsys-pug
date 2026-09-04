@@ -1,0 +1,134 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-modal — универсальная система модалок сайта.
+//
+// Разметка:
+//   .ss-modal#modal-<id>(hidden)
+//     button.ss-modal__close(type='button', aria-label='Закрыть')
+//       +svgIcon('cross')
+//     .ss-modal__inner
+//       h2.ss-modal__title ...
+//       p.ss-modal__desc ...
+//       form.ss-modal__form ...
+//
+// Открытие: JS (src/js/modal.js) ищет клики по [data-modal="<id>"],
+// снимает атрибут hidden с .ss-modal#modal-<id> и вешает .is-open.
+// Закрытие: X-кнопка, клик по overlay (мимо inner), клавиша Escape.
+// При открытой модалке блокируем прокрутку body (класс .is-modal-open на html).
+// ==============================
+
+.ss-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 200;
+	display: none;
+	overflow-y: auto;
+	background: var(--primary1);
+	color: var(--white);
+	padding: 100px 20px 40px;
+
+	&.is-open {
+		display: block;
+	}
+
+	@include down($md) {
+		padding: 80px 16px 40px;
+	}
+}
+
+.ss-modal__close {
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	background: none;
+	border: none;
+	color: var(--white);
+	cursor: pointer;
+	transition: color .2s;
+
+	svg {
+		width: 28px;
+		height: 28px;
+		color: white;
+		transition: .2s; 
+	}
+
+	&:hover svg{
+		color: var(--accent3);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent3);
+		outline-offset: 4px;
+		border-radius: 4px;
+	}
+
+	@include down($md) {
+		top: 16px;
+		right: 16px;
+	}
+}
+
+.ss-modal__inner {
+	max-width: 660px;
+	margin: 0 auto;
+}
+
+.ss-modal__title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 32px;
+	line-height: 1.3;
+	color: var(--white);
+
+	@include down($md) {
+		font-size: 24px;
+	}
+}
+
+.ss-modal__desc {
+	margin: 20px 0 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--secondary2);
+}
+
+// Форма — grid-стек полей, gap 20 (моб 10). Идентична форме feedback-секции.
+.ss-modal__form {
+	display: grid;
+	row-gap: 20px;
+	margin-top: 40px;
+
+	@include down($md) {
+		row-gap: 10px;
+		margin-top: 30px;
+	}
+}
+
+// Ряд с двумя полями (имя + телефон). На <768 распадается в стек.
+.ss-modal__form-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 20px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		row-gap: 10px;
+	}
+}
+
+// Блокировка скролла body, когда модалка открыта.
+// Класс вешается JS'ом на <html>.
+.is-modal-open {
+	overflow: hidden;
+}

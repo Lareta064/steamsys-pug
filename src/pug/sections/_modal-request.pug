@@ -1,0 +1,36 @@
+//- Модалка «Получить КП». Открывается по клику на любую кнопку с
+//- data-modal="request" (см. header.pug: CTA в шапке + мобильном меню,
+//- section-hero.pug: главная CTA hero). Работает через .ss-modal + JS.
+
+.ss-modal#modal-request(role='dialog', aria-modal='true', aria-labelledby='modal-request-title', hidden)
+	button.ss-modal__close(type='button', aria-label='Закрыть модальное окно', data-modal-close)
+		+svgIcon('cross')
+
+	.ss-modal__inner
+		h2.ss-modal__title#modal-request-title Хотите получить коммерческое предложение?
+		p.ss-modal__desc Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня
+
+		form.ss-modal__form
+			.ss-modal__form-row
+				.ss-form-item: input.ss-input(type='text', placeholder='Ваше имя')
+				.ss-form-item: input.ss-input(type='tel', placeholder='Телефон')
+			.ss-form-item
+				input.ss-input(type='email', placeholder='Email для отправки КП')
+			.ss-form-item
+				label.ss-file
+					input.ss-file__input(type='file')
+					span.ss-file__icon
+						+svgIcon('clip')
+					span.ss-file__label Прикрепить ТЗ, спецификацию или опросный лист
+					button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
+						+svgIcon('delete')
+			.ss-form-item
+				textarea.ss-textarea(placeholder='Комментарий к файлу или краткое описание задачи')
+			.ss-form-item
+				label.ss-checkbox
+					input.ss-checkbox__input(type='checkbox')
+					span.ss-checkbox__box
+					span.ss-checkbox__label
+						| Нажимая кнопку, вы соглашаетесь с
+						a(href='#') политикой конфиденциальности
+			+ssBtn('Получить КП', { variant: 'primary', full: true, icon: 'mail' })

@@ -57,6 +57,7 @@
 @use "sections/_section-running-line";
 @use "blocks/_menu";
 @use "blocks/_mobile-menu";
+@use "blocks/_modal";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту
