@@ -18,6 +18,7 @@ block content
 					li: a(href='#images') Изображения и перформанс
 					li: a(href='#breakpoints') Точки перелома
 					li: a(href='#page-structure') Структура страницы и отступы между секциями
+					li: a(href='#modals') Модальные окна
 					li: a(href='#catalog') Каталог компонентов
 					li: a(href='#docs') Смежные документы
 
@@ -395,6 +396,154 @@ block content
 						|  (внутри
 						code main.ss-main
 						| ) на нужную позицию. Отступы посчитаются автоматически.
+
+			//- ===== Модальные окна =====
+			section.docs-catalog__section#modals
+				h3.docs-catalog__section-title Модальные окна
+
+				p
+					| Универсальная система модалок на чистом JS. Стили —
+					code src/scss/blocks/_modal.scss
+					| , логика —
+					code src/js/modal.js
+					| . Никаких сторонних библиотек (fancybox/bootstrap не используем).
+
+				h4.docs-catalog__subtitle Как триггер связывается с модалкой
+				p
+					| Через атрибут
+					code data-modal="&lt;id&gt;"
+					|  на любом элементе (
+					code &lt;button&gt;
+					| ,
+					code &lt;a&gt;
+					| , любой другой). JS ищет соответствующий контейнер по
+					code id="modal-&lt;id&gt;"
+					| .
+
+				pre.docs-catalog__code
+					code
+						| //- Триггер (может стоять где угодно на странице)
+						| button(data-modal='request') Получить КП
+						|
+						| //- Модалка (лежит в конце body — рекомендуется)
+						| .ss-modal#modal-request(role='dialog', aria-modal='true', hidden)
+						|     ...
+
+				p
+					| То есть
+					code data-modal="request"
+					|  ↔
+					code id="modal-request"
+					| . Можно иметь любое количество разных модалок на странице —
+					code data-modal="callback"
+					|  →
+					code id="modal-callback"
+					|  и т.д.
+
+				h4.docs-catalog__subtitle Разметка модалки
+				pre.docs-catalog__code
+					code
+						| .ss-modal#modal-request(role='dialog', aria-modal='true', aria-labelledby='modal-request-title', hidden)
+						|     button.ss-modal__close(type='button', aria-label='Закрыть', data-modal-close)
+						|         +svgIcon('cross')
+						|     .ss-modal__inner
+						|         h2.ss-modal__title#modal-request-title Заголовок
+						|         p.ss-modal__desc Описание
+						|         form.ss-modal__form
+						|             //- поля формы (.ss-input / .ss-file / .ss-checkbox / кнопка)
+
+				p Ключевые классы:
+				ul
+					li
+						code .ss-modal
+						|  — корневая обёртка (fixed overlay на весь viewport, скрыта через
+						code hidden
+						| ).
+					li
+						code .ss-modal__close
+						|  — X-кнопка в правом верхнем углу. ОБЯЗАТЕЛЬНО имеет атрибут
+						code data-modal-close
+						|  — по нему JS ловит клик для закрытия.
+					li
+						code .ss-modal__inner
+						|  — центрированная колонка контента (
+						code max-width: 660px
+						| ). Клик по этому блоку модалку НЕ закрывает.
+					li
+						code .ss-modal__title
+						| ,
+						code .ss-modal__desc
+						|  — заголовок и подпись.
+					li
+						code .ss-modal__form
+						|  — grid-обёртка формы. Внутри —
+						code .ss-modal__form-row
+						|  для двух полей в ряд (имя+телефон).
+
+				h4.docs-catalog__subtitle Как открывается / закрывается
+				p Открытие — клик по любому элементу с
+					code data-modal="&lt;id&gt;"
+					| .
+				p Закрытия — ТРИ способа (все работают одновременно):
+				ol
+					li Клик по элементу с атрибутом
+						code data-modal-close
+						|  (X-кнопка внутри модалки).
+					li Клик по overlay — т.е. по самой
+						code .ss-modal
+						| , мимо
+						code .ss-modal__inner
+						| .
+					li Клавиша
+						code Escape
+						| .
+
+				h4.docs-catalog__subtitle Что делает JS под капотом
+				ul
+					li Снимает
+						code hidden
+						|  → модалка видна.
+					li Вешает
+						code .is-open
+						|  на модалку (для CSS-хуков в будущем — анимации, transitions).
+					li Вешает
+						code .is-modal-open
+						|  на
+						code &lt;html&gt;
+						|  → блокирует скролл body (
+						code overflow: hidden
+						| ).
+					li Ставит focus на X-кнопку внутри модалки (клавиатурная навигация начинает с закрытия — безопасный дефолт).
+					li При закрытии — возвращает focus на элемент, который открыл модалку.
+
+				h4.docs-catalog__subtitle Как добавить новую модалку
+				ol
+					li Создать партиал
+						code src/pug/sections/_modal-&lt;имя&gt;.pug
+						|  по шаблону выше.
+					li Включить его в
+						code pages/home.pug
+						|  через
+						code include
+						|  (внутри
+						code body
+						| , обычно после
+						code footer
+						| ).
+					li На нужную кнопку/ссылку добавить
+						code data-modal="&lt;имя&gt;"
+						| . Всё — JS сам подхватит.
+
+				h4.docs-catalog__subtitle Что уже используется на сайте
+				p В home сейчас одна модалка —
+					code #modal-request
+					|  («Получить КП»). Триггеры на неё:
+				ul
+					li CTA
+						code «Получить КП»
+						|  в шапке (desktop + мобильное меню).
+					li Первичная CTA hero-секции.
+					li Кнопка «Получить КП» в footer'е (правый блок с контактами).
 
 			//- ===== Каталог компонентов =====
 			section.docs-catalog__section#catalog
