@@ -1,0 +1,95 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-section-running-line — бегущая строка (marquee).
+//
+// Реализация:
+//   - .ss-section-running-line — обёртка secции, overflow: hidden.
+//   - .ss-section-running-line__track — flex-полоса из ДВУХ списков-копий.
+//   - .ss-section-running-line__list — список items с внутренним gap 60
+//     и padding-right: 60, чтобы разрыв между копиями был такой же, как gap.
+//   - Анимация: translateX 0 → -50% (сдвиг на ровно ОДНУ копию).
+//     Поскольку 2-й список идентичен 1-му, в момент -50% визуально
+//     ничего не меняется — бесшовный луп.
+//   - Скорость: 60s linear infinite (справа налево).
+//
+// Каждый список содержит items × N (N=4), чтобы копия была шире viewport
+// на любом реалистичном экране.
+//
+// prefers-reduced-motion — уважаем: пользователям с включённой опцией
+// «уменьшить движение» останавливаем анимацию.
+// ==============================
+
+.ss-section-running-line {
+	background: var(--primary1);
+	padding: 20px 0;
+	overflow: hidden;
+}
+
+.ss-section-running-line__track {
+	display: flex;
+	width: max-content;
+	animation: ss-running-line 60s linear infinite;
+}
+
+.ss-section-running-line__list {
+	display: flex;
+	align-items: stretch;
+	gap: 60px;
+	margin: 0;
+	padding: 0 60px 0 0;
+	list-style: none;
+}
+
+.ss-section-running-line__item {
+	display: flex;
+	align-items: flex-start;
+	column-gap: 10px;
+	flex-shrink: 0;
+}
+
+.ss-section-running-line__marker {
+	flex-shrink: 0;
+	width: 12px;
+	height: 12px;
+	border-radius: 4px;
+	background: var(--accent3);
+	// Центрируем маркер по cap-высоте title'а: (line-height 22.4 − 12) / 2 ≈ 5px.
+	margin-top: 5px;
+}
+
+.ss-section-running-line__body {
+	display: flex;
+	flex-direction: column;
+	max-width: 224px;
+}
+
+.ss-section-running-line__title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 1.4;
+	text-transform: uppercase;
+	color: var(--secondary2);	
+}
+
+.ss-section-running-line__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary2);	
+}
+
+@keyframes ss-running-line {
+	from { transform: translate3d(0, 0, 0); }
+	to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ss-section-running-line__track {
+		animation: none;
+	}
+}

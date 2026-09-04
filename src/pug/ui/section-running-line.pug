@@ -1,0 +1,25 @@
+extends ../layouts/layout-ui-sections.pug
+
+block content
+	- var items = [{ title: '12 месяцев', desc: 'гарантия на всё поставляемое оборудование' }, { title: 'КП за 4 часа', desc: 'инженерный расчёт, спецификация и коммерческое предложение' }, { title: 'TLV · Spirax · Baelz', desc: 'бренды-партнёры — прямые официальные поставки' }]
+
+	mixin runningLineItem(item)
+		li.ss-section-running-line__item
+			span.ss-section-running-line__marker
+			.ss-section-running-line__body
+				p.ss-section-running-line__title= item.title
+				p.ss-section-running-line__desc= item.desc
+
+	//- ==================== RUNNING LINE ====================
+	//- Две одинаковые копии списка → анимация -50% даёт бесшовный луп.
+	//- Каждая копия содержит items × 4, чтобы её ширина превышала viewport.
+	section.ss-section-running-line
+		.ss-section-running-line__track
+			ul.ss-section-running-line__list
+				- for (var k = 0; k < 4; k++)
+					each item in items
+						+runningLineItem(item)
+			ul.ss-section-running-line__list(aria-hidden='true')
+				- for (var k = 0; k < 4; k++)
+					each item in items
+						+runningLineItem(item)
