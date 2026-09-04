@@ -1,28 +1,4 @@
 extends ../layouts/layout-ui-sections.pug
 
 block content
-	- var tabs = [{ label: 'Конденсатоотводчики', img: 'tool1', desc: 'TLV, Yoshitake. Поплавковые, термостатические, термодинамические. Подбор по параметрам, наличие на складе, документация.', tags: ['TLV', 'DN15-DN100'] }, { label: 'Регулирующая арматура', img: 'tool2', desc: 'Клапаны регулирующие, отсечные и предохранительные. Baelz, отечественные аналоги. Технический подбор по параметрам.', tags: ['Baelz', 'Автоматика', 'DN15-DN300'] }, { label: 'КИПиА и измерения', img: 'tool3', desc: 'Датчики давления и температуры, расходомеры, вторичные приборы, системы мониторинга и учёта. Комплексные решения для контроля процессов.', tags: ['Датчики', 'Расходомеры'] }]
-
-	section.ss-section.ss-section-tab-catalog
-		.ss-container.ss-wrapper
-			p.ss-kicker Оборудование
-			h2.ss-h2.ss-section-tab-catalog__title Оборудование для пара и конденсата
-			.ss-tabs.ss-section-tab-catalog__grid
-				.ss-section-tab-catalog__aside
-					.ss-tabs__list
-						each t, i in tabs
-							button.ss-tabs__tab(type='button', class=(i === 0 ? 'is-active' : null))= t.label
-				.ss-tabs__panels
-					each t, i in tabs
-						.ss-tabs__panel(class=(i === 0 ? 'is-active' : null))
-							.ss-section-tab-catalog__panel
-								.ss-section-tab-catalog__text
-									h4.ss-h4.ss-section-tab-catalog__panel-title= t.label
-									p.ss-section-tab-catalog__desc= t.desc
-									.ss-tag-group
-										each tag in t.tags
-											span.ss-tag.ss-tag--dark= tag
-									+ssLink('В каталог')
-								picture.ss-section-tab-catalog__image
-									source(srcset='../img/' + t.img + '.webp 1x, ../img/' + t.img + '@2x.webp 2x')
-									img(src='../img/' + t.img + '.webp', width=418, height=388, alt=t.label)
+	include ../sections/_section-tab-catalog.pug

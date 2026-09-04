@@ -1,0 +1,48 @@
+section.ss-section.ss-section-feedback
+	.ss-container.ss-wrapper
+		.ss-section-feedback__grid
+			//- ==================== Левая колонка ====================
+			.ss-section-feedback__left
+				.ss-section-feedback__header
+					span.ss-kicker.ss-txt-accent3 Обратная связь
+					h2.ss-h2 Подберите готовую систему под параметры объекта
+
+				ul.ss-contacts-list.ss-contacts-list--hero
+					li.ss-contacts-list__item
+						p.ss-contacts-list__label Телефон
+						p.ss-contacts-list__value.ss-h4 +7 (812) 602-77-70
+					li.ss-contacts-list__item
+						p.ss-contacts-list__label Почта
+						p.ss-contacts-list__value.ss-h4 info@steamsys.ru
+					li.ss-contacts-list__item
+						p.ss-contacts-list__label Режим работы
+						p.ss-contacts-list__value.ss-medi-20
+							| Работаем: Пн - Пт с 9:00 до 18:00
+							br
+							| Выходной: Сб - Вс
+
+			//- ==================== Правая колонка — форма ====================
+			.ss-section-feedback__form-box
+				p.ss-section-feedback__form-title Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня
+				form.ss-section-feedback__form
+					.ss-section-feedback__form-row
+						.ss-form-item: input.ss-input(type='text', placeholder='Ваше имя')
+						.ss-form-item: input.ss-input(type='tel', placeholder='Телефон')
+					.ss-form-item
+						input.ss-input(type='email', placeholder='Email для отправки КП')
+					.ss-form-item
+						label.ss-file
+							input.ss-file__input(type='file')
+							span.ss-file__icon
+								+svgIcon('clip')
+							span.ss-file__label Прикрепить ТЗ, спецификацию или опросный лист
+					.ss-form-item
+						textarea.ss-textarea(placeholder='Комментарий к файлу или краткое описание задачи')
+					.ss-form-item
+						label.ss-checkbox
+							input.ss-checkbox__input(type='checkbox')
+							span.ss-checkbox__box
+							span.ss-checkbox__label
+								| Нажимая кнопку, вы соглашаетесь с
+								a(href='#') политикой конфиденциальности
+					+ssBtn('Получить расчёт', { variant: 'primary', full: true, icon: 'mail' })

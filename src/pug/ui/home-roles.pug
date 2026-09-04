@@ -1,23 +1,4 @@
 extends ../layouts/layout-ui-sections.pug
 
 block content
-	- var roleItems = [{ title: 'Главному инженеру', list: ['Готовые технические решения', 'Повышение надёжности', 'Снижение затрат'], link: 'Смотреть готовые системы' }, { title: 'Главному энергетику', list: ['Снижение расхода пара и затрат', 'Возврат конденсата — до 90%', 'Расчёт окупаемости за 4 часа'], link: 'Рассчитать экономию пара' }, { title: 'Технологу', list: ['Стабильность температуры и давления', 'Меньше брака от нестабильных режимов', 'Точность регулирования в процессе'], link: 'Стабилизация давления пара' }, { title: 'Закупщику', list: ['Оптимальные предложения', 'Документы и сертификаты', 'Поставка в срок'], link: 'Отправить спецификацию' }, { title: 'Проектировщику', list: ['BIM / CAD-модели', 'Опросные листы', 'Техническая поддержка'], link: 'Запросить CAD/3D/BIM' }]
-
-	section.ss-section.ss-section-roles.ss-bg-gray
-		.ss-container.ss-wrapper
-			.ss-section-header
-				span.ss-kicker Клиенты
-				h2.ss-h2 Для кого работаем
-
-			.ss-role-card-group
-				each item in roleItems
-					.ss-role-card
-						.ss-role-card__badge
-							+svgIcon('user')
-						p.ss-role-card__title= item.title
-						.ss-role-card__box
-							.ss-role-card__body
-								ul.ss-list
-									each i in item.list
-										li.ss-list__item= i
-								+ssLink(item.link, { size: 'md' })
+	include ../sections/_home-roles.pug

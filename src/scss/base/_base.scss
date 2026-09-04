@@ -57,6 +57,10 @@ body {
 }
 
 .ss-wrapper {
+	// border-box на САМОЙ обёртке — иначе padding суммируется с width/height/min-height.
+	// Пример бага: .ss-header { min-height: 126; padding-block: 24 } → реальная высота 174 (не 126).
+	// :where(*) ниже применяется только к ДЕТЯМ, не к самой обёртке.
+	box-sizing: border-box;
 
 	font-family: var(--font-family);
 	font-weight: 400;

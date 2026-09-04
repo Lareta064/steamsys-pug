@@ -1,0 +1,22 @@
+- var taskItems = [{ img: 'task-icon1', w: 210, h: 133, title: 'Потери конденсата', text: 'Организуем возврат конденсата до 90%, снижаем нагрузку на химводоподготовку и расход воды', link: 'Станция возврата конденсата' }, { img: 'task-icon2', w: 250, h: 125, title: 'Нестабильное давление и температура', text: 'Обеспечиваем стабильные параметры пара для технологических процессов — исключаем брак и аварии', link: 'РОУ / БРОУ' }, { img: 'task-icon3', w: 244, h: 135, title: 'Неравномерный нагрев теплообменников', text: 'Выравниваем температуру по поверхности нагрева — точная теплопередача без перегретых зон', link: 'Обвязка калориферов и ТО' }, { img: 'task-icon4', w: 136, h: 127, title: 'Высокие эксплуатационные затраты', text: 'Рассчитываем экономию пара, воды и энергии — КП с инженерным расчётом за 4 часа', link: 'Калькуляторы экономии' }]
+
+section.ss-section.ss-section-tasks
+	.ss-container.ss-wrapper
+		.ss-section-header
+			span.ss-kicker Задачи
+			h2.ss-h2 Какие задачи решаем
+
+		.swiper.swiper-pb.swiper-bars.swiper-tasks.js-tasks-slider
+			.swiper-wrapper
+				each item in taskItems
+					.swiper-slide
+						article.ss-task-card
+							picture.ss-task-card__image
+								source(srcset='/img/' + item.img + '.webp 1x, /img/' + item.img + '@2x.webp 2x')
+								img(src='/img/' + item.img + '.webp' width=item.w height=item.h alt=item.title)
+							.ss-task-card__body
+								p.ss-task-card__title= item.title
+								p.ss-task-card__text= item.text
+							.ss-task-card__footer
+								+ssLink(item.link, { variant: 'light' })
+			.swiper-pagination

@@ -1,0 +1,28 @@
+- var profitItems = [{ title: '15–20%', desc: 'снижение расхода пара после внедрения системы диагностики и возврата конденсата' }, { title: 'до 90%', desc: 'возврат конденсата — экономия на химводоподготовке и водопотреблении' }, { title: '6–18 мес.', desc: 'срок окупаемости СВК и РОУ — зависит от объёма, параметров объекта и режима работы' }, { title: '4 часа', desc: 'КП с инженерным расчётом и оценкой экономического эффекта для вашего объекта' }]
+
+//- background-image прописан inline через image-set (1x + 2x для retina) —
+//- чтобы админ Bitrix мог менять URL фона секции через CMS без правок SCSS.
+section.ss-section.ss-section-profit(style="background-image: image-set(url('/img/profit.webp') 1x, url('/img/profit@2x.webp') 2x)")
+	.ss-container.ss-wrapper
+		//- Контент — max-width 865px, прижат к правому краю контейнера (margin-left: auto).
+		.ss-section-profit__content
+				span.ss-kicker Выгода
+				h2.ss-h2 Экономический эффект
+
+				//- Картинка — только mobile (на desktop замещается фоном секции).
+				picture.ss-section-profit__img
+					source(srcset='/img/profit-mob.webp 1x, /img/profit-mob@2x.webp 2x')
+					img(src='/img/profit-mob.webp' width='388' height='217' alt='')
+
+				.ss-profit
+					ul.ss-profit-list
+						each item in profitItems
+							li.ss-profit__item
+								p.ss-h3= item.title
+								p.ss-profit__desc= item.desc
+
+				.ss-section-profit__actions
+					+ssBtn('Рассчитать экономию', { icon: 'arrow-right', tag: 'a', href: '#calc' })
+					a.ss-btn.ss-btn--outline-light(href='#kp')
+						span Получить КП с расчётом
+						+svgIcon('mail')(style='color: white')

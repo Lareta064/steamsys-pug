@@ -1,0 +1,31 @@
+- var industries = [{ bg: 'gallery1', title: 'Пищевая промышленность', items: ['Стабильность температуры и давления', 'Точное регулирование параметров пара', 'Гарантированная производительность', 'Соответствие ГОСТ'] }, { bg: 'gallery2', title: 'Фармацевтика', items: ['Чистый пар для стерилизации', 'GMP-соответствие процессов', 'Контроль качества конденсата'] }, { bg: 'gallery3', title: 'Химическая промышленность', items: ['Стабильное давление в реакторах', 'Точность температурных режимов', 'Безопасная эксплуатация'] }, { bg: 'gallery1', title: 'Энергетика', items: ['Возврат конденсата до 90%', 'Снижение расхода топлива', 'Надёжность 24/7'] }, { bg: 'gallery2', title: 'Молочная промышленность', items: ['Точный контроль температуры пастеризации', 'Стерильность технологии', 'Экономия ресурсов'] }]
+
+section.ss-section.ss-section-experience
+	.ss-container.ss-wrapper
+		.ss-section-header
+			.ss-section-header__title
+				span.ss-kicker Опыт
+				h2.ss-h2 Опыт в ключевых отраслях
+			+ssLink('Смотреть все решения')
+
+		.swiper.swiper-pb.swiper-bars.js-experience-slider
+			.swiper-wrapper
+				each item in industries
+					.swiper-slide
+						article.ss-experience-card
+							picture.ss-experience-card__bg
+								source(media='(max-width: 767px)' srcset=`/img/${item.bg}-mob.webp 1x, /img/${item.bg}-mob@2x.webp 2x`)
+								source(media='(min-width: 768px)' srcset=`/img/${item.bg}.webp 1x, /img/${item.bg}@2x.webp 2x`)
+								img(src=`/img/${item.bg}.webp` width='567' height='677' alt='')
+							a.ss-experience-card__overlay(href='#experience-page' aria-label=item.title)
+							.ss-experience-card__content
+								.ss-experience-card__top
+									span.ss-experience-card__cta(aria-hidden='true')
+										span.ss-experience-card__cta-text Смотреть решение
+										+svgIcon('arrow-up-right')
+								.ss-experience-card__body
+									h3.ss-experience-card__title= item.title
+									ul.ss-list
+										each i in item.items
+											li.ss-list__item= i
+			.swiper-pagination

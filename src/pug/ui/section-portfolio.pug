@@ -1,38 +1,4 @@
 extends ../layouts/layout-ui-sections.pug
 
 block content
-	- var solutions = [{ title: 'РОУ / БРОУ', text: 'Редукционно-охладительные установки. Снижение давления пара, стабилизация температуры для технологических процессов и котельных.', tags: ['до 2.5 МПа', 'от DN25', 'Под ключ'], img: 'solution2' }, { title: 'Станция возврата конденсата (СВК)', text: 'Организуем возврат конденсата в котельную. Снижение расхода воды и химреагентов, экономия до 90% тепловой энергии конденсата.', tags: ['до 90% возврата', 'Авт. управление'], img: 'solution5' }, { title: 'Обвязка калорифера', text: 'Система подачи пара к калориферам приточной вентиляции. Точное регулирование нагрева воздуха, защита от замерзания.', tags: ['Воздухообработка', 'Антизамерзание'], img: 'solution3' }, { title: 'ОУ / ИТП ГВС', text: 'Отопительные узлы и индивидуальные тепловые пункты. Стабильная подача тепла, защита от перегрева, автоматическое регулирование.', tags: ['ИТП', 'Теплоснабжение', 'ГВС'], img: 'solution1' }, { title: 'Обвязка теплообменника', text: 'Комплексная обвязка пластинчатых и кожухотрубных теплообменников. Автоматизация, защита, КИПиА — полный комплект.', tags: ['Авт. регулирование', 'Защита оборудования'], img: 'solution4' }]
-
-	section.ss-section.ss-section-portfolio
-		.ss-container.ss-wrapper
-			//- 2-колоночная сетка: intro в первой ячейке, дальше 5 карточек сиблингами (Bitrix foreach лёг бы прямо сюда), в конце — mobile-дубль ссылки (на desktop скрыт через display: none, ячейку не занимает).
-			.ss-grid.ss-grid--row-2.ss-grid--lg-row-1
-				.ss-section-intro.ss-section-intro--stretch
-					span.ss-kicker Решения
-					.ss-section-intro__body
-						h2.ss-h2 Готовые системы и решения
-						p.ss-section-intro__description Нужен аудит системы или монтаж под ключ?
-					.ss-section-portfolio__link-desktop
-						+ssLink('Инженерам о задаче')
-
-				each item in solutions
-					article.ss-solution-card
-						picture.ss-solution-card__bg
-							source(media='(max-width: 767px)' srcset='/img/' + item.img + '-mob.webp 1x, /img/' + item.img + '-mob@2x.webp 2x')
-							source(media='(min-width: 768px)' srcset='/img/' + item.img + '.webp 1x, /img/' + item.img + '@2x.webp 2x')
-							img(src='/img/' + item.img + '.webp' width='865' height='320' alt='')
-						a.ss-solution-card__overlay(href='#solution-page' aria-label=item.title)
-						.ss-solution-card__content
-							.ss-solution-card__head
-								h3.ss-solution-card__title= item.title
-								p.ss-solution-card__text= item.text
-							.ss-tag-group
-								each tag in item.tags
-									span.ss-tag= tag
-							.ss-solution-card__footer
-								+ssBtn('Получить расчёт', { variant: 'primary', size: 'mini', tag: 'a', href: '#calc-page' })
-								span.ss-icon-btn(aria-hidden='true')
-									+svgIcon('arrow-up-right')
-
-				.ss-section-portfolio__link-mobile
-					+ssLink('Инженерам о задаче')
+	include ../sections/_section-portfolio.pug
