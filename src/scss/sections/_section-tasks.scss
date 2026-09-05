@@ -54,9 +54,12 @@
 	@media (min-width: 1700px) {
 		.swiper-tasks .swiper-wrapper {
 			grid-template-columns: repeat(4, 1fr);
+			column-gap: 20px;
 		}
 	}
-
+	@media (min-width: 1900px) {
+		.swiper-tasks .swiper-wrapper{column-gap: 30px;}
+	}
 	// 1440-1699 — 2 колонки, ГОРИЗОНТАЛЬНЫЕ карточки.
 	@media (min-width: 1440px) and (max-width: 1699px) {
 		.swiper-tasks .swiper-wrapper {
@@ -82,6 +85,7 @@
 			column-gap: 30px;
 			row-gap: 0;
 			height: auto;
+			height: 100%;
 			min-height: 175px;
 			padding: 20px 30px;
 		}
