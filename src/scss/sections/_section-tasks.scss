@@ -24,6 +24,13 @@
 		width: 388px !important;
 	}
 
+	// <430 — узкие телефоны: слайд 388px не влезает, ужимаем до 345px.
+	@include down(430px) {
+		.swiper-tasks .swiper-slide {
+			width: 345px !important;
+		}
+	}
+
 	// ≥1200 — swiper убираем, wrapper становится CSS Grid.
 	// Количество колонок определяется дополнительными media ниже.
 	@media (min-width: 1200px) {

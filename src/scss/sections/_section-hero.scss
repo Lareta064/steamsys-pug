@@ -310,6 +310,10 @@
 			border-bottom: none;
 		}
 	}
+
+	@include down(430px) {
+		column-gap: 10px;
+	}
 }
 
 .ss-section-hero__metrik-icon {
@@ -357,6 +361,10 @@
 	@media (max-width: 1919px) {
 		font-size: 28px;
 		line-height: 1.3;
+	}
+
+	@include down(430px) {
+		font-size: 26px;
 	}
 }
 
