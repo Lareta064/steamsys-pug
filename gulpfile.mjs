@@ -303,7 +303,7 @@ export function copyVideo() {
 // Папка favicon необязательна. Копируем как есть (ico/png/svg/webmanifest),
 // без минификации и без конверсии в webp — favicon-ы должны попасть в build
 // ровно с тем именем и форматом, что указан в <link> шапке.
-export function copyFavicon() {
+export function copyFaviconFolder() {
   if (!fs.existsSync(paths.faviconDir)) {
     return Promise.resolve();
   }
@@ -315,6 +315,30 @@ export function copyFavicon() {
     })
     .pipe(gulp.dest(`${paths.build}/favicon`));
 }
+
+// Дополнительно копируем favicon.ico в корень build/ — многие боты,
+// RSS-читалки и legacy-тулзы стучатся напрямую в /favicon.ico, минуя
+// <link> в head'e. Файл необязателен: если его нет в src/favicon,
+// задача просто пропускается.
+export function copyFaviconIcoRoot() {
+  const ico = `${paths.faviconDir}/favicon.ico`;
+
+  if (!fs.existsSync(ico)) {
+    return Promise.resolve();
+  }
+
+  return gulp
+    .src(ico, {
+      allowEmpty: true,
+      encoding: false
+    })
+    .pipe(gulp.dest(paths.build));
+}
+
+export const copyFavicon = gulp.parallel(
+  copyFaviconFolder,
+  copyFaviconIcoRoot
+);
 
 
 // --- Server ---

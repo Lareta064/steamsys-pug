@@ -13,9 +13,13 @@ html(lang="ru")
 		
 		meta(name="format-detection" content="telephone=no")
 		//favicon
+		//- SVG первый + sizes='any' — Chrome предпочтёт векторную (в ней сидит
+		//- prefers-color-scheme для dark-mode). Без sizes='any' Chrome берёт
+		//- растр с явным размером и игнорирует SVG.
+		link(rel='icon' type='image/svg+xml' href='./favicon/favicon.svg' sizes='any')
 		link(rel='icon' type='image/png' href='./favicon/favicon-96x96.png' sizes='96x96')
-		link(rel='icon' type='image/svg+xml' href='./favicon/favicon.svg')
-		link(rel='shortcut icon' href='./favicon/favicon.ico')
+		//- alternate icon вместо legacy 'shortcut icon' — фолбэк для древних браузеров.
+		//- link(rel='alternate icon' href='./favicon/favicon.ico')
 		link(rel='apple-touch-icon' sizes='180x180' href='./favicon/apple-touch-icon.png')
 		meta(name='apple-mobile-web-app-title' content='MyWebSite')
 		link(rel='manifest' href='./favicon/site.webmanifest')
