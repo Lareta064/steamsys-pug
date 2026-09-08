@@ -23,18 +23,26 @@
 	overflow: hidden;
 	background: var(--primary);
 	color: var(--white);
-
+    max-height: 960px;
+	
 	@include up($md) {
-		height: 100vh;
-		max-height: 960px;
+		min-height: 100vh;		
 		display: flex;
 		flex-direction: column;		
 	}
-@include down($xxxl) {
+	@include up($xxxl) {
+		min-height: unset;		
+	}
+    @include down($xxxl) {
+		max-height: unset;
 		padding: calc(3.5vw + var(--header-height, 126px)) 0 3vw;
 	}
 	@include down($xl) {
 		padding-top: 130px;
+		padding-bottom: 60px;
+	}
+	@include down($md) {
+		
 		padding-bottom: 30px;
 	}
 }

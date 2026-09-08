@@ -86,8 +86,8 @@ block content
 						each item in taskItems
 							.ss-task-card
 								picture.ss-task-card__image
-									source(srcset='/img/' + item.img + '.webp 1x, /img/' + item.img + '@2x.webp 2x')
-									img(src='/img/' + item.img + '.webp' width=item.w height=item.h alt=item.title)
+									source(srcset=`${basePath}img/${item.img}.webp 1x, ${basePath}img/${item.img}@2x.webp 2x`)
+									img(src=`${basePath}img/${item.img}.webp` width=item.w height=item.h alt=item.title)
 								.ss-task-card__body
 									p.ss-task-card__title= item.title
 									p.ss-task-card__text= item.text
@@ -118,9 +118,9 @@ block content
 				.cards-catalog__demo.ss-bg-gray
 					article.ss-solution-card
 						picture.ss-solution-card__bg
-							source(media='(max-width: 767px)' srcset='/img/solution1-mob.webp 1x, /img/solution1-mob@2x.webp 2x')
-							source(media='(min-width: 768px)' srcset='/img/solution1.webp 1x, /img/solution1@2x.webp 2x')
-							img(src='/img/solution1.webp' width='865' height='320' alt='')
+							source(media='(max-width: 767px)' srcset=`${basePath}img/solution1-mob.webp 1x, ${basePath}img/solution1-mob@2x.webp 2x`)
+							source(media='(min-width: 768px)' srcset=`${basePath}img/solution1.webp 1x, ${basePath}img/solution1@2x.webp 2x`)
+							img(src=`${basePath}img/solution1.webp` width='865' height='320' alt='')
 						a.ss-solution-card__overlay(href='#solution-page' aria-label='Готовое решение — Станция возврата конденсата')
 						.ss-solution-card__content
 							.ss-solution-card__head
@@ -167,9 +167,9 @@ block content
 				.cards-catalog__demo.ss-bg-gray
 					article.ss-experience-card(style="max-width: 400px;")
 						picture.ss-experience-card__bg
-							source(media='(max-width: 767px)' srcset='/img/gallery1-mob.webp 1x, /img/gallery1-mob@2x.webp 2x')
-							source(media='(min-width: 768px)' srcset='/img/gallery1.webp 1x, /img/gallery1@2x.webp 2x')
-							img(src='/img/gallery1.webp' width='567' height='677' alt='')
+							source(media='(max-width: 767px)' srcset=`${basePath}img/gallery1-mob.webp 1x, ${basePath}img/gallery1-mob@2x.webp 2x`)
+							source(media='(min-width: 768px)' srcset=`${basePath}img/gallery1.webp 1x, ${basePath}img/gallery1@2x.webp 2x`)
+							img(src=`${basePath}img/gallery1.webp` width='567' height='677' alt='')
 						a.ss-experience-card__overlay(href='#experience-page' aria-label='Пищевая промышленность — опыт')
 						.ss-experience-card__content
 							.ss-experience-card__top

@@ -2,7 +2,7 @@
 
 //- background-image прописан inline через image-set (1x + 2x для retina) —
 //- чтобы админ Bitrix мог менять URL фона секции через CMS без правок SCSS.
-section.ss-section.ss-section--tinted.ss-section-profit(style="background-image: image-set(url('/img/profit.webp') 1x, url('/img/profit@2x.webp') 2x)")
+section.ss-section.ss-section--tinted.ss-section-profit(style=`background-image: image-set(url('${basePath}img/profit.webp') 1x, url('${basePath}img/profit@2x.webp') 2x)`)
 	.ss-container.ss-wrapper
 		//- Контент — max-width 865px, прижат к правому краю контейнера (margin-left: auto).
 		.ss-section-profit__content
@@ -11,8 +11,8 @@ section.ss-section.ss-section--tinted.ss-section-profit(style="background-image:
 
 				//- Картинка — только mobile (на desktop замещается фоном секции).
 				picture.ss-section-profit__img
-					source(srcset='/img/profit-mob.webp 1x, /img/profit-mob@2x.webp 2x')
-					img(src='/img/profit-mob.webp' width='388' height='217' alt='')
+					source(srcset=`${basePath}img/profit-mob.webp 1x, ${basePath}img/profit-mob@2x.webp 2x`)
+					img(src=`${basePath}img/profit-mob.webp` width='388' height='217' alt='')
 
 				.ss-profit
 					ul.ss-profit-list

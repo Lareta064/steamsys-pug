@@ -18,13 +18,13 @@
 	isolation: isolate;
 	overflow: hidden;
 	background-color: var(--primary);
-	background-image: image-set(url('/img/process.webp') 1x, url('/img/process@2x.webp') 2x);
+	background-image: image-set(url('../img/process.webp') 1x, url('../img/process@2x.webp') 2x);
 	background-size: cover;
 	background-position: center;
 
 	// Мобильный фон — своя вертикальная картинка под стек 1-в-колонку.
 	@include down($md) {
-		background-image: image-set(url('/img/process-mob.webp') 1x, url('/img/process-mob@2x.webp') 2x);
+		background-image: image-set(url('../img/process-mob.webp') 1x, url('../img/process-mob@2x.webp') 2x);
 	}
 
 	// Градиент-оверлей из спеки.

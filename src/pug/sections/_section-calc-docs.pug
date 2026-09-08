@@ -28,8 +28,8 @@ section.ss-section.ss-section-calc-docs
 										+svgIcon('check')
 									span= doc
 						picture.ss-section-calc-docs__docs-img
-							source(srcset='/img/catalog.webp 1x, /img/catalog@2x.webp 2x')
-							img(src='/img/catalog.webp' width='226' height='164' alt='Каталог документации')
+							source(srcset=`${basePath}img/catalog.webp 1x, ${basePath}img/catalog@2x.webp 2x`)
+							img(src=`${basePath}img/catalog.webp` width='226' height='164' alt='Каталог документации')
 					.ss-section-calc-docs__docs-actions
 						+ssBtn('Скачать опросный лист', { icon: 'download', full: true, tag: 'a', href: '#download' })
 						+ssBtn('Перейти в библиотеку', { variant: 'dark', icon: 'book', full: true, tag: 'a', href: '#library' })

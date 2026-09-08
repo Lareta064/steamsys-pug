@@ -47,8 +47,8 @@ block content
 									.swiper-slide
 										.ss-partner-card
 											picture
-												source(srcset='../img/' + p.name + '.webp 1x, ../img/' + p.name + '@2x.webp 2x')
-												img(src='../img/' + p.name + '.webp', width=200, height=90, alt=p.alt)
+												source(srcset=`${basePath}img/${p.name}.webp 1x, ${basePath}img/${p.name}@2x.webp 2x`)
+												img(src=`${basePath}img/${p.name}.webp`, width=200, height=90, alt=p.alt)
 							.swiper-pagination
 					button.ss-partners-slider__nav.ss-partners-slider__nav--next(type='button', aria-label='Следующий')
 						+svgIcon('chevron-right')
@@ -63,8 +63,8 @@ block content
 			.partners-catalog__demo(style='max-width: 250px;')
 				.ss-partner-card
 					picture
-						source(srcset='../img/partner1.webp 1x, ../img/partner1@2x.webp 2x')
-						img(src='../img/partner1.webp', width=200, height=90, alt='Балтика')
+						source(srcset=`${basePath}img/partner1.webp 1x, ${basePath}img/partner1@2x.webp 2x`)
+						img(src=`${basePath}img/partner1.webp`, width=200, height=90, alt='Балтика')
 
 			h3.partners-catalog__section-title Сниппет партнёров
 			pre.partners-catalog__snippet
@@ -104,8 +104,8 @@ block content
 										p.ss-review-card__text= r.text
 									.ss-review-card__author
 										picture.ss-review-card__avatar
-											source(srcset='../img/ava.webp 1x, ../img/ava@2x.webp 2x')
-											img(src='../img/ava.webp', width=65, height=65, alt=r.author)
+											source(srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x`)
+											img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=r.author)
 										.ss-review-card__author-meta
 											p.ss-review-card__author-name= r.author
 											p.ss-review-card__author-position= r.position
@@ -121,8 +121,8 @@ block content
 						p.ss-review-card__text= reviews[0].text
 					.ss-review-card__author
 						picture.ss-review-card__avatar
-							source(srcset='../img/ava.webp 1x, ../img/ava@2x.webp 2x')
-							img(src='../img/ava.webp', width=65, height=65, alt=reviews[0].author)
+							source(srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x`)
+							img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=reviews[0].author)
 						.ss-review-card__author-meta
 							p.ss-review-card__author-name= reviews[0].author
 							p.ss-review-card__author-position= reviews[0].position

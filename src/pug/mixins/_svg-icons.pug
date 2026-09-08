@@ -8,4 +8,4 @@
 mixin svgIcon(name, opts)
 	- var sprite = (opts && opts.sprite) || 'ss-sprite'
 	svg(class='svg-' + name)&attributes(attributes)
-		use(href='/img/' + sprite + '.svg#svg-' + name)
+		use(href=`${basePath}img/${sprite}.svg#svg-${name}`)

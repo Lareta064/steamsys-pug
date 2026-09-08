@@ -21,5 +21,5 @@ section.ss-section.ss-section-tab-catalog
 										span.ss-tag.ss-tag--dark= tag
 								+ssLink('В каталог')
 							picture.ss-section-tab-catalog__image
-								source(srcset='/img/' + t.img + '.webp 1x, /img/' + t.img + '@2x.webp 2x')
-								img(src='/img/' + t.img + '.webp', width=418, height=388, alt=t.label)
+								source(srcset=`${basePath}img/${t.img}.webp 1x, ${basePath}img/${t.img}@2x.webp 2x`)
+								img(src=`${basePath}img/${t.img}.webp`, width=418, height=388, alt=t.label)

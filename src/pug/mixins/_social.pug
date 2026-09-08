@@ -10,4 +10,4 @@ mixin socialGroup(elements)
 		each el in elements
 			a.ss-social-item(href="#!")
 				svg(class='svg-' + el)
-					use(href='/img/ss-sprite-brend.svg#svg-' + el)
+					use(href=`${basePath}img/ss-sprite-brend.svg#svg-${el}`)

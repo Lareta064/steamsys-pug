@@ -13,9 +13,9 @@ section.ss-section.ss-section-cases.ss-section--tinted
 			article.ss-case-card
 				.ss-case-card__image
 					picture
-						source(media='(max-width: 767px)' srcset='/img/cases-mob.webp 1x, /img/cases-mob@2x.webp 2x')
-						source(srcset='/img/cases.webp 1x, /img/cases@2x.webp 2x')
-						img(src='/img/cases.webp', width=865, height=360, alt='Молочный комбинат')
+						source(media='(max-width: 767px)' srcset=`${basePath}img/cases-mob.webp 1x, ${basePath}img/cases-mob@2x.webp 2x`)
+						source(srcset=`${basePath}img/cases.webp 1x, ${basePath}img/cases@2x.webp 2x`)
+						img(src=`${basePath}img/cases.webp`, width=865, height=360, alt='Молочный комбинат')
 					span.ss-tag.ss-tag--primary Пищевая промышленность
 				.ss-case-card__body
 					h3.ss-case-card__title Модернизация пароконденсатной системы на молочном комбинате
@@ -50,8 +50,8 @@ section.ss-section.ss-section-cases.ss-section--tinted
 									.swiper-slide
 										.ss-partner-card
 											picture
-												source(srcset='/img/' + p.name + '.webp 1x, /img/' + p.name + '@2x.webp 2x')
-												img(src='/img/' + p.name + '.webp', width=200, height=90, alt=p.alt)
+												source(srcset=`${basePath}img/${p.name}.webp 1x, ${basePath}img/${p.name}@2x.webp 2x`)
+												img(src=`${basePath}img/${p.name}.webp`, width=200, height=90, alt=p.alt)
 							.swiper-pagination
 					button.ss-partners-slider__nav.ss-partners-slider__nav--next(type='button', aria-label='Следующий')
 						+svgIcon('chevron-right')
@@ -68,8 +68,8 @@ section.ss-section.ss-section-cases.ss-section--tinted
 											p.ss-review-card__text= r.text
 										.ss-review-card__author
 											picture.ss-review-card__avatar
-												source(srcset='/img/ava.webp 1x, /img/ava@2x.webp 2x')
-												img(src='/img/ava.webp', width=65, height=65, alt=r.author)
+												source(srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x`)
+												img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=r.author)
 											.ss-review-card__author-meta
 												p.ss-review-card__author-name= r.author
 												p.ss-review-card__author-position= r.position
