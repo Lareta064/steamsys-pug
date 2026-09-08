@@ -123,12 +123,21 @@
 }
 
 // Нижний ряд — CTA + декоративная стрелка, разведены к краям.
+// Fluid-«дыхание» под узкие мобилки (<430): gap и padding кнопки
+// плавно ужимаются вместе с вьюпортом, иконка-квадрат зафиксирована
+// (flex-shrink: 0), кнопка получает min-width: 0 — чтобы могла ужаться
+// ниже content-min (иначе в flex контент-min = padding + текст, и на 390px
+// ловим overflow).
 .ss-solution-card__footer {
 	margin-top: 52px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 16px;
+	gap: clamp(8px, 3vw, 16px);
+
+	.ss-icon-btn {
+		flex-shrink: 0;
+	}
 
 	@include down($md) {
 		margin-top: 60px;
@@ -139,4 +148,6 @@
 .ss-solution-card__footer > .ss-btn {
 	position: relative;
 	z-index: 3;
+	min-width: 0;
+	padding: 0 clamp(14px, 6vw, 30px);
 }

@@ -38,6 +38,9 @@ export const paths = {
   videoDir: "./src/video",
   videoAll: "./src/video/**/*.*",
 
+  faviconDir: "./src/favicon",
+  faviconAll: "./src/favicon/**/*.*",
+
   // IMAGES
   imgsSvg: "./src/img/**/*.svg",
   imgsJpgPng: "./src/img/**/*.{jpg,jpeg,png}",
@@ -295,6 +298,25 @@ export function copyVideo() {
 }
 
 
+// --- Favicon ---
+
+// Папка favicon необязательна. Копируем как есть (ico/png/svg/webmanifest),
+// без минификации и без конверсии в webp — favicon-ы должны попасть в build
+// ровно с тем именем и форматом, что указан в <link> шапке.
+export function copyFavicon() {
+  if (!fs.existsSync(paths.faviconDir)) {
+    return Promise.resolve();
+  }
+
+  return gulp
+    .src(paths.faviconAll, {
+      allowEmpty: true,
+      encoding: false
+    })
+    .pipe(gulp.dest(`${paths.build}/favicon`));
+}
+
+
 // --- Server ---
 export function server() {
   browserSync.init({
@@ -408,6 +430,16 @@ export function watch() {
       reload
     )
   );
+
+
+  // FAVICON
+  gulp.watch(
+    paths.faviconAll,
+    gulp.series(
+      copyFavicon,
+      reload
+    )
+  );
 }
 
 
@@ -423,7 +455,8 @@ export const build = gulp.series(
     copyLibs,
     images,
     fonts,
-    copyVideo
+    copyVideo,
+    copyFavicon
   )
 );
 
