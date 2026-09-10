@@ -1,0 +1,92 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "CTA-плашка (.ss-cta-card)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 CTA-плашка (.ss-cta-card)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Компактная плашка с заголовком, опциональным описанием и кнопкой. Используется в сайдбарах, футерах, любых боковых блоках — где нужен вызывающий действие. Стили —
+				code src/scss/blocks/_cta-card.scss
+				| .
+				br
+				| Не привязана к контексту. Секция кладёт её в свой
+				code __element
+				|  — как часть раскладки.
+
+			//- ===== С описанием =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title С описанием
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Типовой кейс — сайдбар «Базы знаний».
+
+				.breadcrumbs-catalog__demo(style='max-width: 320px;')
+					.ss-cta-card
+						p.ss-cta-card__title Нужна консультация?
+						p.ss-cta-card__text Инженер ответит на вопрос по статье или подберёт решение под задачу.
+						+ssBtn('Задать вопрос инженеру', { variant: 'primary', full: true, tag: 'a', href: '#' })
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-cta-card
+						|     p.ss-cta-card__title Нужна консультация?
+						|     p.ss-cta-card__text Инженер ответит на вопрос…
+						|     +ssBtn('Задать вопрос инженеру', { variant: 'primary', full: true, tag: 'a', href: '#' })
+
+			//- ===== Без описания =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Только заголовок + кнопка
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Между
+					code __title
+					|  и кнопкой сохраняется отступ 20px через селектор
+					code __title + .ss-btn
+					| .
+
+				.breadcrumbs-catalog__demo(style='max-width: 320px;')
+					.ss-cta-card
+						p.ss-cta-card__title Получить коммерческое предложение
+						+ssBtn('Оставить заявку', { variant: 'primary', full: true, tag: 'a', href: '#' })
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-cta-card
+						|     p.ss-cta-card__title Получить коммерческое предложение
+						|     +ssBtn('Оставить заявку', { variant: 'primary', full: true, tag: 'a', href: '#' })
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-cta-card
+						|  — обёртка. Border
+						code --secondary2
+						| , радиус 10, паддинг 24, фон
+						code --white
+						| .
+					li
+						code .ss-cta-card__title
+						|  — заголовок 16/700, цвет
+						code --primary
+						| .
+					li
+						code .ss-cta-card__text
+						|  — описание 13/400,
+						code line-height: 1.5
+						| , цвет
+						code --secondary
+						| . Опционален.
+					li
+						strong Кнопка:
+						|  обычная
+						code .ss-btn
+						|  через миксин
+						code +ssBtn
+						| . Для сайдбар-ширины удобнее с
+						code full: true
+						| .

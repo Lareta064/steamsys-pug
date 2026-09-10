@@ -1,13 +1,14 @@
 extends ../layouts/layout.pug
 
 block variables
-	-var title = "";
+	-var title = "База знаний — STEAMSYS";
 	-var bodyCl = "ss-wrapper";
 
 block content
 	include ../sections/_header.pug
 	main.ss-main-inner
-		
+		include ../sections/_section-hero-inner.pug
+		include ../sections/_section-blog.pug
 		include ../sections/_section-feedback-b24.pug
 	include ../sections/_footer.pug
 

@@ -54,9 +54,25 @@
 		border-top: 1px solid var(--secondary2);
 	}
 
+	// На широких экранах (≥1440) миниатюра крупнее — 190×120 вместо 140×88.
+	// Ширину диктует grid, высоту — .ss-article-card__thumb.
+	// Featured не затрагивается: у неё свой grid `1fr 1fr` с более
+	// специфичным селектором.
+	@include up($xxl) {
+		grid-template-columns: 1fr 190px;
+	}
+
 	@include down($md) {
 		grid-template-columns: 1fr;
 	}
+}
+
+// Обычная карточка сразу после featured — тоже получает border-top,
+// чтобы визуально отбить блок «маленьких карточек» от featured'а линией.
+// Без этого правила :first-of-type матчит featured (первый <article>),
+// и первая обычная карточка остаётся без верхней границы.
+.ss-article-card--featured + .ss-article-card {
+	border-top: 1px solid var(--secondary2);
 }
 
 // Обёртка содержимого — держит вертикальный порядок элементов в одной grid-ячейке.
@@ -159,6 +175,15 @@
 	&::before {
 		content: none;
 	}
+
+	// На <768 переносим на отдельную строку: flex-basis:100% выдавливает
+	// cat-link на новый ряд, margin-left обнуляем, добавляем vertical
+	// gap до meta-элементов сверху (у .ss-article-card__meta нет своего gap).
+	@include down($md) {
+		flex-basis: 100%;
+		margin-left: 0;
+		margin-top: 8px;
+	}
 }
 
 // Миниатюра. Контейнер задаёт фиксированные размеры и обрезает
@@ -180,6 +205,12 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+
+	// На широких экранах (≥1440) увеличиваем высоту до 120 (в паре с шириной
+	// 190 от grid). object-fit: cover у img подхватывает новый размер сам.
+	@include up($xxl) {
+		height: 120px;
 	}
 
 	@include down($md) {

@@ -42,6 +42,7 @@
 @use "blocks/_contacts-list";
 @use "blocks/_cat-list";
 @use "blocks/_article-card";
+@use "blocks/_cta-card";
 @use "blocks/_footer-contacts";
 @use "blocks/_footer-bottom";
 
@@ -64,6 +65,7 @@
 @use "sections/_header";
 @use "sections/_section-hero";
 @use "sections/_section-hero-inner";
+@use "sections/_section-blog";
 @use "sections/_section-running-line";
 @use "blocks/_menu";
 @use "blocks/_mobile-menu";
