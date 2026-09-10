@@ -1,0 +1,109 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Список категорий (.ss-cat-list)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Список категорий (.ss-cat-list)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Вертикальный навигационный список с числом справа. Используется в сайдбарах внутренних страниц (например, «База знаний»).
+				| По стилю мимикрирует под кнопку: высота 65px, радиус 10px, шрифт 18px medium.
+				| Стили —
+				code src/scss/blocks/_cat-list.scss
+				| .
+				br
+				| Активный пункт помечается атрибутом
+				code aria-current="page"
+				|  — тот же семантический атрибут, что в
+				code .ss-breadcrumbs
+				| .
+
+			//- ===== Пример: разделы «Базы знаний» =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример: разделы «Базы знаний»
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Первый пункт — активный. Наведите на остальные, чтобы увидеть hover-состояние.
+
+				.breadcrumbs-catalog__demo(style='max-width: 380px;')
+					ul.ss-cat-list
+						li.ss-cat-list__item
+							a.ss-cat-list__link(href='#', aria-current='page')
+								span.ss-cat-list__label Все статьи
+								span.ss-cat-list__count 42
+						li.ss-cat-list__item
+							a.ss-cat-list__link(href='#')
+								span.ss-cat-list__label Конденсатоотводчики
+								span.ss-cat-list__count 14
+						li.ss-cat-list__item
+							a.ss-cat-list__link(href='#')
+								span.ss-cat-list__label Обвязка
+								span.ss-cat-list__count 9
+						li.ss-cat-list__item
+							a.ss-cat-list__link(href='#')
+								span.ss-cat-list__label РОУ/БРОУ и редукция
+								span.ss-cat-list__count 8
+						li.ss-cat-list__item
+							a.ss-cat-list__link(href='#')
+								span.ss-cat-list__label СВК и возврат конденсата
+								span.ss-cat-list__count 6
+						li.ss-cat-list__item
+							a.ss-cat-list__link(href='#')
+								span.ss-cat-list__label Диагностика и ремонт
+								span.ss-cat-list__count 3
+						li.ss-cat-list__item
+							a.ss-cat-list__link(href='#')
+								span.ss-cat-list__label Проектирование систем
+								span.ss-cat-list__count 2
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| ul.ss-cat-list
+						|     li.ss-cat-list__item
+						|         a.ss-cat-list__link(href='#', aria-current='page')
+						|             span.ss-cat-list__label Все статьи
+						|             span.ss-cat-list__count 42
+						|     li.ss-cat-list__item
+						|         a.ss-cat-list__link(href='/blog/kondensatootvodchiki')
+						|             span.ss-cat-list__label Конденсатоотводчики
+						|             span.ss-cat-list__count 14
+
+			//- ===== Цвета и состояния =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Цвета и состояния
+				ul
+					li
+						strong Дефолт:
+						|  bg —
+						code transparent
+						| , текст —
+						code --primary
+						| , пилюля с числом —
+						code --secondary2
+						|  (bg) +
+						code --primary
+						|  (текст).
+					li
+						strong Hover:
+						|  bg —
+						code --accent1
+						| , текст —
+						code --white
+						| . Пилюля с числом остаётся
+						code --secondary2
+						|  — визуально «повисает» на синем фоне пункта.
+					li
+						strong Активный (
+						code [aria-current="page"]
+						| ):
+						|  тот же визуал, что hover.
+						code cursor: default
+						|  — клик по нему не имеет смысла.
+					li
+						strong Focus-visible:
+						|  outline
+						code --accent1
+						| .

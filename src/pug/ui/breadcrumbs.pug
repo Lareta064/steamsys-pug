@@ -1,0 +1,101 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Хлебные крошки";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Хлебные крошки
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Компонент
+				code .ss-breadcrumbs
+				| . Стили —
+				code src/scss/base/_breadcrumbs.scss
+				| . Семантика:
+				code nav[aria-label]
+				|  +
+				code ol
+				|  +
+				code aria-current="page"
+				|  на текущей крошке. Разделитель «/» рисуется
+				code ::before
+				|  у не-первого
+				code li
+				|  — не в разметке, чтобы скринридер его не читал.
+
+			//- ===== Двухуровневая цепочка =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Двухуровневая цепочка
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Типичный кейс: страница второго уровня (например,
+					code /blog
+					| ).
+
+				.breadcrumbs-catalog__demo
+					nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+						ol.ss-breadcrumbs__list
+							li.ss-breadcrumbs__item
+								a.ss-breadcrumbs__link(href='/') Главная
+							li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') База знаний
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+						|     ol.ss-breadcrumbs__list
+						|         li.ss-breadcrumbs__item
+						|             a.ss-breadcrumbs__link(href='/') Главная
+						|         li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') База знаний
+
+			//- ===== Многоуровневая цепочка =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Многоуровневая цепочка
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Страница третьего уровня (например, одна статья внутри раздела). Промежуточные пункты — тоже
+					code a.ss-breadcrumbs__link
+					| . При переносе на узком экране список
+					code flex-wrap
+					| 'ится в несколько строк.
+
+				.breadcrumbs-catalog__demo
+					nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+						ol.ss-breadcrumbs__list
+							li.ss-breadcrumbs__item
+								a.ss-breadcrumbs__link(href='/') Главная
+							li.ss-breadcrumbs__item
+								a.ss-breadcrumbs__link(href='/blog') База знаний
+							li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Почему замерзает паровой калорифер и как это предотвратить
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+						|     ol.ss-breadcrumbs__list
+						|         li.ss-breadcrumbs__item
+						|             a.ss-breadcrumbs__link(href='/') Главная
+						|         li.ss-breadcrumbs__item
+						|             a.ss-breadcrumbs__link(href='/blog') База знаний
+						|         li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Заголовок статьи
+
+			//- ===== Цвета и состояния =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Цвета и состояния
+				ul
+					li
+						code .ss-breadcrumbs__link
+						|  — цвет
+						code --secondary
+						| , hover →
+						code --accent1
+						| , focus-visible — outline
+						code --accent1
+						| .
+					li
+						code .ss-breadcrumbs__item--current
+						|  — цвет
+						code --secondary1
+						|  (визуально приглушён), не ссылка.
+					li Разделитель «/» — цвет
+						code --secondary1
+						| , отступ по 8px с двух сторон.

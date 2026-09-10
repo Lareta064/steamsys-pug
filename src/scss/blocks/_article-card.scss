@@ -1,0 +1,270 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-article-card — карточка статьи в списке «Базы знаний».
+//
+// Дефолт: строчная карточка списка.
+//   Grid 1fr + 140px (контент + миниатюра справа), gap 24.
+//   Разделяется соседями через border-bottom, первая карточка в списке
+//   получает border-top для симметричной границы у шапки списка.
+//
+// Модификатор --featured — крупная «свежая» статья:
+//   свой border + border-radius, большая иллюстрация слева, контент справа,
+//   заголовок 24px, кнопка «Читать статью» внизу.
+//
+// Разметка (обычная):
+//   article.ss-article-card
+//     .ss-article-card__body
+//       .ss-article-card__tag Категория
+//       a.ss-article-card__title(href='#') Заголовок
+//       p.ss-article-card__excerpt Описание…
+//       .ss-article-card__meta
+//         span 9 мин
+//         span 04.03.2025
+//         span Автор: Дмитрий Кравцов
+//     .ss-article-card__thumb Иллюстрация
+//
+// Разметка (featured — та же, добавляется модификатор и .ss-badge в теге):
+//   article.ss-article-card.ss-article-card--featured
+//     .ss-article-card__body
+//       .ss-article-card__tag
+//         | Обвязка
+//         span.ss-badge Новое
+//       a.ss-article-card__title(href='#') …
+//       p.ss-article-card__excerpt …
+//       .ss-article-card__meta …
+//       +ssBtn('Читать статью', { tag: 'a', href: '#', variant: 'primary', icon: 'arrow-right' })
+//     .ss-article-card__thumb Иллюстрация
+//
+// .ss-article-card__thumb — заглушка для мока (серый div с надписью).
+// При интеграции заменяется на <picture> с webp-путями по SEO-конвенции проекта.
+// ==============================================================
+
+.ss-article-card {
+	display: grid;
+	grid-template-columns: 1fr 140px;
+	column-gap: 24px;
+	align-items: start;
+	padding: 24px 0;
+	border-bottom: 1px solid var(--secondary2);
+
+	// Первая карточка стека получает border-top, чтобы граница между
+	// заголовком списка и первой карточкой была симметричной.
+	&:first-of-type {
+		border-top: 1px solid var(--secondary2);
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+	}
+}
+
+// Обёртка содержимого — держит вертикальный порядок элементов в одной grid-ячейке.
+// min-width: 0 — предотвращает распирание grid'а длинным заголовком/excerpt'ом
+// (обычная граббля с grid-item'ами).
+.ss-article-card__body {
+	min-width: 0;
+}
+
+// Тег категории — мелкий UPPERCASE-текст. Внутрь можно вложить .ss-badge справа.
+.ss-article-card__tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 8px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1.4;
+	color: var(--secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+.ss-article-card__title {
+	display: block;
+	margin-bottom: 8px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.35;
+	color: var(--primary);
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent1);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+}
+
+.ss-article-card__excerpt {
+	margin: 0 0 12px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.6;
+	color: var(--secondary);
+}
+
+// Meta-строка: время чтения · дата · автор · → категория.
+// Разделители «·» рисуются через ::before у не-первого элемента —
+// не в разметке, чтобы скринридер их не читал.
+.ss-article-card__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary1);
+
+	> * + *::before {
+		content: '·';
+		padding: 0 6px;
+	}
+}
+
+// Ссылка на страницу категории — со стрелкой в начале. Символ «→»
+// оставлен в тексте (не в ::before), чтобы не конфликтовать с
+// «·»-разделителем meta-строки (у одного элемента только один ::before).
+.ss-article-card__cat-link {
+	color: var(--secondary);
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent1);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+}
+
+// В обычной карточке cat-link лежит внутри meta-строки как последний item.
+// Отбиваем от предыдущего meta-элемента ощутимым gap'ом 40px и убираем
+// автогенерируемый «·» перед ним (селектор выше более специфичен).
+.ss-article-card__meta > .ss-article-card__cat-link {
+	margin-left: 40px;
+
+	&::before {
+		content: none;
+	}
+}
+
+// Миниатюра. Контейнер задаёт фиксированные размеры и обрезает
+// содержимое overflow'ом. Внутренний <img> тянется на 100% и
+// centr'уется через object-fit: cover — картинка ЛЮБОЙ пропорции
+// подгоняется под контейнер без искажений, лишнее обрезается.
+// Раскладка не ломается — размер миниатюры диктует контейнер, не img.
+//
+// Если <img> нет (например, при загрузке или временно) — виден
+// светло-серый placeholder-фон (--secondary2).
+.ss-article-card__thumb {
+	height: 88px;
+	overflow: hidden;
+	background: var(--secondary2);
+	border-radius: 4px;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	@include down($md) {
+		// На мобилке — сверху над контентом, увеличиваем высоту.
+		order: -1;
+		margin-bottom: 16px;
+		height: 160px;
+	}
+}
+
+
+// --------------------------------------------------------------
+// Модификатор --featured — крупная карточка для «свежей» статьи в топе списка.
+// --------------------------------------------------------------
+.ss-article-card--featured {
+	grid-template-columns: 1fr 1fr;
+	column-gap: 0;
+	padding: 0;
+	// align-items: stretch — перебивает `align-items: start` базы,
+	// чтобы миниатюра заняла всю высоту карточки (высоту диктует body).
+	align-items: stretch;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	overflow: hidden;
+
+	// Убираем правило "первого-в-стеке" (border-top у обычной карточки)
+	// — у featured свой border, второй лишний.
+	&:first-of-type {
+		border-top: 1px solid var(--secondary2);
+	}
+
+	.ss-article-card__thumb {
+		// Иллюстрация — слева, на всю высоту карточки (тянет align-items: stretch).
+		order: -1;
+		height: auto;
+		min-height: 260px;
+		margin-bottom: 0;
+		border-radius: 0;
+		background: var(--primary1);
+		color: var(--secondary);
+	}
+
+	.ss-article-card__body {
+		padding: 32px;
+	}
+
+	.ss-article-card__title {
+		margin-bottom: 12px;
+		font-size: 24px;
+		line-height: 1.3;
+
+		@include down($md) {
+			font-size: 20px;
+		}
+	}
+
+	.ss-article-card__excerpt {
+		margin-bottom: 20px;
+		font-size: 15px;
+	}
+
+	// Кнопка «Читать статью» — отступ от меты.
+	.ss-btn {
+		margin-top: 20px;
+	}
+
+	// Ссылка на категорию у featured лежит НЕ в meta-строке, а
+	// отдельным блоком ПОД кнопкой. display: block — чтобы не села
+	// рядом с кнопкой на широкой карточке. Размер чуть крупнее, чем meta.
+	.ss-article-card__cat-link {
+		display: block;
+		margin-top: 16px;
+		font-size: 13px;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+
+		.ss-article-card__thumb {
+			min-height: 180px;
+			margin-bottom: 0;
+		}
+
+		.ss-article-card__body {
+			padding: 24px;
+		}
+	}
+}

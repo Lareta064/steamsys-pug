@@ -1,0 +1,71 @@
+@use '_var' as *;
+
+// ==============================================================
+// .ss-search-wrapper — обёртка формы поиска.
+// Разметка:
+//   .ss-search-wrapper(+ .ss-input-bg-white)
+//     input.ss-search__input(type='search', placeholder='…')
+//     +ssBtn('Найти', { variant: 'accent5' })
+//
+// Идея: стили и раскладка держатся на ОБЁРТКЕ, а не на инпуте.
+// Если однажды внутренний input заменит сторонний виджет (битрикс или
+// другой), обёртка с модификаторами останется — визуал не поплывёт.
+//
+// Дефолт: фон инпута прозрачный (унаследует контекст).
+// Модификатор .ss-input-bg-white — красит фон инпута в белый.
+// Полезен на тёмной подложке (hero «Базы знаний»).
+// ==============================================================
+
+.ss-search-wrapper {
+	display: flex;
+	align-items: stretch;
+	width: 100%;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+.ss-search__input {
+	box-sizing: border-box;
+	flex: 1 1 auto;
+	// min-width: 0 — обязательно для flex-item, иначе длинный
+	// placeholder / value распирает флекс и ломает раскладку.
+	min-width: 0;
+	height: 65px;
+	padding: 0 24px;
+	border: none;
+	border-radius: 0;
+	outline: none;
+	background: transparent;
+	// appearance: none — Safari рендерит <input type="search"> с собственными
+	// скруглениями и кнопкой очистки. Сбрасываем, чтобы согласовать с обёрткой.
+	appearance: none;
+	-webkit-appearance: none;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	&::placeholder {
+		color: var(--secondary);
+	}
+
+	@include down($md) {
+		font-size: 14px;
+		padding: 0 16px;
+	}
+}
+
+// Кнопка внутри поисковой обёртки — обнуляем радиус, чтобы левый край
+// стыковался с инпутом флэтом, а правый обрезался overflow'ом обёртки
+// по её собственному радиусу. Правило применяется к любой .ss-btn
+// в обёртке (не только к --accent5), на случай других вариантов в будущем.
+.ss-search-wrapper .ss-btn {
+	border-radius: 0;
+}
+
+// Модификатор — белый фон инпута. Кладём на ОБЁРТКУ, а не на сам input,
+// чтобы стиль пережил замену внутреннего элемента (см. комментарий выше).
+.ss-search-wrapper.ss-input-bg-white .ss-search__input {
+	background: var(--white);
+}

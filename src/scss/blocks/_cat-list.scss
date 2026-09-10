@@ -1,0 +1,103 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-cat-list — вертикальный навигационный список категорий с
+// count'ом справа. Используется в сайдбарах внутренних страниц
+// (например, «База знаний»).
+//
+// По стилю мимикрирует под кнопку: высота 65px, радиус 10px,
+// шрифт как у .ss-btn (18px medium). На hover — заливка --accent1
+// с белым текстом (как primary-кнопка).
+//
+// Разметка:
+//   ul.ss-cat-list
+//     li.ss-cat-list__item
+//       a.ss-cat-list__link(href='#', aria-current='page')  // ← активный пункт
+//         span.ss-cat-list__label Все статьи
+//         span.ss-cat-list__count 42
+//     li.ss-cat-list__item
+//       a.ss-cat-list__link(href='/blog/kondensatootvodchiki')
+//         span.ss-cat-list__label Конденсатоотводчики
+//         span.ss-cat-list__count 14
+//
+// Активный пункт помечается aria-current="page" — тот же
+// семантический атрибут, что в .ss-breadcrumbs. Работает для
+// скринридеров, попутно ловится CSS-селектором ниже.
+// ==============================================================
+
+.ss-cat-list {
+	display: flex;
+	flex-direction: column;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ss-cat-list__item {
+	// Обёртка пункта. Пустая — оставлена под будущие модификаторы.
+}
+
+.ss-cat-list__link {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	column-gap: 16px;
+	box-sizing: border-box;
+	width: 100%;
+	height: 45px;
+	padding: 0 10px;
+	border-radius: 10px;
+	background: transparent;
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 1.4;
+	text-decoration: none;
+	transition: background-color .2s, color .2s;
+
+	&:hover {
+		background: var(--secondary3);		
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+
+	// Активный пункт — aria-current="page". Тот же визуал, что у hover:
+	// заливка --accent1, белый текст. Cursor: default — клик не имеет смысла.
+	&[aria-current="page"] {
+		background: var(--accent1);
+		color: var(--white);
+		cursor: default;
+	}
+}
+
+.ss-cat-list__label {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+// Пилюля с числом. Фон --secondary2 (светло-серый) — сохраняется во всех
+// состояниях, включая hover и активный (визуально «повисает» на синем фоне
+// пункта — так задумано).
+.ss-cat-list__count {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 30px;
+	height: 30px;
+	padding: 0 3px;
+	border-radius: 6px;
+	background: var(--secondary2);
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 1;
+}

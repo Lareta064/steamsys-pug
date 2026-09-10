@@ -1,0 +1,208 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Карточка статьи (.ss-article-card)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Карточка статьи (.ss-article-card)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Компонент карточки статьи для списка «Базы знаний». Один класс, два визуальных состояния:
+				br
+				| •
+				code .ss-article-card
+				|  — обычная карточка списка (миниатюра справа, разделяются border-bottom).
+				br
+				| •
+				code .ss-article-card.ss-article-card--featured
+				|  — крупная «свежая» статья вверху списка (иллюстрация слева, свой бордер+радиус, кнопка «Читать статью»).
+				br
+				br
+				| Стили —
+				code src/scss/blocks/_article-card.scss
+				| . Badge «Новое» — отдельный компонент
+				code .ss-badge
+				|  (см. ниже).
+
+			//- ===== .ss-badge =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title .ss-badge
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Компактная плашка для маркеров (Новое, Premium, Скидка). По дефолту — оранжевый акцент
+					code --accent5
+					| , белый текст, UPPERCASE. Стили —
+					code src/scss/base/_badge.scss
+					| .
+
+				.breadcrumbs-catalog__demo
+					span.ss-badge Новое
+					|
+					span.ss-badge Premium
+					|
+					span.ss-badge Скидка 20%
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| span.ss-badge Новое
+
+			//- ===== Featured =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title .ss-article-card--featured
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Крупная карточка для «свежей» статьи в топе списка. Grid 1fr / 1fr, иллюстрация — на левом краю (
+					code order: -1
+					| ), контент справа с паддингом 32. Заголовок 24px, есть кнопка «Читать статью» с иконкой стрелки.
+
+				.breadcrumbs-catalog__demo(style='max-width: 900px;')
+					article.ss-article-card.ss-article-card--featured
+						.ss-article-card__body
+							.ss-article-card__tag
+								| Обвязка
+								span.ss-badge Новое
+							a.ss-article-card__title(href='#') Почему замерзает паровой калорифер и как это предотвратить
+							p.ss-article-card__excerpt Калорифер замерзает из-за неправильного отвода конденсата или отсутствия защитной схемы. Разбираем три основные причины, правильный выбор КО и готовые решения защиты.
+							.ss-article-card__meta
+								span 7 мин
+								span 15.03.2025
+								span Автор: Александр Баженов
+							+ssBtn('Читать статью', { tag: 'a', href: '#', variant: 'primary', icon: 'arrow-right' })
+							a.ss-article-card__cat-link(href='#') → Обвязка
+						.ss-article-card__thumb
+							img(src=`${basePath}img/hero.webp`, alt='')
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| article.ss-article-card.ss-article-card--featured
+						|     .ss-article-card__body
+						|         .ss-article-card__tag
+						|             | Обвязка
+						|             span.ss-badge Новое
+						|         a.ss-article-card__title(href='#') Заголовок статьи…
+						|         p.ss-article-card__excerpt Аннотация…
+						|         .ss-article-card__meta
+						|             span 7 мин
+						|             span 15.03.2025
+						|             span Автор: Александр Баженов
+						|         +ssBtn('Читать статью', { tag: 'a', href: '#', variant: 'primary', icon: 'arrow-right' })
+						|         a.ss-article-card__cat-link(href='#') → Обвязка
+						|     .ss-article-card__thumb
+						|         img(src='img/hero.webp', alt='')
+
+			//- ===== Default (список) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title .ss-article-card (список)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Обычная карточка списка. Grid 1fr / 140px, gap 24. Между карточками рисуется border-bottom, первая в стеке получает border-top для симметрии. На
+					code &lt; 768
+					|  раскладка стекается: иллюстрация становится сверху над контентом.
+
+				.breadcrumbs-catalog__demo(style='max-width: 900px;')
+					article.ss-article-card
+						.ss-article-card__body
+							.ss-article-card__tag Конденсатоотводчики
+							a.ss-article-card__title(href='#') Как подобрать конденсатоотводчик под паровую нагрузку
+							p.ss-article-card__excerpt Правила расчёта пропускной способности, коэффициент запаса, разница между нагрузкой при пуске и рабочим режимом. С таблицей выбора по типу оборудования.
+							.ss-article-card__meta
+								span 9 мин
+								span 04.03.2025
+								span Автор: Дмитрий Кравцов
+								a.ss-article-card__cat-link(href='#') → Конденсатоотводчики
+						.ss-article-card__thumb
+							img(src=`${basePath}img/solution1.webp`, alt='')
+
+					article.ss-article-card
+						.ss-article-card__body
+							.ss-article-card__tag Конденсатоотводчики
+							a.ss-article-card__title(href='#') Термодинамический vs поплавковый конденсатоотводчик: когда что выбрать
+							p.ss-article-card__excerpt Детальное сравнение: принцип работы, применимость, режимы нагрузки, ресурс. Таблица с рекомендациями по типу оборудования.
+							.ss-article-card__meta
+								span 6 мин
+								span 18.02.2025
+								span Автор: Александр Баженов
+								a.ss-article-card__cat-link(href='#') → Конденсатоотводчики
+						.ss-article-card__thumb
+							img(src=`${basePath}img/tool1.webp`, alt='')
+
+					article.ss-article-card
+						.ss-article-card__body
+							.ss-article-card__tag Диагностика и ремонт
+							a.ss-article-card__title(href='#') Гидроудары в паровых системах: причины и 5 способов защиты
+							p.ss-article-card__excerpt Как выявить гидроудар, почему он возникает при пуске и при конденсации пара. Конкретные меры: уклоны, дренажи, конфигурация трубопроводов.
+							.ss-article-card__meta
+								span 11 мин
+								span 11.02.2025
+								span Автор: Олег Самойлов
+								a.ss-article-card__cat-link(href='#') → Диагностика
+						.ss-article-card__thumb
+							img(src=`${basePath}img/process.webp`, alt='')
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| article.ss-article-card
+						|     .ss-article-card__body
+						|         .ss-article-card__tag Категория
+						|         a.ss-article-card__title(href='#') Заголовок
+						|         p.ss-article-card__excerpt Описание…
+						|         .ss-article-card__meta
+						|             span 9 мин
+						|             span 04.03.2025
+						|             span Автор: …
+						|             a.ss-article-card__cat-link(href='#') → Категория
+						|     .ss-article-card__thumb
+						|         img(src='img/solution1.webp', alt='')
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-article-card__tag
+						|  — категория UPPERCASE, цвет
+						code --secondary
+						| . Внутрь можно вложить
+						code .ss-badge
+						|  (см. featured).
+					li
+						code .ss-article-card__title
+						|  —
+						code &lt;a&gt;
+						| , 16px bold (24px у featured). Hover — цвет
+						code --accent1
+						| . Focus-visible — outline
+						code --accent1
+						| .
+					li
+						code .ss-article-card__excerpt
+						|  —
+						code &lt;p&gt;
+						| , 13px (15px у featured), цвет
+						code --secondary
+						| .
+					li
+						code .ss-article-card__meta
+						|  — flex-строка. Разделители «·» рисуются
+						code ::before
+						|  у не-первого элемента, не в разметке (скринридер их не читает).
+					li
+						code .ss-article-card__cat-link
+						|  — ссылка на страницу категории (стрелка «→» в тексте, не через ::before, чтобы не конфликтовать с «·»-разделителями meta-строки). У обычной карточки живёт в конце meta-строки, у featured — отдельным блоком под кнопкой «Читать статью».
+					li
+						code .ss-article-card__thumb
+						|  — контейнер миниатюры с фиксированными размерами (140×88 у обычной, 1fr × авто у featured) и
+						code overflow: hidden
+						| . Внутри
+						code &lt;img&gt;
+						|  тянется на 100% и обрезается
+						code object-fit: cover
+						| . Такой подход держит раскладку неизменной при любых пропорциях исходной картинки — размер миниатюры диктует контейнер, не img.
+						br
+						| При интеграции — заменить
+						code &lt;img&gt;
+						|  на
+						code &lt;picture&gt;
+						|  с srcset (mobile + retina). См. правила SEO/perf в
+						code docs.html
+						| .

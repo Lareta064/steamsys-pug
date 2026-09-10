@@ -1431,6 +1431,48 @@
 			row-gap: 20px;
 		}
 	}
+
+	// ==== Breadcrumbs catalog page ====
+	.breadcrumbs-catalog__section {
+		margin-top: 40px;
+		&:first-of-type { margin-top: 8px; }
+	}
+
+	.breadcrumbs-catalog__section-title {
+		margin: 0 0 8px;
+		font-size: 18px;
+		font-weight: 600;
+		color: #031D2A;
+	}
+
+	.breadcrumbs-catalog__hint {
+		margin: 0 0 16px;
+
+		code {
+			margin: 0 4px;
+			padding: 1px 6px;
+			background: #DEE2E4;
+			border-radius: 4px;
+			font-size: 12px;
+		}
+	}
+
+	.breadcrumbs-catalog__demo {
+		padding: 24px;
+		border-radius: 8px;
+		background: var(--white);
+		border: 1px solid var(--secondary2);
+	}
+
+	.breadcrumbs-catalog__snippet {
+		margin: 12px 0 0;
+		padding: 12px 14px;
+		background: #031D2A;
+		color: #F8F9F9;
+		border-radius: 6px;
+		font-size: 12px;
+		overflow: auto;
+	}
 }
 
 // ===== Каталог компонентов футера (footer-parts.html) =====

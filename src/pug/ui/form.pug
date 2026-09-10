@@ -25,6 +25,7 @@ block content
 					li: a(href='#checkbox') .ss-checkbox — тёмный / светлый
 					li: a(href='#radio') .ss-radio — тёмный / светлый
 					li: a(href='#composed') Полный пример
+					li: a(href='#search') .ss-search-wrapper — поиск
 					li: a(href='#b24-form') .ss-b24-form — светлая тема
 
 			//- ========== Input ==========
@@ -268,6 +269,43 @@ block content
 								span.ss-checkbox__label
 									| Нажимая кнопку, вы соглашаетесь с
 									a(href='#') политикой конфиденциальности
+
+			//- ========== Search ==========
+			section.form-catalog__section#search
+				h3.form-catalog__section-title .ss-search-wrapper
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Строка поиска: инпут + акцентная кнопка «Найти» в одной пилюле.
+					| Обёртка
+					code .ss-search-wrapper
+					|  держит flex-раскладку, радиус и
+					code overflow: hidden
+					|  — благодаря чему скругляются внешние углы, а внутренние элементы могут иметь свои собственные border-radius (значения не важны, обрезаются).
+					br
+					| Кнопка использует новый вариант
+					code .ss-btn--accent5
+					|  (оранжевый
+					code --accent5 = #F0A000
+					| ).
+
+				h4.form-catalog__subtitle С белым фоном инпута —
+					code .ss-search-wrapper.ss-input-bg-white
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Модификатор
+					code .ss-input-bg-white
+					|  вешается на обёртку (не на сам input). Причина: если внутренний
+					code input
+					|  однажды заменит виджет (битрикс или сторонний search-скрипт), стилевой якорь останется на обёртке — визуал не поплывёт.
+
+				.form-catalog__demo.ss-bg-primary
+					.ss-search-wrapper.ss-input-bg-white
+						input.ss-search__input(type='search', placeholder='Найти статью — например, «гидроудары» или «поплавковый конденсатоотводчик»')
+						+ssBtn('Найти', { variant: 'accent5' })
+
+				pre.form-catalog__snippet
+					code
+						| .ss-search-wrapper.ss-input-bg-white
+						|     input.ss-search__input(type='search', placeholder='Найти…')
+						|     +ssBtn('Найти', { variant: 'accent5' })
 
 			//- ========== Bitrix-форма (светлая тема) ==========
 			section.form-catalog__section#b24-form
