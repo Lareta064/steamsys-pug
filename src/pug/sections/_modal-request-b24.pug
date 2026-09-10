@@ -1,0 +1,83 @@
+//- ============================================================
+//- Модалка «Получить КП» — Bitrix-версия.
+//- То же, что _modal-request.pug, но <form class="ss-modal__form"> заменена
+//- на мок разметки битрикс-скрипта (.b24-form ...).
+//-
+//- id="modal-request-b24" — открывается по data-modal="request-b24".
+//- В проде этот файл заменит _modal-request.pug и id вернётся к "modal-request",
+//- чтобы существующие триггеры (в шапке, hero, футере) продолжали работать
+//- без изменений. Пока живёт под отдельным id для превью.
+//-
+//- Как и в секции _section-feedback-b24.pug: внешняя обёртка (.ss-modal +
+//- .ss-modal__inner) — наша, внутри .ss-modal__inner заголовок и описание
+//- рисуются как обычно, а тело формы — мок битрикса. При интеграции весь
+//- блок .b24-form ... заменяется одной строкой:
+//-     script(data-b24-form='click/N/hash' data-skip-moving='true')
+//- ============================================================
+.ss-modal#modal-request-b24(role='dialog', aria-modal='true', aria-labelledby='modal-request-b24-title', hidden)
+	button.ss-modal__close(type='button', aria-label='Закрыть модальное окно', data-modal-close)
+		+svgIcon('cross')
+
+	.ss-modal__inner
+		h2.ss-modal__title#modal-request-b24-title Хотите получить коммерческое предложение?
+		p.ss-modal__desc Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня
+
+		//- ===== НАЧАЛО BITRIX-РАЗМЕТКИ =====
+		.b24-form
+			.b24-form-wrapper
+				.b24-form-content
+					.b24-form-padding-side
+
+						.b24-form-field.b24-form-field-string
+							.b24-form-control-container
+								.b24-form-control-label
+									span.b24-form-control-label-name Ваше имя
+									span.b24-form-control-label-required *
+								input.b24-form-control.b24-form-control-string(type='text', name='NAME', placeholder=' ')
+
+						.b24-form-field.b24-form-field-phone
+							.b24-form-control-container
+								.b24-form-control-label
+									span.b24-form-control-label-name Телефон
+									span.b24-form-control-label-required *
+								input.b24-form-control.b24-form-control-string(type='tel', name='PHONE', placeholder=' ')
+
+						.b24-form-field.b24-form-field-email
+							.b24-form-control-container
+								.b24-form-control-label
+									span.b24-form-control-label-name Email для отправки КП
+								input.b24-form-control.b24-form-control-string(type='email', name='EMAIL', placeholder=' ')
+
+						.b24-form-field.b24-form-field-file
+							.b24-form-control-container
+								label.b24-form-control-file
+									input.b24-form-control-file-input(type='file', name='FILE')
+									span.b24-form-control-file-icon
+										+svgIcon('clip')
+									span.b24-form-control-file-label Прикрепить ТЗ, спецификацию или опросный лист
+									button.b24-form-control-file-remove(type='button', aria-label='Удалить прикреплённый файл')
+										+svgIcon('delete')
+
+						.b24-form-field.b24-form-field-text
+							.b24-form-control-container
+								.b24-form-control-label
+									span.b24-form-control-label-name Комментарий к файлу или краткое описание задачи
+								textarea.b24-form-control.b24-form-control-textarea(name='COMMENTS', placeholder=' ')
+
+						.b24-form-field.b24-form-field-agreement
+							label.b24-form-field-agreement-label
+								.b24-form-control-agreement
+									.b24-form-control-agreement-checkbox
+										input.b24-form-control-agreement-checkbox-input(type='checkbox', name='AGREEMENT')
+										span.b24-form-control-agreement-checkbox-square
+									.b24-form-control-agreement-text
+										| Нажимая кнопку, вы соглашаетесь с
+										a(href='#') политикой конфиденциальности
+
+				.b24-form-btn-block
+					.b24-form-btn-container
+						button.b24-form-btn.b24-form-btn-shadow(type='submit')
+							span.b24-form-btn-icon
+								+svgIcon('mail')
+							span.b24-form-btn-text Получить КП
+		//- ===== КОНЕЦ BITRIX-РАЗМЕТКИ =====

@@ -1,0 +1,503 @@
+@use '_var' as *;
+
+// ==============================================================
+// Bitrix CRM-форма (b24-form-*)
+// Стилизация DOM, который битрикс-скрипт генерирует на месте
+// <script data-b24-form="...">. Название классов НЕ трогаем —
+// именно на них ориентируется JS битрикса; мы только красим.
+//
+// Работает и с моком (src/pug/sections/_section-feedback-b24.pug),
+// и с реальным скриптом — обе версии дают одинаковую DOM-структуру.
+//
+// Правила:
+//   1. Native input/textarea/checkbox/file — НЕ прячем полностью
+//      (display:none ломает валидацию и скринридеры). Используем
+//      технику «visually hidden»: абсолютное позиционирование +
+//      1×1 + clip:rect. Битрикс читает .checked / .files корректно.
+//   2. Атрибуты name на инпутах НЕ меняем — по ним битрикс мапит
+//      поля в CRM.
+//   3. Внешний контейнер .b24-form НЕ имеет своего фона/паддингов
+//      здесь — предполагается, что .b24-form лежит внутри нашего
+//      .ss-section-feedback__form-box (или иного враппера), а весь
+//      «бокс» рисует именно тот враппер. Так удобнее переиспользовать
+//      битрикс-форму в модалках и других контекстах.
+//   4. Состояния поля битрикс выражает классами на .b24-form-control-container:
+//         .b24-form-control-focus       — input сфокусирован
+//         .b24-form-control-not-empty   — в input что-то есть
+//         .b24-form-control-alert       — ошибка валидации
+//      Дополнительно ловим :focus-within и input:not(:placeholder-shown)
+//      для мока (без JS битрикса). Для этого в pug у инпутов должен
+//      быть placeholder=" " (пробел) — тогда :placeholder-shown работает.
+// ==============================================================
+
+
+// ------------------------------
+// Корневой контейнер и служебные обёртки — прозрачные, без
+// собственных паддингов. Всё что нужно наружу — рисует
+// .ss-section-feedback__form-box.
+// ------------------------------
+.b24-form,
+.b24-form-wrapper,
+.b24-form-content,
+.b24-form-padding-side {
+	background: transparent;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+// ------------------------------
+// .b24-form-padding-side — grid-родитель для .b24-form-field.
+// Раскладка по макету: имя+телефон в первом ряду по 1fr,
+// остальные поля тянутся на всю ширину.
+//
+// Битрикс над полями обёрток-«рядов» не рендерит — все .b24-form-field
+// идут одноуровневыми детьми .b24-form-padding-side. Поэтому «имя+телефон
+// в ряд» делаем не обёрткой, а grid'ом на родителе + :nth-child'ом.
+//
+// Опора на ПОРЯДОК полей: NAME (1), PHONE (2), EMAIL (3), FILE (4),
+// COMMENTS (5), AGREEMENT (6). Если в CRM-админке порядок поменяют —
+// либо подстраиваем :nth-child, либо переходим на именные селекторы
+// (.b24-form-field-string, .b24-form-field-phone и т.д.).
+// ------------------------------
+.b24-form-padding-side {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 20px;
+	row-gap: 20px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		row-gap: 10px;
+	}
+
+	// Все поля начиная с третьего — на всю ширину контейнера.
+	> .b24-form-field:nth-child(n+3) {
+		grid-column: 1 / -1;
+	}
+}
+
+// ------------------------------
+// .b24-form-header — заголовок и описание формы. В нашей секции
+// они не используются (свой title рисует .ss-section-feedback__form-title),
+// но битрикс их всё равно может отрендерить, если так настроено в CRM.
+// Скрываем через display:none, чтобы не задваивать заголовок.
+// ------------------------------
+.b24-form-header {
+	display: none;
+}
+
+
+// ==============================================================
+// Поле формы: контейнер + плавающий label + сам input
+// ==============================================================
+
+// .b24-form-field — обёртка одного поля.
+.b24-form-field {
+	min-width: 0;
+}
+
+// .b24-form-control-container — прямой родитель label'а и input'а.
+// Именно на него битрикс вешает классы состояния (focus / not-empty / alert).
+.b24-form-control-container {
+	position: relative;
+}
+
+// .b24-form-control — сам <input> или <textarea>.
+// Общие стили ниже; специфика textarea — в блоке .b24-form-control-textarea.
+.b24-form-control {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	height: 65px;
+	padding: 0 20px;
+	border: 1px solid var(--secondary);
+	border-radius: 10px;
+	background: transparent;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--white);
+	outline: none;
+	transition: border-color .2s;
+
+	&::placeholder {
+		// Placeholder битрикс использует как «пустышку» для срабатывания
+		// :placeholder-shown (см. мок). Визуально не показываем — роль
+		// плейсхолдера играет плавающий label.
+		color: transparent;
+	}
+
+	&:focus-visible {
+		border-color: var(--accent3);
+	}
+}
+
+// Специализация textarea — высота больше, паддинг сверху под плавающий label.
+.b24-form-control-textarea {
+	height: 120px;
+	padding: 20px;
+	resize: none;
+}
+
+// .b24-form-control-label — «плавающий» label.
+// В покое сидит внутри инпута как placeholder, при фокусе/заполнении
+// уезжает в top-left и уменьшается.
+.b24-form-control-label {
+	position: absolute;
+	left: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+	max-width: calc(100% - 40px);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--secondary);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	pointer-events: none;
+	transition: font-size .2s, top .2s, padding .2s, color .2s;
+}
+
+// Красная звёздочка required — битрикс сам рендерит .b24-form-control-label-required.
+.b24-form-control-label-required {
+	color: var(--accent3);
+	margin-left: 4px;
+}
+
+// Плавающий label для textarea в покое стоит у верхнего края (не по центру).
+.b24-form-field-text .b24-form-control-label {
+	top: 22px;
+	transform: none;
+}
+
+// Флоат-состояние label'а. Триггеры:
+//   1. Классы битрикса — .b24-form-control-focus / .b24-form-control-not-empty.
+//   2. :focus-within — работает всегда, даже без JS битрикса.
+//   3. input:not(:placeholder-shown) — работает, если у input есть placeholder=" ".
+.b24-form-control-container:focus-within .b24-form-control-label,
+.b24-form-control-container.b24-form-control-focus .b24-form-control-label,
+.b24-form-control-container.b24-form-control-not-empty .b24-form-control-label,
+.b24-form-control-container:has(.b24-form-control:not(:placeholder-shown)) .b24-form-control-label {
+	top: 0;
+	transform: translateY(-50%);
+	font-size: 12px;
+	padding: 0 6px;
+	// Фон подложки под текст — чтобы линия бордера не проходила сквозь label.
+	// --primary1 совпадает с фоном .ss-section-feedback.
+	background: var(--primary1);
+	color: var(--secondary);
+}
+
+// В .b24-form-field-text (textarea) плавающая позиция — та же (top:0).
+.b24-form-field-text.b24-form-control-container:focus-within .b24-form-control-label,
+.b24-form-field-text .b24-form-control-container:focus-within .b24-form-control-label {
+	transform: translateY(-50%);
+}
+
+// Состояние ошибки — красная рамка + красный label.
+// Битрикс сам вешает .b24-form-control-alert на контейнер поля.
+.b24-form-control-container.b24-form-control-alert {
+	.b24-form-control {
+		border-color: var(--accent3);
+	}
+	.b24-form-control-label {
+		color: var(--accent3);
+	}
+}
+
+
+// ==============================================================
+// File input (type="file")
+// Битрикс кладёт <input type="file"> внутрь <label class="b24-form-control-file">,
+// поэтому клик по label открывает file-picker. Мы прячем нативный input
+// «visually hidden»-техникой (не display:none!), чтобы валидация и
+// .files.length читались корректно.
+// ==============================================================
+.b24-form-field-file {
+	.b24-form-control-container {
+		// В file-поле label не плавающий — сам label = кликабельная кнопка.
+		// Плавающий текст-подсказку прячем, чтобы не задваивался с текстом
+		// внутри .b24-form-control-file-label.
+		> .b24-form-control-label { display: none; }
+	}
+}
+
+.b24-form-control-file {
+	display: flex;
+	align-items: center;
+	column-gap: 20px;
+	cursor: pointer;
+	width: 100%;
+}
+
+// Нативный input — визуально скрыт, но живой для JS и ассистивных технологий.
+.b24-form-control-file-input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+// Квадратная иконка-«скрепка» слева.
+.b24-form-control-file-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 65px;
+	height: 65px;
+	border: 1px solid var(--secondary);
+	border-radius: 10px;
+	color: var(--secondary2);
+	transition: border-color .2s, color .2s;
+
+	.b24-form-control-file:hover &,
+	.b24-form-control-file-input:focus-visible ~ & {
+		border-color: var(--accent3);
+		color: var(--accent3);
+	}
+}
+
+// Текст-подпись справа от иконки. В битриксе — .b24-form-control-file-label.
+.b24-form-control-file-label {
+	flex: 1 1 auto;
+	min-width: 0;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--secondary2);
+
+	@include down($xxl) { font-size: 16px; }
+	@include down($lg)  { font-size: 14px; }
+}
+
+// Кнопка «удалить прикреплённый файл». По умолчанию скрыта; когда файл
+// выбран, битрикс должен добавить контейнеру класс-хук (напр. .is-attached
+// или собственный битрикс-класс — уточняется по реальной разметке).
+.b24-form-control-file-remove {
+	display: none;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	background: none;
+	border: none;
+	color: var(--secondary2);
+	cursor: pointer;
+	transition: color .2s;
+
+	&:hover { color: var(--accent3); }
+
+	&:focus-visible {
+		outline: 2px solid var(--accent3);
+		outline-offset: 2px;
+		border-radius: 4px;
+	}
+}
+
+.b24-form-control-file.is-attached .b24-form-control-file-remove {
+	display: inline-flex;
+}
+
+
+// ==============================================================
+// Agreement (чекбокс политики конфиденциальности)
+// DOM битрикса:
+//   label.b24-form-field-agreement-label
+//     .b24-form-control-agreement
+//       .b24-form-control-agreement-checkbox
+//         input.b24-form-control-agreement-checkbox-input(type=checkbox)
+//         span.b24-form-control-agreement-checkbox-square  ← визуальный квадрат
+//       .b24-form-control-agreement-text                    ← текст согласия (может содержать <a>)
+// ==============================================================
+.b24-form-field-agreement-label {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.b24-form-control-agreement {
+	display: flex;
+	align-items: center;
+	column-gap: 10px;
+}
+
+.b24-form-control-agreement-checkbox {
+	position: relative;
+	flex-shrink: 0;
+	width: 20px;
+	height: 20px;
+}
+
+// Нативный чекбокс прячем, но НЕ удаляем.
+.b24-form-control-agreement-checkbox-input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+// Визуальный квадрат с галочкой (::after).
+.b24-form-control-agreement-checkbox-square {
+	position: relative;
+	display: block;
+	width: 20px;
+	height: 20px;
+	border: 1px solid var(--secondary);
+	border-radius: 4px;
+	background: transparent;
+	transition: border-color .2s, background-color .2s;
+
+	&::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 45%;
+		width: 10px;
+		height: 6px;
+		border-left: 2px solid var(--white);
+		border-bottom: 2px solid var(--white);
+		transform: translate(-50%, -50%) rotate(-45deg);
+		opacity: 0;
+		transition: opacity .15s;
+	}
+}
+
+// Checked / focus состояния — управляются позицией input:checked + square.
+.b24-form-control-agreement-checkbox-input:checked + .b24-form-control-agreement-checkbox-square {
+	border-color: var(--accent3);
+	background: var(--accent3);
+
+	&::after { opacity: 1; }
+}
+
+.b24-form-control-agreement-checkbox-input:focus-visible + .b24-form-control-agreement-checkbox-square {
+	outline: 2px solid var(--accent3);
+	outline-offset: 2px;
+}
+
+.b24-form-control-agreement-text {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+
+	a {
+		color: var(--accent3);
+		text-decoration: none;
+		padding-left: 5px;
+		transition: .2s;
+
+		&:hover { color: var(--white); }
+	}
+}
+
+
+// ==============================================================
+// Submit-кнопка. Мимикрирует .ss-btn--primary + .ss-btn--full.
+// ==============================================================
+.b24-form-btn-block {
+	// row-gap колонки .b24-form-padding-side уже даёт 20px сверху,
+	// но submit лежит ВНЕ .b24-form-padding-side (по DOM битрикса) —
+	// докидываем margin-top руками.
+	margin-top: 20px;
+
+	@include down($md) {
+		margin-top: 10px;
+	}
+}
+
+.b24-form-btn-container {
+	// Обёртка. В битриксе тут иногда лежит несколько кнопок (submit + reset).
+}
+
+.b24-form-btn {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 20px;
+	width: 100%;
+	height: 65px;
+	padding: 0 30px;
+	border: 1px solid var(--accent1);
+	border-radius: 10px;
+	background: var(--accent1);
+	color: var(--white);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background-color .2s, border-color .2s, outline-color .2s;
+
+	svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	&:hover {
+		background: var(--accent2);
+		border-color: var(--accent2);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+
+	&[disabled],
+	&.is-disabled {
+		pointer-events: none;
+		opacity: .4;
+	}
+}
+
+.b24-form-btn-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+// ==============================================================
+// Контекст: .b24-form внутри .ss-modal.
+// Нужен отступ между заголовком/описанием модалки и формой —
+// в оригинале это делает margin-top у .ss-modal__form (40px / 30px на моб).
+// ==============================================================
+.ss-modal .b24-form {
+	margin-top: 40px;
+
+	@include down($md) {
+		margin-top: 30px;
+	}
+}
+
+
+// ==============================================================
+// Полностью скрываем сгенерированный битриксом «подвал» с ссылкой
+// на CRM («Powered by Bitrix24»). У них он рендерится как
+// .b24-form-sign — не нужен визуально и без него форма
+// корректно работает.
+// ==============================================================
+.b24-form-sign {
+	display: none;
+}
