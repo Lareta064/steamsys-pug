@@ -1,0 +1,133 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Пилюля (.ss-pill)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Пилюля (.ss-pill)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Универсальный chip-компонент для фильтров, ролей, тегов, табов и любых иных «переключаемых» элементов. Стили —
+				code src/scss/base/_pill.scss
+				| .
+				br
+				| Не привязан к конкретной секции. Активность помечается
+				code aria-current="page"
+				|  (nav-контекст) или
+				code aria-current="true"
+				|  (toggle-контекст) — тот же семантический паттерн, что в
+				code .ss-breadcrumbs
+				| ,
+				code .ss-cat-list
+				| ,
+				code .ss-pagination
+				| .
+
+			//- ===== Базовая пилюля =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Одиночная пилюля
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Белый фон, border
+					code --primary
+					| , радиус 999px (полностью округлые концы). Высота 40, шрифт 14/500.
+
+				.breadcrumbs-catalog__demo
+					a.ss-pill(href='#') Инженер
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| a.ss-pill(href='#') Инженер
+
+			//- ===== Ряд пилюль + активная =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Ряд пилюль + активная
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Типовой кейс — фильтр по роли или категории.
+					| Первая с
+					code aria-current="page"
+					|  — активная: bg
+					code --primary
+					| , текст
+					code --white
+					| . Наведи на остальные — hover bg
+					code --secondary3
+					| .
+
+				.breadcrumbs-catalog__demo
+					div(style='display: flex; flex-wrap: wrap; gap: 10px;')
+						a.ss-pill(href='#', aria-current='page') Все
+						a.ss-pill(href='#') Инженер
+						a.ss-pill(href='#') Энергетик
+						a.ss-pill(href='#') Технолог
+						a.ss-pill(href='#') Проектировщик
+						a.ss-pill(href='#') Закупщик
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| a.ss-pill(href='#', aria-current='page') Все
+						| a.ss-pill(href='#') Инженер
+						| a.ss-pill(href='#') Энергетик
+						| …
+
+			//- ===== Кнопка вместо ссылки =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Как toggle-кнопка
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Если пилюля не ведёт на другую страницу (переключает состояние в рамках текущей), используем
+					code &lt;button&gt;
+					|  и
+					code aria-current="true"
+					|  для активного:
+
+				.breadcrumbs-catalog__demo
+					div(style='display: flex; flex-wrap: wrap; gap: 10px;')
+						button.ss-pill(type='button', aria-current='true') Все
+						button.ss-pill(type='button') Инженер
+						button.ss-pill(type='button') Энергетик
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| button.ss-pill(type='button', aria-current='true') Все
+						| button.ss-pill(type='button') Инженер
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про состояния
+				ul
+					li
+						strong Дефолт:
+						|  bg
+						code --white
+						| , border
+						code --primary
+						| , текст
+						code --primary
+						| .
+					li
+						strong Hover:
+						|  bg
+						code --secondary3
+						| .
+					li
+						strong Активная (
+						code [aria-current="page"]
+						|  или
+						code [aria-current="true"]
+						| ):
+						|  bg
+						code --primary
+						| , текст
+						code --white
+						| ,
+						code cursor: default
+						| .
+					li
+						strong Focus-visible:
+						|  outline
+						code --accent1
+						| .
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Компонент — примитив. Ряды пилюль (в фильтре ролей / категорий / подтемах) — обёртка на стороне секции с флексом или горизонтальным скроллом на мобилке.
