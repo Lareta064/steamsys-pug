@@ -563,43 +563,203 @@ block content
 					strong мок этой формы
 					|  — статичный HTML-двойник DOM'а битрикса, полностью соответствующий по классам. Стили пишутся один раз и работают одинаково и на моке, и на реальной форме.
 
-				h4.docs-catalog__subtitle Два места с формой — оба продублированы
+				h4.docs-catalog__subtitle Обёртка .ss-b24-form + темовые модификаторы
 				p
-					| Форма встречается в двух местах, и для каждого сделан b24-мок:
+					| Все стили b24-формы объявлены внутри нашей обёртки
+					code .ss-b24-form
+					| . Это даёт две вещи: изоляцию наших override'ов от битрикс-CSS (не воюем со специфичностью) и якорь для темовых модификаторов.
+
+				p Разметка всегда такая:
+				pre.docs-catalog__code
+					code
+						| .ss-b24-form(.ss-b24-form--light)
+						|     .b24-form                    ← сюда битрикс-скрипт вставит DOM
+						|         .b24-form-wrapper ...
+
+				p
+					| При интеграции внутри
+					code .ss-b24-form
+					|  окажется одна строчка со скриптом:
+				pre.docs-catalog__code
+					code
+						| .ss-b24-form(.ss-b24-form--light)
+						|     script(data-b24-form='click/N/HASH' data-skip-moving='true')
+
+				p Битрикс отрендерит .b24-form на месте скрипта — обёртка останется, модификатор темы продолжит работать.
+
+				h4.docs-catalog__subtitle Темы через CSS-переменные
+				p
+					| В
+					code _b24-form.scss
+					|  все цвета — через локальные переменные
+					code --b24-*
+					| , объявленные на
+					code .ss-b24-form
+					| . Тема = модификатор, который переопределяет эти переменные. Селекторы
+					code .b24-form-*
+					|  писать заново НЕ нужно.
+
+				p Дефолтная (тёмная) тема — на самом
+					code .ss-b24-form
+					| . Светлая — на
+					code .ss-b24-form--light
+					| . Добавить свою тему = 5 строк с новым модификатором.
+
+				table.docs-catalog__table
+					thead
+						tr
+							th Переменная
+							th Назначение
+							th Дефолт (тёмная)
+							th --light (светлая)
+					tbody
+						tr
+							td: code --b24-border
+							td Рамка полей в покое
+							td
+								code var(--secondary)
+							td
+								code var(--primary)
+						tr
+							td: code --b24-border-focus
+							td Рамка при :focus / ошибке
+							td
+								code var(--accent3)
+							td
+								code var(--accent1)
+						tr
+							td: code --b24-text
+							td Цвет введённого текста
+							td
+								code var(--white)
+							td
+								code var(--primary)
+						tr
+							td: code --b24-text-muted
+							td Приглушённый текст (метка файла, remove)
+							td
+								code var(--secondary2)
+							td
+								code var(--primary)
+						tr
+							td: code --b24-label
+							td Плавающий label + текст согласия
+							td
+								code var(--secondary)
+							td
+								code var(--primary)
+						tr
+							td: code --b24-label-bg
+							td Подложка под плавающий label (закрывает линию бордера — ДОЛЖНА совпадать с фоном родителя)
+							td
+								code var(--primary1)
+							td
+								code var(--white)
+						tr
+							td: code --b24-required
+							td Красная звёздочка required
+							td
+								code var(--accent3)
+							td
+								code var(--accent1)
+						tr
+							td: code --b24-accent
+							td Checked-состояние чекбокса + фокус-outline
+							td
+								code var(--accent3)
+							td
+								code var(--accent1)
+						tr
+							td: code --b24-check
+							td Галочка внутри залитого чекбокса
+							td
+								code var(--white)
+							td
+								code var(--white)
+						tr
+							td: code --b24-link
+							td Ссылка в тексте согласия
+							td
+								code var(--accent3)
+							td
+								code var(--accent1)
+						tr
+							td: code --b24-link-hover
+							td Hover ссылки
+							td
+								code var(--white)
+							td
+								code var(--primary)
+
+				.docs-catalog__note
+					p
+						strong Про
+						code --b24-label-bg
+						| . Подложка под плавающий label должна совпадать с фактическим фоном ПОД инпутом (то, что видно через прозрачный
+						code background: transparent
+						|  контрола). Если поставили b24-форму на нестандартный фон — переопределяем именно эту переменную точечно на инстансе:
+					pre.docs-catalog__code
+						code
+							| .ss-b24-form.ss-b24-form--light {
+							|     --b24-label-bg: var(--secondary2); // например, серый фон секции
+							| }
+
+				p
+					strong Что НЕ темизируется:
+					|  submit-кнопка (
+					code .b24-form-btn
+					| ). Она остаётся CTA брендового цвета (
+					code --accent1
+					| ) в любой теме — так работает вся сайтовая система кнопок.
+
+				h4.docs-catalog__subtitle Два места с формой в проекте
+				p
+					| Битрикс-форма живёт в двух местах на главной:
 				ul
 					li
 						strong Секция «Обратная связь» —
-						code src/pug/sections/_section-feedback.pug
-						|  (оригинал) и
-						code _section-feedback-b24.pug
-						|  (мок). Обе включены в
-						code home.pug
-						|  подряд для визуального сравнения. Внешний бокс (
+						code src/pug/sections/_section-feedback-b24.pug
+						| . Внешний бокс (
 						code .ss-section-feedback__form-box
-						| ) — наш, внутри — b24-разметка.
+						| ) — наш, внутри —
+						code .ss-b24-form &gt; .b24-form
+						| .
 					li
 						strong Модалка «Получить КП» —
-						code src/pug/sections/_modal-request.pug
-						|  (оригинал, открывается по
-						code data-modal="request"
-						| ) и
-						code _modal-request-b24.pug
-						|  (мок, открывается по
+						code src/pug/sections/_modal-request-b24.pug
+						| , открывается по
 						code data-modal="request-b24"
-						| ). Оба живут в DOM
-						code home.html
-						| , триггер на b24-версию — только со страницы UI-каталога
-						code /ui/modal-request-b24.html
-						| .
+						|  (триггеры уже проставлены в
+						code _header.pug
+						| ,
+						code _section-hero.pug
+						| ,
+						code _footer.pug
+						| ).
+				p
+					| Старые формы (
+					code _section-feedback.pug
+					| ,
+					code _modal-request.pug
+					| ) остались в
+					code sections/
+					|  — но подключены только на UI-каталожных страницах
+					code /ui/section-feedback.html
+					|  как reference. На главной их нет.
 
 				h4.docs-catalog__subtitle Где смотреть в UI-каталоге
 				ul
 					li
 						code /ui/section-feedback-b24.html
-						|  — секция целиком.
+						|  — секция целиком (тёмная тема).
 					li
 						code /ui/modal-request-b24.html
-						|  — страница с кнопкой, открывающей b24-модалку.
+						|  — страница с кнопкой, открывающей b24-модалку (тёмная тема).
+					li
+						code /ui/b24-form-light.html
+						|  — превью светлой темы (
+						code .ss-b24-form--light
+						| ) на белом фоне.
 					li
 						code src/scss/base/_b24-form.scss
 						|  — единственный файл со стилями под все

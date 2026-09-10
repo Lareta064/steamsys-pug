@@ -12,10 +12,15 @@
 
 		form.ss-modal__form
 			.ss-modal__form-row
-				.ss-form-item: input.ss-input(type='text', placeholder='Ваше имя')
-				.ss-form-item: input.ss-input(type='tel', placeholder='Телефон')
+				.ss-form-item
+					input.ss-input(type='text', placeholder=' ')
+					span.ss-form-label Ваше имя
+				.ss-form-item
+					input.ss-input(type='tel', placeholder=' ')
+					span.ss-form-label Телефон
 			.ss-form-item
-				input.ss-input(type='email', placeholder='Email для отправки КП')
+				input.ss-input(type='email', placeholder=' ')
+				span.ss-form-label Email для отправки КП
 			.ss-form-item
 				label.ss-file
 					input.ss-file__input(type='file')
@@ -25,7 +30,8 @@
 					button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
 						+svgIcon('delete')
 			.ss-form-item
-				textarea.ss-textarea(placeholder='Комментарий к файлу или краткое описание задачи')
+				textarea.ss-textarea(placeholder=' ')
+				span.ss-form-label Комментарий к файлу или краткое описание задачи
 			.ss-form-item
 				label.ss-checkbox
 					input.ss-checkbox__input(type='checkbox')

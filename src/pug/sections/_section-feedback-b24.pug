@@ -4,10 +4,10 @@
 //- мок разметки, которую генерирует битрикс-скрипт CRM-формы.
 //- Классы всего Bitrix-виджета префиксуются .b24-form-*.
 //-
-//- В продакшене этот блок будет заменён одной строкой:
+//- В продакшене .b24-form внутри .ss-b24-form заменяется одной строкой:
 //-     script(data-b24-form="click/N/hash" data-skip-moving="true")
-//- и битрикс-скрипт сам отрендерит DOM ниже. Здесь мы дублируем
-//- этот DOM руками, чтобы стилизовать компоненты заранее.
+//- Битрикс сам вставит DOM. Обёртка .ss-b24-form остаётся — на ней
+//- держатся все стили и темовые модификаторы (--light и т.д.).
 //-
 //- Внешняя обёртка .ss-section-feedback__form-box (бордер, паддинги,
 //- радиус) — наша. Внутренние паддинги/фон .b24-form сбрасываются в
@@ -41,77 +41,65 @@ section.ss-section.ss-section--tinted.ss-section-feedback.ss-section-feedback--b
 				p.ss-section-feedback__form-title Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня
 
 				//- ===== НАЧАЛО BITRIX-РАЗМЕТКИ =====
-				//- В интеграции этот .b24-form целиком заменяется на <script data-b24-form="...">.
-				.b24-form
-					.b24-form-wrapper
-						.b24-form-content
-							.b24-form-padding-side
+				.ss-b24-form
+					.b24-form
+						.b24-form-wrapper
+							.b24-form-content
+								.b24-form-padding-side
 
-								//- Все поля идут одним стеком — так их выдаёт дефолтная битрикс-разметка.
-								//- Никаких дополнительных обёрток над полями битрикс не рендерит.
-								//- placeholder=" " нужен для мока — тогда :placeholder-shown корректно
-								//- различает «пусто» и «заполнено» без JS битрикса.
-								.b24-form-field.b24-form-field-string
-									.b24-form-control-container
-										.b24-form-control-label
-											span.b24-form-control-label-name Ваше имя
-											span.b24-form-control-label-required *
-										input.b24-form-control.b24-form-control-string(type='text', name='NAME', placeholder=' ')
+									//- Все поля идут одним стеком — так их выдаёт дефолтная битрикс-разметка.
+									//- placeholder=" " нужен для мока — тогда :placeholder-shown корректно
+									//- различает «пусто» и «заполнено» без JS битрикса.
+									.b24-form-field.b24-form-field-string
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Ваше имя
+												span.b24-form-control-label-required *
+											input.b24-form-control.b24-form-control-string(type='text', name='NAME', placeholder=' ')
 
-								.b24-form-field.b24-form-field-phone
-									.b24-form-control-container
-										.b24-form-control-label
-											span.b24-form-control-label-name Телефон
-											span.b24-form-control-label-required *
-										input.b24-form-control.b24-form-control-string(type='tel', name='PHONE', placeholder=' ')
+									.b24-form-field.b24-form-field-phone
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Телефон
+												span.b24-form-control-label-required *
+											input.b24-form-control.b24-form-control-string(type='tel', name='PHONE', placeholder=' ')
 
-								//- Email
-								.b24-form-field.b24-form-field-email
-									.b24-form-control-container
-										.b24-form-control-label
-											span.b24-form-control-label-name Email для отправки КП
-										input.b24-form-control.b24-form-control-string(type='email', name='EMAIL', placeholder=' ')
+									.b24-form-field.b24-form-field-email
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Email для отправки КП
+											input.b24-form-control.b24-form-control-string(type='email', name='EMAIL', placeholder=' ')
 
-								//- Файл. В битриксе <input type="file"> лежит внутри label'а,
-								//- и label используется как кликабельная кнопка «Прикрепить».
-								//- Мы не удаляем и не подменяем input — только визуально прячем.
-								.b24-form-field.b24-form-field-file
-									.b24-form-control-container
-										label.b24-form-control-file
-											input.b24-form-control-file-input(type='file', name='FILE')
-											span.b24-form-control-file-icon
-												+svgIcon('clip')
-											span.b24-form-control-file-label Прикрепить ТЗ, спецификацию или опросный лист
-											//- Кнопка remove — управляется JS битрикса (когда файл выбран, показывается).
-											//- Здесь просто заглушка для проверки стилей.
-											button.b24-form-control-file-remove(type='button', aria-label='Удалить прикреплённый файл')
-												+svgIcon('delete')
+									.b24-form-field.b24-form-field-file
+										.b24-form-control-container
+											label.b24-form-control-file
+												input.b24-form-control-file-input(type='file', name='FILE')
+												span.b24-form-control-file-icon
+													+svgIcon('clip')
+												span.b24-form-control-file-label Прикрепить ТЗ, спецификацию или опросный лист
+												button.b24-form-control-file-remove(type='button', aria-label='Удалить прикреплённый файл')
+													+svgIcon('delete')
 
-								//- Комментарий
-								.b24-form-field.b24-form-field-text
-									.b24-form-control-container
-										.b24-form-control-label
-											span.b24-form-control-label-name Комментарий к файлу или краткое описание задачи
-										textarea.b24-form-control.b24-form-control-textarea(name='COMMENTS', placeholder=' ')
+									.b24-form-field.b24-form-field-text
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Комментарий к файлу или краткое описание задачи
+											textarea.b24-form-control.b24-form-control-textarea(name='COMMENTS', placeholder=' ')
 
-								//- Соглашение. Битрикс генерирует именно такую вложенность:
-								//- input прячется, .b24-form-control-agreement-checkbox-square — визуальный чекбокс.
-								.b24-form-field.b24-form-field-agreement
-									label.b24-form-field-agreement-label
-										.b24-form-control-agreement
-											.b24-form-control-agreement-checkbox
-												input.b24-form-control-agreement-checkbox-input(type='checkbox', name='AGREEMENT')
-												span.b24-form-control-agreement-checkbox-square
-											.b24-form-control-agreement-text
-												| Нажимая кнопку, вы соглашаетесь с
-												a(href='#') политикой конфиденциальности
+									.b24-form-field.b24-form-field-agreement
+										label.b24-form-field-agreement-label
+											.b24-form-control-agreement
+												.b24-form-control-agreement-checkbox
+													input.b24-form-control-agreement-checkbox-input(type='checkbox', name='AGREEMENT')
+													span.b24-form-control-agreement-checkbox-square
+												.b24-form-control-agreement-text
+													| Нажимая кнопку, вы соглашаетесь с
+													a(href='#') политикой конфиденциальности
 
-						//- Блок с submit-кнопкой. В битриксе живёт вне .b24-form-padding-side,
-						//- но внутри .b24-form-wrapper (у него свой padding-block).
-						.b24-form-btn-block
-							.b24-form-btn-container
-								button.b24-form-btn.b24-form-btn-shadow(type='submit')
-									span.b24-form-btn-icon
-										+svgIcon('mail')
-									span.b24-form-btn-text Получить расчёт
+							.b24-form-btn-block
+								.b24-form-btn-container
+									button.b24-form-btn.b24-form-btn-shadow(type='submit')
+										span.b24-form-btn-icon
+											+svgIcon('mail')
+										span.b24-form-btn-text Получить расчёт
 				//- ===== КОНЕЦ BITRIX-РАЗМЕТКИ =====

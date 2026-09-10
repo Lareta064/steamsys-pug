@@ -25,6 +25,7 @@ block content
 					li: a(href='#checkbox') .ss-checkbox — тёмный / светлый
 					li: a(href='#radio') .ss-radio — тёмный / светлый
 					li: a(href='#composed') Полный пример
+					li: a(href='#b24-form') .ss-b24-form — светлая тема
 
 			//- ========== Input ==========
 			section.form-catalog__section#input
@@ -32,18 +33,31 @@ block content
 				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
 					| Однострочное поле. Высота 65, скругление 10, прозрачный фон,
 					code border: 1px solid --secondary
-					| . Placeholder — цвет
-					code --secondary
 					| , текст ввода — белый.
+					br
+					| Подсказка рисуется плавающим label'ом (
+					code span.ss-form-label
+					|  как соседний узел). В покое label лежит внутри поля как placeholder, при фокусе / когда в поле что-то напечатано — уезжает в top-left. Механика полностью на CSS через
+					code :focus-within
+					|  +
+					code :has(:not(:placeholder-shown))
+					| . Именно поэтому у input'а
+					strong обязателен
+					code placeholder=" "
+					|  (пробел) — без него
+					code :placeholder-shown
+					|  не отличает пустое поле от заполненного.
 
 				.form-catalog__demo.ss-bg-primary
 					.ss-form-item
-						input.ss-input(type='text', placeholder='Ваше имя')
+						input.ss-input(type='text', placeholder=' ')
+						span.ss-form-label Ваше имя
 
 				pre.form-catalog__snippet
 					code
 						| .ss-form-item
-						|     input.ss-input(type='text', placeholder='Ваше имя')
+						|     input.ss-input(type='text', placeholder=' ')
+						|     span.ss-form-label Ваше имя
 
 			//- ========== Textarea ==========
 			section.form-catalog__section#textarea
@@ -51,18 +65,20 @@ block content
 				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
 					| Многострочное поле. Высота 120,
 					code resize: none
-					| . Остальные стили — как у
+					| . Плавающий label — как у
 					code .ss-input
-					| .
+					| , только в покое стоит у верхнего края (не по центру).
 
 				.form-catalog__demo.ss-bg-primary
 					.ss-form-item
-						textarea.ss-textarea(placeholder='Комментарий к файлу или краткое описание задачи')
+						textarea.ss-textarea(placeholder=' ')
+						span.ss-form-label Комментарий к файлу или краткое описание задачи
 
 				pre.form-catalog__snippet
 					code
 						| .ss-form-item
-						|     textarea.ss-textarea(placeholder='Комментарий…')
+						|     textarea.ss-textarea(placeholder=' ')
+						|     span.ss-form-label Комментарий…
 
 			//- ========== File ==========
 			section.form-catalog__section#file
@@ -225,10 +241,15 @@ block content
 				.form-catalog__demo.ss-bg-primary
 					form.form-catalog__form
 						.form-catalog__row
-							.ss-form-item: input.ss-input(type='text', placeholder='Ваше имя')
-							.ss-form-item: input.ss-input(type='tel', placeholder='Телефон')
+							.ss-form-item
+								input.ss-input(type='text', placeholder=' ')
+								span.ss-form-label Ваше имя
+							.ss-form-item
+								input.ss-input(type='tel', placeholder=' ')
+								span.ss-form-label Телефон
 						.ss-form-item
-							input.ss-input(type='email', placeholder='Email для отправки КП')
+							input.ss-input(type='email', placeholder=' ')
+							span.ss-form-label Email для отправки КП
 						.ss-form-item
 							label.ss-file
 								input.ss-file__input(type='file')
@@ -238,7 +259,8 @@ block content
 								button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
 									+svgIcon('delete')
 						.ss-form-item
-							textarea.ss-textarea(placeholder='Комментарий к файлу или краткое описание задачи')
+							textarea.ss-textarea(placeholder=' ')
+							span.ss-form-label Комментарий к файлу или краткое описание задачи
 						.ss-form-item
 							label.ss-checkbox
 								input.ss-checkbox__input(type='checkbox')
@@ -246,3 +268,119 @@ block content
 								span.ss-checkbox__label
 									| Нажимая кнопку, вы соглашаетесь с
 									a(href='#') политикой конфиденциальности
+
+			//- ========== Bitrix-форма (светлая тема) ==========
+			section.form-catalog__section#b24-form
+				h3.form-catalog__section-title .ss-b24-form
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Мок разметки, которую генерирует битрикс-скрипт CRM-формы (
+					code .b24-form-*
+					| ), внутри нашей обёртки
+					code .ss-b24-form
+					| . При интеграции всё содержимое
+					code .b24-form
+					|  заменяется на одну строчку —
+					code &lt;script data-b24-form="..."&gt;
+					| . Обёртка и модификатор темы остаются.
+					br
+					| Темизация — через локальные CSS-переменные
+					code --b24-*
+					| . По дефолту тёмная тема; для светлого фона — модификатор
+					code .ss-b24-form--light
+					| . Полное описание с таблицей переменных и правилами интеграции — в
+					code /ui/docs.html#bitrix-form
+					| .
+
+				h4.form-catalog__subtitle Тёмная тема —
+					code .ss-b24-form
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Живой пример — на страницах каталога
+					code /ui/section-feedback-b24.html
+					|  (секция) и
+					code /ui/modal-request-b24.html
+					|  (модалка). Здесь не дублируем — разметка длинная, задваивать страницу нет смысла.
+
+				h4.form-catalog__subtitle Светлая тема —
+					code .ss-b24-form.ss-b24-form--light
+				.form-catalog__demo.form-catalog__demo--b24-light
+					.ss-b24-form.ss-b24-form--light
+						.b24-form
+							.b24-form-wrapper
+								.b24-form-content
+									.b24-form-padding-side
+
+										.b24-form-field.b24-form-field-string
+											.b24-form-control-container
+												.b24-form-control-label
+													span.b24-form-control-label-name Ваше имя
+													span.b24-form-control-label-required *
+												input.b24-form-control.b24-form-control-string(type='text', name='NAME', placeholder=' ')
+
+										.b24-form-field.b24-form-field-phone
+											.b24-form-control-container
+												.b24-form-control-label
+													span.b24-form-control-label-name Телефон
+													span.b24-form-control-label-required *
+												input.b24-form-control.b24-form-control-string(type='tel', name='PHONE', placeholder=' ')
+
+										.b24-form-field.b24-form-field-email
+											.b24-form-control-container
+												.b24-form-control-label
+													span.b24-form-control-label-name Email для отправки КП
+												input.b24-form-control.b24-form-control-string(type='email', name='EMAIL', placeholder=' ')
+
+										.b24-form-field.b24-form-field-file
+											.b24-form-control-container
+												label.b24-form-control-file
+													input.b24-form-control-file-input(type='file', name='FILE')
+													span.b24-form-control-file-icon
+														+svgIcon('clip')
+													span.b24-form-control-file-label Прикрепить ТЗ, спецификацию или опросный лист
+													button.b24-form-control-file-remove(type='button', aria-label='Удалить прикреплённый файл')
+														+svgIcon('delete')
+
+										.b24-form-field.b24-form-field-text
+											.b24-form-control-container
+												.b24-form-control-label
+													span.b24-form-control-label-name Комментарий к файлу или краткое описание задачи
+												textarea.b24-form-control.b24-form-control-textarea(name='COMMENTS', placeholder=' ')
+
+										.b24-form-field.b24-form-field-agreement
+											label.b24-form-field-agreement-label
+												.b24-form-control-agreement
+													.b24-form-control-agreement-checkbox
+														input.b24-form-control-agreement-checkbox-input(type='checkbox', name='AGREEMENT')
+														span.b24-form-control-agreement-checkbox-square
+													.b24-form-control-agreement-text
+														| Нажимая кнопку, вы соглашаетесь с
+														a(href='#') политикой конфиденциальности
+
+								.b24-form-btn-block
+									.b24-form-btn-container
+										button.b24-form-btn.b24-form-btn-shadow(type='submit')
+											span.b24-form-btn-icon
+												+svgIcon('mail')
+											span.b24-form-btn-text Получить расчёт
+
+				pre.form-catalog__snippet
+					code
+						| .ss-b24-form.ss-b24-form--light
+						|     .b24-form
+						|         .b24-form-wrapper
+						|             .b24-form-content
+						|                 .b24-form-padding-side
+						|                     .b24-form-field.b24-form-field-string
+						|                         .b24-form-control-container
+						|                             .b24-form-control-label
+						|                                 span.b24-form-control-label-name Ваше имя
+						|                                 span.b24-form-control-label-required *
+						|                             input.b24-form-control(type='text', name='NAME', placeholder=' ')
+						|                     .b24-form-field.b24-form-field-phone
+						|                         ... (аналогично, name='PHONE')
+						|                     .b24-form-field.b24-form-field-email  ... (name='EMAIL')
+						|                     .b24-form-field.b24-form-field-file   ... (label+input[type=file])
+						|                     .b24-form-field.b24-form-field-text   ... (textarea)
+						|                     .b24-form-field.b24-form-field-agreement ... (чекбокс согласия)
+						|             .b24-form-btn-block
+						|                 .b24-form-btn-container
+						|                     button.b24-form-btn(type='submit') Получить расчёт
