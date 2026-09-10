@@ -6,23 +6,23 @@
 (function () {
 	'use strict';
 
-	if (typeof Swiper === 'undefined') return;
-
 	var els = document.querySelectorAll('.js-experience-slider');
 	if (!els.length) return;
 
-	els.forEach(function (el) {
-		new Swiper(el, {
-			slidesPerView: 1,
-			spaceBetween: 10,
-			speed: 800,
-			pagination: {
-				el: el.querySelector('.swiper-pagination'),
-				clickable: true
-			},
-			breakpoints: {
-				1024: { slidesPerView: 3, spaceBetween: 30 }
-			}
+	whenSwiperReady(function () {
+		els.forEach(function (el) {
+			new Swiper(el, {
+				slidesPerView: 1,
+				spaceBetween: 10,
+				speed: 800,
+				pagination: {
+					el: el.querySelector('.swiper-pagination'),
+					clickable: true
+				},
+				breakpoints: {
+					1024: { slidesPerView: 3, spaceBetween: 30 }
+				}
+			});
 		});
 	});
 })();

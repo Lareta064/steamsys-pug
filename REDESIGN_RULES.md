@@ -657,3 +657,43 @@ picture
 - коробка компонента сохраняет заданные габариты;
 - соседи по сетке не съезжают;
 - выбранный `object-fit` даёт визуально приемлемый результат на всех трёх пропорциях.
+
+## Производительность JS — ленивая загрузка Swiper
+
+Swiper.js (~140 КБ) — самая тяжёлая внешняя зависимость на сайте. Он **не грузится на первом рендере** публичной страницы, а подтягивается только когда первый `.swiper` приближается к вьюпорту. Убирает предупреждение «Reduce unused JavaScript» в PageSpeed и снижает Total Blocking Time на мобилке.
+
+### Как это устроено
+
+- **`src/js/00-swiper-loader.js`** — определяет `window.whenSwiperReady(cb)` и через `IntersectionObserver` (rootMargin 200px) ждёт, пока первый элемент `.swiper` приблизится к вьюпорту. Тогда динамически добавляет `<script src="./libs/swiper/swiper.js">`. После загрузки — разбирает очередь колбэков.
+- **Инициализаторы (`src/js/*-swiper.js`)** обёрнуты в `whenSwiperReady(function() { ... })` — тело выполняется только когда Swiper реально доступен.
+- **URL swiper.js** лоадер вычисляет из уже загруженного `<link>` на `swiper.min.css` — так работает и для `build/*.html`, и для `build/ui/*.html` без хардкода пути.
+- **CSS Swiper** (`libs/swiper/swiper.min.css`) грузится обычным `<link>` в `<head>` — он маленький (~18 КБ) и нужен сразу, иначе слайдер мигнёт неоформленным.
+- **Только для public-сайта** (`layout.pug`). В UI-каталоге (`layout-ui.pug`) Swiper по-прежнему грузится сразу через `<script>` — там PageSpeed не важен, а eager-загрузка даёт мгновенно работающие слайдеры.
+
+### Как добавить новый слайдер
+
+Разметка — обычный `.swiper` + класс-триггер (напр. `.js-my-slider`). Инициализатор — новый файл `src/js/my-slider.js` по шаблону:
+
+```js
+(function () {
+    'use strict';
+    var els = document.querySelectorAll('.js-my-slider');
+    if (!els.length) return;
+    whenSwiperReady(function () {
+        els.forEach(function (el) {
+            new Swiper(el, { /* config */ });
+        });
+    });
+})();
+```
+
+Лоадер сам увидит `.swiper` элемент, дождётся приближения к вьюпорту, загрузит Swiper и вызовет колбэк.
+
+### Как откатить на eager-загрузку (если что-то сломалось)
+
+1. В `src/pug/layouts/layout.pug` перед `script(src="./js/main.js")` вернуть строку:
+   ```pug
+   script(defer src="./libs/swiper/swiper.js")
+   ```
+2. Инициализаторы (`src/js/*-swiper.js`) переписывать не нужно — при eager-загрузке `Swiper` определён к моменту вызова `whenSwiperReady()`, и колбэки выполняются сразу.
+3. Файл `src/js/00-swiper-loader.js` можно удалить или оставить: при eager-загрузке он сам себя выключает (видит определённый `Swiper` и сразу выходит, не создавая observer).

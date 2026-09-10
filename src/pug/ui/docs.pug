@@ -19,6 +19,7 @@ block content
 					li: a(href='#breakpoints') Точки перелома
 					li: a(href='#page-structure') Структура страницы и отступы между секциями
 					li: a(href='#modals') Модальные окна
+					li: a(href='#js-perf') Ленивая загрузка Swiper
 					li: a(href='#catalog') Каталог компонентов
 					li: a(href='#docs') Смежные документы
 
@@ -544,6 +545,108 @@ block content
 						|  в шапке (desktop + мобильное меню).
 					li Первичная CTA hero-секции.
 					li Кнопка «Получить КП» в footer'е (правый блок с контактами).
+
+			//- ===== Ленивая загрузка Swiper =====
+			section.docs-catalog__section#js-perf
+				h3.docs-catalog__section-title Ленивая загрузка Swiper
+
+				p.docs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Swiper.js (~140 КБ) — самая тяжёлая внешняя зависимость. Он
+					| не грузится на первом рендере, а подтягивается только когда
+					| первый слайдер приближается к вьюпорту. Убирает предупреждение
+					| «Reduce unused JavaScript» и снижает Total Blocking Time на
+					| mobile PageSpeed.
+
+				h4.docs-catalog__subtitle Как это устроено
+				ul
+					li
+						code src/js/00-swiper-loader.js
+						|  — определяет
+						code window.whenSwiperReady(cb)
+						|  и через
+						code IntersectionObserver
+						|  ждёт, пока первый
+						code .swiper
+						|  приблизится к вьюпорту (rootMargin 200px). Как только видит — динамически добавляет
+						code &lt;script src="./libs/swiper/swiper.js"&gt;
+						| . После загрузки — разбирает очередь колбэков.
+					li Инициализаторы (
+						code src/js/*-swiper.js
+						| ) обёрнуты в
+						code whenSwiperReady(function() { ... })
+						|  — тело выполняется только когда Swiper реально доступен.
+					li URL swiper.js лоадер вычисляет из уже загруженного
+						code &lt;link&gt;
+						|  на swiper.min.css — так работает и для
+						code build/*.html
+						| , и для
+						code build/ui/*.html
+						|  без хардкода пути.
+					li CSS Swiper (
+						code libs/swiper/swiper.min.css
+						| ) грузится обычным
+						code &lt;link&gt;
+						|  в head — он маленький (~18 КБ) и нужен сразу, иначе слайдер мигнёт неоформленным при инициализации.
+					li Логика активна только на public-сайте (
+						code layout.pug
+						| ). В UI-каталоге (
+						code layout-ui.pug
+						| ) Swiper по-прежнему грузится сразу через
+						code &lt;script&gt;
+						|  — там PageSpeed не важен, а eager-загрузка даёт мгновенно работающие слайдеры.
+
+				h4.docs-catalog__subtitle Как добавить новый слайдер
+				ol
+					li Разметка: обычный
+						code .swiper
+						|  + класс-триггер (напр.
+						code .js-my-slider
+						| ), как у остальных.
+					li Создать
+						code src/js/my-slider.js
+						|  по шаблону:
+
+				pre.docs-catalog__code
+					code
+						| (function () {
+						|     'use strict';
+						|     var els = document.querySelectorAll('.js-my-slider');
+						|     if (!els.length) return;
+						|     whenSwiperReady(function () {
+						|         els.forEach(function (el) {
+						|             new Swiper(el, { /* config */ });
+						|         });
+						|     });
+						| })();
+
+				p Всё — лоадер сам увидит
+					code .swiper
+					|  элемент, дождётся приближения к вьюпорту, загрузит Swiper и вызовет колбэк.
+
+				h4.docs-catalog__subtitle Как откатить на обычную (eager) загрузку
+				p Если ленивая загрузка сломалась или мешает — быстро вернуть как было:
+				ol
+					li В
+						code src/pug/layouts/layout.pug
+						|  вернуть строчку перед
+						code script(src="./js/main.js")
+						| :
+
+				pre.docs-catalog__code
+					code
+						| script(defer src="./libs/swiper/swiper.js")
+
+				ol(start='2')
+					li Инициализаторы (
+						code src/js/*-swiper.js
+						| ) переписывать не нужно — при eager-загрузке Swiper определён к моменту вызова
+						code whenSwiperReady()
+						| , и колбэки выполняются сразу.
+					li Файл
+						code src/js/00-swiper-loader.js
+						|  можно удалить или оставить: при eager-загрузке он сам себя выключает (видит определённый
+						code Swiper
+						|  и сразу выходит, не создавая observer).
 
 			//- ===== Каталог компонентов =====
 			section.docs-catalog__section#catalog

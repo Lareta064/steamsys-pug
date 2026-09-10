@@ -12,8 +12,6 @@
 (function () {
 	'use strict';
 
-	if (typeof Swiper === 'undefined') return;
-
 	var els = document.querySelectorAll('.js-tasks-slider');
 	if (!els.length) return;
 
@@ -24,14 +22,20 @@
 
 		function sync() {
 			if (mql.matches && !instance) {
-				instance = new Swiper(el, {
-					slidesPerView: 'auto',
-					spaceBetween: 10,
-					speed: 800,
-					pagination: {
-						el: el.querySelector('.swiper-pagination'),
-						clickable: true
-					}
+				// Swiper может ещё не загрузиться (lazy-loader ждёт скролла) —
+				// откладываем создание инстанса до его готовности.
+				whenSwiperReady(function () {
+					// Guard: matchMedia могла успеть переключиться, пока грузили.
+					if (!mql.matches || instance) return;
+					instance = new Swiper(el, {
+						slidesPerView: 'auto',
+						spaceBetween: 10,
+						speed: 800,
+						pagination: {
+							el: el.querySelector('.swiper-pagination'),
+							clickable: true
+						}
+					});
 				});
 			} else if (!mql.matches && instance) {
 				instance.destroy(true, true);

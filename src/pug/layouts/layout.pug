@@ -12,6 +12,14 @@ html(lang="ru")
 		//убрать перевод цифр в номер телефона на ios  и safari 
 		
 		meta(name="format-detection" content="telephone=no")
+		//- preload критических шрифтов (Regular 400 для body/desc + SemiBold 600
+		//- для h1-h4). Браузер начинает качать шрифты параллельно с HTML,
+		//- не дожидаясь парсинга CSS — экономия ~100-300ms на LCP.
+		//- crossorigin обязателен: без него браузер качает шрифт дважды.
+		//- Medium 500 (kicker) и Bold 700 не preload'им — они не above-the-fold
+		//- или используются точечно; подтянутся штатно через font-display: swap.
+		link(rel='preload' as='font' type='font/woff2' href=`${basePath}fonts/Inter-Regular.woff2` crossorigin)
+		link(rel='preload' as='font' type='font/woff2' href=`${basePath}fonts/Inter-SemiBold.woff2` crossorigin)
 		//favicon
 		//- SVG первый + sizes='any' — Chrome предпочтёт векторную (в ней сидит
 		//- prefers-color-scheme для dark-mode). Без sizes='any' Chrome берёт
@@ -36,5 +44,7 @@ html(lang="ru")
 		
 		block content
 
-		script(src="./libs/swiper/swiper.js")
+		//- Swiper грузится лениво из src/js/00-swiper-loader.js
+		//- (при приближении первого .swiper к вьюпорту). Убирает ~140 КБ
+		//- из «unused JavaScript» на первом рендере — важно для mobile PageSpeed.
 		script(src="./js/main.js")
