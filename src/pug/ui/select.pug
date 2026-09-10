@@ -1,0 +1,233 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Select (.ss-select)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Select (.ss-select)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Кастомный dropdown-select. Нативный
+				code &lt;select&gt;
+				|  не даёт стилизовать список опций, поэтому реализовано на
+				code button
+				|  +
+				code ul[role="listbox"]
+				| . Стили —
+				code src/scss/base/_select.scss
+				| , логика —
+				code src/js/select.js
+				| .
+				br
+				| Все элементы с атрибутом
+				code data-select
+				|  на корне подхватываются JS автоматически. Открытое состояние синхронизировано с
+				code aria-expanded="true"
+				|  на
+				code .ss-select__control
+				|  — CSS слушает.
+
+			//- ===== Choice (placeholder) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Choice — placeholder
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Ничего не выбрано. Значение с модификатором
+					code .ss-select__value--placeholder
+					|  — серый цвет
+					code --secondary1
+					| .
+
+				.breadcrumbs-catalog__demo(style='max-width: 400px;')
+					.ss-select
+						button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+							span.ss-select__value.ss-select__value--placeholder Choice
+							span.ss-select__chevron
+								+svgIcon('chevron-down')
+						ul.ss-select__list(role='listbox', hidden)
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='1') Description
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='2') Description
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='3') Description
+
+			//- ===== Filled =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Filled — значение выбрано
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| У значения нет модификатора
+					code --placeholder
+					|  — цвет
+					code --primary
+					| .
+
+				.breadcrumbs-catalog__demo(style='max-width: 400px;')
+					.ss-select
+						button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+							span.ss-select__value Filled
+							span.ss-select__chevron
+								+svgIcon('chevron-down')
+						ul.ss-select__list(role='listbox', hidden)
+							li.ss-select__option(role='option', aria-selected='true', tabindex='-1', data-value='1') Filled
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='2') Description
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='3') Description
+
+			//- ===== Открытое состояние =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Открытое состояние
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					|
+					code aria-expanded="true"
+					|  на control (CSS ловит и разворачивает chevron через
+					code transform: rotate(180deg)
+					| ). У списка снят
+					code hidden
+					| . Первая опция —
+					code aria-selected="true"
+					|  (акцент
+					code --accent1
+					|  + bold).
+
+				.breadcrumbs-catalog__demo(style='max-width: 400px; padding-bottom: 260px;')
+					.ss-select
+						button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='true')
+							span.ss-select__value Choice
+							span.ss-select__chevron
+								+svgIcon('chevron-down')
+						ul.ss-select__list(role='listbox')
+							li.ss-select__option(role='option', aria-selected='true', tabindex='-1', data-value='1') Description
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='2') Description
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='3') Description
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='4') Description
+
+			//- ===== Живой пример =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Живой пример (сортировка статей)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					|
+					code data-select
+					|  на корне — крючок для JS. Кликни по контролу, выбери значение — JS обновит текст и снимет
+					code --placeholder
+					| . Клик мимо / Escape закрывают. Выбранное значение пишется в
+					code data-value
+					|  на корневом
+					code .ss-select
+					| .
+
+				.breadcrumbs-catalog__demo(style='max-width: 400px; padding-bottom: 260px;')
+					.ss-select(data-select)
+						button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+							span.ss-select__value.ss-select__value--placeholder Сортировать
+							span.ss-select__chevron
+								+svgIcon('chevron-down')
+						ul.ss-select__list(role='listbox', hidden)
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='date-desc') По дате — новые
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='date-asc') По дате — старые
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='popular') По популярности
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='section') По разделу
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-select(data-select)
+						|     button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+						|         span.ss-select__value.ss-select__value--placeholder Сортировать
+						|         span.ss-select__chevron
+						|             +svgIcon('chevron-down')
+						|     ul.ss-select__list(role='listbox', hidden)
+						|         li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='date-desc') По дате — новые
+						|         li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='popular') По популярности
+
+			//- ===== С внешним лейблом =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title С внешним лейблом (.ss-select-labeled)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Обёртка
+					code .ss-select-labeled
+					|  ставит лейбл слева от компактного select'а. Используется в toolbar'e над списком статей — «Сортировать: [По дате — новые ▾]». Layout держится на обёртке, внутренний
+					code .ss-select
+					|  работает как обычно (JS подхватит по
+					code data-select
+					| ).
+					br
+					| Control ужимается до 44px (вместо 56px базового) — под toolbar-контекст.
+
+				.breadcrumbs-catalog__demo(style='padding-bottom: 260px;')
+					.ss-select-labeled
+						span.ss-select-labeled__label Сортировать:
+						.ss-select(data-select)
+							button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+								span.ss-select__value По дате — новые
+								span.ss-select__chevron
+									+svgIcon('chevron-down')
+							ul.ss-select__list(role='listbox', hidden)
+								li.ss-select__option(role='option', aria-selected='true',  tabindex='-1', data-value='date-desc') По дате — новые
+								li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='date-asc') По дате — старые
+								li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='popular') По популярности
+								li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='section') По разделу
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-select-labeled
+						|     span.ss-select-labeled__label Сортировать:
+						|     .ss-select(data-select)
+						|         button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+						|             span.ss-select__value По дате — новые
+						|             span.ss-select__chevron
+						|                 +svgIcon('chevron-down')
+						|         ul.ss-select__list(role='listbox', hidden)
+						|             li.ss-select__option(role='option', aria-selected='true',  tabindex='-1', data-value='date-desc') По дате — новые
+						|             li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='popular') По популярности
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-select
+						|  — корневая обёртка,
+						code position: relative
+						|  (под ней абсолютно позиционируется список).
+					li
+						code .ss-select__control
+						|  — 56px высота, радиус 10, border
+						code --secondary1
+						| . Hover / open — border
+						code --primary
+						| . Focus-visible — outline
+						code --accent1
+						| .
+					li
+						code .ss-select__value
+						|  — текст значения. Модификатор
+						code --placeholder
+						|  красит его в
+						code --secondary1
+						|  (placeholder-state).
+					li
+						code .ss-select__chevron
+						|  — иконка chevron-down 20×20. При
+						code aria-expanded="true"
+						|  разворачивается через
+						code transform: rotate(180deg)
+						| .
+					li
+						code .ss-select__list
+						|  — абсолютно позиционированный
+						code &lt;ul&gt;
+						|  под контролом.
+						code max-height: 280
+						|  +
+						code overflow-y: auto
+						|  — длинный список скроллится.
+					li
+						code .ss-select__option
+						|  — 12/20 паддинги. Hover — bg
+						code --secondary3
+						| . Selected (
+						code aria-selected="true"
+						| ) — цвет
+						code --accent1
+						| , bold.
+					li
+						strong Клавиатура:
+						|  Escape закрывает открытый select и возвращает фокус на control. Стрелочки + Enter не реализованы — если понадобится, добавим.
