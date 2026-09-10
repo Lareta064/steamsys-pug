@@ -1,0 +1,78 @@
+extends ../layouts/layout-ui-sections.pug
+
+block variables
+	-var title = "Bitrix-форма — светлая тема";
+
+block content
+	//- Превью светлого варианта .ss-b24-form--light.
+	//- Форма живёт на белом фоне; --b24-label-bg = --white, поэтому
+	//- подложка плавающего label корректно закрывает линию бордера.
+	//- При добавлении секции с подобной формой в проекте — оборачиваем
+	//- .b24-form в .ss-b24-form.ss-b24-form--light, и стили подтягиваются.
+	section.ss-section.ss-b24-form-preview-light
+		.ss-container.ss-wrapper
+			p.ss-kicker.ss-txt-accent1 Bitrix-форма
+			h2.ss-h2.ss-b24-form-preview-light__h2 Светлая тема (.ss-b24-form--light)
+
+			.ss-b24-form-preview-light__box
+				p.ss-b24-form-preview-light__title Заполните форму — инженер подберёт оптимальное решение
+
+				//- Мок битрикс-DOM с модификатором --light
+				.ss-b24-form.ss-b24-form--light
+					.b24-form
+						.b24-form-wrapper
+							.b24-form-content
+								.b24-form-padding-side
+
+									.b24-form-field.b24-form-field-string
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Ваше имя
+												span.b24-form-control-label-required *
+											input.b24-form-control.b24-form-control-string(type='text', name='NAME', placeholder=' ')
+
+									.b24-form-field.b24-form-field-phone
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Телефон
+												span.b24-form-control-label-required *
+											input.b24-form-control.b24-form-control-string(type='tel', name='PHONE', placeholder=' ')
+
+									.b24-form-field.b24-form-field-email
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Email для отправки КП
+											input.b24-form-control.b24-form-control-string(type='email', name='EMAIL', placeholder=' ')
+
+									.b24-form-field.b24-form-field-file
+										.b24-form-control-container
+											label.b24-form-control-file
+												input.b24-form-control-file-input(type='file', name='FILE')
+												span.b24-form-control-file-icon
+													+svgIcon('clip')
+												span.b24-form-control-file-label Прикрепить ТЗ, спецификацию или опросный лист
+												button.b24-form-control-file-remove(type='button', aria-label='Удалить прикреплённый файл')
+													+svgIcon('delete')
+
+									.b24-form-field.b24-form-field-text
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Комментарий к файлу или краткое описание задачи
+											textarea.b24-form-control.b24-form-control-textarea(name='COMMENTS', placeholder=' ')
+
+									.b24-form-field.b24-form-field-agreement
+										label.b24-form-field-agreement-label
+											.b24-form-control-agreement
+												.b24-form-control-agreement-checkbox
+													input.b24-form-control-agreement-checkbox-input(type='checkbox', name='AGREEMENT')
+													span.b24-form-control-agreement-checkbox-square
+												.b24-form-control-agreement-text
+													| Нажимая кнопку, вы соглашаетесь с
+													a(href='#') политикой конфиденциальности
+
+							.b24-form-btn-block
+								.b24-form-btn-container
+									button.b24-form-btn.b24-form-btn-shadow(type='submit')
+										span.b24-form-btn-icon
+											+svgIcon('mail')
+										span.b24-form-btn-text Получить расчёт

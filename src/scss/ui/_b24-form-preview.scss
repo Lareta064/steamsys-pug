@@ -1,0 +1,50 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// Стили ТОЛЬКО для UI-каталожной страницы превью светлой темы
+// b24-формы (build/ui/b24-form-light.html).
+// В боевых страницах не используются — самостоятельно ни к чему
+// не крепятся, чисто визуальный контейнер для демо.
+// ==============================================================
+
+.ss-b24-form-preview-light__h2 {
+	margin: 0 0 40px;
+	color: var(--primary);
+}
+
+.ss-b24-form-preview-light__box {
+	box-sizing: border-box;
+	max-width: 660px;
+	border: 1px solid var(--primary);
+	border-radius: 10px;
+	padding: 60px;
+	background: var(--white);
+
+	@include down($xxxl) { padding: 40px; }
+	@include down($xxl)  { padding: 30px; }
+	@include down($md)   { padding: 20px; }
+}
+
+.ss-b24-form-preview-light__title {
+	margin: 0 0 40px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	@include down($md) {
+		margin-bottom: 20px;
+	}
+}
+
+
+// --------------------------------------------------------------
+// .form-catalog__demo--b24-light — модификатор демо-контейнера
+// в UI-каталоге (build/ui/form.html). Задаёт явный белый фон,
+// чтобы --b24-label-bg (белый в --light теме) корректно закрывал
+// линию бордера у плавающего label'а.
+// --------------------------------------------------------------
+.form-catalog__demo--b24-light {
+	background: var(--white);
+}

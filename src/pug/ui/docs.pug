@@ -19,6 +19,7 @@ block content
 					li: a(href='#breakpoints') Точки перелома
 					li: a(href='#page-structure') Структура страницы и отступы между секциями
 					li: a(href='#modals') Модальные окна
+					li: a(href='#bitrix-form') Битрикс-форма (Bitrix24 CRM)
 					li: a(href='#js-perf') Ленивая загрузка Swiper
 					li: a(href='#catalog') Каталог компонентов
 					li: a(href='#docs') Смежные документы
@@ -545,6 +546,502 @@ block content
 						|  в шапке (desktop + мобильное меню).
 					li Первичная CTA hero-секции.
 					li Кнопка «Получить КП» в footer'е (правый блок с контактами).
+
+			//- ===== Битрикс-форма =====
+			section.docs-catalog__section#bitrix-form
+				h3.docs-catalog__section-title Битрикс-форма (Bitrix24 CRM)
+
+				p
+					| Формы обратной связи (секция «Обратная связь» и модалка «Получить КП») в проде заменяются на CRM-виджет Bitrix24, встраиваемый одним тегом
+					code &lt;script data-b24-form="…"&gt;
+					| . Битрикс сам рендерит DOM на месте скрипта с префиксом
+					code .b24-form-*
+					| . Нативная разметка формы в этом случае не редактируется — мы только стилизуем то, что вставил битрикс.
+
+				p
+					| Чтобы дизайн не «плыл» на этапе интеграции, в проекте живёт
+					strong мок этой формы
+					|  — статичный HTML-двойник DOM'а битрикса, полностью соответствующий по классам. Стили пишутся один раз и работают одинаково и на моке, и на реальной форме.
+
+				h4.docs-catalog__subtitle Обёртка .ss-b24-form + темовые модификаторы
+				p
+					| Все стили b24-формы объявлены внутри нашей обёртки
+					code .ss-b24-form
+					| . Это даёт две вещи: изоляцию наших override'ов от битрикс-CSS (не воюем со специфичностью) и якорь для темовых модификаторов.
+
+				p Разметка всегда такая:
+				pre.docs-catalog__code
+					code
+						| .ss-b24-form(.ss-b24-form--light)
+						|     .b24-form                    ← сюда битрикс-скрипт вставит DOM
+						|         .b24-form-wrapper ...
+
+				p
+					| При интеграции внутри
+					code .ss-b24-form
+					|  окажется одна строчка со скриптом:
+				pre.docs-catalog__code
+					code
+						| .ss-b24-form(.ss-b24-form--light)
+						|     script(data-b24-form='click/N/HASH' data-skip-moving='true')
+
+				p Битрикс отрендерит .b24-form на месте скрипта — обёртка останется, модификатор темы продолжит работать.
+
+				h4.docs-catalog__subtitle Темы через CSS-переменные
+				p
+					| В
+					code _b24-form.scss
+					|  все цвета — через локальные переменные
+					code --b24-*
+					| , объявленные на
+					code .ss-b24-form
+					| . Тема = модификатор, который переопределяет эти переменные. Селекторы
+					code .b24-form-*
+					|  писать заново НЕ нужно.
+
+				p Дефолтная (тёмная) тема — на самом
+					code .ss-b24-form
+					| . Светлая — на
+					code .ss-b24-form--light
+					| . Добавить свою тему = 5 строк с новым модификатором.
+
+				table.docs-catalog__table
+					thead
+						tr
+							th Переменная
+							th Назначение
+							th Дефолт (тёмная)
+							th --light (светлая)
+					tbody
+						tr
+							td: code --b24-border
+							td Рамка полей в покое
+							td
+								code var(--secondary)
+							td
+								code var(--primary)
+						tr
+							td: code --b24-border-focus
+							td Рамка при :focus / ошибке
+							td
+								code var(--accent3)
+							td
+								code var(--accent1)
+						tr
+							td: code --b24-text
+							td Цвет введённого текста
+							td
+								code var(--white)
+							td
+								code var(--primary)
+						tr
+							td: code --b24-text-muted
+							td Приглушённый текст (метка файла, remove)
+							td
+								code var(--secondary2)
+							td
+								code var(--primary)
+						tr
+							td: code --b24-label
+							td Плавающий label + текст согласия
+							td
+								code var(--secondary)
+							td
+								code var(--primary)
+						tr
+							td: code --b24-label-bg
+							td Подложка под плавающий label (закрывает линию бордера — ДОЛЖНА совпадать с фоном родителя)
+							td
+								code var(--primary1)
+							td
+								code var(--white)
+						tr
+							td: code --b24-required
+							td Красная звёздочка required
+							td
+								code var(--accent3)
+							td
+								code var(--accent1)
+						tr
+							td: code --b24-accent
+							td Checked-состояние чекбокса + фокус-outline
+							td
+								code var(--accent3)
+							td
+								code var(--accent1)
+						tr
+							td: code --b24-check
+							td Галочка внутри залитого чекбокса
+							td
+								code var(--white)
+							td
+								code var(--white)
+						tr
+							td: code --b24-link
+							td Ссылка в тексте согласия
+							td
+								code var(--accent3)
+							td
+								code var(--accent1)
+						tr
+							td: code --b24-link-hover
+							td Hover ссылки
+							td
+								code var(--white)
+							td
+								code var(--primary)
+
+				.docs-catalog__note
+					p
+						strong Про
+						code --b24-label-bg
+						| . Подложка под плавающий label должна совпадать с фактическим фоном ПОД инпутом (то, что видно через прозрачный
+						code background: transparent
+						|  контрола). Если поставили b24-форму на нестандартный фон — переопределяем именно эту переменную точечно на инстансе:
+					pre.docs-catalog__code
+						code
+							| .ss-b24-form.ss-b24-form--light {
+							|     --b24-label-bg: var(--secondary2); // например, серый фон секции
+							| }
+
+				p
+					strong Что НЕ темизируется:
+					|  submit-кнопка (
+					code .b24-form-btn
+					| ). Она остаётся CTA брендового цвета (
+					code --accent1
+					| ) в любой теме — так работает вся сайтовая система кнопок.
+
+				h4.docs-catalog__subtitle Два места с формой в проекте
+				p
+					| Битрикс-форма живёт в двух местах на главной:
+				ul
+					li
+						strong Секция «Обратная связь» —
+						code src/pug/sections/_section-feedback-b24.pug
+						| . Внешний бокс (
+						code .ss-section-feedback__form-box
+						| ) — наш, внутри —
+						code .ss-b24-form &gt; .b24-form
+						| .
+					li
+						strong Модалка «Получить КП» —
+						code src/pug/sections/_modal-request-b24.pug
+						| , открывается по
+						code data-modal="request-b24"
+						|  (триггеры уже проставлены в
+						code _header.pug
+						| ,
+						code _section-hero.pug
+						| ,
+						code _footer.pug
+						| ).
+				p
+					| Старые формы (
+					code _section-feedback.pug
+					| ,
+					code _modal-request.pug
+					| ) остались в
+					code sections/
+					|  — но подключены только на UI-каталожных страницах
+					code /ui/section-feedback.html
+					|  как reference. На главной их нет.
+
+				h4.docs-catalog__subtitle Где смотреть в UI-каталоге
+				ul
+					li
+						code /ui/section-feedback-b24.html
+						|  — секция целиком (тёмная тема).
+					li
+						code /ui/modal-request-b24.html
+						|  — страница с кнопкой, открывающей b24-модалку (тёмная тема).
+					li
+						code /ui/b24-form-light.html
+						|  — превью светлой темы (
+						code .ss-b24-form--light
+						| ) на белом фоне.
+					li
+						code src/scss/base/_b24-form.scss
+						|  — единственный файл со стилями под все
+						code .b24-form-*
+						|  классы. Работают и с моком, и с реальным скриптом. Стилизацию b24-формы размазывать по другим файлам нельзя — всё сюда.
+
+				h4.docs-catalog__subtitle Раскладка полей: имя + телефон в ряд
+				p
+					| Битрикс над полями обёрток-«рядов» не рендерит — все
+					code .b24-form-field
+					|  идут одноуровневыми детьми
+					code .b24-form-padding-side
+					| . Чтобы получить «имя + телефон в одну строку», как в макете, поставили grid на родителе:
+
+				pre.docs-catalog__code
+					code
+						| .b24-form-padding-side {
+						|     display: grid;
+						|     grid-template-columns: 1fr 1fr;
+						|     column-gap: 20px; row-gap: 20px;
+						| }
+						| // Все поля начиная с третьего — на обе колонки.
+						| .b24-form-padding-side &gt; .b24-form-field:nth-child(n+3) {
+						|     grid-column: 1 / -1;
+						| }
+						| // На мобилке всё сворачивается в один столбец.
+						| @include down($md) {
+						|     .b24-form-padding-side { grid-template-columns: 1fr; row-gap: 10px; }
+						| }
+
+				.docs-catalog__note
+					p
+						strong Осторожно с порядком полей.
+						|  Раскладка опирается на позицию:
+						code :nth-child(n+3)
+						|  = «третье и дальше». Порядок в дефолтной битрикс-разметке:
+						strong  NAME (1), PHONE (2), EMAIL (3), FILE (4), COMMENTS (5), AGREEMENT (6)
+						| . Если в CRM-админке кто-то переставит поля — раскладка поедет.
+					p
+						| Устойчивый (но чуть более многословный) вариант — таргетить по именному классу поля:
+						code .b24-form-field-string
+						| ,
+						code .b24-form-field-phone
+						|  и т.д. Их битрикс проставляет автоматически из типа поля. Точные имена сверить в DevTools при интеграции.
+
+				h4.docs-catalog__subtitle Как заменить мок на реальную форму (для Bitrix-разработчика)
+				ol
+					li В админке Bitrix24 → CRM → «CRM-формы» — создать/выбрать форму, скопировать embed-код (
+						code &lt;script data-b24-form="click/N/HASH"&gt;
+						| ).
+					li Открыть соответствующий pug-файл (
+						code _section-feedback-b24.pug
+						|  или
+						code _modal-request-b24.pug
+						| ) и заменить весь блок
+						code .b24-form
+						| … (от открывающего до закрывающего) на одну строку со скриптом:
+				pre.docs-catalog__code
+					code
+						| script(data-b24-form='click/N/HASH' data-skip-moving='true')
+				ol(start='3')
+					li Для модалки — переименовать
+						code id="modal-request-b24"
+						|  обратно в
+						code id="modal-request"
+						| , тогда существующие триггеры (
+						code data-modal="request"
+						|  в шапке, hero, футере) сразу начнут открывать b24-версию. Старый
+						code _modal-request.pug
+						|  из
+						code home.pug
+						|  убрать.
+					li Пересобрать (
+						code npm run build
+						| ). Битрикс сам вставит DOM на место скрипта — классы совпадают с теми, что уже стилизованы, ничего дополнительно делать не нужно.
+
+				h4.docs-catalog__subtitle Класс-структура битрикса
+				p Основные классы, которые генерирует скрипт:
+
+				table.docs-catalog__table
+					thead
+						tr
+							th Класс
+							th Назначение
+					tbody
+						tr
+							td: code .b24-form
+							td Корневой контейнер виджета
+						tr
+							td: code .b24-form-wrapper / -content / -padding-side
+							td Внутренние обёртки (у нас — прозрачные, без своих паддингов)
+						tr
+							td: code .b24-form-header / -header-title
+							td Заголовок формы (у нас скрыт — свой заголовок над формой рисует
+								code .ss-section-feedback__form-title
+								| )
+						tr
+							td: code .b24-form-field
+							td Обёртка одного поля
+						tr
+							td: code .b24-form-control-container
+							td Прямой родитель label + input. На него битрикс вешает состояния (см. ниже)
+						tr
+							td: code .b24-form-control-label
+							td Плавающий label поля
+						tr
+							td: code .b24-form-control
+							td Сам
+								code &lt;input&gt;
+								|  /
+								code &lt;textarea&gt;
+						tr
+							td: code .b24-form-control-textarea
+							td Модификатор для
+								code &lt;textarea&gt;
+						tr
+							td: code .b24-form-control-file / -input / -icon / -label
+							td Файловое поле (label-кнопка + скрытый input)
+						tr
+							td: code .b24-form-field-agreement + .b24-form-control-agreement-*
+							td Чекбокс согласия (политика конфиденциальности)
+						tr
+							td: code .b24-form-btn-block / .b24-form-btn
+							td Submit-кнопка
+						tr
+							td: code .b24-form-sign
+							td Подвал «Powered by Bitrix24» (у нас скрыт)
+
+				h4.docs-catalog__subtitle Классы состояний (это важно)
+				p
+					| Не мы, а сам битрикс во время выполнения вешает эти классы на
+					code .b24-form-control-container
+					| :
+				ul
+					li
+						code .b24-form-control-focus
+						|  — поле в фокусе
+					li
+						code .b24-form-control-not-empty
+						|  — в поле есть значение
+					li
+						code .b24-form-control-alert
+						|  — ошибка валидации
+				p
+					| Стили в
+					code _b24-form.scss
+					|  ловят эти классы для реальной формы. Дополнительно ловим
+					code :focus-within
+					|  и
+					code :has(.b24-form-control:not(:placeholder-shown))
+					|  — чтобы мок работал и без JS битрикса. Из-за этого у инпутов в моке стоит
+					code placeholder=" "
+					|  (пробел): без него
+					code :placeholder-shown
+					|  не отличает пустое от заполненного.
+
+				h4.docs-catalog__subtitle Три правила, чтобы не сломать битрикс
+				.docs-catalog__note
+					p
+						strong 1. Не удалять и не заменять нативные
+						code &lt;input&gt;
+						| /
+						code &lt;textarea&gt;
+						| /
+						code &lt;input type="checkbox"&gt;
+						| /
+						code &lt;input type="file"&gt;
+						| . Битрикс читает значения через
+						code input.value
+						| ,
+						code input.checked
+						| ,
+						code input.files
+						| . Валидатор ищет реальные form-элементы. Никакой подмены на
+						code &lt;div&gt;
+						| .
+
+					p
+						strong 2. Не прятать нативный input через
+						code display: none
+						| . Это выкидывает элемент из tab-order и ломает скринридеры / автозаполнение / некоторые валидаторы. Прячем «visually hidden»-техникой:
+					pre.docs-catalog__code
+						code
+							| position: absolute;
+							| width: 1px; height: 1px;
+							| padding: 0; margin: -1px;
+							| overflow: hidden;
+							| clip: rect(0 0 0 0);
+							| white-space: nowrap;
+							| border: 0;
+
+					p
+						strong 3. Не трогать атрибуты
+						code name
+						|  на инпутах. По ним битрикс мапит поля в лиды CRM. Изменил
+						code name="EMAIL"
+						|  на что-то другое — поле не попадёт в CRM.
+
+				h4.docs-catalog__subtitle Кастомная стилизация file input и чекбокса
+				p Обычно
+					code &lt;input type="file"&gt;
+					|  и чекбоксы кажутся «нестилизуемыми» — на самом деле они прекрасно стилизуются, если знать приём.
+
+				p
+					strong Общий принцип:
+					|  прячем нативный input визуально (техникой выше — НЕ через
+					code display:none
+					| ), оформляем
+					code &lt;label&gt;
+					|  поверх. Клик по label автоматически переключает связанный input — это стандартное поведение HTML, не наш JS. Битрикс потом читает
+					code input.checked
+					|  /
+					code input.files
+					|  как обычно, визуал ему безразличен.
+
+				p
+					strong File input.
+					|  Разметка:
+				pre.docs-catalog__code
+					code
+						| label.b24-form-control-file
+						|     input.b24-form-control-file-input(type='file' name='FILE')
+						|     span.b24-form-control-file-icon → +svgIcon('clip')
+						|     span.b24-form-control-file-label Прикрепить файл
+				p
+					| Input лежит внутри label — клик по label открывает file-picker. Иконка и текст справа — стилизуемые span'ы. Именно
+					code label
+					|  здесь имеет
+					code cursor: pointer
+					|  и hover-состояние.
+
+				p
+					strong Чекбокс.
+					|  Разметка:
+				pre.docs-catalog__code
+					code
+						| label.b24-form-field-agreement-label
+						|     .b24-form-control-agreement
+						|         .b24-form-control-agreement-checkbox
+						|             input.b24-form-control-agreement-checkbox-input(type='checkbox')
+						|             span.b24-form-control-agreement-checkbox-square
+						|         .b24-form-control-agreement-text Согласен с …
+				p
+					| Input спрятан,
+					code span.-checkbox-square
+					|  — рисуем сами (квадрат + галочка на
+					code ::after
+					| ). Селектор
+					code input:checked + span
+					|  красит квадрат в accent-цвет и показывает галочку. Клик по label переключает input — стандартное поведение.
+
+				h4.docs-catalog__subtitle Внешний бокс — наш, форма — их
+				p
+					| Мы намеренно оставили
+					code .ss-section-feedback__form-box
+					|  (бордер, паддинги, радиус) как внешний контейнер, а битрикс-DOM положили внутрь. При интеграции достаточно заменить содержимое бокса скриптом — визуально ничего не поедет. Внутренним обёрткам битрикса (
+					code .b24-form-wrapper
+					| ,
+					code .b24-form-content
+					| ,
+					code .b24-form-padding-side
+					| ) в
+					code _b24-form.scss
+					|  сброшены свои
+					code padding
+					| /
+					code background
+					|  в
+					code 0
+					| /
+					code transparent
+					| , чтобы не было двойных отступов.
+
+				h4.docs-catalog__subtitle Если реальная разметка отличается от мока
+				p
+					| Битрикс изредка правит DOM своих виджетов между версиями. Если после интеграции что-то поехало — открой DevTools на реальной форме, скопируй HTML одного проблемного поля, сверь с моком. Если найдена новая обёртка или другое имя класса — правь
+					code _b24-form.scss
+					| , мок в
+					code _section-feedback-b24.pug
+					|  синхронизируй по классам. Правило: правим только
+					code _b24-form.scss
+					| , не размазываем b24-стили по секциям.
 
 			//- ===== Ленивая загрузка Swiper =====
 			section.docs-catalog__section#js-perf

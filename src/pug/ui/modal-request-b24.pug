@@ -1,0 +1,19 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Модалка «Получить КП» — Bitrix-мок";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Модалка «Получить КП» — Bitrix-мок
+
+		.container-dashboard__content
+			p Превью модалки с формой в разметке битрикс-скрипта. Нажмите кнопку ниже, чтобы открыть.
+
+			button.ss-btn.ss-btn--primary(type='button', data-modal='request-b24')
+				+svgIcon('mail')
+				| Открыть модалку (Bitrix)
+
+	//- Сама модалка — живёт в DOM страницы, открывается универсальным JS
+	//- (src/js/modal.js) по data-modal="request-b24".
+	include ../sections/_modal-request-b24.pug

@@ -6,14 +6,25 @@
 // модификаторы вводим по мере появления макетов.
 //
 // Компоненты:
-//   .ss-form-item  — обёртка одного поля. По умолчанию — просто структура,
-//                    можно ставить в grid/flex-контейнер формы.
-//   .ss-input      — <input>: текст, email, tel, password.
-//   .ss-textarea   — <textarea>: многострочный ввод.
+//   .ss-form-item  — обёртка одного поля. position: relative — держит
+//                    плавающий label.
+//   .ss-form-label — плавающий label (span). В покое лежит внутри input'а
+//                    как placeholder, при фокусе / вводе — уезжает в top-left.
+//                    Механика — только CSS (:focus-within + :has). Подробнее
+//                    в блоке про .ss-form-label ниже.
+//   .ss-input      — <input>: текст, email, tel. Placeholder прозрачный,
+//                    роль подсказки играет .ss-form-label. В разметке
+//                    ОБЯЗАТЕЛЕН placeholder=" " (пробел).
+//   .ss-textarea   — <textarea>: многострочный ввод. Требования по placeholder — те же.
 //   .ss-file       — <label> с hidden <input type="file">: квадратная
 //                    кнопка с иконкой + подпись справа.
 //   .ss-checkbox   — <label> с hidden <input type="checkbox">: квадратный
 //                    маркер + подпись (может содержать ссылку).
+//
+// Стандартная разметка поля:
+//   .ss-form-item
+//     input.ss-input(type='text' placeholder=' ')
+//     span.ss-form-label Ваше имя
 // ==============================
 
 // ------------------------------
@@ -24,9 +35,73 @@
 // у flex/grid-items = min-content, а min-content .ss-file включает ширину
 // текста label'а с white-space: nowrap (напр. «Прикрепить ТЗ, спецификацию…»).
 // Без этого сброса форма даёт горизонтальный скролл на мобильных.
+//
+// position: relative — для позиционирования .ss-form-label поверх инпута
+// (плавающий label как у b24-формы).
 // ------------------------------
 .ss-form-item {
 	min-width: 0;
+	position: relative;
+}
+
+// ------------------------------
+// .ss-form-label — плавающий label поверх .ss-input / .ss-textarea.
+// В покое сидит внутри инпута как placeholder, при :focus / когда в поле
+// что-то напечатано — уезжает в top-left и уменьшается.
+//
+// Механика — только CSS. Требования к разметке:
+//   .ss-form-item
+//     input.ss-input(type='text', placeholder=' ')   ← placeholder=" " ОБЯЗАТЕЛЕН
+//     span.ss-form-label Ваше имя
+//
+// Триггеры флоат-состояния:
+//   :focus-within — работает при :focus на инпуте
+//   :has(input:not(:placeholder-shown)) — работает когда в input есть текст.
+//     Именно поэтому placeholder=" " (пробел) — иначе :placeholder-shown
+//     считает пустое поле «заполненным» и label флоатится с пустой формы.
+// ------------------------------
+.ss-form-label {
+	position: absolute;
+	left: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+	max-width: calc(100% - 40px);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--secondary);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	pointer-events: none;
+	transition: font-size .2s, top .2s, padding .2s, color .2s;
+}
+
+// Флоат-состояние: label в top-left, шрифт мельче, подложка закрывает линию бордера.
+// Подложка — --primary1 (тёмная тема). Для светлого фона делаем модификатор
+// .ss-form-item--light, если понадобится (сейчас все .ss-input демо — на тёмном).
+.ss-form-item:focus-within .ss-form-label,
+.ss-form-item:has(.ss-input:not(:placeholder-shown)) .ss-form-label,
+.ss-form-item:has(.ss-textarea:not(:placeholder-shown)) .ss-form-label {
+	top: 0;
+	transform: translateY(-50%);
+	font-size: 12px;
+	padding: 0 6px;
+	background: var(--primary1);
+	color: var(--secondary);
+}
+
+// Для .ss-textarea label в покое стоит у верхнего края (не по центру).
+.ss-form-item:has(.ss-textarea) .ss-form-label {
+	top: 22px;
+	transform: none;
+}
+// Во флоат-состоянии textarea — как у input'ов (top:0).
+.ss-form-item:has(.ss-textarea):focus-within .ss-form-label,
+.ss-form-item:has(.ss-textarea:not(:placeholder-shown)) .ss-form-label {
+	top: 0;
+	transform: translateY(-50%);
 }
 
 // ------------------------------
@@ -49,10 +124,12 @@
 	outline: none;
 	transition: border-color .2s;
 
+	// Placeholder — прозрачный. В разметке ОБЯЗАТЕЛЬНО должен быть
+	// placeholder=" " (пробел) — он нужен для :placeholder-shown, чтобы
+	// плавающий .ss-form-label корректно отличал пустое поле от заполненного.
+	// Роль подсказки играет плавающий label.
 	&::placeholder {
-		font-family: inherit;
-		font-size: inherit;
-		color: var(--secondary);
+		color: transparent;
 	}
 
 	&:focus-visible {
@@ -68,7 +145,7 @@
 	display: block;
 	width: 100%;
 	height: 120px;
-	padding: 10px 20px;
+	padding: 20px;
 	border: 1px solid var(--secondary);
 	border-radius: 10px;
 	background: transparent;
@@ -81,10 +158,10 @@
 	outline: none;
 	transition: border-color .2s;
 
+	// Placeholder прозрачный — визуал плейсхолдера рисует .ss-form-label.
+	// В разметке ОБЯЗАТЕЛЬНО placeholder=" ".
 	&::placeholder {
-		font-family: inherit;
-		font-size: inherit;
-		color: var(--secondary);
+		color: transparent;
 	}
 
 	&:focus-visible {
