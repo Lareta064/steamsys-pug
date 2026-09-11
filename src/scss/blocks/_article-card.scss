@@ -56,10 +56,14 @@
 
 	// На широких экранах (≥1440) миниатюра крупнее — 190×120 вместо 140×88.
 	// Ширину диктует grid, высоту — .ss-article-card__thumb.
-	// Featured не затрагивается: у неё свой grid `1fr 1fr` с более
-	// специфичным селектором.
+	// :not(.--featured) — важно! Sass выкидывает media query в конец файла,
+	// и без exclusion правило `1fr 190px` перебивает `.--featured { 1fr 1fr }`
+	// (у обоих спец 0-1-0, но media позже в CSS → побеждает). Селектор
+	// с :not бампает специфичность до 0-2-0 и попутно не трогает featured.
 	@include up($xxl) {
-		grid-template-columns: 1fr 190px;
+		&:not(.ss-article-card--featured) {
+			grid-template-columns: 1fr 190px;
+		}
 	}
 
 	@include down($md) {
