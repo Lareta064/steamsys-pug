@@ -67,9 +67,8 @@ block content
 							.ss-article-card__meta
 								span 7 мин
 								span 15.03.2025
-								span Автор: Александр Баженов
+								+authorTooltip('Александр Баженов', 'Инженер-технолог')
 							+ssBtn('Читать статью', { tag: 'a', href: '#', variant: 'primary', icon: 'arrow-right' })
-							a.ss-article-card__cat-link(href='#') → Обвязка
 						.ss-article-card__thumb
 							img(src=`${basePath}img/hero.webp`, alt='')
 
@@ -85,9 +84,8 @@ block content
 						|         .ss-article-card__meta
 						|             span 7 мин
 						|             span 15.03.2025
-						|             span Автор: Александр Баженов
+						|             +authorTooltip('Александр Баженов', 'Инженер-технолог')
 						|         +ssBtn('Читать статью', { tag: 'a', href: '#', variant: 'primary', icon: 'arrow-right' })
-						|         a.ss-article-card__cat-link(href='#') → Обвязка
 						|     .ss-article-card__thumb
 						|         img(src='img/hero.webp', alt='')
 
@@ -108,8 +106,7 @@ block content
 							.ss-article-card__meta
 								span 9 мин
 								span 04.03.2025
-								span Автор: Дмитрий Кравцов
-								a.ss-article-card__cat-link(href='#') → Конденсатоотводчики
+								+authorTooltip('Дмитрий Кравцов', 'Специалист по конденсатоотводчикам')
 						.ss-article-card__thumb
 							img(src=`${basePath}img/solution1.webp`, alt='')
 
@@ -121,8 +118,7 @@ block content
 							.ss-article-card__meta
 								span 6 мин
 								span 18.02.2025
-								span Автор: Александр Баженов
-								a.ss-article-card__cat-link(href='#') → Конденсатоотводчики
+								+authorTooltip('Александр Баженов', 'Инженер-технолог')
 						.ss-article-card__thumb
 							img(src=`${basePath}img/tool1.webp`, alt='')
 
@@ -134,8 +130,7 @@ block content
 							.ss-article-card__meta
 								span 11 мин
 								span 11.02.2025
-								span Автор: Олег Самойлов
-								a.ss-article-card__cat-link(href='#') → Диагностика
+								+authorTooltip('Олег Самойлов', 'Проектировщик паровых систем')
 						.ss-article-card__thumb
 							img(src=`${basePath}img/process.webp`, alt='')
 
@@ -149,8 +144,7 @@ block content
 						|         .ss-article-card__meta
 						|             span 9 мин
 						|             span 04.03.2025
-						|             span Автор: …
-						|             a.ss-article-card__cat-link(href='#') → Категория
+						|             +authorTooltip('Имя Фамилия', 'Специальность')
 						|     .ss-article-card__thumb
 						|         img(src='img/solution1.webp', alt='')
 
@@ -187,8 +181,10 @@ block content
 						code ::before
 						|  у не-первого элемента, не в разметке (скринридер их не читает).
 					li
-						code .ss-article-card__cat-link
-						|  — ссылка на страницу категории (стрелка «→» в тексте, не через ::before, чтобы не конфликтовать с «·»-разделителями meta-строки). У обычной карточки живёт в конце meta-строки, у featured — отдельным блоком под кнопкой «Читать статью».
+						code .ss-article-card__author
+						|  + миксин
+						code +authorTooltip(name, role)
+						|  — блок автора в мета-строке. При hover / focus-within на этом блоке показывается тултип 280px с ФИО, специальностью и футером (телефон + «Подробнее»). Иконка «i в кружочке» справа от имени — визуальный подсказчик, что автор кликабельный.
 					li
 						code .ss-article-card__thumb
 						|  — контейнер миниатюры с фиксированными размерами (140×88 у обычной, 1fr × авто у featured) и

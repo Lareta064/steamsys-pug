@@ -318,13 +318,16 @@
 
 // Ссылки внутри соглашения — акцентный цвет (accent3 на тёмной / accent1 на светлой).
 // Как в нашей кастомной форме, до битриксовой интеграции.
-.ss-b24-form .b24-form-field-agreement a {
+.ss-b24-form .b24-form-field-agreement a.b24-form-field-agreement-link {
 	color: var(--b24-link);
 	text-decoration: none;
 	transition: color .2s;
+	font-size: inherit;
+	font-size: 14px;
 
 	&:hover {
 		color: var(--b24-link-hover);
+		
 	}
 }
 

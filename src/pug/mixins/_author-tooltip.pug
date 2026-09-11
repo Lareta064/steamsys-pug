@@ -1,0 +1,20 @@
+//- authorTooltip(name, role) — блок «Автор» в мета-строке карточки статьи.
+//- Разметка:
+//-   .ss-article-card__author
+//-     «Автор: <name>» — видимый текст в мета-строке
+//-     info-кнопка (кружочек с «i»)
+//-     тултип 280px, скрыт по дефолту, показывается по :hover / :focus-within
+//- Внутри тултипа три строки: ФИО, специальность, футер (телефон + Подробнее).
+//- Стили — src/scss/blocks/_article-card.scss.
+mixin authorTooltip(name, role)
+	.ss-article-card__author
+		| Автор:
+		| &nbsp;
+		span.ss-article-card__author-name= name
+		button.ss-article-card__author-info(type='button', aria-label='Подробнее об авторе')
+		.ss-article-card__author-tooltip(role='tooltip')
+			p.ss-article-card__author-tooltip-name= name
+			p.ss-article-card__author-tooltip-role= role
+			.ss-article-card__author-tooltip-footer
+				a.ss-article-card__author-tooltip-phone(href='tel:+78126027770') +7 (812) 602-77-70
+				a.ss-article-card__author-tooltip-more.ss-txt-accent3(href='#') Подробнее

@@ -151,13 +151,48 @@
 	}
 }
 
-// Ссылка на страницу категории — со стрелкой в начале. Символ «→»
-// оставлен в тексте (не в ::before), чтобы не конфликтовать с
-// «·»-разделителем meta-строки (у одного элемента только один ::before).
-.ss-article-card__cat-link {
-	color: var(--secondary);
-	text-decoration: none;
-	transition: color .2s;
+// ==============================================================
+// Автор с тултипом. В meta-строке заменяет обычный "span Автор: X".
+// Разметка через миксин +authorTooltip(name, role) (см. src/pug/mixins/_author-tooltip.pug).
+//
+// Внутри .ss-article-card__author:
+//   1. Текст «Автор: <name>» — виден в мета-строке.
+//   2. Кнопка .ss-article-card__author-info — «i в кружочке» справа от имени.
+//   3. .ss-article-card__author-tooltip — 280px, скрыт до :hover / :focus-within.
+//      Позиционируется НАД мета-строкой (bottom: 100%), чтобы меньше рисковать
+//      клиппингом на featured (overflow: hidden) и не перекрывать кнопку.
+// ==============================================================
+
+.ss-article-card__author {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.ss-article-card__author-name {
+	color: inherit;
+}
+
+// «i в кружочке» — CSS-иконка, без SVG.
+.ss-article-card__author-info {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 14px;
+	height: 14px;
+	padding: 0;
+	border: 1px solid currentColor;
+	border-radius: 50%;
+	background: transparent;
+	color: inherit;
+	font: 700 italic 10px/1 Georgia, "Times New Roman", serif;
+	cursor: pointer;
+	transition: color .2s, border-color .2s;
+
+	&::before {
+		content: 'i';
+	}
 
 	&:hover {
 		color: var(--accent1);
@@ -166,28 +201,109 @@
 	&:focus-visible {
 		outline: 2px solid var(--accent1);
 		outline-offset: 2px;
-		border-radius: 2px;
 	}
 }
 
-// В обычной карточке cat-link лежит внутри meta-строки как последний item.
-// Отбиваем от предыдущего meta-элемента ощутимым gap'ом 40px и убираем
-// автогенерируемый «·» перед ним (селектор выше более специфичен).
-.ss-article-card__meta > .ss-article-card__cat-link {
-	margin-left: 40px;
+// Тултип — 280px, тень, радиус, поверх остальной вёрстки.
+// Position: absolute относительно .ss-article-card__author.
+// Bottom: 100% + 8px gap — тултип уходит НАД мета-строкой.
+// На десктопе (≥$lg) — выравнивается ПО ЛЕВОМУ краю author'а.
+// На узких экранах (<$lg, когда сайдбар уезжает, основная колонка становится уже)
+// — выравнивается ПО ПРАВОМУ краю (правый край author = правый край info-иконки),
+// чтобы тултип не уходил за правую границу экрана.
+.ss-article-card__author-tooltip {
+	position: absolute;
+	left: 0;
+	right: auto;
+	bottom: calc(100% + 8px);
+	z-index: 5;
+	width: 280px;
+	padding: 16px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(4px);
+	transition: opacity .15s, visibility .15s, transform .15s;
+	pointer-events: none;
 
+	@include down($lg) {
+		left: auto;
+		right: 0;
+	}
+
+	// Невидимый «мостик» между тултипом и author'ом — покрывает 8px gap,
+	// чтобы мышь могла пройти на тултип, не теряя hover. Пседоэлемент
+	// принадлежит тултипу, тултип — потомок .ss-article-card__author,
+	// значит hover через ::before держит hover на родителе.
 	&::before {
-		content: none;
+		content: '';
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		height: 8px;
 	}
+}
 
-	// На <768 переносим на отдельную строку: flex-basis:100% выдавливает
-	// cat-link на новый ряд, margin-left обнуляем, добавляем vertical
-	// gap до meta-элементов сверху (у .ss-article-card__meta нет своего gap).
-	@include down($md) {
-		flex-basis: 100%;
-		margin-left: 0;
-		margin-top: 8px;
+// Показ тултипа: hover ИЛИ focus-within (клавиатурная навигация).
+.ss-article-card__author:hover .ss-article-card__author-tooltip,
+.ss-article-card__author:focus-within .ss-article-card__author-tooltip {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+	pointer-events: auto;
+}
+
+.ss-article-card__author-tooltip-name {
+	margin: 0 0 4px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+.ss-article-card__author-tooltip-role {
+	margin: 0 0 16px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+.ss-article-card__author-tooltip-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 12px;
+	padding-top: 12px;
+	border-top: 1px solid var(--secondary2);
+	font-family: var(--font-family);
+	font-size: 12px;
+	line-height: 1.4;
+}
+
+.ss-article-card__author-tooltip-phone {
+	color: var(--primary);
+	text-decoration: none;
+	font-weight: 500;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent1);
 	}
+}
+
+// Цвет ссылки задан утилитой .ss-txt-accent3 в разметке миксина
+// (см. src/pug/mixins/_author-tooltip.pug) — !important утилиты перебил бы
+// локальные color-правила здесь, поэтому только структурные.
+.ss-article-card__author-tooltip-more {
+	text-decoration: none;
+	font-weight: 500;
 }
 
 // Миниатюра. Контейнер задаёт фиксированные размеры и обрезает
@@ -279,15 +395,6 @@
 	// Кнопка «Читать статью» — отступ от меты.
 	.ss-btn {
 		margin-top: 20px;
-	}
-
-	// Ссылка на категорию у featured лежит НЕ в meta-строке, а
-	// отдельным блоком ПОД кнопкой. display: block — чтобы не села
-	// рядом с кнопкой на широкой карточке. Размер чуть крупнее, чем meta.
-	.ss-article-card__cat-link {
-		display: block;
-		margin-top: 16px;
-		font-size: 13px;
 	}
 
 	@include down($md) {

@@ -62,6 +62,9 @@
 // в обёртке (не только к --accent5), на случай других вариантов в будущем.
 .ss-search-wrapper .ss-btn {
 	border-radius: 0;
+	@include down($md) {
+		padding: 0 16px;
+	}
 }
 
 // Модификатор — белый фон инпута. Кладём на ОБЁРТКУ, а не на сам input,
