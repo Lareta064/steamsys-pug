@@ -229,9 +229,20 @@
 	transition: opacity .15s, visibility .15s, transform .15s;
 	pointer-events: none;
 
+	// Планшетный диапазон ($md–$lg, 768–1023): выравниваем по правому краю
+	// author'а, чтобы тултип не уходил за правую границу узкой колонки.
 	@include down($lg) {
 		left: auto;
 		right: 0;
+	}
+
+	// Мобилка (<$md, 768): author перенесён на отдельную строку (см. ниже) —
+	// он растягивается на всю ширину меты, поэтому тултип центрируем
+	// через margin-inline: auto (работает при absolute + left/right: 0 + fixed width).
+	@include down($md) {
+		left: 0;
+		right: 0;
+		margin-inline: auto;
 	}
 
 	// Невидимый «мостик» между тултипом и author'ом — покрывает 8px gap,
@@ -255,6 +266,21 @@
 	visibility: visible;
 	transform: translateY(0);
 	pointer-events: auto;
+}
+
+// Мобилка (<$md): переносим author на отдельную строку внутри meta.
+// flex-basis: 100% выдавливает его на новый ряд, забирая всю ширину меты.
+// Убираем автогенерируемую «·» перед автором (селектор специфичнее общего meta '> * + *::before').
+// Плюс небольшой margin-top отбивает автора от предыдущего ряда.
+@include down($md) {
+	.ss-article-card__meta > .ss-article-card__author {
+		flex-basis: 100%;
+		margin-top: 4px;
+	}
+
+	.ss-article-card__meta > .ss-article-card__author::before {
+		content: none;
+	}
 }
 
 .ss-article-card__author-tooltip-name {
@@ -406,7 +432,7 @@
 		}
 
 		.ss-article-card__body {
-			padding: 24px;
+			padding: 20px 10px;
 		}
 	}
 }
