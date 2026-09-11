@@ -1,0 +1,27 @@
+@use '_var' as *;
+
+// ==============================================================
+// .ss-badge — компактный ярлык-плашка (Новое, Premium, Скидка и т.п.).
+// По дефолту: оранжевый акцент (--accent5), белый текст, UPPERCASE.
+//
+// Разметка:
+//   span.ss-badge Новое
+//
+// Если понадобятся другие цвета — заведём модификаторы (.ss-badge--dark и т.п.).
+// Пока — только один вариант, ждём макетов.
+// ==============================================================
+
+.ss-badge {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 10px;
+	background: var(--accent5);
+	color: var(--white);
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 10px;
+	line-height: 1.4;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	white-space: nowrap;
+}

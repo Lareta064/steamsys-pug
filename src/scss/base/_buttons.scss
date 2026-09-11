@@ -178,6 +178,20 @@
 	&:focus-visible { outline-color: var(--accent3); }
 }
 
+// btn 9 — Accent5 (оранжевый акцент внутренних страниц: search-кнопка «Найти»,
+// CTA на страницах Базы знаний и т.п.). Hover — --accent5-hover (#DF9809).
+.ss-btn--accent5 {
+	background: var(--accent5);
+	color: var(--white);
+	border-color: var(--accent5);
+
+	&:hover {
+		background: var(--accent5-hover);
+		border-color: var(--accent5-hover);
+	}
+	&:focus-visible { outline-color: var(--accent5); }
+}
+
 // btn 7 — Outline light (secondary → hover accent2 заливной)
 .ss-btn--outline-light {
 	background: transparent;

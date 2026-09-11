@@ -1,0 +1,56 @@
+@use '_var' as *;
+
+// ==============================================================
+// .ss-pill — универсальная пилюля (chip) для фильтров, ролей, тегов,
+// табов и любых иных «переключаемых» элементов.
+//
+// Разметка (ссылка или кнопка — по контексту):
+//   a.ss-pill(href='#') Инженер
+//   a.ss-pill(href='#', aria-current='page') Все       ← активный (nav-контекст)
+//   button.ss-pill(type='button', aria-current='true') Инженер  ← активный (toggle-контекст)
+//
+// Активное состояние — атрибут aria-current (значение page для навигации,
+// true для toggle). Тот же семантический паттерн, что в .ss-breadcrumbs,
+// .ss-cat-list, .ss-pagination — везде активность помечается aria-current.
+//
+// Универсальный примитив: не привязан к конкретной секции. Секции
+// описывают только раскладку (grid/flex), пилюли внутрь вкладываются.
+// ==============================================================
+
+.ss-pill {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	padding: 0 20px;
+	border: 1px solid var(--primary);
+	border-radius: 999px;
+	background: var(--white);
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1;
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition: background-color .2s, color .2s, border-color .2s;
+
+	&:hover {
+		background: var(--secondary3);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+
+	// Активная пилюля — по aria-current (page / true).
+	&[aria-current="page"],
+	&[aria-current="true"] {
+		background: var(--primary);
+		color: var(--white);
+		cursor: default;
+	}
+}

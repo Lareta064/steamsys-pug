@@ -46,6 +46,31 @@
 	color: inherit;
 }
 
+// Мини — компактный чип для облака тегов (напр. «популярные теги» в сайдбаре).
+// Полностью округлые концы (pill-shape), меньший шрифт и паддинги.
+// Обычно используется как <a> — при hover заливка --accent3 с белым текстом.
+.ss-tag--mini {
+	height: auto;
+	padding: 6px 12px;
+	border-radius: 999px;
+	background: var(--secondary2);
+	color: var(--primary);
+	font-size: 14px;
+	line-height: 1.3;
+	text-decoration: none;
+	transition: background-color .2s, color .2s;
+
+	&:hover {
+		background: var(--accent3);
+		color: var(--white);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+}
+
 // Группа тэгов — flex-wrap с фикс-гэпом.
 .ss-tag-group {
 	display: flex;

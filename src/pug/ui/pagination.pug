@@ -1,0 +1,163 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Пагинация (.ss-pagination)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Пагинация (.ss-pagination)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Пагинация для списков (статьи «Базы знаний» и т.п.). Стили —
+				code src/scss/base/_pagination.scss
+				| .
+				br
+				| Семантика:
+				code nav[aria-label]
+				|  +
+				code ol
+				|  +
+				code aria-current="page"
+				|  на активной странице. Тот же паттерн, что в
+				code .ss-breadcrumbs
+				|  и
+				code .ss-cat-list
+				| .
+
+			//- ===== Начало списка =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Первая страница активна
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Модификатор
+					code --nav
+					|  на «Следующая» — текст с иконкой без квадратной рамки.
+
+				.breadcrumbs-catalog__demo
+					nav.ss-pagination(aria-label='Пагинация')
+						ol.ss-pagination__list
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#', aria-current='page') 1
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 2
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 3
+							li.ss-pagination__item
+								a.ss-pagination__link.ss-pagination__link--nav(href='#')
+									| Следующая
+									+svgIcon('arrow-right')
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| nav.ss-pagination(aria-label='Пагинация')
+						|     ol.ss-pagination__list
+						|         li.ss-pagination__item
+						|             a.ss-pagination__link(href='?page=1', aria-current='page') 1
+						|         li.ss-pagination__item
+						|             a.ss-pagination__link(href='?page=2') 2
+						|         li.ss-pagination__item
+						|             a.ss-pagination__link(href='?page=3') 3
+						|         li.ss-pagination__item
+						|             a.ss-pagination__link.ss-pagination__link--nav(href='?page=2')
+						|                 | Следующая
+						|                 +svgIcon('arrow-right')
+
+			//- ===== Середина списка с … =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Середина списка (с «…»)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Скрытые страницы — через
+					code span.ss-pagination__dots
+					| . Не ссылка — просто визуальный разделитель.
+
+				.breadcrumbs-catalog__demo
+					nav.ss-pagination(aria-label='Пагинация')
+						ol.ss-pagination__list
+							li.ss-pagination__item
+								a.ss-pagination__link.ss-pagination__link--nav(href='#')
+									//- Иконку arrow-right поворачиваем через inline-стиль
+									span(style='display:inline-flex; transform: rotate(180deg);')
+										+svgIcon('arrow-right')
+									| Предыдущая
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 1
+							li.ss-pagination__item
+								span.ss-pagination__dots …
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 4
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#', aria-current='page') 5
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 6
+							li.ss-pagination__item
+								span.ss-pagination__dots …
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 10
+							li.ss-pagination__item
+								a.ss-pagination__link.ss-pagination__link--nav(href='#')
+									| Следующая
+									+svgIcon('arrow-right')
+
+			//- ===== Последняя страница =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Последняя страница активна
+				.breadcrumbs-catalog__demo
+					nav.ss-pagination(aria-label='Пагинация')
+						ol.ss-pagination__list
+							li.ss-pagination__item
+								a.ss-pagination__link.ss-pagination__link--nav(href='#')
+									span(style='display:inline-flex; transform: rotate(180deg);')
+										+svgIcon('arrow-right')
+									| Предыдущая
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 1
+							li.ss-pagination__item
+								span.ss-pagination__dots …
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 8
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 9
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#', aria-current='page') 10
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-pagination__link
+						|  — квадрат 40×40, border
+						code --secondary2
+						| , радиус 6.
+					li
+						strong Hover:
+						|  bg
+						code --secondary3
+						| .
+					li
+						strong Активная (
+						code [aria-current="page"]
+						| ):
+						|  bg
+						code --primary
+						| , текст
+						code --white
+						| , bold,
+						code cursor: default
+						| .
+					li
+						code .ss-pagination__dots
+						|  — «…». Ширина, высота под квадрат, цвет
+						code --secondary1
+						| . Не кликается.
+					li
+						code .ss-pagination__link--nav
+						|  — модификатор для Prev/Next. Без квадрата, gap 8 c иконкой, цвет
+						code --secondary
+						| , hover
+						code --accent1
+						| .
+					li Focus-visible — outline
+						code --accent1
+						|  для доступности с клавиатуры.

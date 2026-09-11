@@ -1,0 +1,67 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-breadcrumbs — хлебные крошки.
+// Разметка (семантика — nav + ol + aria-current):
+//   nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+//     ol.ss-breadcrumbs__list
+//       li.ss-breadcrumbs__item
+//         a.ss-breadcrumbs__link(href='/') Главная
+//       li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Текущая страница
+//
+// Разделитель «/» рисуем ::before у li:not(:first-child), не текстом в разметке.
+// Так дизайн изменяется одним правилом, скринридер не читает «слэш» между крошками.
+//
+// Цвета — на светлом фоне:
+//   ссылка       — --secondary,  hover → --accent1
+//   разделитель  — --secondary1
+//   текущий      — --secondary1  (визуально приглушён)
+// ==============================
+
+.ss-breadcrumbs {
+	// Обёртка — просто nav landmark, стилей не требует.
+}
+
+.ss-breadcrumbs__list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary1);
+}
+
+.ss-breadcrumbs__item {
+	color: inherit;
+
+	// Разделитель между крошками.
+	&:not(:first-child)::before {
+		content: '/';
+		color: var(--secondary1);
+		padding: 0 8px;
+	}
+}
+
+.ss-breadcrumbs__link {
+	color: var(--secondary);
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent1);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+		border-radius: 2px;
+	}
+}
+
+.ss-breadcrumbs__item--current {
+	color: var(--secondary1);
+}

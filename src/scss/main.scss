@@ -8,6 +8,11 @@
 @use "base/_gamburger";
 @use "base/_buttons";
 @use "base/_ss-link";
+@use "base/_breadcrumbs";
+@use "base/_badge";
+@use "base/_pagination";
+@use "base/_select";
+@use "base/_pill";
 @use "base/_section-header";
 @use "base/_tag";
 @use "base/_list";
@@ -15,6 +20,7 @@
 @use "base/_tabs";
 @use "base/_form";
 @use "base/_b24-form";
+@use "base/_search";
 
 // blocks — карточки и повторяемые UI-компоненты
 
@@ -34,6 +40,9 @@
 @use "blocks/_case-card";
 @use "blocks/_footer-nav-item";
 @use "blocks/_contacts-list";
+@use "blocks/_cat-list";
+@use "blocks/_article-card";
+@use "blocks/_cta-card";
 @use "blocks/_footer-contacts";
 @use "blocks/_footer-bottom";
 
@@ -55,6 +64,8 @@
 @use "sections/_footer";
 @use "sections/_header";
 @use "sections/_section-hero";
+@use "sections/_section-hero-inner";
+@use "sections/_section-blog";
 @use "sections/_section-running-line";
 @use "blocks/_menu";
 @use "blocks/_mobile-menu";

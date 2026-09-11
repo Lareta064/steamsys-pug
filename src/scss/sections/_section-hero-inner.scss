@@ -1,0 +1,99 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-section-hero-inner — hero-секция внутренних страниц.
+// Общий скелет для всех внутренних hero'ев (Base знаний, Отрасли,
+// Кейсы и т.п.) — с полосой хлебных крошек сверху и hero-body ниже.
+//
+// Структура:
+//   section.ss-section-hero-inner(.ss-section-hero-inner--dark)
+//     .ss-section-hero-inner__crumbs   ← светло-серая полоса с breadcrumbs
+//       .ss-container.ss-wrapper
+//         nav.ss-breadcrumbs ...
+//     .ss-section-hero-inner__body     ← основной контент (тёмный / светлый)
+//       .ss-container.ss-wrapper
+//         .ss-section-hero-inner__body-inner
+//           span.ss-kicker Текст-кикер
+//           h1.ss-h1 Заголовок страницы
+//           p.ss-section-hero-inner__lead Описание…
+//           [опционально] search / другой контент
+//
+// Модификаторы темы:
+//   .ss-section-hero-inner--dark   — тёмный фон body + белый текст
+//   (светлая тема — дефолт, без модификатора; пока не реализована,
+//    добавим когда появятся макеты других страниц)
+//
+// TODO: --two-col модификатор для страниц с двухколоночным hero.
+// ==============================================================
+
+.ss-section-hero-inner {
+	// Обёртка секции — стилей не требует, состояния держат
+	// внутренние блоки (__crumbs и __body).
+}
+
+// Полоса с хлебными крошками — всегда светло-серая, независимо от темы body.
+// padding-top учитывает fixed-шапку (--header-height ставит JS, fallback 100px).
+// Такая же схема, как в _section-hero.scss на главной — первый секционный
+// элемент страницы сам компенсирует высоту шапки.
+// Светло-серый фон при этом «уходит» под шапку, что выглядит естественно:
+// шапка перекрывает верх полосы своим фоном.
+.ss-section-hero-inner__crumbs {
+	background: var(--secondary3);
+	padding: calc(14px + var(--header-height, 100px)) 0 14px;
+}
+
+// Основной блок hero — 56px сверху/снизу. Цвета — по модификатору темы.
+.ss-section-hero-inner__body {
+	padding-block: 56px;
+
+	@include down($md) {
+		padding-block: 40px;
+	}
+}
+
+// Внутренняя обёртка контента body — flex-column со стандартным row-gap.
+// max-width ограничивает длину строки описания и h1 для читаемости.
+.ss-section-hero-inner__body-inner {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+	max-width: 900px;
+
+	// h1 обычно приходит со своим margin — обнуляем, gap контейнера
+	// раздаёт вертикальные отступы одинаково.
+	.ss-h1 {
+		margin: 0;
+	}
+}
+
+// Описание под h1. Цвет — inherit (наследует от body, который меняется темой).
+.ss-section-hero-inner__lead {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	max-width: 700px;
+	color: inherit;
+}
+
+// Search-строка (если есть в hero) — чуть больший отступ от текста.
+.ss-section-hero-inner__body-inner .ss-search-wrapper {
+	margin-top: 20px;
+}
+
+
+// --------------------------------------------------------------
+// Модификатор --dark. Body с тёмным фоном + белый текст.
+// h1 переопределяем на белый (базовый .ss-h1 приходит с --primary).
+// --------------------------------------------------------------
+.ss-section-hero-inner--dark {
+	.ss-section-hero-inner__body {
+		background: var(--primary1);
+		color: var(--white);
+
+		.ss-h1 {
+			color: var(--white);
+		}
+	}
+}

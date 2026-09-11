@@ -1,0 +1,124 @@
+@use '_var' as *;
+
+// ==============================================================
+// .ss-pagination — пагинация для списков (статьи «Базы знаний» и т.п.).
+//
+// Разметка (семантика — nav + ol + aria-current):
+//   nav.ss-pagination(aria-label='Пагинация')
+//     ol.ss-pagination__list
+//       li.ss-pagination__item
+//         a.ss-pagination__link(href='?page=1', aria-current='page') 1
+//       li.ss-pagination__item
+//         a.ss-pagination__link(href='?page=2') 2
+//       li.ss-pagination__item
+//         a.ss-pagination__link(href='?page=3') 3
+//       li.ss-pagination__item
+//         span.ss-pagination__dots …
+//       li.ss-pagination__item
+//         a.ss-pagination__link(href='?page=8') 8
+//       li.ss-pagination__item
+//         a.ss-pagination__link.ss-pagination__link--nav(href='?page=2')
+//           | Следующая
+//           +svgIcon('arrow-right')
+//
+// Активная страница — aria-current="page" (тот же семантический паттерн,
+// что в .ss-breadcrumbs и .ss-cat-list).
+// «…» — <span.ss-pagination__dots>, не ссылка. Обозначает пропущенные страницы.
+// Prev/Next — модификатор --nav: без квадратной рамки, текст + иконка.
+// ==============================================================
+
+.ss-pagination {
+	// Обёртка — nav landmark, стилей не требует.
+}
+
+.ss-pagination__list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ss-pagination__item {
+	display: inline-flex;
+}
+
+.ss-pagination__link {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+	padding: 0 4px;
+	border: 1px solid var(--secondary2);
+	border-radius: 6px;
+	background: var(--white);
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1;
+	text-decoration: none;
+	transition: background-color .2s, color .2s, border-color .2s;
+
+	&:hover {
+		background: var(--secondary3);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+
+	// Активная страница — aria-current="page".
+	&[aria-current="page"] {
+		background: var(--primary);
+		color: var(--white);
+		border-color: var(--primary);
+		font-weight: 700;
+		cursor: default;
+
+		&:hover {
+			background: var(--primary);
+		}
+	}
+}
+
+// «…» — визуальный разделитель пропущенных страниц. Не ссылка.
+.ss-pagination__dots {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 24px;
+	height: 40px;
+	padding: 0 4px;
+	color: var(--secondary1);
+	font-family: var(--font-family);
+	font-size: 14px;
+	line-height: 1;
+	user-select: none;
+}
+
+// Модификатор --nav — для «Предыдущая / Следующая». Текстовая ссылка
+// с иконкой-стрелкой, без квадратной рамки.
+.ss-pagination__link--nav {
+	min-width: 0;
+	padding: 0 12px;
+	gap: 8px;
+	border-color: transparent;
+	background: transparent;
+	color: var(--secondary);
+
+	svg {
+		width: 16px;
+		height: 16px;
+	}
+
+	&:hover {
+		background: transparent;
+		color: var(--accent1);
+	}
+}
