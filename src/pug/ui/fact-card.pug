@@ -1,0 +1,73 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Карточка с расчётом (.ss-fact-card)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Карточка с расчётом (.ss-fact-card)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Светло-серая карточка «Фрагмент расчёта / ключевые параметры». Заголовок сверху, ниже — ряды key/value (2 колонки), разделённые тонкой линией. На мобилке key и value ставятся в колонку. Стили —
+				code src/scss/blocks/_fact-card.scss
+				| .
+
+			//- ===== Base =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример
+
+				.breadcrumbs-catalog__demo
+					.ss-fact-card
+						p.ss-fact-card__title Фрагмент расчёта для статьи
+						.ss-fact-card__row
+							.ss-fact-card__key Исходные данные
+							.ss-fact-card__value Пар 6 бар, расход 280 кг/ч, температура наружного воздуха −25°C.
+						.ss-fact-card__row
+							.ss-fact-card__key Проверка КО
+							.ss-fact-card__value Пропускная способность принимается с запасом к пусковой нагрузке и фактическому противодавлению.
+						.ss-fact-card__row
+							.ss-fact-card__key Вывод
+							.ss-fact-card__value Для узла нужен поплавковый КО, автоматический воздухоотвод и отдельный дренаж при остановке.
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-fact-card
+						|     p.ss-fact-card__title Фрагмент расчёта для статьи
+						|     .ss-fact-card__row
+						|         .ss-fact-card__key Исходные данные
+						|         .ss-fact-card__value Пар 6 бар, расход 280 кг/ч…
+						|     .ss-fact-card__row
+						|         .ss-fact-card__key Проверка КО
+						|         .ss-fact-card__value …
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-fact-card
+						|  — обёртка. Фон
+						code --secondary3
+						| , радиус 10, паддинг 30 20.
+					li
+						code .ss-fact-card__title
+						|  — заголовок 16/700, отступ снизу 10.
+					li
+						code .ss-fact-card__row
+						|  — grid 2 колонки (200 / 1fr), паддинг 20 0, тонкий
+						code border-top
+						|  цвета
+						code --secondary2
+						| . У первого ряда бордера нет. На < $md — в одну колонку.
+					li
+						code .ss-fact-card__key
+						|  — 15/700, цвет
+						code --primary
+						| .
+					li
+						code .ss-fact-card__value
+						|  — 15/400, line-height 1.6, цвет
+						code --primary
+						| .

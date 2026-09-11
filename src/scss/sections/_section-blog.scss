@@ -3,16 +3,14 @@
 // ==============================================================
 // .ss-section-blog — обёртка контента страницы «База знаний».
 // Две колонки под hero-inner:
-//   левая — sticky-сайдбар (разделы + теги + CTA),
+//   левая — .ss-sticky-side (разделы-аккордеон + теги + CTA),
 //   правая — role-filter + toolbar + список статей + пагинация.
 //
-// На < $lg (мобилка) — стек, sticky отключается, сайдбар планируется
-// трансформировать в accordion-плашку (Шаг 5).
-//
 // Секция описывает ТОЛЬКО раскладку и специфические обёртки-модификаторы
-// (__aside-heading, __toolbar, __roles). Все компоненты внутри —
-// универсальные примитивы (.ss-cat-list, .ss-tag-group, .ss-cta-card,
-// .ss-pill, .ss-article-card, .ss-pagination, .ss-select-labeled).
+// (__aside-heading, __toolbar, __roles, __accordion). Все компоненты
+// внутри — универсальные примитивы (.ss-sticky-side, .ss-cat-list,
+// .ss-tag-group, .ss-cta-card, .ss-pill, .ss-article-card, .ss-pagination,
+// .ss-select-labeled).
 // ==============================================================
 
 .ss-section-blog {
@@ -39,31 +37,6 @@
 }
 
 
-// ==== Aside (sidebar) ====
-
-.ss-section-blog__aside {
-	// Sticky на десктопе. Порог = --header-height (ставит JS),
-	// плюс небольшой отступ 20px для дыхания.
-	position: sticky;
-	top: calc(var(--header-height, 100px) + 20px);
-	align-self: start;
-
-	@include down($lg) {
-		position: static;
-		top: auto;
-	}
-}
-
-// Отступ между блоками сайдбара — разделы (внутри .ss-section-blog__accordion),
-// теги (.ss-section-blog__aside-block), CTA. Селектор через универсальный
-// smart-sibling `> * + *` — работает и с .accordion, и с .aside-block, и с
-// любыми будущими типами блоков. Первый ребёнок отступа не получает.
-.ss-section-blog__aside > * + * {
-	margin-top: 40px;
-}
-
-// Заголовки сайдбара — «РАЗДЕЛЫ», «ПОПУЛЯРНЫЕ ТЕГИ». Мелкий UPPERCASE.
-// Кандидат на вынесение в .ss-side-heading при появлении второго использования.
 .ss-section-blog__aside-heading {
 	margin: 0 0 12px;
 	font-family: var(--font-family);

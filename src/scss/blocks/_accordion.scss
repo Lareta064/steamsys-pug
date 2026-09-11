@@ -1,0 +1,194 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-accordion — универсальный аккордеон.
+// Используется для FAQ, разворачиваемых блоков в контенте и т.п.
+//
+// Разметка:
+//   .ss-accordion(data-accordion)
+//     .ss-accordion__item
+//       button.ss-accordion__header(type='button', aria-expanded='false',
+//                                   aria-controls='faq-1')
+//         span.ss-accordion__title Вопрос?
+//         span.ss-accordion__icon                 ← +/− (CSS-only)
+//       .ss-accordion__body#faq-1
+//         .ss-accordion__body-inner
+//           p Ответ…
+//
+// Состояние: только aria-expanded на header. Никакого [hidden] на body —
+// раскрытие анимируется через grid-template-rows (0fr → 1fr), и body при
+// свёрнутом состоянии имеет visibility: hidden + inert для а11у
+// (screen-reader и Tab не проваливаются в скрытый контент).
+//
+// JS (src/js/accordion.js) слушает клик на .ss-accordion__header внутри
+// [data-accordion] и переключает aria-expanded — всё остальное делает CSS.
+// ==============================================================
+
+.ss-accordion {
+	border-top: 1px solid var(--secondary2);
+}
+
+.ss-accordion__item {
+	border-bottom: 1px solid var(--secondary2);
+}
+
+// ---------- Header (кликабельная кнопка-вопрос) ----------
+.ss-accordion__header {
+	box-sizing: border-box;
+	width: 100%;
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 20px;
+	padding: 20px 0;
+	margin: 0;
+	background: transparent;
+	border: 0;
+	text-align: left;
+	cursor: pointer;
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 1.5;
+	transition: color .2s ease;
+
+	&:hover {
+		color: var(--accent1);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+}
+
+// Bullet перед текстом вопроса — маркер списка (•).
+.ss-accordion__title {
+	flex: 1 1 auto;
+	position: relative;
+	padding-left: 20px;
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 10px;
+		left: 4px;
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background: currentColor;
+	}
+}
+
+// ---------- Icon +/− ----------
+// Два тонких прямоугольника: горизонтальный (::before) и вертикальный
+// (::after). В открытом состоянии вертикальный поворачивается на 90°
+// и «прячется» под горизонтальным — визуально остаётся только «−».
+.ss-accordion__icon {
+	flex-shrink: 0;
+	position: relative;
+	width: 16px;
+	height: 16px;
+	margin-top: 6px;
+
+	&::before,
+	&::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		background: currentColor;
+		transition: transform .25s ease;
+	}
+
+	// Горизонтальная линия — всегда видна.
+	&::before {
+		width: 14px;
+		height: 2px;
+		transform: translate(-50%, -50%);
+	}
+
+	// Вертикальная — крутится на 90° при раскрытии, «прячется» под горизонталью.
+	&::after {
+		width: 2px;
+		height: 14px;
+		transform: translate(-50%, -50%);
+	}
+}
+
+.ss-accordion__header[aria-expanded="true"] .ss-accordion__icon::after {
+	transform: translate(-50%, -50%) rotate(90deg);
+}
+
+
+// ---------- Body: плавное раскрытие через grid-template-rows ----------
+// Приём: контейнер body — grid с template-rows 0fr / 1fr, 1fr=auto
+// в grid анимируется до естественной высоты контента без JS-измерений.
+//
+// Слои и почему так:
+//   .ss-accordion__body        — grid parent, overflow: hidden (гарантированно
+//                                клипует контент по мере схлопывания трека).
+//   .ss-accordion__body-inner  — grid-child с min-height: 0. Без padding'ов —
+//                                они бы держали ненулевую высоту box'а в
+//                                свёрнутом состоянии из-за border-box.
+//   .ss-accordion__body-content — визуальный контейнер контента с padding'ом
+//                                 и типографикой. Свободен по высоте, спокойно
+//                                 клипуется родителем при 0fr.
+//
+// Visibility — направленная:
+//   при закрытии — snap к hidden с задержкой = длительности схлопывания,
+//   при открытии — visible моментально, чтобы контент показывался сразу.
+.ss-accordion__body {
+	display: grid;
+	grid-template-rows: 0fr;
+	overflow: hidden;
+	visibility: hidden;
+	transition:
+		grid-template-rows .3s ease,
+		visibility 0s linear .3s;
+}
+
+.ss-accordion__body-inner {
+	min-height: 0;
+}
+
+.ss-accordion__body-content {
+	padding: 0 0 20px 20px;
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 1.6;
+
+	p {
+		margin: 0 0 12px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+// Раскрытое состояние.
+.ss-accordion__header[aria-expanded="true"] + .ss-accordion__body {
+	grid-template-rows: 1fr;
+	visibility: visible;
+	// При открытии — visible без задержки, чтобы контент показывался сразу.
+	transition:
+		grid-template-rows .3s ease,
+		visibility 0s;
+}
+
+
+// ---------- А11у ----------
+// Уважаем prefers-reduced-motion — отрубаем плавность.
+@media (prefers-reduced-motion: reduce) {
+	.ss-accordion__header,
+	.ss-accordion__icon::before,
+	.ss-accordion__icon::after,
+	.ss-accordion__body,
+	.ss-accordion__header[aria-expanded="true"] + .ss-accordion__body {
+		transition: none;
+	}
+}

@@ -1,0 +1,33 @@
+//- ssAccordionItem(title, id) — один элемент .ss-accordion.
+//- Разметка:
+//-   .ss-accordion__item
+//-     button.ss-accordion__header(aria-expanded='false', aria-controls=id)
+//-       span.ss-accordion__title <title>
+//-       span.ss-accordion__icon   ← +/− (CSS-only, рисуется псевдоэлементами)
+//-     .ss-accordion__body#<id>            ← grid-контейнер, animate rows 0fr↔1fr
+//-       .ss-accordion__body-inner         ← grid-child, min-height: 0 (голый)
+//-         .ss-accordion__body-content     ← padding + типографика
+//-           block ← пользовательский контент ответа
+//-
+//- Разбиение на 3 обёртки нужно, чтобы padding контента не держал ненулевую
+//- высоту box'а в свёрнутом состоянии (border-box) — см. комментарий в SCSS.
+//-
+//- Использование:
+//-   .ss-accordion(data-accordion)
+//-     +ssAccordionItem('Вопрос?', 'faq-1')
+//-       p Ответ...
+//-     +ssAccordionItem('Другой вопрос?', 'faq-2')
+//-       p Ответ...
+//-
+//- Состояние — только aria-expanded на header. Раскрытие анимировано
+//- через grid-template-rows 0fr → 1fr. JS — src/js/accordion.js.
+//- Стили — src/scss/blocks/_accordion.scss.
+mixin ssAccordionItem(title, id)
+	.ss-accordion__item
+		button.ss-accordion__header(type='button', aria-expanded='false', aria-controls=id)
+			span.ss-accordion__title= title
+			span.ss-accordion__icon(aria-hidden='true')
+		.ss-accordion__body(id=id)
+			.ss-accordion__body-inner
+				.ss-accordion__body-content
+					block

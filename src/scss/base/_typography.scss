@@ -54,6 +54,39 @@
 .ss-semi-12 { font-size: 12px; font-weight: 600; line-height: 1.4; }
 
 
+// ==== Fluid font-size utilities ====
+// Утилита font-size с плавным масштабированием от мобильного к десктопному
+// значению. Только font-size — line-height/weight/color задаются рядом
+// (через .ss-reg-* / .ss-medi-* / .ss-semi-*, .ss-txt-* или в стилях блока).
+//
+// Fluid-диапазон: viewport 744 → 1920 (те же границы, что у .ss-h1..h6).
+// За пределами clamp() держит крайние значения:
+//   viewport ≤ 744px  → мобильный размер
+//   viewport ≥ 1920px → десктопный размер
+//
+// Имя = размер на десктопе. Пары «desktop ↔ mobile»:
+//   .ss-fs-32 → 32 ↔ 24
+//   .ss-fs-28 → 28 ↔ 20
+//   .ss-fs-24 → 24 ↔ 18
+//   .ss-fs-22 → 22 ↔ 16
+//   .ss-fs-20 → 20 ↔ 16
+//   .ss-fs-18 → 18 ↔ 14
+//   .ss-fs-16 → 16 ↔ 14
+//   .ss-fs-14 → 14 ↔ 12
+//
+// Использование: применяем классом к тексту в разметке, чтобы не дублировать
+// font-size + @include down(...) внутри стилей каждого компонента.
+// Пример:  h3.ss-semi-20.ss-fs-20  → семибольд с плавным 20→16.
+.ss-fs-32 { font-size: clamp(24px, 0.68vw + 18.94px, 32px); }
+.ss-fs-28 { font-size: clamp(20px, 0.68vw + 14.94px, 28px); }
+.ss-fs-24 { font-size: clamp(18px, 0.51vw + 14.20px, 24px); }
+.ss-fs-22 { font-size: clamp(16px, 0.51vw + 12.20px, 22px); }
+.ss-fs-20 { font-size: clamp(16px, 0.34vw + 13.47px, 20px); }
+.ss-fs-18 { font-size: clamp(14px, 0.34vw + 11.47px, 18px); }
+.ss-fs-16 { font-size: clamp(14px, 0.17vw + 12.73px, 16px); }
+.ss-fs-14 { font-size: clamp(12px, 0.17vw + 10.73px, 14px); }
+
+
 // ==== Kicker (eyebrow) ====
 // Короткая uppercase-надпись над заголовком в section-header / hero.
 // Цвет по умолчанию — accent1, без !important — можно переопределить

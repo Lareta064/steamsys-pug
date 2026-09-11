@@ -10,7 +10,9 @@ section.ss-section-blog
 		.ss-section-blog__grid
 
 			//- ========== Sidebar ==========
-			aside.ss-section-blog__aside
+			//- .ss-sticky-side — универсальная sticky-обёртка. Раскладка
+			//- содержимого (разделы-аккордеон, теги, CTA) — специфика этой секции.
+			aside.ss-sticky-side
 
 				//- Разделы. На мобилке — аккордеон (toggle-кнопка + collapsible-body).
 				//- На десктопе — plain-список (toggle скрыт через CSS, body всегда видим,
