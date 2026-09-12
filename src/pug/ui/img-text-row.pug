@@ -1,0 +1,161 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Строка «изображение + текст» (.ss-img-text-row)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Строка «изображение + текст» (.ss-img-text-row)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| 2-колоночный блок для иллюстрированных абзацев в контенте статьи. Grid 1fr 1fr, gap 40 → 30 → 20 по брейкам. На
+				code < $md
+				|  — стек: изображение сверху, текст снизу. Стили —
+				code src/scss/blocks/_img-text-row.scss
+				| .
+				br
+				| Изображение фиксировано в aspect-ratio 4/3 +
+				code object-fit: cover
+				|  — любая пропорция исходника укладывается в одинаковый box без «ломки» верстки.
+
+			//- ===== Base — image left =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Изображение слева (базовое)
+
+				.breadcrumbs-catalog__demo
+					.ss-img-text-row
+						.ss-img-text-row__img
+							img(src=`${basePath}img/1.webp`, alt='')
+						.ss-img-text-row__body
+							h3.ss-img-text-row__title.ss-fs-24 Неправильный уклон трубы перед конденсатоотводчиком
+							p Труба уложена с контруклоном — конденсат скапливается в нижней точке перед КО, а не отводится самотёком. При остановке системы этот участок промерзает первым.
+							p Инженер при обходе должен проверить уклон (норма ≥ 5 мм/м) и наличие дренажного клапана в нижней точке.
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-img-text-row
+						|     .ss-img-text-row__img
+						|         img(src='...' alt='')
+						|     .ss-img-text-row__body
+						|         h3.ss-img-text-row__title.ss-fs-24 Заголовок
+						|         p Текст…
+
+			//- ===== Reverse — image right =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Изображение справа (--reverse)
+
+				.breadcrumbs-catalog__demo
+					.ss-img-text-row.ss-img-text-row--reverse
+						.ss-img-text-row__img
+							img(src=`${basePath}img/2.webp`, alt='')
+						.ss-img-text-row__body
+							h3.ss-img-text-row__title.ss-fs-24 Подтопление КО при подъёмном конденсатопроводе
+							p После конденсатоотводчика труба уходит вверх без промежуточного накопителя — противодавление не позволяет КО нормально открываться.
+							p Конденсат застаивается на входе, паровая полость в калорифере не осушается. Решение: подъёмный участок после КО, а не до него.
+
+			//- ===== Aspect check with 3.webp =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Проверка на другой пропорции (3.webp)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Изображение с другим соотношением — верстка не ломается, box всегда 4/3, картинка подрезается через
+					code object-fit: cover
+					| .
+
+				.breadcrumbs-catalog__demo
+					.ss-img-text-row
+						.ss-img-text-row__img
+							img(src=`${basePath}img/3.webp`, alt='')
+						.ss-img-text-row__body
+							h3.ss-img-text-row__title.ss-fs-24 Тестовый заголовок
+							p Абзац для проверки типографики и адаптива. Ресайзи окно, чтобы увидеть fluid-переход размера title от 24 (desktop) к 18 (mobile).
+
+			//- ===== List wrapper: авто-змейка =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Список рядов с авто-реверсом (.ss-img-text-list)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Обёртка для нескольких рядов подряд. На
+					code ≥ $md
+					|  каждый чётный ряд автоматически реверсится (картинка справа) — удобно, когда ряды рендерятся циклом. На
+					code < $md
+					|  стек, картинка всегда сверху. Модификатор
+					code --reverse
+					|  на самих рядах не ставим.
+
+				.breadcrumbs-catalog__demo
+					.ss-img-text-list
+						.ss-img-text-row
+							.ss-img-text-row__img
+								img(src=`${basePath}img/1.webp`, alt='')
+							.ss-img-text-row__body
+								h3.ss-img-text-row__title.ss-fs-24 Ряд 1 — картинка слева
+								p Первый ряд — авто-раскладка «картинка слева, текст справа». Никаких модификаторов.
+						.ss-img-text-row
+							.ss-img-text-row__img
+								img(src=`${basePath}img/2.webp`, alt='')
+							.ss-img-text-row__body
+								h3.ss-img-text-row__title.ss-fs-24 Ряд 2 — картинка справа (авто-реверс)
+								p Чётный ряд — картинка ушла вправо через
+								code :nth-child(even)
+								| . В разметке отличий с первым нет.
+						.ss-img-text-row
+							.ss-img-text-row__img
+								img(src=`${basePath}img/3.webp`, alt='')
+							.ss-img-text-row__body
+								h3.ss-img-text-row__title.ss-fs-24 Ряд 3 — снова слева
+								p Нечётный, картинка вернулась в дефолт.
+						.ss-img-text-row
+							.ss-img-text-row__img
+								img(src=`${basePath}img/1.webp`, alt='')
+							.ss-img-text-row__body
+								h3.ss-img-text-row__title.ss-fs-24 Ряд 4 — снова справа
+								p И так далее по циклу.
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-img-text-list
+						|     each item in items
+						|         .ss-img-text-row
+						|             .ss-img-text-row__img
+						|                 img(src=item.img, alt='')
+						|             .ss-img-text-row__body
+						|                 h3.ss-img-text-row__title.ss-fs-24= item.title
+						|                 p= item.text
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-img-text-row
+						|  — grid 1fr 1fr, gap 40 (desktop) → 30 (< $lg) → 20 (< $md).
+						code align-items: start
+						|  — колонки выравниваются по верху.
+					li
+						code .ss-img-text-row--reverse
+						|  — переставляет колонки местами через
+						code order: 2
+						|  на изображении. На
+						code < $md
+						|  сбрасывается — стек всегда начинается с картинки.
+					li
+						code .ss-img-text-row__img > img
+						|  — aspect-ratio 4/3 +
+						code object-fit: cover
+						| , радиус 10.
+					li
+						code .ss-img-text-row__title
+						|  — h3, weight 700, line-height 1.3, отступ снизу 20. Font-size задаётся утилитой
+						code .ss-fs-24
+						|  в разметке (fluid 24↔18).
+					li
+						code .ss-img-text-row__body p
+						|  — параграфы 400/1.6, отступ 10 между собой, fluid 16↔14. Стили привязаны к тегу — на разметке класс писать не нужно.
+					li
+						code .ss-img-text-list
+						|  — обёртка для нескольких рядов. Flex-column, gap 60 (desktop) / 40 (mobile). На
+						code ≥ $md
+						|  чётные ряды авто-реверсятся через
+						code :nth-child(even)
+						| .

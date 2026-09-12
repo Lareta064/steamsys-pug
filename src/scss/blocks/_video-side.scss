@@ -1,0 +1,145 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-video-side — 2-колоночный блок «видео + текст справа».
+// Работает с любым медиа-контентом внутри __media: <video controls>,
+// <iframe> (YouTube и т.п.) или картинка-заглушка с custom play-overlay.
+// Медиа-контейнер держит 16:9 через aspect-ratio, любое содержимое
+// растягивается на всю площадь.
+//
+// Разметка:
+//   .ss-video-side
+//     .ss-video-side__media
+//       video(src='...' poster='...' controls)
+//       // или:
+//       iframe(src='https://www.youtube.com/embed/...' allowfullscreen)
+//       // или заглушка с play-overlay (см. вариант 1 в /ui/video-side.html)
+//     .ss-video-side__body
+//       h3.ss-video-side__title.ss-fs-22 Заголовок
+//       p Описание видео…
+//       ul.ss-video-side__list
+//         li Пункт 1
+//         li Пункт 2
+//
+// На < $md — стек: видео сверху, текст снизу.
+// ==============================================================
+
+.ss-video-side {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 30px;
+	align-items: start;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+}
+
+
+// ---------- Media (video / iframe / image + play overlay) ----------
+.ss-video-side__media {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	border-radius: 10px;
+	background: var(--primary1); // fallback, если контент грузится
+
+	// Любой прямой ребёнок (video, iframe, img) — на всю площадь.
+	> video,
+	> iframe,
+	> img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+
+	> video,
+	> img {
+		object-fit: cover;
+	}
+}
+
+
+// ---------- Play overlay (для «своего видео» с постером) ----------
+// Кнопка поверх постера, при клике — стартуем воспроизведение. Внешний
+// код (JS) должен переключить постер на <video controls> или подобное.
+// В mock'е используется как визуальное представление.
+.ss-video-side__play {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.4);
+	border: 0;
+	color: var(--white);
+	cursor: pointer;
+	transition: background .2s ease;
+
+	svg {
+		width: 60px;
+		height: 60px;
+
+		@include down($md) {
+			width: 46px;
+			height: 46px;
+		}
+	}
+
+	&:hover {
+		background: rgba(0, 0, 0, 0.5);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--white);
+		outline-offset: -4px;
+	}
+}
+
+
+// ---------- Body typography ----------
+// Title — font-size задаётся утилитой .ss-fs-* в разметке.
+.ss-video-side__title {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+.ss-video-side__body p {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: clamp(14px, 0.17vw + 12.73px, 16px);
+	line-height: 1.6;
+	color: var(--primary);
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+
+// ---------- Optional bullet list ----------
+.ss-video-side__list {
+	margin: 20px 0 0;
+	padding-left: 20px;
+	list-style: disc;
+
+	li {
+		font-family: var(--font-family);
+		font-weight: 400;
+		font-size: clamp(14px, 0.17vw + 12.73px, 16px);
+		line-height: 1.6;
+		color: var(--primary);
+		margin-bottom: 6px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}

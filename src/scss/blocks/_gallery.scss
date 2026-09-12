@@ -1,0 +1,160 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-gallery — фото-галерея на 1 слайд, Swiper. Стрелки 65×65 по
+// бокам (только на десктопе), подпись + счётчик снизу.
+//
+// Разметка:
+//   .ss-gallery.js-gallery
+//     .ss-gallery__slider.swiper
+//       .swiper-wrapper
+//         .swiper-slide
+//           img(src='...' alt='')
+//         .swiper-slide
+//           img(...)
+//         ...
+//     button.ss-gallery__arrow.ss-gallery__arrow--prev
+//       +svgIcon('chevron-left')
+//     button.ss-gallery__arrow.ss-gallery__arrow--next
+//       +svgIcon('chevron-right')
+//     .ss-gallery__footer
+//       p.ss-gallery__caption Подпись
+//       .swiper-pagination.swiper-pagination-gallery  ← счётчик (fraction)
+//
+// JS-инициализация — src/js/gallery-swiper.js по .js-gallery. Счётчик —
+// штатная Swiper-пагинация type='fraction', обновляется автоматически.
+// Доп. класс .swiper-pagination-gallery — чтобы стилизовать только
+// галерейную пагинацию, не задевая другие swiper'ы на странице.
+//
+// На < $lg стрелки скрыты (моб/планшет), счётчик остаётся. На < $md
+// footer перестраивается в колонку: счётчик в правом углу, подпись под ним.
+// ==============================================================
+
+.ss-gallery {
+	position: relative;
+}
+
+
+// ---------- Slider ----------
+.ss-gallery__slider {
+	// aspect-ratio 16/9 держит одинаковый box для всех слайдов.
+	// Изображения внутри — object-fit: cover, любая пропорция вписывается.
+	.swiper-slide {
+		aspect-ratio: 16 / 9;
+		border-radius: 10px;
+		overflow: hidden;
+		background: var(--secondary3);
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+
+// ---------- Arrows (65×65) ----------
+// Позиционируем по боковым краям слайда, вертикально по центру.
+// На < $md — hidden.
+.ss-gallery__arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 2;
+
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 65px;
+	height: 65px;
+	padding: 0;
+	background: var(--secondary3);
+	border: 0;
+	border-radius: 10px;
+	color: var(--secondary1);
+	cursor: pointer;
+	transition: background .2s ease, color .2s ease;
+
+	svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	&:hover {
+		background: var(--accent1);
+		color: var(--white);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+
+	// Отступ от края слайда на десктопе.
+	&--prev {
+		left: 20px;
+	}
+
+	&--next {
+		right: 20px;
+	}
+
+	// swiper-disabled — когда доехали до края (loop off). Держим их
+	// видимыми, но приглушаем: типовое поведение галерей.
+	&.swiper-button-disabled {
+		opacity: 0.35;
+		pointer-events: none;
+	}
+
+	@include down($lg) {
+		display: none;
+	}
+}
+
+
+// ---------- Footer (caption + counter) ----------
+// Desktop: ряд, caption слева, counter справа.
+// Mobile: колонка, counter первым и справа, caption ниже.
+.ss-gallery__footer {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 20px;
+	margin-top: 15px;
+
+	@include down($md) {
+		flex-direction: column-reverse;
+		align-items: stretch;
+		gap: 8px;
+	}
+}
+
+.ss-gallery__caption {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: clamp(14px, 0.17vw + 12.73px, 16px); // fluid 16↔14
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+// Штатная Swiper-пагинация type='fraction' с нашим доп. классом.
+// Отменяем абсолютное позиционирование Swiper'а (bottom/left/width) —
+// пагинация сидит в footer как обычный inline-элемент.
+.swiper-pagination.swiper-pagination-gallery {
+	position: static;
+	width: auto;
+	flex-shrink: 0;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+
+	@include down($md) {
+		text-align: right;
+	}
+}

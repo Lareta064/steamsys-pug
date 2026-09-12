@@ -1,0 +1,125 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Видео + текст (.ss-video-side)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Видео + текст (.ss-video-side)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| 2-колоночный блок «видео слева, текст справа». Медиа-контейнер держит 16:9 через
+				code aspect-ratio
+				|  — работает с любым содержимым: своё
+				code &lt;video controls&gt;
+				| ,
+				code &lt;iframe&gt;
+				|  YouTube, или картинка-заглушка с custom play-overlay. Стили —
+				code src/scss/blocks/_video-side.scss
+				| .
+
+			//- ===== Вариант 1: своё видео (mock — картинка + play-overlay) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Вариант 1 — своё видео (poster + play-overlay)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| В продакшене — обычный
+					code &lt;video src poster controls&gt;
+					| . В демо ниже — постер (
+					code &lt;img&gt;
+					| ) + оверлей-кнопка
+					code .ss-video-side__play
+					| , чтобы показать вид «до клика».
+
+				.breadcrumbs-catalog__demo
+					.ss-video-side
+						.ss-video-side__media
+							img(src=`${basePath}img/1.webp`, alt='')
+							button.ss-video-side__play(type='button', aria-label='Воспроизвести')
+								svg(viewBox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
+									path(d='M8 5v14l11-7z', fill='currentColor')
+						.ss-video-side__body
+							h3.ss-video-side__title.ss-fs-22 Видео: как найти место застоя конденсата
+							p Короткий ролик можно использовать как практическое дополнение к статье: инженер показывает порядок проверки на действующем узле.
+							ul.ss-video-side__list
+								li как смотреть уклоны
+								li как проверять КО
+								li что фиксировать перед обращением к инженеру
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-video-side
+						|     .ss-video-side__media
+						|         video(src='...' poster='...' controls)
+						|     .ss-video-side__body
+						|         h3.ss-video-side__title.ss-fs-22 Заголовок
+						|         p Описание…
+						|         ul.ss-video-side__list
+						|             li …
+
+			//- ===== Вариант 2: YouTube iframe =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Вариант 2 — YouTube iframe
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Iframe растягивается на всю площадь 16:9-контейнера. YouTube-плеер сам показывает превью и play-кнопку.
+
+				.breadcrumbs-catalog__demo
+					.ss-video-side
+						.ss-video-side__media
+							iframe(src='https://www.youtube.com/embed/dQw4w9WgXcQ', title='YouTube video', allowfullscreen, loading='lazy')
+						.ss-video-side__body
+							h3.ss-video-side__title.ss-fs-22 Видео с YouTube — то же поведение
+							p Тот же
+							code .ss-video-side__media
+							| : меняем содержимое на
+							code iframe
+							|  — раскладка сохраняется.
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-video-side
+						|     .ss-video-side__media
+						|         iframe(src='https://www.youtube.com/embed/...' allowfullscreen)
+						|     .ss-video-side__body
+						|         h3.ss-video-side__title.ss-fs-22 Заголовок
+						|         p Описание…
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-video-side
+						|  — grid 1fr 1fr, gap 30 (моб 20). На
+						code < $md
+						|  стек — видео сверху.
+					li
+						code .ss-video-side__media
+						|  —
+						code aspect-ratio: 16/9
+						| ,
+						code overflow: hidden
+						| , радиус 10. Любой прямой ребёнок (
+						code video
+						| /
+						code iframe
+						| /
+						code img
+						| ) растягивается на всю площадь.
+					li
+						code .ss-video-side__play
+						|  — опциональный оверлей для «своего» видео. Полупрозрачный фон + белый play-треугольник. Клик — стартуем воспроизведение (JS реализует замену на
+						code &lt;video controls&gt;
+						| ).
+					li
+						code .ss-video-side__title
+						|  — h3, weight 700. Font-size утилитой
+						code .ss-fs-22
+						|  (fluid 22↔16).
+					li
+						code .ss-video-side__body p
+						|  — параграфы 400/1.6, fluid 16↔14.
+					li
+						code .ss-video-side__list
+						|  — опциональный маркированный список под описанием. 400/1.6, fluid 16↔14.

@@ -1,0 +1,104 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Галерея (.ss-gallery)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Галерея (.ss-gallery)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Swiper на 1 слайд, стрелки 65×65 по бокам (только на десктопе), подпись + счётчик снизу. На
+				code < $md
+				|  стрелки скрыты, счётчик уезжает в правый угол над подписью. Стили —
+				code src/scss/blocks/_gallery.scss
+				| , JS —
+				code src/js/gallery-swiper.js
+				| .
+
+			//- ===== Пример =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример (4 слайда)
+
+				.breadcrumbs-catalog__demo
+					.ss-gallery.js-gallery
+						.ss-gallery__slider.swiper
+							.swiper-wrapper
+								.swiper-slide
+									img(src=`${basePath}img/1.webp`, alt='Общий вид обвязки калорифера')
+								.swiper-slide
+									img(src=`${basePath}img/2.webp`, alt='Узел конденсатоотвода')
+								.swiper-slide
+									img(src=`${basePath}img/3.webp`, alt='Дренажный клапан')
+								.swiper-slide
+									img(src=`${basePath}img/1.webp`, alt='Общий план')
+						button.ss-gallery__arrow.ss-gallery__arrow--prev(type='button', aria-label='Предыдущий слайд')
+							+svgIcon('chevron-left')
+						button.ss-gallery__arrow.ss-gallery__arrow--next(type='button', aria-label='Следующий слайд')
+							+svgIcon('chevron-right')
+						.ss-gallery__footer
+							p.ss-gallery__caption Галерея во всю ширину статьи: несколько фотографий узла с возможностью листать и увеличивать.
+							.swiper-pagination.swiper-pagination-gallery
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-gallery.js-gallery
+						|     .ss-gallery__slider.swiper
+						|         .swiper-wrapper
+						|             .swiper-slide
+						|                 img(src='...' alt='')
+						|             ...
+						|     button.ss-gallery__arrow.ss-gallery__arrow--prev
+						|         +svgIcon('chevron-left')
+						|     button.ss-gallery__arrow.ss-gallery__arrow--next
+						|         +svgIcon('chevron-right')
+						|     .ss-gallery__footer
+						|         p.ss-gallery__caption Подпись
+						|         .swiper-pagination.swiper-pagination-gallery
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-gallery
+						|  — обёртка. Position relative для абсолютных стрелок.
+						code .js-gallery
+						|  — крючок JS-инициализации.
+					li
+						code .ss-gallery__slider.swiper
+						|  — Swiper-контейнер. Каждый
+						code .swiper-slide
+						|  держит aspect-ratio 16/9,
+						code overflow: hidden
+						| , радиус 10.
+					li
+						code .ss-gallery__arrow--prev/--next
+						|  — квадратные кнопки 65×65, радиус 10. Default: фон
+						code --secondary3
+						| , цвет
+						code --secondary1
+						| . Hover: фон
+						code --accent1
+						| , цвет
+						code --white
+						| . Скрыты на
+						code < $lg
+						|  (моб + планшет).
+					li
+						code .ss-gallery__footer
+						|  — bar с caption и counter. Desktop: ряд (caption слева, counter справа). Mobile: колонка, counter первым (правый угол), caption ниже.
+					li
+						code .ss-gallery__caption
+						|  — 400/1.5, fluid 16↔14, цвет
+						code --secondary
+						| .
+					li
+						code .swiper-pagination.swiper-pagination-gallery
+						|  — штатная Swiper-пагинация типа
+						code fraction
+						| . Обновляется автоматически. Дополнительный класс
+						code .swiper-pagination-gallery
+						|  нужен, чтобы стилизовать только галерейную пагинацию (не задевая другие swiper'ы на странице).

@@ -1,0 +1,53 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-cta-row — светло-серый box с заголовком по центру и рядом
+// кнопок (обычно 2-3) под ним. Используется в контенте статьи как
+// вставка «нужна помощь? вот кнопки действий».
+//
+// Разметка:
+//   .ss-cta-row
+//     p.ss-cta-row__title.ss-fs-18 Нужна схема обвязки для вашего калорифера?
+//     .ss-cta-row__buttons
+//       +ssBtn('Обсудить решение', { variant: 'dark' })
+//       +ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-dark' })
+//       +ssBtn('Получить схему', { variant: 'outline-light' })
+//
+// На < $md кнопки перестраиваются в колонку, каждая на всю ширину.
+// ==============================================================
+
+.ss-cta-row {
+	box-sizing: border-box;
+	padding: 30px 20px;
+	background: var(--secondary3);
+	border-radius: 10px;
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+// Заголовок по центру. Font-size задаётся утилитой .ss-fs-* в разметке
+// (по дефолту .ss-fs-18 — fluid 18↔14). Weight/line-height/color здесь.
+.ss-cta-row__title {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	line-height: 1.4;
+	color: var(--primary);
+	text-align: center;
+}
+
+// Ряд кнопок — центрируем, gap 10. На < $md — колонка, каждая на 100%
+// (через ss-btn--full НЕ навязываем; полную ширину даём тут через align).
+.ss-cta-row__buttons {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 10px;
+
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}
