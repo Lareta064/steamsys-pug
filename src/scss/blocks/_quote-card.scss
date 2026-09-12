@@ -64,8 +64,17 @@
 // ---------- Quote text ----------
 // Blockquote с обнулённым margin. Font-size задаётся утилитой .ss-fs-*
 // в разметке (по дефолту .ss-fs-22 — fluid 22↔16). Weight/цвет здесь.
+//
+// Сброс контентных стилей blockquote: карточка используется внутри
+// .ss-content, где :where(.ss-content) blockquote задаёт светло-серый фон,
+// левый бордер и паддинги. У нашей тёмной карточки этого не должно быть —
+// перебиваем явно (специфичность 0-1-0 бьёт 0-0-1 от :where).
 .ss-quote-card__text {
 	margin: 0 0 20px;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
 	font-family: var(--font-family);
 	font-weight: 700;
 	line-height: 1.4;

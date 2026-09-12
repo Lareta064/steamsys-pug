@@ -208,20 +208,11 @@
 	color: var(--primary);
 }
 
+// Обёртка над +ssLink — держит layout (центрирование в flex-колонке карточки).
+// Сама ссылка стилизуется .ss-link (см. base/_ss-link.scss).
 .ss-help-card__link {
 	align-self: center;
 	margin-top: 5px;
-	font-family: var(--font-family);
-	font-weight: 500;
-	font-size: 14px;
-	line-height: 1.4;
-	color: var(--primary);
-	text-decoration: none;
-	transition: color .2s ease;
-
-	&:hover {
-		color: var(--accent1);
-	}
 }
 
 
@@ -249,26 +240,13 @@
 	margin: 0;
 }
 
+// Внутри — +ssLink({ size: 'md', icon: null, underline: true }).
+// Стилизация ссылки — .ss-link + .ss-link--md + .ss-link--underline.
 .ss-solutions-list__item {
 	margin-bottom: 10px;
 
 	&:last-child {
 		margin-bottom: 0;
-	}
-}
-
-.ss-solutions-list__link {
-	font-family: var(--font-family);
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 1.5;
-	color: var(--accent1);
-	text-decoration: underline;
-	text-underline-offset: 3px;
-	transition: color .2s ease;
-
-	&:hover {
-		color: var(--secondary);
 	}
 }
 

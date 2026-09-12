@@ -41,7 +41,7 @@ section.ss-single-article
 
 				.ss-single-article__author
 					.ss-single-article__author-avatar
-						img(src=`${basePath}img/user-ava.webp`, alt='user')
+						img(src=`${basePath}img/ava.webp`, alt='user')
 					span.ss-single-article__author-name Александр Баженов
 					span Инженер-проектировщик
 					a.ss-single-article__author-link(href='#') Профиль →
@@ -170,7 +170,7 @@ section.ss-single-article
 						//- Цитата автора
 						.ss-quote-card
 							.ss-quote-card__avatar
-								img(src=`${basePath}img/ava.png`, alt='')
+								img(src=`${basePath}img/ava.webp`, alt='')
 							.ss-quote-card__body
 								blockquote.ss-quote-card__text.ss-fs-22 Если в схеме нет безопасного дренажа при остановке, калорифер остаётся уязвимым даже при правильно выбранном конденсатоотводчике.
 								p.ss-quote-card__author-name Александр Баженов
@@ -323,14 +323,18 @@ section.ss-single-article
 					p.ss-help-card__title Нужна помощь?
 					+ssBtn('Получить схему обвязки', { variant: 'dark', size: 'small', full: true, wrap: true })(data-modal='request-b24')
 					+ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-dark', size: 'small', full: true, wrap: true })
-					a.ss-help-card__link(href='#') Обсудить с инженером
+					.ss-help-card__link
+						+ssLink('Обсудить с инженером', { variant: 'dark', size: 'md', icon: null })
 
 				.ss-solutions-list(data-article-extra)
 					p.ss-solutions-list__title Решения по теме
 					ul.ss-solutions-list__list
-						li.ss-solutions-list__item: a.ss-solutions-list__link(href='#') Обвязка паровых калориферов
-						li.ss-solutions-list__item: a.ss-solutions-list__link(href='#') Конденсатоотводчики TLV
-						li.ss-solutions-list__item: a.ss-solutions-list__link(href='#') Обвязка теплообменников
+						li.ss-solutions-list__item
+							+ssLink('Обвязка паровых калориферов', { size: 'md', icon: null })
+						li.ss-solutions-list__item
+							+ssLink('Конденсатоотводчики TLV', { size: 'md', icon: null })
+						li.ss-solutions-list__item
+							+ssLink('Обвязка теплообменников', { size: 'md', icon: null })
 
 			//- -------------------- Мобильный контейнер для extras --------------------
 			//- Пуст на десктопе. На < $lg JS (src/js/article.js) переносит сюда

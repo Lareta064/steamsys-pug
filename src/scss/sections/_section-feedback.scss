@@ -59,6 +59,27 @@
 	color: var(--white);
 }
 
+// Лид под h2 (только для --inner-варианта). Приглушённый цвет, тонкий вес.
+.ss-section-feedback__lead {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.6;
+	color: var(--secondary1);
+	max-width: 520px;
+}
+
+// ------------------------------
+// Модификатор --inner. Левая колонка без списка контактов —
+// h2 + lead сверху, распорка внизу не нужна.
+// ------------------------------
+.ss-section-feedback--inner {
+	.ss-section-feedback__left {
+		justify-content: center;
+	}
+}
+
 // ------------------------------
 // Список контактов — используем общий компонент .ss-contacts-list
 // с модификатором --hero (крупные размеры). См. blocks/_contacts-list.scss.

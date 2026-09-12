@@ -62,6 +62,23 @@ block content
 				+ssLink('Disabled', { disabled: true })
 			p.links-catalog__hint.ss-reg-14.ss-txt-secondary Наведи мышью — hover.
 
+			//- ===== Подчёркнутый вариант (.ss-link--underline) =====
+			h3.links-catalog__section-title Подчёркнутая (.ss-link--underline)
+			p.links-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Классическая «текст-ссылка = подчёркнутый текст». Композируется с любыми
+				code variant
+				|  /
+				code size
+				|  модификаторами. Используется в сайдбар-списках вроде «Решения по теме» на странице статьи.
+
+			.links-catalog__row
+				+ssLink('Обвязка паровых калориферов', { size: 'md', icon: null, underline: true })
+				+ssLink('Конденсатоотводчики TLV', { size: 'md', icon: null, underline: true })
+				+ssLink('Обвязка теплообменников', { size: 'md', icon: null, underline: true })
+
+			pre.links-catalog__snippet(style="margin-top:16px;")
+				code +ssLink('Обвязка паровых калориферов', { size: 'md', icon: null, underline: true })
+
 			//- ===== Ссылка-плашка (.ss-link--strip) =====
 			h3.links-catalog__section-title Плашка (.ss-link--strip)
 			p.links-catalog__hint.ss-reg-14.ss-txt-secondary

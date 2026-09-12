@@ -7,6 +7,7 @@
 //-     icon      имя иконки без префикса `svg-` (по умолчанию 'arrow-right')
 //-               передай null или '' → ссылка без иконки
 //-     iconSide  right (default) | left
+//-     underline true → подчёркнутая ссылка (класс .ss-link--underline)
 //-     tag       a (default) | button
 //-     href      URL (default: '#'), только при tag='a'
 //-     disabled  true → атрибут disabled (button) или класс is-disabled (a)
@@ -15,6 +16,7 @@
 //-   +ssLink('Политика обработки')
 //-   +ssLink('Скачать', { variant: 'dark', size: 'md' })
 //-   +ssLink('Подробнее', { icon: null })            // без иконки
+//-   +ssLink('Обвязка теплообменников', { size: 'md', icon: null, underline: true })
 //-   +ssLink('Наверх', { variant: 'white', size: 'sm' })
 mixin ssLink(text, opts)
 	-
@@ -28,6 +30,7 @@ mixin ssLink(text, opts)
 		if (variant !== 'primary') classes += ' ss-link--' + variant;
 		if (size === 'md') classes += ' ss-link--md';
 		if (size === 'sm') classes += ' ss-link--sm';
+		if (o.underline) classes += ' ss-link--underline';
 		if (tag === 'a' && o.disabled) classes += ' is-disabled';
 
 	if tag === 'a'
