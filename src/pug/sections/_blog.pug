@@ -1,0 +1,204 @@
+//- ============================================================
+//- Секция «База знаний» — контент под hero-inner.
+//- Две колонки: sticky-сайдбар + main (список статей).
+//-
+//- Секция описывает только раскладку и обёртки. Все компоненты
+//- внутри — универсальные примитивы из UI-каталога.
+//- ============================================================
+section.ss-blog
+	.ss-container.ss-wrapper
+		.ss-blog__grid
+
+			//- ========== Sidebar ==========
+			//- .ss-sticky-side — универсальная sticky-обёртка. Раскладка
+			//- содержимого (разделы-аккордеон, теги, CTA) — специфика этой секции.
+			aside.ss-sticky-side
+
+				//- Разделы. На мобилке — аккордеон (toggle-кнопка + collapsible-body).
+				//- На десктопе — plain-список (toggle скрыт через CSS, body всегда видим,
+				//- заголовок h3 виден). Заголовок и кнопка дублируют текст «Разделы» —
+				//- каждый работает в своём режиме.
+				//- JS-логика toggle — src/js/blog.js по data-blog-accordion.
+				.ss-blog__accordion(data-blog-accordion)
+					h3.ss-blog__aside-heading Разделы
+					button.ss-blog__accordion-toggle(type='button', aria-expanded='false', aria-controls='ss-blog-cat-body')
+						span Разделы
+						+svgIcon('chevron-down')
+					.ss-blog__accordion-body#ss-blog-cat-body(hidden)
+						ul.ss-cat-list
+							li.ss-cat-list__item
+								a.ss-cat-list__link(href='#', aria-current='page')
+									span.ss-cat-list__label Все статьи
+									span.ss-cat-list__count 42
+							li.ss-cat-list__item
+								a.ss-cat-list__link(href='#')
+									span.ss-cat-list__label Конденсатоотводчики
+									span.ss-cat-list__count 14
+							li.ss-cat-list__item
+								a.ss-cat-list__link(href='#')
+									span.ss-cat-list__label Обвязка
+									span.ss-cat-list__count 9
+							li.ss-cat-list__item
+								a.ss-cat-list__link(href='#')
+									span.ss-cat-list__label РОУ/БРОУ и редукция
+									span.ss-cat-list__count 8
+							li.ss-cat-list__item
+								a.ss-cat-list__link(href='#')
+									span.ss-cat-list__label СВК и возврат конденсата
+									span.ss-cat-list__count 6
+							li.ss-cat-list__item
+								a.ss-cat-list__link(href='#')
+									span.ss-cat-list__label Диагностика и ремонт
+									span.ss-cat-list__count 3
+							li.ss-cat-list__item
+								a.ss-cat-list__link(href='#')
+									span.ss-cat-list__label Проектирование систем
+									span.ss-cat-list__count 2
+
+				//- Популярные теги. data-blog-extra — крючок для JS: на мобилке
+				//- этот блок перемещается под пагинацию (см. blog.js).
+				.ss-blog__aside-block(data-blog-extra)
+					h3.ss-blog__aside-heading Популярные теги
+					.ss-tag-group
+						a.ss-tag.ss-tag--mini(href='#') гидроудары
+						a.ss-tag.ss-tag--mini(href='#') поплавковый КО
+						a.ss-tag.ss-tag--mini(href='#') замерзание
+						a.ss-tag.ss-tag--mini(href='#') конденсат
+						a.ss-tag.ss-tag--mini(href='#') ROI
+						a.ss-tag.ss-tag--mini(href='#') редукция пара
+						a.ss-tag.ss-tag--mini(href='#') TLV
+						a.ss-tag.ss-tag--mini(href='#') диагностика
+
+				//- CTA. Тоже data-blog-extra — на мобилке уезжает под пагинацию.
+				.ss-blog__aside-block(data-blog-extra)
+					.ss-cta-card
+						p.ss-cta-card__title Нужна консультация?
+						p.ss-cta-card__text Инженер ответит на вопрос по статье или подберёт решение под задачу.
+						+ssBtn('Задать вопрос инженеру', { variant: 'primary', full: true })(data-modal='request-b24')
+
+			//- ========== Main ==========
+			.ss-blog__main
+
+				//- Role filter «Я:»
+				.ss-blog__roles
+					span.ss-blog__roles-label Я:
+					ul.ss-blog__roles-list
+						li: a.ss-pill(href='#', aria-current='page') Все
+						li: a.ss-pill(href='#') Инженер
+						li: a.ss-pill(href='#') Энергетик
+						li: a.ss-pill(href='#') Технолог
+						li: a.ss-pill(href='#') Проектировщик
+						li: a.ss-pill(href='#') Закупщик
+
+				//- Toolbar
+				.ss-blog__toolbar
+					h2.ss-blog__toolbar-title
+						| Все статьи
+						span.ss-blog__toolbar-count (42)
+					.ss-select-labeled
+						span.ss-select-labeled__label Сортировать:
+						.ss-select(data-select)
+							button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+								span.ss-select__value По дате — новые
+								span.ss-select__chevron
+									+svgIcon('chevron-down')
+							ul.ss-select__list(role='listbox', hidden)
+								li.ss-select__option(role='option', aria-selected='true',  tabindex='-1', data-value='date-desc') По дате — новые
+								li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='date-asc') По дате — старые
+								li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='popular') По популярности
+
+				//- Article list — 1 featured + 5 regular
+				.ss-blog__list
+					article.ss-article-card.ss-article-card--featured
+						.ss-article-card__body
+							.ss-article-card__tag
+								| Обвязка
+								span.ss-badge Новое
+							a.ss-article-card__title(href='./single-article.html') Почему замерзает паровой калорифер и как это предотвратить
+							p.ss-article-card__excerpt Калорифер замерзает из-за неправильного отвода конденсата или отсутствия защитной схемы. Разбираем три основные причины, правильный выбор КО и готовые решения защиты.
+							.ss-article-card__meta
+								span 7 мин
+								span 15.03.2025
+								+authorTooltip('Александр Баженов', 'Инженер-технолог')
+							+ssBtn('Читать статью', { tag: 'a', href: './single-article.html', variant: 'primary', icon: 'arrow-right' })
+						.ss-article-card__thumb
+							img(src=`${basePath}img/hero.webp`, alt='')
+
+					article.ss-article-card
+						.ss-article-card__body
+							.ss-article-card__tag Конденсатоотводчики
+							a.ss-article-card__title(href='./single-article.html') Как подобрать конденсатоотводчик под паровую нагрузку
+							p.ss-article-card__excerpt Правила расчёта пропускной способности, коэффициент запаса, разница между нагрузкой при пуске и рабочим режимом. С таблицей выбора по типу оборудования.
+							.ss-article-card__meta
+								span 9 мин
+								span 04.03.2025
+								+authorTooltip('Дмитрий Кравцов', 'Специалист по конденсатоотводчикам')
+						.ss-article-card__thumb
+							img(src=`${basePath}img/solution1.webp`, alt='')
+
+					article.ss-article-card
+						.ss-article-card__body
+							.ss-article-card__tag Конденсатоотводчики
+							a.ss-article-card__title(href='./single-article.html') Термодинамический vs поплавковый конденсатоотводчик: когда что выбрать
+							p.ss-article-card__excerpt Детальное сравнение: принцип работы, применимость, режимы нагрузки, ресурс. Таблица с рекомендациями по типу оборудования.
+							.ss-article-card__meta
+								span 6 мин
+								span 18.02.2025
+								+authorTooltip('Александр Баженов', 'Инженер-технолог')
+						.ss-article-card__thumb
+							img(src=`${basePath}img/tool1.webp`, alt='')
+
+					article.ss-article-card
+						.ss-article-card__body
+							.ss-article-card__tag Диагностика и ремонт
+							a.ss-article-card__title(href='./single-article.html') Гидроудары в паровых системах: причины и 5 способов защиты
+							p.ss-article-card__excerpt Как выявить гидроудар, почему он возникает при пуске и при конденсации пара. Конкретные меры: уклоны, дренажи, конфигурация трубопроводов.
+							.ss-article-card__meta
+								span 11 мин
+								span 11.02.2025
+								+authorTooltip('Олег Самойлов', 'Проектировщик паровых систем')
+						.ss-article-card__thumb
+							img(src=`${basePath}img/process.webp`, alt='')
+
+					article.ss-article-card
+						.ss-article-card__body
+							.ss-article-card__tag СВК и возврат конденсата
+							a.ss-article-card__title(href='./single-article.html') Возврат конденсата: как выбрать насосную станцию
+							p.ss-article-card__excerpt Критерии выбора СВК: производительность, температура конденсата, давление в коллекторе, резервирование. Сравнение электронасосного и термодинамического принципов.
+							.ss-article-card__meta
+								span 10 мин
+								span 17.01.2025
+								+authorTooltip('Игорь Федосеев', 'Инженер по СВК')
+						.ss-article-card__thumb
+							img(src=`${basePath}img/gallery1.webp`, alt='')
+
+					article.ss-article-card
+						.ss-article-card__body
+							.ss-article-card__tag РОУ/БРОУ и редукция
+							a.ss-article-card__title(href='./single-article.html') Ошибки при проектировании редукционной установки пара
+							p.ss-article-card__excerpt Разбор 7 типичных ошибок Kvs клапана, ошибки шумозаглушения, неверный тип соединения, игнорирование расширения трубопровода.
+							.ss-article-card__meta
+								span 8 мин
+								span 09.01.2025
+								+authorTooltip('Олег Самойлов', 'Проектировщик паровых систем')
+						.ss-article-card__thumb
+							img(src=`${basePath}img/catalog.webp`, alt='')
+
+				//- Pagination
+				nav.ss-pagination(aria-label='Пагинация')
+					ol.ss-pagination__list
+						li.ss-pagination__item
+							a.ss-pagination__link(href='#', aria-current='page') 1
+						li.ss-pagination__item
+							a.ss-pagination__link(href='#') 2
+						li.ss-pagination__item
+							a.ss-pagination__link(href='#') 3
+						li.ss-pagination__item
+							a.ss-pagination__link.ss-pagination__link--nav(href='#')
+								| Следующая
+								+svgIcon('arrow-right')
+
+				//- Мобильный контейнер для тегов и CTA. Пуст на десктопе.
+				//- На мобилке JS (blog.js) перемещает сюда блоки [data-blog-extra]
+				//- из сайдбара — теги и CTA появляются под пагинацией.
+				.ss-blog__mobile-extras(data-blog-mobile-extras)

@@ -359,12 +359,12 @@ block content
 					|  и работают со своими паддингами:
 				ul
 					li
-						code .ss-section-hero
+						code .ss-hero
 						|  — hero-секция с фоновой картинкой и метриками. Свой
 						code padding-top: calc(60 + var(--header-height))
 						| , свой bottom.
 					li
-						code .ss-section-running-line
+						code .ss-running-line
 						|  — тонкая бегущая полоса. padding
 						code 20px 0
 						|  внутри тёмного bg.
@@ -374,7 +374,7 @@ block content
 
 				h4.docs-catalog__subtitle Спец-размер: feature
 				p
-					code .ss-section-feature
+					code .ss-feature
 					|  перебивает базовые паддинги на
 					strong 55 top / 80 bottom
 					|  (desktop) и
@@ -384,7 +384,7 @@ block content
 				h4.docs-catalog__subtitle Как добавить новую секцию
 				ol
 					li Создать
-						code src/pug/sections/_section-имя.pug
+						code src/pug/sections/_имя.pug
 						|  с корневым элементом
 						code section.ss-section.имя-класса
 						| .
@@ -718,9 +718,9 @@ block content
 				ul
 					li
 						strong Секция «Обратная связь» —
-						code src/pug/sections/_section-feedback-b24.pug
+						code src/pug/sections/_feedback-b24.pug
 						| . Внешний бокс (
-						code .ss-section-feedback__form-box
+						code .ss-feedback__form-box
 						| ) — наш, внутри —
 						code .ss-b24-form &gt; .b24-form
 						| .
@@ -854,7 +854,7 @@ block content
 						tr
 							td: code .b24-form-header / -header-title
 							td Заголовок формы (у нас скрыт — свой заголовок над формой рисует
-								code .ss-section-feedback__form-title
+								code .ss-feedback__form-title
 								| )
 						tr
 							td: code .b24-form-field
@@ -1014,7 +1014,7 @@ block content
 				h4.docs-catalog__subtitle Внешний бокс — наш, форма — их
 				p
 					| Мы намеренно оставили
-					code .ss-section-feedback__form-box
+					code .ss-feedback__form-box
 					|  (бордер, паддинги, радиус) как внешний контейнер, а битрикс-DOM положили внутрь. При интеграции достаточно заменить содержимое бокса скриптом — визуально ничего не поедет. Внутренним обёрткам битрикса (
 					code .b24-form-wrapper
 					| ,
@@ -1186,7 +1186,7 @@ block content
 					li
 						a.docs-catalog__card(href='section-headers.html')
 							strong Заголовки секций
-							span .ss-kicker, .ss-section-header, .ss-section-intro, .ss-section-hero.
+							span .ss-kicker, .ss-section-header, .ss-section-intro, .ss-hero.
 					li
 						a.docs-catalog__card(href='grid.html')
 							strong Сетка

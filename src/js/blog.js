@@ -2,7 +2,7 @@
 // Страница «База знаний» — мобильная адаптация.
 //
 // 1. Аккордеон «Разделы» ([data-blog-accordion]) — toggle по клику
-//    на .ss-section-blog__accordion-toggle. Синхронизирует aria-expanded
+//    на .ss-blog__accordion-toggle. Синхронизирует aria-expanded
 //    на кнопке и [hidden] на body. Работает только на мобилке — на
 //    десктопе кнопка скрыта CSS'ом, body всегда видим.
 //
@@ -16,8 +16,8 @@
 	// ---- Accordion toggle ----
 	var accordions = document.querySelectorAll('[data-blog-accordion]');
 	accordions.forEach(function (acc) {
-		var toggle = acc.querySelector('.ss-section-blog__accordion-toggle');
-		var body = acc.querySelector('.ss-section-blog__accordion-body');
+		var toggle = acc.querySelector('.ss-blog__accordion-toggle');
+		var body = acc.querySelector('.ss-blog__accordion-body');
 		if (!toggle || !body) return;
 
 		toggle.addEventListener('click', function () {

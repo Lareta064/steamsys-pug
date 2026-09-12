@@ -344,22 +344,22 @@ block content
 				h4.cards-catalog__subtitle Одиночная панель на тёмном фоне
 				.cards-catalog__demo.ss-bg-primary
 					.ss-profit
-						ul.ss-profit-list
+						ul.ss-profit-panel__list
 							each item in profitItems
-								li.ss-profit__item
+								li.ss-profit-panel__item
 									p.ss-h3= item.title
-									p.ss-profit__desc= item.desc
+									p.ss-profit-panel__desc= item.desc
 
 				pre.cards-catalog__snippet
 					code
 						| .ss-profit
-						|     ul.ss-profit-list
-						|         li.ss-profit__item
+						|     ul.ss-profit-panel__list
+						|         li.ss-profit-panel__item
 						|             p.ss-h3 15–20%
-						|             p.ss-profit__desc Описание
-						|         li.ss-profit__item
+						|             p.ss-profit-panel__desc Описание
+						|         li.ss-profit-panel__item
 						|             p.ss-h3 до 90%
-						|             p.ss-profit__desc Описание
+						|             p.ss-profit-panel__desc Описание
 						|         //- ... ещё 2 item'а
 
 			//- ========== Metrics panel ==========
