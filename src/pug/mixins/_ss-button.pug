@@ -3,8 +3,9 @@
 //- text  — надпись на кнопке.
 //- opts  — необязательный объект настроек:
 //-     variant   primary | secondary | outline | outline-dark | dark | light | outline-light | white  (default: primary)
-//-     size      big — крупная кнопка 74px. Без опции — базовый размер 65px.  (default: базовый 65)
+//-     size      big — крупная 74px | small — компактная 50px. Без опции — базовый 65px.       (default: базовый 65)
 //-     full      true — на всю ширину контейнера                                               (default: false)
+//-     wrap      true — разрешить перенос текста в 2+ строк (нужно на узких CTA в сайдбаре)    (default: false)
 //-     icon      имя иконки без префикса `svg-` (напр. 'plus-circle')                          (default: null → без иконки)
 //-     iconSide  right | left                                                                   (default: right)
 //-     tag       button | a                                                                    (default: button)
@@ -14,6 +15,7 @@
 //- Примеры:
 //-   +ssBtn('Отправить', { variant: 'primary' })                                //- базовый 65
 //-   +ssBtn('Обсудить',  { variant: 'outline-light', size: 'big' })             //- крупный 74
+//-   +ssBtn('Получить схему обвязки', { variant: 'dark', size: 'small', full: true, wrap: true }) //- узкий sidebar
 //-   +ssBtn('Подробнее', { tag: 'a', href: '/about' })
 mixin ssBtn(text, opts)
 	-
@@ -23,7 +25,9 @@ mixin ssBtn(text, opts)
 		var tag = o.tag || 'button';
 		var classes = 'ss-btn ss-btn--' + variant;
 		if (o.size === 'big') classes += ' ss-btn--big';
+		if (o.size === 'small') classes += ' ss-btn--small';
 		if (o.full) classes += ' ss-btn--full';
+		if (o.wrap) classes += ' ss-btn--wrap';
 		if (tag === 'a' && o.disabled) classes += ' is-disabled';
 
 	if tag === 'a'

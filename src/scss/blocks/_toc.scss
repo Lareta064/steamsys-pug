@@ -1,0 +1,183 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-toc — «Содержание» статьи. Список ссылок на секции (h2/h3).
+// Active-ссылка получает aria-current="location" по мере скролла
+// (JS — src/js/toc.js, IntersectionObserver-based).
+//
+// Разметка:
+//   nav.ss-toc.js-toc(aria-label='Оглавление')
+//     button.ss-toc__toggle(...)        ← только на < $lg (мобильный аккордеон)
+//       span Содержание
+//       +svgIcon('chevron-down')
+//     h3.ss-toc__title Содержание       ← только на ≥ $lg
+//     .ss-toc__body#ss-toc-body(hidden) ← на десктопе всегда видим
+//       ul.ss-toc__list
+//         li.ss-toc__item
+//           a.ss-toc__link(href='#section-id') Название секции
+//         ...
+//
+// Behavior:
+//   - Desktop (≥ $lg): нав всегда развёрнут, sticky-контекст задаёт
+//     родитель (.ss-sticky-side).
+//   - Mobile (< $lg): sticky-toggle сверху, body по клику разворачивается.
+//     Логика toggle — та же, что у .ss-section-blog__accordion.
+// ==============================================================
+
+.ss-toc {
+	// На ≥ $lg — карточка с бордером/радиусом/паддингом, как соседние
+	// блоки в .ss-sticky-side (help-card, solutions-list).
+	@include up($lg) {
+		box-sizing: border-box;
+		padding: 20px;
+		border: 1px solid var(--secondary2);
+		border-radius: 10px;
+		background: var(--white);
+	}
+
+	// На < $lg — sticky-обёртка с toggle-кнопкой (как в blog).
+	@include down($lg) {
+		position: sticky;
+		top: var(--header-height, 100px);
+		z-index: 20;
+		background: var(--white);
+	}
+}
+
+
+// ---------- Title (desktop-only heading) ----------
+.ss-toc__title {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--primary);
+
+	@include down($lg) {
+		display: none;
+	}
+}
+
+
+// ---------- Toggle button (mobile-only) ----------
+.ss-toc__toggle {
+	display: none;
+
+	@include down($lg) {
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		padding: 14px 20px;
+		border: 1px solid var(--secondary2);
+		border-radius: 10px;
+		background: var(--white);
+		color: var(--primary);
+		font-family: var(--font-family);
+		font-weight: 600;
+		font-size: 16px;
+		line-height: 1.4;
+		text-align: left;
+		cursor: pointer;
+		transition: border-color .2s ease;
+
+		&:hover {
+			border-color: var(--primary);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--accent1);
+			outline-offset: 2px;
+		}
+
+		svg {
+			width: 20px;
+			height: 20px;
+			transition: transform .25s ease;
+		}
+
+		&[aria-expanded="true"] svg {
+			transform: rotate(180deg);
+		}
+	}
+}
+
+
+// ---------- Body ----------
+.ss-toc__body {
+	@include up($lg) {
+		// На десктопе — всегда видим, [hidden] игнорируем.
+		&[hidden] {
+			display: block;
+		}
+	}
+
+	@include down($lg) {
+		margin-top: 12px;
+	}
+}
+
+
+// ---------- List + links ----------
+.ss-toc__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ss-toc__item {
+	margin-bottom: 2px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+// ---------- Meta-строка «7 минут · 15.03.2025» ----------
+// Опциональный футер TOC-карточки. На < $lg скрыт — там TOC сжат в аккордеон,
+// футер визуально мешает.
+.ss-toc__meta {
+	margin: 15px 0 0;
+	padding-top: 15px;
+	border-top: 1px solid var(--secondary2);
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary1);
+
+	@include down($lg) {
+		display: none;
+	}
+}
+
+.ss-toc__link {
+	display: block;
+	padding: 8px 12px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary1);
+	text-decoration: none;
+	border-radius: 0 4px 4px 0;
+	border-left:3px solid transparent;
+	transition: background .2s ease, color .2s ease;
+
+	&:hover {
+		color: var(--primary);
+		background: var(--secondary3);
+		border-left:3px solid var(--secondary2);
+	}
+
+	// Active — по скроллу JS ставит aria-current="location".
+	&[aria-current="location"] {
+		color: var(--primary);
+		background: var(--secondary3);
+		border-left:3px solid var(--accent3);
+	}
+}

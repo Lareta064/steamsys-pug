@@ -1,0 +1,357 @@
+//- ============================================================
+//- Секция одной статьи (используется в pages/single-article.pug).
+//- Полоса с хлебными крошками + двухколоночная раскладка:
+//-   левая: article header (h1 + meta + author) + .ss-content (тело статьи)
+//-   правая (sticky): один .ss-sticky-side со всеми блоками сайдбара
+//-     (TOC, help-card, solutions-list).
+//- Grid переставляет колонки на < $lg через grid-template-areas:
+//-   sidebar → header → content. На мобилке help-card + solutions
+//-   через data-article-extra уезжают под контент (JS — src/js/article.js),
+//-   TOC остаётся сверху (sticky-toggle встроен в компонент .ss-toc).
+//- Все компоненты внутри — универсальные примитивы из UI-каталога.
+//- Стили — src/scss/pages/_single-article.scss.
+//- ============================================================
+
+//- ==================== Полоса хлебных крошек ====================
+section.ss-single-article__crumbs
+	.ss-container.ss-container--narrow.ss-wrapper
+		nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+			ol.ss-breadcrumbs__list
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='./') Главная
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='./blog.html') База знаний
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='#') Обвязка
+				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Диагностика
+
+//- ==================== Основная секция ====================
+section.ss-single-article
+	.ss-container.ss-container--narrow.ss-wrapper
+		.ss-single-article__grid
+
+			//- -------------------- Header (h1 + meta + author) --------------------
+			header.ss-single-article__header
+				h1.ss-h3.ss-single-article__title Почему замерзает паровой калорифер и как это предотвратить
+
+				p.ss-single-article__meta
+					span Для кого: главный инженер, технолог, энергетик
+					span 7 минут
+					span 15.03.2025
+
+				.ss-single-article__author
+					.ss-single-article__author-avatar
+						img(src=`${basePath}img/user-ava.webp`, alt='user')
+					span.ss-single-article__author-name Александр Баженов
+					span Инженер-проектировщик
+					a.ss-single-article__author-link(href='#') Профиль →
+
+			//- -------------------- Main content (левая колонка) --------------------
+			.ss-single-article__main
+				.ss-content
+
+					//- Лид-абзац статьи. Стоит вне секций TOC — относится ко всей статье.
+					.ss-callout
+						.ss-callout__body
+							p Калорифер замерзает из-за неправильного отвода конденсата или отсутствия защитной схемы обвязки. Главные причины: конденсатоотводчик неправильного типа, заниженная пропускная способность КО, отсутствие термостатического клапана защиты от замерзания.
+
+					//- ===== Почему калорифер замерзает =====
+					section#sec-why
+						h2 Почему калорифер замерзает
+						p Паровой калорифер работает надёжно при непрерывном отводе конденсата. Как только отвод нарушен — начинается охлаждение и образование льда в нижних участках трубок теплообменника. Критической зоной становится участок дренажа: трубки промерзают за несколько минут при температуре −10°C и ниже.
+						p Критическая ситуация возникает зимой при аварийном отключении вентилятора или подачи пара: если конденсат не дренирован, трубки промерзают за несколько минут при морозе от −10°C и ниже.
+
+						p Даже небольшой застой конденсата в горизонтальных участках создаёт зону повышенного риска. Правильная обвязка устраняет эту причину конструктивно, а не эксплуатационными мерами.
+
+					//- ===== Последствия замерзания =====
+					section#sec-consequences
+						h2 Последствия замерзания
+						ul
+							li Разрушение оребрения и трубок теплообменника
+							li Аварийная остановка вентиляционной установки
+							li Затраты на ремонт или замену калорифера (от 100 тыс. руб.)
+							li Риск замочки помещений и трубопроводов
+
+						//- Две мини-карточки в одном ряду (2 → 1 колонка на моб)
+						.ss-info-pair
+							.ss-fact-card
+								p.ss-fact-card__title Когда риск максимальный
+								p Ночная остановка вентиляции, отрицательная наружная температура, длинные конденсатные линии и отсутствие автоматического дренажа.
+							.ss-fact-card
+								p.ss-fact-card__title Что проверить первым
+								p Работоспособность конденсатоотводчика, наличие воздухоотводчика и фактическое противодавление после КО.
+
+					//- ===== Выбор конденсатоотводчика =====
+					section#sec-choice
+						h2 Технические причины — какой конденсатоотводчик выбрать
+						p Тип конденсатоотводчика напрямую влияет на надёжность защиты. Термодинамические КО при частых запусках-остановках пропускают пар и не обеспечивают непрерывный дренаж. Оптимальный выбор для калорифера — поплавковый КО с воздухоотводчиком.
+
+						.ss-simple-table.ss-mob-bleed
+							table
+								thead
+									tr
+										th Тип КО
+										th Принцип работы
+										th Для калорифера
+										th Риски
+								tbody
+									tr
+										th(scope='row') Поплавковый
+										td Непрерывный отвод конденсата
+										td Рекомендуется
+										td —
+									tr
+										th(scope='row') Термодинамический
+										td Импульсный сброс
+										td Не рекомендуется
+										td Застой конденсата при малых нагрузках
+									tr
+										th(scope='row') Термостатический
+										td Отвод по температуре
+										td В паре с защитным клапаном
+										td Задержка при пуске
+
+						.ss-callout
+							p.ss-callout__kicker Инженерное замечание
+							.ss-callout__body
+								p Если калорифер периодически «подмерзает», проблему нельзя решать только увеличением давления пара. Чаще всего причина находится в отводе конденсата: конденсат не уходит из нижней точки, а при остановке превращается в лёд.
+
+					//- ===== Фото + галерея =====
+					section#sec-photos
+						h2 Фотографии: типичные ошибки монтажа обвязки
+						p В большинстве случаев замерзания связаны с монтажными ошибками, которые сложно описать словами. Ниже — фото реальных объектов с разбором того, что пошло не так.
+
+						.ss-gallery.js-gallery
+							.ss-gallery__slider.swiper
+								.swiper-wrapper
+									.swiper-slide
+										img(src=`${basePath}img/1.webp`, alt='Общий вид обвязки калорифера')
+									.swiper-slide
+										img(src=`${basePath}img/2.webp`, alt='Узел конденсатоотвода')
+									.swiper-slide
+										img(src=`${basePath}img/3.webp`, alt='Дренажный клапан')
+									.swiper-slide
+										img(src=`${basePath}img/1.webp`, alt='Общий план')
+							button.ss-gallery__arrow.ss-gallery__arrow--prev(type='button', aria-label='Предыдущий слайд')
+								+svgIcon('chevron-left')
+							button.ss-gallery__arrow.ss-gallery__arrow--next(type='button', aria-label='Следующий слайд')
+								+svgIcon('chevron-right')
+							.ss-gallery__footer
+								p.ss-gallery__caption Галерея во всю ширину статьи: несколько фотографий узла с возможностью листать и увеличивать.
+								.swiper-pagination.swiper-pagination-gallery
+
+						//- Видео 1 — своё
+						.ss-video-side
+							.ss-video-side__media
+								img(src=`${basePath}img/1.webp`, alt='')
+								button.ss-video-side__play(type='button', aria-label='Воспроизвести')
+									svg(viewBox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
+										path(d='M8 5v14l11-7z', fill='currentColor')
+							.ss-video-side__body
+								h3.ss-video-side__title.ss-fs-22 Видео: как найти место застоя конденсата
+								p Короткий ролик можно использовать как практическое дополнение к статье: инженер показывает порядок проверки на действующем узле.
+								ul.ss-video-side__list
+									li как смотреть уклоны
+									li как проверять КО
+									li что фиксировать перед обращением к инженеру
+
+						//- Видео 2 — YouTube iframe
+						.ss-video-side
+							.ss-video-side__media
+								iframe(src='https://www.youtube.com/embed/dQw4w9WgXcQ', title='YouTube video', allowfullscreen, loading='lazy')
+							.ss-video-side__body
+								h3.ss-video-side__title.ss-fs-22 Разбор реального случая — YouTube
+								p Тот же контейнер
+								code .ss-video-side__media
+								|  — меняем содержимое на iframe, раскладка сохраняется. Респонсив 16:9 держит
+								code aspect-ratio
+								| .
+
+						//- Цитата автора
+						.ss-quote-card
+							.ss-quote-card__avatar
+								img(src=`${basePath}img/ava.png`, alt='')
+							.ss-quote-card__body
+								blockquote.ss-quote-card__text.ss-fs-22 Если в схеме нет безопасного дренажа при остановке, калорифер остаётся уязвимым даже при правильно выбранном конденсатоотводчике.
+								p.ss-quote-card__author-name Александр Баженов
+								p.ss-quote-card__author-role Инженер-проектировщик, автор статьи
+								+ssBtn('Передать параметры инженеру', { variant: 'white' })(data-modal='request-b24')
+
+						figure.ss-figure
+							img(src=`${basePath}img/2.webp`, alt='Фото во всю ширину: узел обвязки после монтажа')
+							figcaption Подпись к большому фото: что именно показано, на какие участки обратить внимание при обходе, почему это важно для эксплуатации.
+
+					//- ===== Сравнение схем =====
+					section#sec-compare
+						h2 Сравнение схем обвязки по типу конденсатоотводчика
+						p Выбор схемы зависит от типа конденсатоотводчика, давления пара и режима работы калорифера. В таблице — ключевые параметры для принятия решения.
+
+						.ss-simple-table.ss-mob-bleed
+							table
+								thead
+									tr
+										th Критерий
+										th Правильная обвязка
+										th Проблемная обвязка
+								tbody
+									tr
+										th(scope='row') Отвод конденсата
+										td Непрерывный, через поплавковый КО
+										td Импульсный или нестабильный
+									tr
+										th(scope='row') Воздух при пуске
+										td Удаляется через воздухоотводчик
+										td Остаётся в теплообменнике
+									tr
+										th(scope='row') Остановка зимой
+										td Есть дренаж и защита от замерзания
+										td Конденсат остаётся в трубках
+
+						.ss-simple-table.ss-mob-bleed
+							table
+								thead
+									tr
+										th Параметр
+										th Что указать
+										th Зачем нужен
+								tbody
+									tr
+										td Давление пара
+										td бар(и) перед калорифером
+										td Подбор арматуры и КО
+									tr
+										td Расход пара
+										td кг/ч или тепловая нагрузка
+										td Расчёт пропускной способности
+									tr
+										td Противодавление
+										td давление в конденсатной линии
+										td Проверка фактического отвода
+
+						//- Ряды «изображение + текст» с авто-реверсом
+						.ss-img-text-list
+							.ss-img-text-row
+								.ss-img-text-row__img
+									img(src=`${basePath}img/1.webp`, alt='')
+								.ss-img-text-row__body
+									h3.ss-img-text-row__title.ss-fs-24 Неправильный уклон трубы перед конденсатоотводчиком
+									p Труба уложена с контруклоном — конденсат скапливается в нижней точке перед КО, а не отводится самотёком. При остановке системы этот участок промерзает первым.
+									p Инженер при обходе должен проверить уклон (норма ≥ 5 мм/м) и наличие дренажного клапана в нижней точке.
+							.ss-img-text-row
+								.ss-img-text-row__img
+									img(src=`${basePath}img/2.webp`, alt='')
+								.ss-img-text-row__body
+									h3.ss-img-text-row__title.ss-fs-24 Подтопление КО при подъёмном конденсатопроводе
+									p После конденсатоотводчика труба уходит вверх без промежуточного накопителя — противодавление не позволяет КО нормально открываться.
+									p Конденсат застаивается на входе, паровая полость в калорифере не осушается. Решение: подъёмный участок после КО, а не до него.
+
+					//- ===== Как предотвратить (чек-лист + расчёт) =====
+					section#sec-prevent
+						h2 Как предотвратить замерзание — чек-лист
+						ol
+							li Выбрать поплавковый конденсатоотводчик вместо термодинамического
+							li Установить термостатический клапан защиты от замерзания
+							li Предусмотреть дренаж конденсата при остановке системы
+							li Проверить уклон труб в сторону КО
+							li Использовать готовую обвязку с защитой от замерзания
+
+						.ss-fact-card
+							p.ss-fact-card__title Фрагмент расчёта для статьи
+							.ss-fact-card__row
+								.ss-fact-card__key Исходные данные
+								.ss-fact-card__value Пар 6 бар, расход 280 кг/ч, температура наружного воздуха −25°C.
+							.ss-fact-card__row
+								.ss-fact-card__key Проверка КО
+								.ss-fact-card__value Пропускная способность принимается с запасом к пусковой нагрузке и фактическому противодавлению.
+							.ss-fact-card__row
+								.ss-fact-card__key Вывод
+								.ss-fact-card__value Для узла нужен поплавковый КО, автоматический воздухоотвод и отдельный дренаж при остановке.
+
+					//- ===== Когда нужна готовая обвязка =====
+					section#sec-when
+						h2 Когда нужна готовая обвязка
+						p Самостоятельный подбор компонентов по отдельности опасен, когда нет уверенности в согласованности характеристик: давление пара, пропускная способность КО, тип клапана защиты и диаметры труб должны рассматриваться в системе.
+						p Готовая обвязка Паровых систем — это сборочная единица, прошедшая инженерный расчёт и испытания. Все элементы подобраны под конкретные параметры калорифера: давление, расход пара, расчётную температуру наружного воздуха.
+
+						.ss-cta-row
+							p.ss-cta-row__title.ss-fs-18 Нужна схема обвязки для вашего калорифера?
+							.ss-cta-row__buttons
+								+ssBtn('Обсудить решение', { variant: 'dark', size: 'small' })(data-modal='request-b24')
+								+ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-dark', size: 'small' })
+								+ssBtn('Получить схему', { variant: 'outline-light', size: 'small' })
+
+					//- ===== FAQ =====
+					section#sec-faq
+						h2 Частые вопросы
+
+						.ss-accordion(data-accordion)
+							+ssAccordionItem('В чём разница между правильной и неправильной обвязкой для защиты от замерзания?', 'faq-1')
+								p Правильная обвязка включает поплавковый конденсатоотводчик с воздухоотводчиком, термостатический клапан защиты от замерзания и дренажный вентиль. Неправильная — один термодинамический КО без защитного клапана и без дренажа.
+							+ssAccordionItem('Какой конденсатоотводчик лучше для калорифера?', 'faq-2')
+								p Поплавковый КО с интегрированным воздухоотводчиком — оптимальный выбор для паровых калориферов. Он обеспечивает непрерывный отвод конденсата независимо от нагрузки, в том числе при пуске и малых нагрузках.
+							+ssAccordionItem('Можно ли добавить защиту от замерзания к существующей обвязке?', 'faq-3')
+								p Да, в большинстве случаев можно установить термостатический клапан защиты от замерзания и заменить КО без переделки всей обвязки. Для оценки необходим осмотр и параметры существующей системы.
+							+ssAccordionItem('Как правильно запустить калорифер после длительной остановки?', 'faq-4')
+								p Перед подачей пара необходимо открыть дренажный вентиль, убедиться в отсутствии воды в трубках. Подавать пар медленно, контролируя давление. Только после прогрева и устойчивого отвода конденсата выйти на рабочий режим.
+
+			//- -------------------- Sticky sidebar (TOC + extras) --------------------
+			//- Идёт в DOM после main-контента, чтобы natural reading-order
+			//- левой колонки (header → content) не рвался элементом правой.
+			//- Grid-areas ставит aside визуально в правую колонку с span всех
+			//- строк — DOM-порядок на раскладку не влияет.
+			aside.ss-sticky-side.ss-single-article__aside
+				//- TOC-карточка (бордер, радиус, паддинг — см. _toc.scss desktop-card)
+				nav.ss-toc.js-toc(aria-label='Оглавление')
+					button.ss-toc__toggle(type='button', aria-expanded='false', aria-controls='ss-article-toc-body')
+						span Содержание
+						+svgIcon('chevron-down')
+					h3.ss-toc__title Содержание
+					.ss-toc__body#ss-article-toc-body(hidden)
+						ul.ss-toc__list
+							li.ss-toc__item: a.ss-toc__link(href='#sec-why') Почему калорифер замерзает
+							li.ss-toc__item: a.ss-toc__link(href='#sec-consequences') Последствия замерзания
+							li.ss-toc__item: a.ss-toc__link(href='#sec-choice') Выбор конденсатоотводчика
+							li.ss-toc__item: a.ss-toc__link(href='#sec-photos') Ошибки монтажа (фото)
+							li.ss-toc__item: a.ss-toc__link(href='#sec-compare') Сравнение схем обвязки
+							li.ss-toc__item: a.ss-toc__link(href='#sec-prevent') Как предотвратить замерзание
+							li.ss-toc__item: a.ss-toc__link(href='#sec-when') Когда нужна готовая обвязка
+							li.ss-toc__item: a.ss-toc__link(href='#sec-faq') Частые вопросы
+					p.ss-toc__meta 7 минут · 15.03.2025
+
+				//- data-article-extra — крючок JS: на < $lg блок уезжает под контент.
+				.ss-help-card(data-article-extra)
+					p.ss-help-card__title Нужна помощь?
+					+ssBtn('Получить схему обвязки', { variant: 'dark', size: 'small', full: true, wrap: true })(data-modal='request-b24')
+					+ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-dark', size: 'small', full: true, wrap: true })
+					a.ss-help-card__link(href='#') Обсудить с инженером
+
+				.ss-solutions-list(data-article-extra)
+					p.ss-solutions-list__title Решения по теме
+					ul.ss-solutions-list__list
+						li.ss-solutions-list__item: a.ss-solutions-list__link(href='#') Обвязка паровых калориферов
+						li.ss-solutions-list__item: a.ss-solutions-list__link(href='#') Конденсатоотводчики TLV
+						li.ss-solutions-list__item: a.ss-solutions-list__link(href='#') Обвязка теплообменников
+
+			//- -------------------- Мобильный контейнер для extras --------------------
+			//- Пуст на десктопе. На < $lg JS (src/js/article.js) переносит сюда
+			//- блоки [data-article-extra] из sticky-side (help + solutions).
+			.ss-single-article__mobile-extras(data-article-mobile-extras)
+
+
+//- ==================== Похожие статьи ====================
+section.ss-related
+	.ss-container.ss-container--narrow.ss-wrapper
+		h2.ss-h4.ss-related__title Похожие статьи
+		.ss-related__list
+			article.ss-related-card
+				p.ss-related-card__kicker Конденсатоотводчики
+				a.ss-related-card__title(href='./single-article.html') Как подобрать конденсатоотводчик под паровую нагрузку
+				a.ss-related-card__link(href='./single-article.html') Читать →
+			article.ss-related-card
+				p.ss-related-card__kicker Обвязка
+				a.ss-related-card__title(href='./single-article.html') Принцип работы обвязки паровых теплообменников
+				a.ss-related-card__link(href='./single-article.html') Читать →
+			article.ss-related-card
+				p.ss-related-card__kicker Диагностика
+				a.ss-related-card__title(href='./single-article.html') Гидроудары в паровых системах: причины и защита
+				a.ss-related-card__link(href='./single-article.html') Читать →

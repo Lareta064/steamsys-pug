@@ -1,0 +1,359 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// Страница одной статьи (single-article.pug).
+// Специфика верстки, которая живёт только на этой странице.
+// Универсальные компоненты — в blocks/*.
+//
+// Скелет:
+//   section.ss-single-article__crumbs — светло-серая полоса с breadcrumbs.
+//   section.ss-single-article — основной блок с двухколоночной раскладкой:
+//     .ss-single-article__grid (grid-template-areas)
+//       .ss-single-article__header — h1 + meta + author (area: header)
+//       .ss-sticky-side.ss-single-article__aside — TOC + help + solutions
+//                                                  (area: sidebar, sticky)
+//       .ss-single-article__main — .ss-content (area: content)
+//       .ss-single-article__mobile-extras — пустой на десктопе placeholder
+//                                            для JS-переноса extras.
+//
+//   На < $lg переставляем колонки в одну через grid-template-areas:
+//   sidebar → header → content → extras. TOC оказывается сверху под крошками
+//   (первый ребёнок sticky-side), help + solutions уезжают в mobile-extras
+//   под контент через JS (src/js/article.js).
+//
+//   section.ss-related — «Похожие статьи», full-width под основной секцией.
+// ==============================================================
+
+
+// ---------- Полоса хлебных крошек ----------
+.ss-single-article__crumbs {
+	background: var(--secondary3);
+	padding: calc(14px + var(--header-height, 100px)) 0 14px;
+}
+
+
+// ---------- Основная секция ----------
+.ss-single-article {
+	padding-block: 40px 80px;
+
+	@include down($md) {
+		padding-block: 30px 60px;
+	}
+}
+
+
+// ---------- Grid ----------
+// Три grid-area на десктопе: header/content слева, sidebar справа (span 2).
+// mobile-extras — placeholder, всегда занимает свою ячейку (row 3, col main).
+// На < $lg — стек в одну колонку с изменённым порядком.
+.ss-single-article__grid {
+	display: grid;
+	grid-template-columns: 1fr 320px;
+	column-gap: 40px;
+	grid-template-areas:
+		'header  sidebar'
+		'content sidebar'
+		'extras  sidebar';
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			'sidebar'
+			'header'
+			'content'
+			'extras';
+		row-gap: 30px;
+	}
+}
+
+.ss-single-article__header        { grid-area: header; }
+.ss-single-article__aside         { grid-area: sidebar; }
+.ss-single-article__main          { grid-area: content; min-width: 0; }
+.ss-single-article__mobile-extras { grid-area: extras; }
+
+
+// ---------- Header (h1 + meta + author) ----------
+.ss-single-article__header {
+	margin-bottom: 30px;
+
+	@include down($md) {
+		margin-bottom: 20px;
+	}
+}
+
+.ss-single-article__title {
+	margin: 0 0 20px;
+	color: var(--primary);
+}
+
+// Meta-строка: «Для кого: ... · 7 мин · 15.03.2025»
+.ss-single-article__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--secondary);
+
+	> * + *::before {
+		content: '·';
+		padding: 0 8px;
+		color: var(--secondary1);
+	}
+}
+
+// Автор: аватарка + имя · роль · Профиль →
+.ss-single-article__author {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+	font-family: var(--font-family);
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+.ss-single-article__author-avatar {
+	flex-shrink: 0;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	overflow: hidden;
+	background: var(--secondary2);
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+}
+
+.ss-single-article__author-name {
+	font-weight: 600;
+	color: var(--primary);
+}
+
+.ss-single-article__author-link {
+	color: var(--accent1);
+	text-decoration: none;
+	transition: color .2s ease;
+
+	&:hover {
+		color: var(--secondary);
+	}
+}
+
+// «·» разделители внутри блока автора
+.ss-single-article__author > * + *:not(.ss-single-article__author-avatar)::before {
+	content: '·';
+	padding-right: 10px;
+	color: var(--secondary1);
+}
+
+
+// ---------- Mobile extras placeholder ----------
+// Пуст на десктопе. На мобилке JS переносит сюда data-article-extra блоки.
+.ss-single-article__mobile-extras {
+	@include up($lg) {
+		display: none;
+	}
+
+	@include down($lg) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+}
+
+
+// ---------- .ss-info-pair — 2 карточки в ряд (2 → 1 колонка на моб) ----------
+// Используется внутри .ss-content для пары мини-карточек .ss-fact-card,
+// когда нужно показать «Когда риск максимальный / Что проверить первым» и т.п.
+.ss-info-pair {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+	}
+}
+
+
+// ---------- Мини-карточка «Нужна помощь?» ----------
+// Похож на .ss-cta-card, но с несколькими действиями подряд (2 кнопки + текстовая ссылка).
+.ss-help-card {
+	box-sizing: border-box;
+	padding: 20px;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	background: var(--white);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.ss-help-card__title {
+	margin: 0 0 5px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+.ss-help-card__link {
+	align-self: center;
+	margin-top: 5px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--primary);
+	text-decoration: none;
+	transition: color .2s ease;
+
+	&:hover {
+		color: var(--accent1);
+	}
+}
+
+
+// ---------- Список «Решения по теме» ----------
+.ss-solutions-list {
+	box-sizing: border-box;
+	padding: 20px;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	background: var(--white);
+}
+
+.ss-solutions-list__title {
+	margin: 0 0 15px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+.ss-solutions-list__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ss-solutions-list__item {
+	margin-bottom: 10px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.ss-solutions-list__link {
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--accent1);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	transition: color .2s ease;
+
+	&:hover {
+		color: var(--secondary);
+	}
+}
+
+
+// ==============================================================
+// «Похожие статьи» — full-width секция под основной статьей.
+// 3 мини-карточки: kicker (категория) + h3 (заголовок) + «Читать →».
+// ==============================================================
+.ss-related {
+	padding-block: 40px 80px;
+
+	@include down($md) {
+		padding-block: 30px 60px;
+	}
+}
+
+.ss-related__title {
+	margin: 0 0 30px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	color: var(--primary);
+}
+
+.ss-related__list {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 20px;
+
+	@include down($lg) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+	}
+}
+
+
+// ---------- Мини-карточка похожей статьи (.ss-related-card) ----------
+.ss-related-card {
+	display: flex;
+	flex-direction: column;
+	padding: 30px 20px;
+	background: var(--secondary3);
+	border-radius: 10px;
+	transition: background .2s ease;
+}
+
+.ss-related-card__kicker {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1.4;
+	color: var(--secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+.ss-related-card__title {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: clamp(16px, 0.17vw + 14.73px, 18px);
+	line-height: 1.35;
+	color: var(--primary);
+	text-decoration: none;
+	transition: color .2s ease;
+
+	&:hover {
+		color: var(--accent1);
+	}
+}
+
+.ss-related-card__link {
+	margin-top: auto;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--primary);
+	text-decoration: none;
+	transition: color .2s ease;
+
+	&:hover {
+		color: var(--accent1);
+	}
+}

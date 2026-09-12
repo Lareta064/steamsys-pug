@@ -1,0 +1,128 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Оглавление (.ss-toc)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Оглавление (.ss-toc)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| «Содержание» статьи. Список ссылок на секции (
+				code h2
+				|  с id). Активная ссылка получает
+				code aria-current="location"
+				|  по мере скролла (JS —
+				code src/js/toc.js
+				| , rAF-throttle). На
+				code < $lg
+				|  — sticky-toggle сверху, body по клику разворачивается. Стили —
+				code src/scss/blocks/_toc.scss
+				| .
+
+			//- ===== Live demo =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Live-демо
+
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Прокрути секции ниже — активная ссылка в TOC подсветится. TOC — sticky на десктопе (виден слева); на моб — sticky-toggle сверху.
+
+				//- Двухколоночная песочница
+				div(style='display: grid; grid-template-columns: 260px 1fr; gap: 40px; align-items: start; margin-top: 20px;')
+					aside.ss-sticky-side(style='top: 20px;')
+						nav.ss-toc.js-toc(aria-label='Оглавление')
+							button.ss-toc__toggle(type='button', aria-expanded='false', aria-controls='ss-toc-demo-body')
+								span Содержание
+								+svgIcon('chevron-down')
+							h3.ss-toc__title Содержание
+							.ss-toc__body#ss-toc-demo-body(hidden)
+								ul.ss-toc__list
+									li.ss-toc__item: a.ss-toc__link(href='#toc-demo-1') Почему калорифер замерзает
+									li.ss-toc__item: a.ss-toc__link(href='#toc-demo-2') Последствия замерзания
+									li.ss-toc__item: a.ss-toc__link(href='#toc-demo-3') Выбор конденсатоотводчика
+									li.ss-toc__item: a.ss-toc__link(href='#toc-demo-4') Сравнение схем обвязки
+									li.ss-toc__item: a.ss-toc__link(href='#toc-demo-5') Как предотвратить замерзание
+									li.ss-toc__item: a.ss-toc__link(href='#toc-demo-6') Частые вопросы
+
+					div
+						.ss-content
+							section#toc-demo-1
+								h2 Почему калорифер замерзает
+								p Паровой калорифер работает надёжно при непрерывном отводе конденсата. Как только отвод нарушен — начинается охлаждение и образование льда.
+								p Причины разные: неисправность конденсатоотводчика, некорректная схема обвязки, отсутствие защиты при остановке системы.
+								p Дополнительный абзац для увеличения высоты секции — прокрути дальше, увидишь как переключается активный пункт в TOC.
+							section#toc-demo-2
+								h2 Последствия замерзания
+								p Разрушение оребрения и трубок теплообменника. Аварийная остановка ВУ. Замочка помещений и трубопроводов.
+								p Даже единичное замерзание может привести к необратимым повреждениям — трубки теплообменника лопаются, и калорифер идёт на замену.
+								p Дополнительный абзац.
+							section#toc-demo-3
+								h2 Выбор конденсатоотводчика
+								p Поплавковый КО — оптимальный выбор для калориферов. Обеспечивает непрерывный отвод конденсата независимо от нагрузки.
+								p Термодинамический — импульсный режим работы, не подходит для калориферов.
+								p Дополнительный абзац.
+							section#toc-demo-4
+								h2 Сравнение схем обвязки
+								p Правильная обвязка включает поплавковый КО с воздухоотводчиком, термостатический клапан защиты от замерзания и дренажный вентиль.
+								p Проблемная — один термодинамический КО без защитного клапана и без дренажа.
+								p Дополнительный абзац.
+							section#toc-demo-5
+								h2 Как предотвратить замерзание
+								p Пять базовых шагов: выбрать поплавковый КО, поставить клапан защиты, предусмотреть дренаж, проверить уклоны, использовать готовую обвязку.
+								p Дополнительный абзац.
+							section#toc-demo-6
+								h2 Частые вопросы
+								p Собран короткий FAQ с ответами. См. отдельный компонент
+								code .ss-accordion
+								|  для развёртки.
+								p Дополнительный абзац.
+								p Ещё один, чтобы демо-секция была подлиннее.
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code nav.ss-toc.js-toc
+						|  — корневой контейнер.
+						code .js-toc
+						|  — крючок JS. На
+						code < $lg
+						|  становится sticky с фоном
+						code --white
+						| .
+					li
+						code .ss-toc__toggle
+						|  — кнопка «Содержание» только на
+						code < $lg
+						| . Оформление аналогично
+						code .ss-section-blog__accordion-toggle
+						| .
+					li
+						code .ss-toc__title
+						|  — uppercase-заголовок, только на
+						code ≥ $lg
+						| .
+					li
+						code .ss-toc__body
+						|  — контейнер списка. На
+						code ≥ $lg
+						|  всегда видим, атрибут
+						code [hidden]
+						|  игнорируется.
+					li
+						code .ss-toc__link
+						|  — ссылка на секцию. Default:
+						code --secondary1
+						| , без underline. Hover / active — фон
+						code --secondary3
+						| , цвет
+						code --primary
+						| . Радиус 4, padding 8 12.
+					li
+						strong Scroll-spy:
+						|  JS слушает scroll с rAF-throttle, находит самую нижнюю секцию, чей top уже пересёк «линию активации» = шапка +
+						code 25vh
+						| . Так активный пункт меняется, как только h2 попадает в верхнюю четверть экрана — совпадает с тем, что читатель видит.

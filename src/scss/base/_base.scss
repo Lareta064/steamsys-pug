@@ -50,6 +50,8 @@
 
 html {
 	scroll-behavior: smooth;
+	scroll-padding-top: 126px;
+	@include ($md){scroll-padding-top: 126px;}
 }
 
 html,
