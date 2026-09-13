@@ -319,20 +319,20 @@ section.ss-single-article
 				//- data-article-extra — крючок JS: на < $lg блок уезжает под контент.
 				.ss-help-card(data-article-extra)
 					p.ss-help-card__title Нужна помощь?
-					+ssBtn('Получить схему обвязки', { variant: 'dark', size: 'small', full: true, wrap: true })(data-modal='request-b24')
-					+ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-dark', size: 'small', full: true, wrap: true })
-					.ss-help-card__link
-						+ssLink('Обсудить с инженером', { variant: 'dark', size: 'md', icon: null })
+					+ssBtn('Обсудить с инженером', { variant: 'primary', full: true})(data-modal='request-b24')
+					//- +ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-dark', size: 'small', full: true, wrap: true })
+					//- .ss-help-card__link
+					//- 	+ssLink('Обсудить с инженером', { variant: 'dark', size: 'md', icon: null })
 
-				.ss-solutions-list(data-article-extra)
-					p.ss-solutions-list__title Решения по теме
-					ul.ss-solutions-list__list
-						li.ss-solutions-list__item
-							+ssLink('Обвязка паровых калориферов', { size: 'md', icon: null })
-						li.ss-solutions-list__item
-							+ssLink('Конденсатоотводчики TLV', { size: 'md', icon: null })
-						li.ss-solutions-list__item
-							+ssLink('Обвязка теплообменников', { size: 'md', icon: null })
+				//- .ss-solutions-list(data-article-extra)
+				//- 	p.ss-solutions-list__title Решения по теме
+				//- 	ul.ss-solutions-list__list
+				//- 		li.ss-solutions-list__item
+				//- 			+ssLink('Обвязка паровых калориферов', { size: 'md', icon: null })
+				//- 		li.ss-solutions-list__item
+				//- 			+ssLink('Конденсатоотводчики TLV', { size: 'md', icon: null })
+				//- 		li.ss-solutions-list__item
+				//- 			+ssLink('Обвязка теплообменников', { size: 'md', icon: null })
 
 			//- -------------------- Мобильный контейнер для extras --------------------
 			//- Пуст на десктопе. На < $lg JS (src/js/article.js) переносит сюда
