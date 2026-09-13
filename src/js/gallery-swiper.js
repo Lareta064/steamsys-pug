@@ -1,8 +1,8 @@
 // ==============================================================
 // Инициализация Swiper для .ss-gallery.
 // Триггер — .js-gallery на корневой обёртке. Внутри: .swiper со slide'ами,
-// стрелки .ss-gallery__arrow--prev/--next, .swiper-pagination-gallery
-// (счётчик).
+// стрелки .ss-swiper-btn--prev/--next (см. blocks/_swiper-btn.scss),
+// .swiper-pagination-gallery (счётчик).
 //
 // Счётчик работает через штатную Swiper-пагинацию type='fraction' —
 // сам обновляется. Элемент пагинации ищем по .swiper-pagination-gallery
@@ -19,8 +19,8 @@
 			var swiperEl = gallery.querySelector('.swiper');
 			if (!swiperEl) return;
 
-			var prevEl = gallery.querySelector('.ss-gallery__arrow--prev');
-			var nextEl = gallery.querySelector('.ss-gallery__arrow--next');
+			var prevEl = gallery.querySelector('.ss-swiper-btn--prev');
+			var nextEl = gallery.querySelector('.ss-swiper-btn--next');
 			var paginationEl = gallery.querySelector('.swiper-pagination-gallery');
 
 			new Swiper(swiperEl, {

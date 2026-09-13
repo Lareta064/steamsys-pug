@@ -132,10 +132,8 @@ section.ss-single-article
 										img(src=`${basePath}img/3.webp`, alt='Дренажный клапан')
 									.swiper-slide
 										img(src=`${basePath}img/1.webp`, alt='Общий план')
-							button.ss-gallery__arrow.ss-gallery__arrow--prev(type='button', aria-label='Предыдущий слайд')
-								+svgIcon('chevron-left')
-							button.ss-gallery__arrow.ss-gallery__arrow--next(type='button', aria-label='Следующий слайд')
-								+svgIcon('chevron-right')
+							+ssSwiperBtn('prev')
+							+ssSwiperBtn('next')
 							.ss-gallery__footer
 								p.ss-gallery__caption Галерея во всю ширину статьи: несколько фотографий узла с возможностью листать и увеличивать.
 								.swiper-pagination.swiper-pagination-gallery

@@ -38,6 +38,25 @@
 	// Иконка для кнопки файла — белая скрепка на тёмной теме.
 	--b24-file-icon:    url('../img/skrepka-white.svg');
 
+	// --- Битриксовские CSS-переменные ---
+	// Собственный CSS битрикс-виджета ссылается на переменные вида
+	// --b24-field-*, --b24-primary-* и т.п. Если их не определить, битрикс
+	// показывает поля БЕЗ бордера, кнопки без фона и т.п. (var() → unset).
+	// Мапим их на наши токены, чтобы битрикс-CSS видел нужные значения.
+	--b24-field-border-color:                var(--b24-border);
+	--b24-field-border-color-focused:        var(--b24-border-focus);
+	--b24-field-border-color-error:          var(--b24-required);
+	--b24-field-background-color:            transparent;
+	--b24-field-background-color-focused:    transparent;
+	--b24-field-text-color:                  var(--b24-text);
+	--b24-field-placeholder-color:           var(--b24-label);
+	--b24-field-label-color:                 var(--b24-label);
+	--b24-primary-color:                     var(--accent1);
+	--b24-primary-color-hovered:             var(--accent2);
+	--b24-primary-text-color:                var(--white);
+	--b24-secondary-color:                   var(--b24-border);
+	--b24-secondary-color-hovered:           var(--b24-border-focus);
+
 	// Обёртка занимает всю ширину контейнера (form-box'а).
 	// !important — на случай, если битрикс подсунет inline style/width.
 	width: 100%;
@@ -60,6 +79,21 @@
 	--b24-link-hover:   var(--primary);
 	// Иконка файла для светлой темы — тёмная скрепка на белом фоне.
 	--b24-file-icon:    url('../img/skrepka.svg');
+
+	// Битриксовские CSS-переменные для светлой темы (см. комментарий выше).
+	--b24-field-border-color:                var(--b24-border);
+	--b24-field-border-color-focused:        var(--b24-border-focus);
+	--b24-field-border-color-error:          var(--b24-required);
+	--b24-field-background-color:            var(--white);
+	--b24-field-background-color-focused:    var(--white);
+	--b24-field-text-color:                  var(--b24-text);
+	--b24-field-placeholder-color:           var(--b24-label);
+	--b24-field-label-color:                 var(--b24-label);
+	--b24-primary-color:                     var(--accent1);
+	--b24-primary-color-hovered:             var(--accent2);
+	--b24-primary-text-color:                var(--white);
+	--b24-secondary-color:                   var(--b24-border);
+	--b24-secondary-color-hovered:           var(--b24-border-focus);
 }
 
 
@@ -74,6 +108,31 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+}
+
+
+// ==============================================================
+// Дублируем битриксовские переменные на .b24-form-wrapper — потому что
+// битрикс редефайнит их же на этом уровне (дефолтная тема даёт очень
+// светлые значения типа rgba(255,255,255,.09)). Наши значения на
+// .ss-b24-form проигрывают, потому что переменная резолвится с
+// ближайшего предка. Прописываем те же алиасы здесь → тема наша.
+// ==============================================================
+.ss-b24-form .b24-form-wrapper,
+.ss-b24-form form {
+	--b24-field-border-color:                var(--b24-border);
+	--b24-field-border-color-focused:        var(--b24-border-focus);
+	--b24-field-border-color-error:          var(--b24-required);
+	--b24-field-background-color:            transparent;
+	--b24-field-background-color-focused:    transparent;
+	--b24-field-text-color:                  var(--b24-text);
+	--b24-field-placeholder-color:           var(--b24-label);
+	--b24-field-label-color:                 var(--b24-label);
+	--b24-primary-color:                     var(--accent1);
+	--b24-primary-color-hovered:             var(--accent2);
+	--b24-primary-text-color:                var(--white);
+	--b24-secondary-color:                   var(--b24-border);
+	--b24-secondary-color-hovered:           var(--b24-border-focus);
 }
 
 
@@ -562,6 +621,10 @@
 
 	&:hover {
 		border-color: var(--b24-border-focus);
+		// Битрикс на hover рисует свой фон (обычно голубоватый) — гасим,
+		// чтобы кнопка не «наливалась» на наведении. Прозрачный фон
+		// сохраняет визуал обычного input'а.
+		background: transparent;
 	}
 
 	&:focus-visible {

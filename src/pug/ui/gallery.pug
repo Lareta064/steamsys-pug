@@ -34,10 +34,8 @@ block content
 									img(src=`${basePath}img/3.webp`, alt='Дренажный клапан')
 								.swiper-slide
 									img(src=`${basePath}img/1.webp`, alt='Общий план')
-						button.ss-gallery__arrow.ss-gallery__arrow--prev(type='button', aria-label='Предыдущий слайд')
-							+svgIcon('chevron-left')
-						button.ss-gallery__arrow.ss-gallery__arrow--next(type='button', aria-label='Следующий слайд')
-							+svgIcon('chevron-right')
+						+ssSwiperBtn('prev')
+						+ssSwiperBtn('next')
 						.ss-gallery__footer
 							p.ss-gallery__caption Галерея во всю ширину статьи: несколько фотографий узла с возможностью листать и увеличивать.
 							.swiper-pagination.swiper-pagination-gallery
@@ -50,10 +48,8 @@ block content
 						|             .swiper-slide
 						|                 img(src='...' alt='')
 						|             ...
-						|     button.ss-gallery__arrow.ss-gallery__arrow--prev
-						|         +svgIcon('chevron-left')
-						|     button.ss-gallery__arrow.ss-gallery__arrow--next
-						|         +svgIcon('chevron-right')
+						|     +ssSwiperBtn('prev')
+						|     +ssSwiperBtn('next')
 						|     .ss-gallery__footer
 						|         p.ss-gallery__caption Подпись
 						|         .swiper-pagination.swiper-pagination-gallery
@@ -75,18 +71,20 @@ block content
 						code overflow: hidden
 						| , радиус 10.
 					li
-						code .ss-gallery__arrow--prev/--next
-						|  — квадратные кнопки 65×65, радиус 10. Default: фон
+						code +ssSwiperBtn('prev' | 'next')
+						|  — универсальный компонент стрелки Swiper. Выводит
+						code button.ss-swiper-btn.ss-swiper-btn--prev/--next
+						|  с chevron-иконкой. Один класс = вся стилизация + позиционирование. Стили —
+						code src/scss/blocks/_swiper-btn.scss
+						| . 65×64, radius 10, svg 24×24, bg
 						code --secondary3
-						| , цвет
-						code --secondary1
-						| . Hover: фон
+						|  → hover
 						code --accent1
-						| , цвет
-						code --white
-						| . Скрыты на
-						code < $lg
-						|  (моб + планшет).
+						| . Родитель слайдера должен иметь
+						code position: relative
+						|  (у
+						code .ss-gallery
+						|  задано).
 					li
 						code .ss-gallery__footer
 						|  — bar с caption и counter. Desktop: ряд (caption слева, counter справа). Mobile: колонка, counter первым (правый угол), caption ниже.

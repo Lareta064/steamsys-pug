@@ -20,12 +20,15 @@
 }
 
 // ------------------------------
-// Кнопка навигации prev/next
+// Кнопка навигации prev/next — просто иконка без фона/бордера. Слайдер
+// партнёров компактный, полноценная box-кнопка (как .ss-swiper-btn) визуально
+// перегружает. Дефолт — тёмно-серый (--secondary), hover — акцентный синий.
 // ------------------------------
 .ss-partners-slider__nav {
-	// Сброс браузерных стилей <button>
+	// Сброс браузерных стилей <button>.
 	padding: 0;
 	border: none;
+	background: transparent;
 	font: inherit;
 	cursor: pointer;
 
@@ -35,13 +38,16 @@
 	justify-content: center;
 	width: 48px;
 	height: 48px;
-	color: var(--primary);
-	
-	transition: background-color .2s, color .2s, opacity .2s;
+	color: var(--secondary);
+	transition: color .2s, opacity .2s;
 
 	&:hover:not(:disabled):not(.swiper-button-disabled) {
-		
-		color: var(--white);
+		color: var(--accent1);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
 	}
 
 	&:disabled,

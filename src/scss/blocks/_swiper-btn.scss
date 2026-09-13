@@ -1,0 +1,81 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-swiper-btn — универсальные стрелки навигации Swiper-слайдеров.
+// Один класс на кнопку. Направление задаётся модификатором --prev / --next,
+// который держит и абсолютное позиционирование внутри родителя-слайдера
+// (у родителя должен быть position: relative — обычно это .ss-gallery /
+// .ss-cases / любая другая обёртка слайдера).
+//
+// Разметка:
+//   .ss-gallery (position: relative через свой SCSS)
+//     .ss-gallery__slider.swiper ...
+//     button.ss-swiper-btn.ss-swiper-btn--prev(aria-label='Предыдущий слайд')
+//       +svgIcon('chevron-left')
+//     button.ss-swiper-btn.ss-swiper-btn--next(aria-label='Следующий слайд')
+//       +svgIcon('chevron-right')
+//
+// Визуал: 65×64, radius 10, bg --secondary3 → hover --accent1, svg 24×24.
+// На < $lg скрыто — на моб/планшет свайп достаточен, стрелки лишние.
+// Состояние .swiper-button-disabled (доехали до края, loop off) — приглушаем.
+//
+// Использование с pug: миксин +ssSwiperBtn('prev' | 'next', label)
+// (см. src/pug/mixins/_ss-swiper-btn.pug) — короче и меньше повторов.
+// ==============================================================
+
+.ss-swiper-btn {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 65px;
+	height: 64px;
+	padding: 0;
+	border: 0;
+	border-radius: 10px;
+	background: var(--secondary3);
+	color: var(--secondary1);
+	cursor: pointer;
+	transition: background-color .2s ease, color .2s ease;
+
+	svg {
+		width: 24px;
+		height: 24px;
+	}
+
+	&:hover {
+		background: var(--accent1);
+		color: var(--white);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+
+	// Доехали до края слайдера (loop off) — держим видимым, но приглушаем.
+	&.swiper-button-disabled {
+		opacity: 0.35;
+		pointer-events: none;
+	}
+
+	// На моб/планшет стрелки скрыты — работает свайп.
+	@include down($lg) {
+		display: none;
+	}
+}
+
+
+// ---------- Позиция (внутри position: relative родителя-слайдера) ----------
+// 20px от края, вертикально по центру. Родитель должен быть position: relative
+// (для галереи это задано в _gallery.scss: .ss-gallery { position: relative }).
+.ss-swiper-btn--prev,
+.ss-swiper-btn--next {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 2;
+}
+
+.ss-swiper-btn--prev { left: 20px; }
+.ss-swiper-btn--next { right: 20px; }

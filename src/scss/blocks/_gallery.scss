@@ -1,8 +1,10 @@
 @use '../base/_var' as *;
 
 // ==============================================================
-// .ss-gallery — фото-галерея на 1 слайд, Swiper. Стрелки 65×65 по
-// бокам (только на десктопе), подпись + счётчик снизу.
+// .ss-gallery — фото-галерея на 1 слайд, Swiper.
+// Стрелки навигации — общий компонент .ss-swiper-btn (см.
+// blocks/_swiper-btn.scss). Через миксин +ssSwiperBtn('prev'/'next').
+// Родитель .ss-gallery — position: relative (для абсолюта стрелок).
 //
 // Разметка:
 //   .ss-gallery.js-gallery
@@ -10,24 +12,20 @@
 //       .swiper-wrapper
 //         .swiper-slide
 //           img(src='...' alt='')
-//         .swiper-slide
-//           img(...)
 //         ...
-//     button.ss-gallery__arrow.ss-gallery__arrow--prev
-//       +svgIcon('chevron-left')
-//     button.ss-gallery__arrow.ss-gallery__arrow--next
-//       +svgIcon('chevron-right')
+//     +ssSwiperBtn('prev')
+//     +ssSwiperBtn('next')
 //     .ss-gallery__footer
 //       p.ss-gallery__caption Подпись
 //       .swiper-pagination.swiper-pagination-gallery  ← счётчик (fraction)
 //
 // JS-инициализация — src/js/gallery-swiper.js по .js-gallery. Счётчик —
-// штатная Swiper-пагинация type='fraction', обновляется автоматически.
-// Доп. класс .swiper-pagination-gallery — чтобы стилизовать только
-// галерейную пагинацию, не задевая другие swiper'ы на странице.
+// штатная Swiper-пагинация type='fraction'. Доп. класс
+// .swiper-pagination-gallery нужен, чтобы стилизовать только галерейную
+// пагинацию, не задевая другие swiper'ы на странице.
 //
-// На < $lg стрелки скрыты (моб/планшет), счётчик остаётся. На < $md
-// footer перестраивается в колонку: счётчик в правом углу, подпись под ним.
+// На < $lg стрелки скрыты (моб/планшет — работает свайп), счётчик остаётся.
+// На < $md footer перестраивается в колонку.
 // ==============================================================
 
 .ss-gallery {
@@ -51,66 +49,6 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-	}
-}
-
-
-// ---------- Arrows (65×65) ----------
-// Позиционируем по боковым краям слайда, вертикально по центру.
-// На < $md — hidden.
-.ss-gallery__arrow {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	z-index: 2;
-
-	box-sizing: border-box;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 65px;
-	height: 65px;
-	padding: 0;
-	background: var(--secondary3);
-	border: 0;
-	border-radius: 10px;
-	color: var(--secondary1);
-	cursor: pointer;
-	transition: background .2s ease, color .2s ease;
-
-	svg {
-		width: 20px;
-		height: 20px;
-	}
-
-	&:hover {
-		background: var(--accent1);
-		color: var(--white);
-	}
-
-	&:focus-visible {
-		outline: 2px solid var(--accent1);
-		outline-offset: 2px;
-	}
-
-	// Отступ от края слайда на десктопе.
-	&--prev {
-		left: 20px;
-	}
-
-	&--next {
-		right: 20px;
-	}
-
-	// swiper-disabled — когда доехали до края (loop off). Держим их
-	// видимыми, но приглушаем: типовое поведение галерей.
-	&.swiper-button-disabled {
-		opacity: 0.35;
-		pointer-events: none;
-	}
-
-	@include down($lg) {
-		display: none;
 	}
 }
 
