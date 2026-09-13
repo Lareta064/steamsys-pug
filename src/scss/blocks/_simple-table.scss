@@ -43,6 +43,14 @@
 	// Небольшая инерция и «свайповый» ощущение на iOS.
 	-webkit-overflow-scrolling: touch;
 
+	// Прячем визуальный scrollbar — на моб пользователь скроллит свайпом,
+	// полоска только шумит. Скролл остаётся функциональным.
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
 	table {
 		width: 100%;
 		min-width: 640px;
