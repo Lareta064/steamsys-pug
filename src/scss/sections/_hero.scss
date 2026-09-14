@@ -26,13 +26,11 @@
     max-height: 960px;
 	
 	@include up($md) {
-		min-height: 100vh;		
+		min-height: 700px;		
 		display: flex;
 		flex-direction: column;		
 	}
-	@include up($xxxl) {
-		min-height: unset;		
-	}
+	
     @include down($xxxl) {
 		max-height: unset;
 		padding: calc(3.5vw + var(--header-height, 126px)) 0 3vw;
