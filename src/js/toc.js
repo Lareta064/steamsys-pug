@@ -50,7 +50,7 @@
 			// --header-height ставится JS-инициализацией шапки. Fallback 100.
 			var v = getComputedStyle(document.documentElement).getPropertyValue('--header-height');
 			var n = parseInt(v, 10);
-			return isNaN(n) ? 100 : n;
+			return isNaN(n) ? 60 : n;
 		}
 
 		// Линия активации: 25% высоты вьюпорта ниже шапки. Пункт становится

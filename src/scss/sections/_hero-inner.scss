@@ -39,7 +39,7 @@
 // шапка перекрывает верх полосы своим фоном.
 .ss-hero-inner__crumbs {
 	background: var(--secondary3);
-	padding: calc(14px + var(--header-height, 100px)) 0 14px;
+	padding: calc(14px + var(--header-height, 60px)) 0 14px;
 }
 
 // Основной блок hero — 56px сверху/снизу. Цвета — по модификатору темы.

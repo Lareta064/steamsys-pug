@@ -146,7 +146,7 @@
 	// На десктопе — обычный wrapper. На мобилке — sticky-обёртка.
 	@include down($lg) {
 		position: sticky;
-		top: var(--header-height, 100px);
+		top: var(--header-height, 60px);
 		z-index: 20;
 		// background нужен, чтобы контент под sticky-плашкой не просвечивал.
 		background: var(--white);
@@ -207,12 +207,12 @@
 	}
 
 	// На мобилке — отступ от кнопки + ограничение высоты с внутренним скроллом.
-	// Формула: 100dvh − 100px шапки − 50px toggle-кнопки − 40px запас отступов.
+	// Формула: 100dvh − var(--header-height) шапки − 50px toggle − 40px запас.
 	// Категорий может стать много → без ограничения body уезжает за экран.
 	// dvh (не vh) учитывает динамическую адресную строку iOS/Android.
 	@include down($lg) {
 		margin-top: 12px;
-		max-height: calc(100dvh - 100px - 50px - 40px);
+		max-height: calc(100dvh - var(--header-height, 60px) - 50px - 40px);
 		overflow-y: auto;
 
 		// Прячем scrollbar — свайп внутри списка достаточен.

@@ -57,7 +57,10 @@
 			var containerRect = container.getBoundingClientRect();
 			var itemRect = item.getBoundingClientRect();
 
-			var topOffset = (headerRect.bottom - itemRect.top) + 6;
+			// Подтягиваем submenu ближе к пункту меню (было +6, стало -16 →
+			// подъём на 22px). Раньше подменю «отваливалось» от родительского
+			// пункта, визуально казалось не связанным.
+			var topOffset = (headerRect.bottom - itemRect.top) - 16;
 			submenu.style.top = topOffset + 'px';
 
 			if (submenu.classList.contains('ss-menu__submenu--mega')) {

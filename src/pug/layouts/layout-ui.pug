@@ -12,9 +12,9 @@ html(lang="ru")
 		//=======убрать перевод цифр в номер телефона на ios  и safari ======
 		meta(name="format-detection" content="telephone=no")
 		//========= vendor styles ========
-		link(rel="stylesheet" href="../../libs/swiper/swiper.min.css")
+		link(rel="stylesheet" href=`${basePath}libs/swiper/swiper.min.css`)
 		//========= custom styles ========
-		link(rel="stylesheet"  href="../../css/main.css")
+		link(rel="stylesheet" href=`${basePath}css/main.css`)
 		title !{title}
 		//-style.
 
@@ -24,7 +24,7 @@ html(lang="ru")
 		include ../ui/ui-navigation.pug
 		block content
 
-		script(src="../../libs/swiper/swiper.js")
-		script(src="../../js/main.js")
+		script(src=`${basePath}libs/swiper/swiper.js`)
+		script(src=`${basePath}js/main.js`)
 	
 	

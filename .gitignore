@@ -34,3 +34,7 @@ nbproject
 .komodotools
 _notes
 dwsync.xml
+
+# --- Внутренняя работа над параллельным проектом ko-framework ---
+# Точка входа в план работ по ko-framework (см. содержимое файла)
+KO_FRAMEWORK_PLAN.md

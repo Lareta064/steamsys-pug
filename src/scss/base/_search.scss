@@ -30,7 +30,11 @@
 	// min-width: 0 — обязательно для flex-item, иначе длинный
 	// placeholder / value распирает флекс и ломает раскладку.
 	min-width: 0;
-	height: 65px;
+	// Высота синхронизирована с .ss-btn базовой (55px). Если поменяется
+	// высота .ss-btn — обновить и здесь: обёртка .ss-search-wrapper использует
+	// align-items: stretch, но у обоих детей явные фиксированные height,
+	// которые перебивают stretch.
+	height: 55px;
 	padding: 0 24px;
 	border: none;
 	border-radius: 0;
