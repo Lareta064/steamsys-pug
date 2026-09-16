@@ -230,6 +230,73 @@ block content
 						strong Зачем.
 						|  PageSpeed Insights → аудит «Properly size images». На мобильной сети лишние сотни kB картинки бьют в LCP (Core Web Vitals) — SEO-фактор в 2026.
 
+				h4.docs-catalog__subtitle Ленивая загрузка — loading="lazy"
+				p
+					| Все картинки, которые
+					strong  ниже первого экрана,
+					|  помечаем атрибутом
+					code loading="lazy"
+					|  плюс
+					code decoding="async"
+					| . Браузер сам подгрузит их, только когда пользователь докрутит близко. Экономит трафик и разгружает Critical Path на первой отрисовке.
+
+				pre.docs-catalog__code
+					code
+						| picture
+						|     source(srcset='/img/photo.webp 1x, /img/photo@2x.webp 2x')
+						|     img(src='/img/photo.webp' alt='...' loading='lazy' decoding='async')
+
+				h4.docs-catalog__subtitle Hero / LCP-картинка — БЕЗ lazy
+				p
+					| Главная картинка первого экрана (hero) —
+					strong  никогда не lazy.
+					|  Если поставить, Chrome отложит её загрузку → LCP-метрика (Largest Contentful Paint) резко просядет. Наоборот, для hero стоит явно поднять приоритет:
+
+				pre.docs-catalog__code
+					code
+						| picture
+						|     source(srcset='/img/hero.webp 1x, /img/hero@2x.webp 2x')
+						|     img(src='/img/hero.webp' alt='...' fetchpriority='high')
+
+				p
+					| Атрибут
+					code fetchpriority="high"
+					|  говорит браузеру: качать эту картинку в первую очередь, обгоняя прочие ресурсы. На мобильной сети выигрыш ~100–300ms LCP.
+
+				h4.docs-catalog__subtitle Обязательно — размеры или aspect-ratio
+				p
+					| В паре с
+					code loading="lazy"
+					|  у каждой
+					code img
+					|  должны быть заданы
+					strong  реальные размеры
+					| : либо атрибутами
+					code width
+					|  и
+					code height
+					|  (в пикселях исходника), либо через
+					code aspect-ratio
+					|  в CSS блока-контейнера. Иначе картинка сначала занимает 0 высоты, а потом «прыгает» на своё место — контент прыгает вместе с ней (Cumulative Layout Shift, CLS).
+
+				pre.docs-catalog__code
+					code
+						| //- атрибутами
+						| img(src='/img/photo.webp' width='800' height='600' alt='...' loading='lazy' decoding='async')
+						|
+						| //- либо aspect-ratio в CSS блока
+						| .photo-frame { aspect-ratio: 4 / 3; }
+						| img.photo-frame(src='/img/photo.webp' alt='...' loading='lazy')
+
+				.docs-catalog__note
+					p
+						strong Итог.
+						|  Правило простое: у первого экрана —
+						code fetchpriority="high"
+						| , у остальных —
+						code loading="lazy" decoding="async"
+						| , у всех — размеры (атрибуты или aspect-ratio).
+
 			//- ===== Точки перелома =====
 			section.docs-catalog__section#breakpoints
 				h3.docs-catalog__section-title Точки перелома
