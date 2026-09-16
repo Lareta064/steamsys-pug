@@ -29,7 +29,7 @@ section.ss-section.ss-calc-docs
 									span= doc
 						picture.ss-calc-docs__docs-img
 							source(srcset=`${basePath}img/catalog.webp 1x, ${basePath}img/catalog@2x.webp 2x`)
-							img(src=`${basePath}img/catalog.webp` width='226' height='164' alt='Каталог документации')
+							img(src=`${basePath}img/catalog.webp` width='226' height='164' alt='Каталог документации', loading='lazy', decoding='async')
 					.ss-calc-docs__docs-actions
 						+ssBtn('Скачать опросный лист', { icon: 'download', full: true, tag: 'a', href: '#download' })
 						+ssBtn('Перейти в библиотеку', { variant: 'dark', icon: 'book', full: true, tag: 'a', href: '#library' })

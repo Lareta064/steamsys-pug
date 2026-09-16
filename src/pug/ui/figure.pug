@@ -24,13 +24,13 @@ block content
 
 				.breadcrumbs-catalog__demo
 					figure.ss-figure
-						img(src=`${basePath}img/1.webp`, alt='Общий вид обвязки калорифера')
+						img(src=`${basePath}img/1.webp` width='474' height='842', alt='Общий вид обвязки калорифера', loading='lazy', decoding='async')
 						figcaption Подпись к большому фото: что именно показано, на какие участки обратить внимание при обходе, почему это важно для эксплуатации.
 
 				pre.breadcrumbs-catalog__snippet
 					code
 						| figure.ss-figure
-						|     img(src='...' alt='...')
+						|     img(src='...' alt='...', loading='lazy', decoding='async')
 						|     figcaption Подпись к фото…
 
 			//- ===== Проверка на других пропорциях =====
@@ -41,10 +41,10 @@ block content
 
 				.breadcrumbs-catalog__demo(style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px;')
 					figure.ss-figure
-						img(src=`${basePath}img/2.webp`, alt='')
+						img(src=`${basePath}img/2.webp` width='480' height='269', alt='', loading='lazy', decoding='async')
 						figcaption 2.webp — другая пропорция
 					figure.ss-figure
-						img(src=`${basePath}img/3.webp`, alt='')
+						img(src=`${basePath}img/3.webp` width='532' height='532', alt='', loading='lazy', decoding='async')
 						figcaption 3.webp — третья пропорция
 
 			//- ===== Про элементы =====

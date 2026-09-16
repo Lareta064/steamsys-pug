@@ -41,7 +41,7 @@ section.ss-single-article
 
 				.ss-single-article__author
 					.ss-single-article__author-avatar
-						img(src=`${basePath}img/ava.webp`, alt='user')
+						img(src=`${basePath}img/ava.webp` width='65' height='65', alt='user', loading='lazy', decoding='async')
 					span.ss-single-article__author-name Александр Баженов
 					span Инженер-проектировщик
 					a.ss-single-article__author-link(href='#') Профиль →
@@ -125,13 +125,13 @@ section.ss-single-article
 							.ss-gallery__slider.swiper
 								.swiper-wrapper
 									.swiper-slide
-										img(src=`${basePath}img/1.webp`, alt='Общий вид обвязки калорифера')
+										img(src=`${basePath}img/1.webp` width='474' height='842', alt='Общий вид обвязки калорифера', loading='lazy', decoding='async')
 									.swiper-slide
-										img(src=`${basePath}img/2.webp`, alt='Узел конденсатоотвода')
+										img(src=`${basePath}img/2.webp` width='480' height='269', alt='Узел конденсатоотвода', loading='lazy', decoding='async')
 									.swiper-slide
-										img(src=`${basePath}img/3.webp`, alt='Дренажный клапан')
+										img(src=`${basePath}img/3.webp` width='532' height='532', alt='Дренажный клапан', loading='lazy', decoding='async')
 									.swiper-slide
-										img(src=`${basePath}img/1.webp`, alt='Общий план')
+										img(src=`${basePath}img/1.webp` width='474' height='842', alt='Общий план', loading='lazy', decoding='async')
 							+ssSwiperBtn('prev')
 							+ssSwiperBtn('next')
 							.ss-gallery__footer
@@ -141,7 +141,7 @@ section.ss-single-article
 						//- Видео 1 — своё
 						.ss-video-side
 							.ss-video-side__media
-								img(src=`${basePath}img/1.webp`, alt='')
+								img(src=`${basePath}img/1.webp` width='474' height='842', alt='', loading='lazy', decoding='async')
 								button.ss-video-side__play(type='button', aria-label='Воспроизвести')
 									svg(viewBox='0 0 24 24', xmlns='http://www.w3.org/2000/svg')
 										path(d='M8 5v14l11-7z', fill='currentColor')
@@ -168,7 +168,7 @@ section.ss-single-article
 						//- Цитата автора
 						.ss-quote-card
 							.ss-quote-card__avatar
-								img(src=`${basePath}img/ava.webp`, alt='')
+								img(src=`${basePath}img/ava.webp` width='65' height='65', alt='', loading='lazy', decoding='async')
 							.ss-quote-card__body
 								blockquote.ss-quote-card__text.ss-fs-22 Если в схеме нет безопасного дренажа при остановке, калорифер остаётся уязвимым даже при правильно выбранном конденсатоотводчике.
 								p.ss-quote-card__author-name Александр Баженов
@@ -176,7 +176,7 @@ section.ss-single-article
 								+ssBtn('Передать параметры инженеру', { variant: 'white' })(data-modal='request-b24')
 
 						figure.ss-figure
-							img(src=`${basePath}img/2.webp`, alt='Фото во всю ширину: узел обвязки после монтажа')
+							img(src=`${basePath}img/2.webp` width='480' height='269', alt='Фото во всю ширину: узел обвязки после монтажа', loading='lazy', decoding='async')
 							figcaption Подпись к большому фото: что именно показано, на какие участки обратить внимание при обходе, почему это важно для эксплуатации.
 
 					//- ===== Сравнение схем =====
@@ -230,14 +230,14 @@ section.ss-single-article
 						.ss-img-text-list
 							.ss-img-text-row
 								.ss-img-text-row__img
-									img(src=`${basePath}img/1.webp`, alt='')
+									img(src=`${basePath}img/1.webp` width='474' height='842', alt='', loading='lazy', decoding='async')
 								.ss-img-text-row__body
 									h3.ss-img-text-row__title.ss-fs-24 Неправильный уклон трубы перед конденсатоотводчиком
 									p Труба уложена с контруклоном — конденсат скапливается в нижней точке перед КО, а не отводится самотёком. При остановке системы этот участок промерзает первым.
 									p Инженер при обходе должен проверить уклон (норма ≥ 5 мм/м) и наличие дренажного клапана в нижней точке.
 							.ss-img-text-row
 								.ss-img-text-row__img
-									img(src=`${basePath}img/2.webp`, alt='')
+									img(src=`${basePath}img/2.webp` width='480' height='269', alt='', loading='lazy', decoding='async')
 								.ss-img-text-row__body
 									h3.ss-img-text-row__title.ss-fs-24 Подтопление КО при подъёмном конденсатопроводе
 									p После конденсатоотводчика труба уходит вверх без промежуточного накопителя — противодавление не позволяет КО нормально открываться.

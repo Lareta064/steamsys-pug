@@ -15,7 +15,7 @@ section.ss-section.ss-cases.ss-section--tinted
 					picture
 						source(media='(max-width: 767px)' srcset=`${basePath}img/cases-mob.webp 1x, ${basePath}img/cases-mob@2x.webp 2x`)
 						source(srcset=`${basePath}img/cases.webp 1x, ${basePath}img/cases@2x.webp 2x`)
-						img(src=`${basePath}img/cases.webp`, width=865, height=360, alt='Молочный комбинат')
+						img(src=`${basePath}img/cases.webp`, width=865, height=360, alt='Молочный комбинат', loading='lazy', decoding='async')
 					span.ss-tag.ss-tag--primary Пищевая промышленность
 				.ss-case-card__body
 					h3.ss-case-card__title Модернизация пароконденсатной системы на молочном комбинате
@@ -51,7 +51,7 @@ section.ss-section.ss-cases.ss-section--tinted
 										.ss-partner-card
 											picture
 												source(srcset=`${basePath}img/${p.name}.webp 1x, ${basePath}img/${p.name}@2x.webp 2x`)
-												img(src=`${basePath}img/${p.name}.webp`, width=200, height=90, alt=p.alt)
+												img(src=`${basePath}img/${p.name}.webp`, width=200, height=90, alt=p.alt, loading='lazy', decoding='async')
 							.swiper-pagination
 					button.ss-partners-slider__nav.ss-partners-slider__nav--next(type='button', aria-label='Следующий')
 						+svgIcon('chevron-right')
@@ -69,7 +69,7 @@ section.ss-section.ss-cases.ss-section--tinted
 										.ss-review-card__author
 											picture.ss-review-card__avatar
 												source(srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x`)
-												img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=r.author)
+												img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=r.author, loading='lazy', decoding='async')
 											.ss-review-card__author-meta
 												p.ss-review-card__author-name= r.author
 												p.ss-review-card__author-position= r.position

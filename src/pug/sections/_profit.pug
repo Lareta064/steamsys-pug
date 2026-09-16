@@ -12,7 +12,7 @@ section.ss-section.ss-section--tinted.ss-profit(style=`background-image: image-s
 				//- Картинка — только mobile (на desktop замещается фоном секции).
 				picture.ss-profit__img
 					source(srcset=`${basePath}img/profit-mob.webp 1x, ${basePath}img/profit-mob@2x.webp 2x`)
-					img(src=`${basePath}img/profit-mob.webp` width='388' height='217' alt='')
+					img(src=`${basePath}img/profit-mob.webp` width='388' height='217' alt='', loading='lazy', decoding='async')
 
 				.ss-profit-panel
 					ul.ss-profit-panel__list

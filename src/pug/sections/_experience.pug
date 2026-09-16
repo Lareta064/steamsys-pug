@@ -16,7 +16,7 @@ section.ss-section.ss-experience
 							picture.ss-experience-card__bg
 								source(media='(max-width: 767px)' srcset=`${basePath}img/${item.bg}-mob.webp 1x, ${basePath}img/${item.bg}-mob@2x.webp 2x`)
 								source(media='(min-width: 768px)' srcset=`${basePath}img/${item.bg}.webp 1x, ${basePath}img/${item.bg}@2x.webp 2x`)
-								img(src=`${basePath}img/${item.bg}.webp` width='567' height='677' alt='')
+								img(src=`${basePath}img/${item.bg}.webp` width='567' height='677' alt='', loading='lazy', decoding='async')
 							a.ss-experience-card__overlay(href='#experience-page' aria-label=item.title)
 							.ss-experience-card__content
 								.ss-experience-card__top

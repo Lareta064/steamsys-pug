@@ -23,4 +23,4 @@ section.ss-section.ss-tab-catalog
 							picture.ss-tab-catalog__image
 								source(media='(max-width: 767px)' srcset=`${basePath}img/${t.img}-mob.webp 1x, ${basePath}img/${t.img}-mob@2x.webp 2x`)
 								source(media='(min-width: 768px)' srcset=`${basePath}img/${t.img}.webp 1x, ${basePath}img/${t.img}@2x.webp 2x`)
-								img(src=`${basePath}img/${t.img}.webp`, width=418, height=388, alt=t.label)
+								img(src=`${basePath}img/${t.img}.webp`, width=418, height=388, alt=t.label, loading='lazy', decoding='async')

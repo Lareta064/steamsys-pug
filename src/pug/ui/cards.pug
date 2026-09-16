@@ -87,7 +87,7 @@ block content
 							.ss-task-card
 								picture.ss-task-card__image
 									source(srcset=`${basePath}img/${item.img}.webp 1x, ${basePath}img/${item.img}@2x.webp 2x`)
-									img(src=`${basePath}img/${item.img}.webp` width=item.w height=item.h alt=item.title)
+									img(src=`${basePath}img/${item.img}.webp` width=item.w height=item.h alt=item.title, loading='lazy', decoding='async')
 								.ss-task-card__body
 									p.ss-task-card__title= item.title
 									p.ss-task-card__text= item.text
@@ -98,7 +98,7 @@ block content
 						| .ss-task-card
 						|     picture.ss-task-card__image
 						|         source(srcset='/img/name.webp 1x, /img/name@2x.webp 2x')
-						|         img(src='/img/name.webp' width='250' height='125' alt='...')
+						|         img(src='/img/name.webp' width='250' height='125' alt='...', loading='lazy', decoding='async')
 						|     .ss-task-card__body
 						|         p.ss-task-card__title Заголовок
 						|         p.ss-task-card__text Описание
@@ -120,7 +120,7 @@ block content
 						picture.ss-solution-card__bg
 							source(media='(max-width: 767px)' srcset=`${basePath}img/solution1-mob.webp 1x, ${basePath}img/solution1-mob@2x.webp 2x`)
 							source(media='(min-width: 768px)' srcset=`${basePath}img/solution1.webp 1x, ${basePath}img/solution1@2x.webp 2x`)
-							img(src=`${basePath}img/solution1.webp` width='865' height='320' alt='')
+							img(src=`${basePath}img/solution1.webp` width='865' height='320' alt='', loading='lazy', decoding='async')
 						a.ss-solution-card__overlay(href='#solution-page' aria-label='Готовое решение — Станция возврата конденсата')
 						.ss-solution-card__content
 							.ss-solution-card__head
@@ -140,7 +140,7 @@ block content
 						|     picture.ss-solution-card__bg
 						|         source(media='(max-width: 767px)' srcset='/img/sol1-mob.webp 1x, /img/sol1-mob@2x.webp 2x')
 						|         source(media='(min-width: 768px)' srcset='/img/sol1.webp 1x, /img/sol1@2x.webp 2x')
-						|         img(src='/img/sol1.webp' width='865' height='320' alt='')
+						|         img(src='/img/sol1.webp' width='865' height='320' alt='', loading='lazy', decoding='async')
 						|     a.ss-solution-card__overlay(href='/solutions/svk' aria-label='…')
 						|     .ss-solution-card__content
 						|         .ss-solution-card__head
@@ -169,7 +169,7 @@ block content
 						picture.ss-experience-card__bg
 							source(media='(max-width: 767px)' srcset=`${basePath}img/gallery1-mob.webp 1x, ${basePath}img/gallery1-mob@2x.webp 2x`)
 							source(media='(min-width: 768px)' srcset=`${basePath}img/gallery1.webp 1x, ${basePath}img/gallery1@2x.webp 2x`)
-							img(src=`${basePath}img/gallery1.webp` width='567' height='677' alt='')
+							img(src=`${basePath}img/gallery1.webp` width='567' height='677' alt='', loading='lazy', decoding='async')
 						a.ss-experience-card__overlay(href='#experience-page' aria-label='Пищевая промышленность — опыт')
 						.ss-experience-card__content
 							.ss-experience-card__top
@@ -190,7 +190,7 @@ block content
 						|     picture.ss-experience-card__bg
 						|         source(media='(max-width: 767px)' srcset='/img/exp2-mob.webp 1x, /img/exp2-mob@2x.webp 2x')
 						|         source(media='(min-width: 768px)' srcset='/img/exp2.webp 1x, /img/exp2@2x.webp 2x')
-						|         img(src='/img/exp2.webp' width='567' height='677' alt='')
+						|         img(src='/img/exp2.webp' width='567' height='677' alt='', loading='lazy', decoding='async')
 						|     a.ss-experience-card__overlay(href='/experience/food' aria-label='…')
 						|     .ss-experience-card__content
 						|         .ss-experience-card__top
