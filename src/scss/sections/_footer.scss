@@ -64,8 +64,8 @@
 // gap 80 на ≥1920, fluid ниже, стек на <$md.
 .ss-footer__nav {
 	display: flex;
-	justify-content: flex-end;
-	flex-wrap: wrap;
+	// justify-content: flex-end;
+	// flex-wrap: wrap;
 	gap: 80px;
 
 	@include down($xxxl) {
@@ -76,6 +76,7 @@
 	// компактную группу колонок при сужении экрана).
 	@media (max-width: 1599px) {
 		justify-content: flex-start;
+		flex-wrap: wrap;
 	}
 
 	@include down($lg) {
