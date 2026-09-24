@@ -537,39 +537,55 @@
 	box-shadow: none;
 }
 
-// Битрикс на :focus у полей string/text рисует свой ярко-синий border
-// и linear-gradient background-image. Перебиваем: гасим градиент, border
-// возвращаем к нашему --b24-border-focus. Селекторы повторяют битриксовы
-// с добавлением префикса .ss-b24-form — специфичность 0-4-0 перебивает
-// их дефолтные 0-3-0.
+// Битрикс на :focus у полей string/text рисует свой ярко-синий border,
+// linear-gradient background-image и подкрашивает background-color.
+// Перебиваем: гасим градиент, фон делаем полностью прозрачным, border —
+// наш --b24-border-focus (accent3 на тёмной теме, accent1 на светлой).
+// Селекторы повторяют битриксовы с добавлением префикса .ss-b24-form —
+// специфичность 0-4-0 перебивает их дефолтные 0-3-0.
 // TODO: автозаполнение (:-webkit-autofill) стилизуем отдельно.
 .ss-b24-form .b24-form-control-string .b24-form-control:focus,
 .ss-b24-form .b24-form-control-string .b24-form-control:focus-visible,
 .ss-b24-form .b24-form-control-text .b24-form-control:focus,
 .ss-b24-form .b24-form-control-text .b24-form-control:focus-visible {
+	background-color: transparent;
 	background-image: none;
 	border-color: var(--b24-border-focus);
 }
 
-// Битрикс задаёт свои паддинги/высоту/фон через компаунды
-// .b24-form-control-string .b24-form-control и т.п. (спец 0-2-0). Наш базовый
-// `.ss-b24-form .b24-form-control` (тоже 0-2-0) проигрывает по каскаду.
-// Перебиваем на 0-3-0: возвращаем нашу высоту 65px, прозрачный фон,
-// обнуляем padding-top (горизонтальный оставляем базовому правилу).
+// Битрикс задаёт свои паддинги/высоту/фон/типографику/бордер-радиус/градиент
+// через компаунды .b24-form-control-string .b24-form-control и т.п. (спец 0-2-0).
+// Наш базовый `.ss-b24-form .b24-form-control` (тоже 0-2-0) проигрывает
+// по каскаду. Перебиваем на 0-3-0: возвращаем всё наше оформление input'а.
 .ss-b24-form .b24-form-control-list .b24-form-control,
 .ss-b24-form .b24-form-control-select .field-item,
 .ss-b24-form .b24-form-control-string .b24-form-control,
 .ss-b24-form .b24-form-control-text .b24-form-control {
-	padding-top: 0;
 	height: 65px;
+	padding: 0 20px;
+	border-radius: 10px;
 	background-color: transparent;
+	background-image: none;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	letter-spacing: normal;
 }
 
-// Textarea — сохраняем нашу высоту 120px. Селектор с тегом (0-3-1) бьёт
-// компаундный выше (0-3-0), поэтому textarea не сожмётся до 65.
+// Textarea — сохраняем нашу высоту 120px и вертикальный паддинг. Селектор
+// с тегом (0-3-1) бьёт компаундный выше (0-3-0), поэтому textarea
+// не сожмётся до 65 и не потеряет наш верхний padding под label.
 .ss-b24-form .b24-form-control-text textarea.b24-form-control {
 	height: 120px;
-	padding:20px;
+	padding: 20px;
+	border-radius: 10px;
+	background-image: none;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 1.4;
+	letter-spacing: normal;
 }
 
 
@@ -587,10 +603,13 @@
 
 // Внешний контейнер .b24-form-control-file — сбрасываем битриксовские
 // паддинги и фон, чтобы наши стили детей рисовали строку-input чисто.
+// Битрикс задаёт свой border-radius: 4px — перебиваем на 10, чтобы
+// файл-поле совпадало по радиусу с остальными input'ами (10px).
 .ss-b24-form .b24-form-control-file {
 	padding: 0;
 	background-color: transparent;
 	height: 65px;
+	border-radius: 10px;
 }
 
 .ss-b24-form .b24-form-control-file .b24-form-control-file-button {
