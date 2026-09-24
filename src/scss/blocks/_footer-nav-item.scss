@@ -51,6 +51,12 @@
 	border: none;
 	cursor: default;
 
+	// 768–1599 — уменьшенный размер заголовка (компактнее держит колонку
+	// на планшетах и средних десктопах, где меню сжимается).
+	@media (min-width: #{$md}) and (max-width: 1599px) {
+		font-size: 14px;
+	}
+
 	@include down($lg) {
 		display: flex;
 		align-items: center;
@@ -103,6 +109,11 @@
 	color: var(--white);
 	text-decoration: none;
 	transition: color .2s;
+
+	// 768–1599 — уменьшенный размер ссылки, парно с font-size заголовка.
+	@media (min-width: #{$md}) and (max-width: 1599px) {
+		font-size: 12px;
+	}
 
 	&:hover {
 		color: var(--accent3);

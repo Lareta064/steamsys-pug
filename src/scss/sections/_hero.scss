@@ -36,11 +36,10 @@
 		padding: calc(3.5vw + var(--header-height, 126px)) 0 3vw;
 	}
 	@include down($xl) {
-		padding-top: 130px;
+		padding-top: 82px;
 		padding-bottom: 60px;
 	}
-	@include down($md) {
-		
+	@include down($md) {		
 		padding-bottom: 30px;
 	}
 }
