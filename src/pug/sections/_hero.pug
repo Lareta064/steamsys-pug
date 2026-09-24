@@ -1,0 +1,33 @@
+- var metriks = [{ icon: 'chart', value: '18%', label: 'снижение потерь пара' }, { icon: 'calendar', value: '9 мес.', label: 'срок окупаемости' }, { icon: 'droplets', value: '90%', label: 'возврат конденсата' }, { icon: 'shield', value: '24/7', label: 'стабильность процессов' }]
+
+section.ss-hero.ss-wrapper
+	//- Фоновая картинка (только десктоп)
+	picture.ss-hero__bg
+		source(srcset=`${basePath}img/hero.webp 1x, ${basePath}img/hero@2x.webp 2x`)
+		img(src=`${basePath}img/hero.webp` width='1920' height='960', alt='', fetchpriority='high')
+
+	.ss-container.ss-hero__inner
+		.ss-hero__content
+			span.ss-kicker.ss-txt-accent3 Инжиниринговый интегратор пароконденсатных&nbsp;систем
+			h1.ss-h1 Инженерные решения для парокондесатных систем
+
+			p.ss-hero__desc
+				| Снижаем расход пара, возвращаем конденсат, стабилизируем давление и температуру.<br> Проектируем и внедряем инженерные системы под параметры вашего предприятия.
+
+			//- Мобильная картинка в потоке (скрыта на десктопе)
+			picture.ss-hero__pic-mob
+				source(srcset=`${basePath}img/hero-mob.webp 1x, ${basePath}img/hero-mob@2x.webp 2x`)
+				img(src=`${basePath}img/hero-mob.webp`, width=388, height=200, alt='', fetchpriority='high')
+
+			.ss-hero__actions
+				+ssBtn('Получить КП', { variant: 'primary', size: 'big', icon: 'arrow-right' })(data-modal='request-b24')
+				+ssBtn('Обсудить задачу', { variant: 'outline-light', size: 'big', icon: 'message' })(class='ss-hero__cta-secondary')
+
+		ul.ss-hero__metriks
+			each m in metriks
+				li.ss-hero__metrik
+					.ss-hero__metrik-icon
+						+svgIcon(m.icon)
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value= m.value
+						p.ss-hero__metrik-label= m.label

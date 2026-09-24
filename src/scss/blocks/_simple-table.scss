@@ -1,0 +1,130 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-simple-table — обёртка + стили голых тегов table внутри.
+// Применяется в контенте статьи, где таблицы приходят из редактора
+// админки — задаём один класс на обёртку, а <table>/<thead>/<tbody>/
+// <tr>/<th>/<td> стилизуются по тегу.
+//
+// Разметка:
+//   .ss-simple-table
+//     table
+//       thead
+//         tr
+//           th Критерий
+//           th Правильная обвязка
+//           th Проблемная обвязка
+//       tbody
+//         tr
+//           th(scope='row') Отвод конденсата   ← жирная метка ряда (необязательно)
+//           td Непрерывный, через поплавковый КО
+//           td Импульсный или нестабильный
+//
+// Внешний вид:
+//   - thead > th          — светло-серый фон --secondary3, ЖИРНЫЙ --primary
+//   - tbody th[scope=row] — светло-серый фон --secondary3, ОБЫЧНЫЙ вес
+//                          (только фон меняется — типографика та же, что у td)
+//   - tbody td            — белый фон, обычный текст --primary
+//   - Между всеми рядами (header→body и body→body) тонкая линия --secondary2
+//
+// Жирный текст в body — только в thead. Первая колонка (th[scope=row])
+// выделяется исключительно фоном, формируя «L»-каркас с header'ом.
+//
+// Если по макету первая колонка НЕ должна быть выделена — используй в разметке
+// обычный <td> вместо <th scope="row"> (см. второй пример в /ui/simple-table.html).
+//
+// Скролл на мобилке: overflow-x: auto + min-width на table. Для комфортной
+// swipe-зоны комбинируем с утилитой .ss-mob-bleed — на моб. таблица
+// разъезжается на всю ширину экрана.
+// ==============================================================
+
+.ss-simple-table {
+	overflow-x: auto;
+	// Небольшая инерция и «свайповый» ощущение на iOS.
+	-webkit-overflow-scrolling: touch;
+
+	// Прячем визуальный scrollbar — на моб пользователь скроллит свайпом,
+	// полоска только шумит. Скролл остаётся функциональным.
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	table {
+		width: 100%;
+		min-width: 640px;
+		border-collapse: separate;
+		border-spacing: 0;
+		font-family: var(--font-family);
+	}
+
+	// ---------- Header (thead) ----------
+	thead th {
+		padding: 20px;
+		background: var(--secondary3);
+		color: var(--primary);
+		font-weight: 700;
+		font-size: 15px;
+		line-height: 1.4;
+		text-align: left;
+		vertical-align: middle;
+
+		@include down($md) {
+			padding: 14px 16px;
+			font-size: 14px;
+		}
+	}
+
+	// ---------- Row-header (th[scope=row]) ----------
+	// Такой же светло-серый фон, как у header'а — вместе с thead формируют
+	// «L»-каркас. Типографика идентична обычному td (обычный вес).
+	tbody th {
+		padding: 20px;
+		background: var(--secondary3);
+		color: var(--primary);
+		font-weight: 400;
+		font-size: 15px;
+		line-height: 1.5;
+		text-align: left;
+		vertical-align: top;
+
+		@include down($md) {
+			padding: 14px 16px;
+			font-size: 14px;
+		}
+	}
+
+	// ---------- Обычные ячейки контента ----------
+	tbody td {
+		padding: 20px;
+		background: var(--white);
+		color: var(--primary);
+		font-weight: 400;
+		font-size: 15px;
+		line-height: 1.5;
+		vertical-align: top;
+
+		@include down($md) {
+			padding: 14px 16px;
+			font-size: 14px;
+		}
+	}
+
+	// ---------- Разделители ----------
+	// Тонкая линия между всеми рядами. Каждой ячейке body — border-top.
+	// Первый ряд body получит линию под header'ом; последующие — между
+	// собой. Всё уложено одной директивой, не полагаемся на tr+tr.
+	tbody th,
+	tbody td {
+		border-top: 1px solid var(--secondary2);
+	}
+
+	// Правая граница «L»-каркаса: у первой ячейки header'а и у всех
+	// row-header'ов в body. Вместе даёт непрерывную вертикальную линию
+	// между серой левой колонкой и белой остальной частью таблицы.
+	thead th:first-child,
+	tbody th[scope="row"] {
+		border-right: 1px solid var(--secondary2);
+	}
+}

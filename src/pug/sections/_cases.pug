@@ -1,0 +1,76 @@
+- var partners = [{ name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }, { name: 'partner3', alt: 'Партнёр 3' }, { name: 'partner4', alt: 'Партнёр 4' }, { name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }]
+
+- var reviews = [{ title: 'ООО «Молочный Комбинат»', text: 'Компания «Паровые системы» поставляет на наши предприятия поплавковые конденсатоотводчики, системы вентиляции, а также в технологические линии. Надёжный сервис работает без нареканий. Оборудование прошло у нас все производственные испытания, и мы готовы масштабировать закупку по всем производственным площадкам.', author: 'Пётр Иванов', position: 'Главный энергетик, ООО «Молочный Комбинат»' }, { title: 'ООО «Балтика»', text: 'Второй сезон работаем с командой «Паровые системы». За это время внедрили комплекс парогенераторов, реализовали проект возврата конденсата и модернизировали КИПиА. Всё в срок, без остановки производства. Рекомендуем.', author: 'Анна Смирнова', position: 'Начальник инженерной службы, ООО «Балтика»' }, { title: 'ЗАО «Химзавод №5»', text: 'Обратились с задачей стабилизации параметров пара для реактора. Инженеры подобрали регулирующую арматуру, провели пусконаладку. Результат — снижение отклонений давления в 3 раза, повышение стабильности процесса.', author: 'Сергей Кузнецов', position: 'Технический директор, ЗАО «Химзавод №5»' }]
+
+section.ss-section.ss-cases.ss-section--tinted
+	.ss-container.ss-wrapper
+		.ss-cases__header
+			span.ss-kicker Кейсы
+			h2.ss-h2 Кейсы и отзывы
+
+		.ss-cases__body
+			//- ==================== Левая колонка: карточка кейса ====================
+			article.ss-case-card
+				.ss-case-card__image
+					picture
+						source(media='(max-width: 767px)' srcset=`${basePath}img/cases-mob.webp 1x, ${basePath}img/cases-mob@2x.webp 2x`)
+						source(srcset=`${basePath}img/cases.webp 1x, ${basePath}img/cases@2x.webp 2x`)
+						img(src=`${basePath}img/cases.webp`, width=865, height=360, alt='Молочный комбинат', loading='lazy', decoding='async')
+					span.ss-tag.ss-tag--primary Пищевая промышленность
+				.ss-case-card__body
+					h3.ss-case-card__title Модернизация пароконденсатной системы на молочном комбинате
+					p.ss-case-card__text Заменили устаревшее оборудование, внедрили автоматический возврат конденсата и учёт пара.
+					.ss-metrics
+						.ss-metrics__item
+							p.ss-metrics__value -22%
+							p.ss-metrics__label потери пара
+						.ss-metrics__item
+							p.ss-metrics__value 9 мес.
+							p.ss-metrics__label окупаемость
+						.ss-metrics__item
+							p.ss-metrics__value 100%
+							p.ss-metrics__label надёжность системы
+				.ss-case-card__footer
+					+ssLink('Смотреть кейс')
+
+			//- ==================== Правая колонка: intro + партнёры + отзывы ====================
+			.ss-cases__right
+				.ss-cases__intro
+					h3.ss-cases__intro-title Нам доверяют крупнейшие предприятия России
+					p.ss-cases__intro-desc Среди клиентов — пищевые комбинаты, фармпроизводства, химические и нефтехимические предприятия. Работаем с предприятиями от Калининграда до Сахалина.
+
+				//- Партнёры (готовый компонент)
+				.ss-partners-slider.js-partners-slider
+					button.ss-partners-slider__nav.ss-partners-slider__nav--prev(type='button', aria-label='Предыдущий')
+						+svgIcon('chevron-left')
+					.ss-partners-slider__swiper
+						.swiper.swiper-bars.swiper-pb
+							.swiper-wrapper
+								each p in partners
+									.swiper-slide
+										.ss-partner-card
+											picture
+												source(srcset=`${basePath}img/${p.name}.webp 1x, ${basePath}img/${p.name}@2x.webp 2x`)
+												img(src=`${basePath}img/${p.name}.webp`, width=200, height=90, alt=p.alt, loading='lazy', decoding='async')
+							.swiper-pagination
+					button.ss-partners-slider__nav.ss-partners-slider__nav--next(type='button', aria-label='Следующий')
+						+svgIcon('chevron-right')
+
+				//- Отзывы в белом боксе
+				.ss-cases__reviews
+					.swiper.swiper-pb.swiper-bars.js-reviews-slider
+						.swiper-wrapper
+							each r in reviews
+								.swiper-slide
+									article.ss-review-card
+										.ss-review-card__quote
+											h4.ss-review-card__title= r.title
+											p.ss-review-card__text= r.text
+										.ss-review-card__author
+											picture.ss-review-card__avatar
+												source(srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x`)
+												img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=r.author, loading='lazy', decoding='async')
+											.ss-review-card__author-meta
+												p.ss-review-card__author-name= r.author
+												p.ss-review-card__author-position= r.position
+						.swiper-pagination

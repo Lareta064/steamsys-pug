@@ -1,0 +1,102 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-quote-card — тёмная карточка с цитатой автора и CTA.
+// Композиция: круглый аватар слева + текстовая колонка справа
+// (цитата, имя автора, должность, кнопка).
+//
+// Разметка:
+//   .ss-quote-card
+//     .ss-quote-card__avatar
+//       img(src='...' alt='')       ← круглая через border-radius: 50%
+//     .ss-quote-card__body
+//       blockquote.ss-quote-card__text.ss-fs-22 Если в схеме нет…
+//       p.ss-quote-card__author-name Александр Баженов
+//       p.ss-quote-card__author-role Инженер-проектировщик, автор статьи
+//       +ssBtn('Передать параметры инженеру', { variant: 'white' })
+//
+// На < $md — стек: аватар сверху, текст снизу.
+// ==============================================================
+
+.ss-quote-card {
+	display: flex;
+	gap: 30px;
+	padding: 30px;
+	background: var(--primary);
+	color: var(--white);
+	border-radius: 10px;
+
+	@include down($md) {
+		flex-direction: column;
+		gap: 20px;
+		padding: 20px;
+	}
+}
+
+
+// ---------- Avatar ----------
+.ss-quote-card__avatar {
+	flex-shrink: 0;
+
+	img {
+		display: block;
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		object-fit: cover;
+		background: var(--primary1); // fallback-цвет пока картинка грузится
+
+		@include down($md) {
+			width: 60px;
+			height: 60px;
+		}
+	}
+}
+
+
+// ---------- Body ----------
+.ss-quote-card__body {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+
+// ---------- Quote text ----------
+// Blockquote с обнулённым margin. Font-size задаётся утилитой .ss-fs-*
+// в разметке (по дефолту .ss-fs-22 — fluid 22↔16). Weight/цвет здесь.
+//
+// Сброс контентных стилей blockquote: карточка используется внутри
+// .ss-content, где :where(.ss-content) blockquote задаёт светло-серый фон,
+// левый бордер и паддинги. У нашей тёмной карточки этого не должно быть —
+// перебиваем явно (специфичность 0-1-0 бьёт 0-0-1 от :where).
+.ss-quote-card__text {
+	margin: 0 0 20px;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	font-family: var(--font-family);
+	font-weight: 700;
+	line-height: 1.4;
+	color: var(--white);
+}
+
+
+// ---------- Author name + role ----------
+.ss-quote-card__author-name {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--white);
+}
+
+.ss-quote-card__author-role {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary1);
+}

@@ -1,0 +1,130 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-img-text-row — 2-колоночный блок «изображение + текст» для
+// иллюстрированных абзацев в контенте статьи (типовой сценарий:
+// «фото ошибки монтажа» + пояснение).
+//
+// Раскладка: grid 1fr 1fr, gap 40 (desktop) → 30 ($lg) → 20 ($md).
+// На < $md — стек: изображение сверху, текст снизу.
+//
+// Разметка:
+//   .ss-img-text-row
+//     .ss-img-text-row__img
+//       img(src='...' alt='')
+//     .ss-img-text-row__body
+//       h3.ss-img-text-row__title.ss-fs-24 Заголовок
+//       p Текст…
+//       p Ещё текст…
+//
+// Модификатор --reverse — переставляет колонки местами (текст слева,
+// изображение справа). На мобилке модификатор игнорируется — изображение
+// всегда сверху.
+//
+// Изображение: aspect-ratio 4/3 + object-fit cover — любая пропорция
+// исходника укладывается в один и тот же box без «ломки» верстки.
+// ==============================================================
+
+.ss-img-text-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 40px;
+	align-items: start;
+
+	@include down($lg) {
+		gap: 30px;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+}
+
+// ---------- Modifier --reverse ----------
+// Меняет колонки местами через order на img. На < $md сбрасываем — стек
+// начинается с изображения независимо от модификатора.
+.ss-img-text-row--reverse .ss-img-text-row__img {
+	order: 2;
+
+	@include down($md) {
+		order: 0;
+	}
+}
+
+
+// ---------- Image ----------
+.ss-img-text-row__img img {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: 10px;
+}
+
+
+// ---------- Body typography ----------
+// Title: font-size задаётся утилитой .ss-fs-24 в разметке (fluid 24↔18).
+// Weight/line-height/color — здесь.
+.ss-img-text-row__title {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+// Параграфы — статичная fluid-пара 16↔14 (эквивалент .ss-fs-16).
+// Оставляем в SCSS блока, чтобы не таскать класс на каждый <p>.
+.ss-img-text-row__body p {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: clamp(14px, 0.17vw + 12.73px, 16px);
+	line-height: 1.6;
+	color: var(--primary);
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+
+// ==============================================================
+// .ss-img-text-list — обёртка для нескольких .ss-img-text-row подряд.
+// На ≥ $md каждый чётный ряд автоматически реверсится (картинка справа) —
+// это даёт «змейку» без ручного проставления --reverse на каждой второй
+// строке. Удобно, когда ряды рендерятся циклом.
+//
+// На < $md — стек, все ряды одинаковы (картинка сверху).
+//
+// Разметка:
+//   .ss-img-text-list
+//     .ss-img-text-row  ← 1-й: картинка слева
+//       ...
+//     .ss-img-text-row  ← 2-й: картинка справа (авто-реверс)
+//       ...
+//     .ss-img-text-row  ← 3-й: картинка слева
+//     ...
+//
+// Отступ между рядами — 60 (desktop) / 40 (mobile).
+// ==============================================================
+
+.ss-img-text-list {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+
+	@include down($md) {
+		gap: 20px;
+	}
+}
+
+// Авто-реверс на чётных рядах. Только на больших экранах ($md+) —
+// на моб. изображение всегда сверху, реверсить нечего.
+@include up($md) {
+	.ss-img-text-list > .ss-img-text-row:nth-child(even) .ss-img-text-row__img {
+		order: 2;
+	}
+}

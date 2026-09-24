@@ -18,13 +18,16 @@
 // Фаза 4 (sticky):
 //   - шапка всегда fixed. При scrollY > 0 добавляется .ss-header--sticky.
 //     Плавный CSS transition — шапка сжимается по высоте, лого уменьшается.
-//   - --header-height обновляется после перехода — чтобы мобильное меню
-//     позиционировалось корректно и в sticky-состоянии.
+//   - --header-height обновляется автоматически через ResizeObserver
+//     (см. ниже — реагирует и на CSS-transition высоты, и на resize окна,
+//     без forced reflow).
 //
 // Фаза 5 (overflow «…»):
 //   - при переполнении menubar пункты, не поместившиеся, скрываются и добавляются
 //     в дропдаун-триггер «…» (в конце списка).
-//   - пересчёт: на resize (debounced) + на смену sticky-класса (мало ли).
+//   - пересчёт разбит на фазы WRITE → rAF → READ → WRITE для избежания
+//     принудительной компоновки (forced reflow); throttle через
+//     cancelAnimationFrame — resize-storm не даёт накопиться пересчётам.
 // ==============================
 (function () {
 	'use strict';
@@ -57,7 +60,10 @@
 			var containerRect = container.getBoundingClientRect();
 			var itemRect = item.getBoundingClientRect();
 
-			var topOffset = (headerRect.bottom - itemRect.top) + 6;
+			// Подтягиваем submenu ближе к пункту меню (было +6, стало -16 →
+			// подъём на 22px). Раньше подменю «отваливалось» от родительского
+			// пункта, визуально казалось не связанным.
+			var topOffset = (headerRect.bottom - itemRect.top) - 16;
 			submenu.style.top = topOffset + 'px';
 
 			if (submenu.classList.contains('ss-menu__submenu--mega')) {
@@ -122,13 +128,30 @@
 
 		menuItems.forEach(function (item) {
 			var submenu = item.querySelector('.ss-menu__submenu');
-			if (!submenu) return;
 
-			item.addEventListener('mouseenter', function () { openItem(item); });
-			item.addEventListener('mouseleave', function () { scheduleClose(item); });
+			if (submenu) {
+				item.addEventListener('mouseenter', function () { openItem(item); });
+				item.addEventListener('mouseleave', function () { scheduleClose(item); });
 
-			submenu.addEventListener('mouseenter', cancelClose);
-			submenu.addEventListener('mouseleave', function () { scheduleClose(item); });
+				submenu.addEventListener('mouseenter', cancelClose);
+				submenu.addEventListener('mouseleave', function () { scheduleClose(item); });
+				return;
+			}
+
+			// Пункт БЕЗ submenu (например «Контакты»). В обычном menubar hover
+			// ничего не делает. Но если пункт живёт внутри «…»-дропдауна, hover
+			// должен отменить pending scheduleClose предыдущего nested-соседа —
+			// иначе через 200мс тот закроется, dropdown «…» сожмётся по высоте,
+			// курсор выпадет вниз, «…» получит mouseleave и каскадно закроется.
+			// СИНХРОННО закрывать nested-соседа НЕЛЬЗЯ: сдвиг layout сразу же
+			// выпихнет курсор из «…» — тот же каскад. Оставляем nested открытым;
+			// он закроется только когда курсор реально уйдёт с «…» (cascade
+			// закрытие уже есть в closeItem).
+			item.addEventListener('mouseenter', function () {
+				var moreEl = header.querySelector('.ss-menu__item--more');
+				if (!moreEl || !moreEl.contains(item)) return;
+				clearTimeout(closeTimer);
+			});
 		});
 
 		window.addEventListener('scroll', function () {
@@ -152,47 +175,56 @@
 
 		if (mainList && moreItem && moreSubmenuInner) {
 			var GAP = 20;
+			var nav = header.querySelector('.ss-header__nav');
 			// Кэшируем все ПОСТОЯННЫЕ пункты (не триггер «…»).
 			var allItems = Array.prototype.slice.call(
 				mainList.querySelectorAll('.ss-menu__item:not(.ss-menu__item--more)')
 			);
 
-			var updateOverflow = function () {
-				// На <$xl (1200) menubar скрыт — работа не нужна.
-				if (window.innerWidth < 1200) return;
+			// Пересчёт переполнения menubar. Всё в одном rAF-callback'е:
+			//   - split на два кадра (WRITE → rAF → READ → WRITE) даёт межкадровое
+			//     мигание, когда user активно тянет край окна: между reset и recompute
+			//     браузер успевает нарисовать «all items in mainList» — items видимо
+			//     торчат за пределы nav (у .ss-header__nav нет overflow: hidden).
+			//   - Здесь reset + measure + reorg в одном тике: forced reflow есть,
+			//     но событие resize — редкое, не в hot-path (перформанс не страдает),
+			//     а визуально ни одного промежуточного кадра пользователь не видит.
+			//   - Throttle через rAF: множественные resize-события в одном кадре
+			//     схлопываются в один пересчёт.
+			var overflowRaf = null;
+			var recompute = function () {
+				overflowRaf = null;
 
-				// Сброс: возвращаем items обратно в основной список (перед триггером «…»).
-				// Так они сохраняют свои submenu и hover-логику — просто перемещаются
-				// между главным menubar и дропдауном «…».
+				// Reset: возвращаем items в mainList (перед триггером «…»).
 				Array.prototype.slice.call(moreSubmenuInner.children).forEach(function (child) {
 					if (child.classList && child.classList.contains('ss-menu__item')) {
 						mainList.insertBefore(child, moreItem);
 					}
 				});
-				moreItem.hidden = true;
-
-				// Есть ли переполнение при всех видимых?
-				var nav = header.querySelector('.ss-header__nav');
-				var navWidth = nav.clientWidth;
-
-				var totalAll = 0;
-				allItems.forEach(function (it, i) {
-					totalAll += it.getBoundingClientRect().width + (i > 0 ? GAP : 0);
-				});
-
-				if (totalAll <= navWidth) return; // всё влезает
-
-				// Есть переполнение — показываем триггер, замеряем его ширину.
 				moreItem.hidden = false;
-				var triggerWidth = moreItem.getBoundingClientRect().width;
-				var effectiveWidth = navWidth - triggerWidth - GAP;
 
-				// Определяем, с какого индекса не помещаются пункты.
+				// Measure (forced reflow — приемлем, событие редкое).
+				var navWidth = nav.clientWidth;
+				var widths = allItems.map(function (item) {
+					return item.getBoundingClientRect().width;
+				});
+				var triggerWidth = moreItem.getBoundingClientRect().width;
+
+				var totalAll = widths.reduce(function (sum, w, i) {
+					return sum + w + (i > 0 ? GAP : 0);
+				}, 0);
+
+				if (totalAll <= navWidth) {
+					// Всё влезло — прячем триггер.
+					moreItem.hidden = true;
+					return;
+				}
+
+				var effectiveWidth = navWidth - triggerWidth - GAP;
 				var accumulated = 0;
 				var overflowStart = allItems.length;
-				for (var i = 0; i < allItems.length; i++) {
-					var w = allItems[i].getBoundingClientRect().width;
-					var add = w + (i > 0 ? GAP : 0);
+				for (var i = 0; i < widths.length; i++) {
+					var add = widths[i] + (i > 0 ? GAP : 0);
 					if (accumulated + add > effectiveWidth) {
 						overflowStart = i;
 						break;
@@ -200,19 +232,19 @@
 					accumulated += add;
 				}
 
-				// Перемещаем переполненные items В дропдаун «…» (реальные DOM-ноды,
-				// не копии) — их submenu и hover-listener'ы сохраняются.
 				for (var j = overflowStart; j < allItems.length; j++) {
 					moreSubmenuInner.appendChild(allItems[j]);
 				}
 			};
 
-			// Debounced resize
-			var resizeTimer;
-			window.addEventListener('resize', function () {
-				clearTimeout(resizeTimer);
-				resizeTimer = setTimeout(updateOverflow, 100);
-			});
+			var updateOverflow = function () {
+				// На <$xl (1200) menubar скрыт — работа не нужна.
+				if (window.innerWidth < 1200) return;
+				if (overflowRaf) return; // уже запланирован пересчёт в этом кадре
+				overflowRaf = requestAnimationFrame(recompute);
+			};
+
+			window.addEventListener('resize', updateOverflow);
 
 			// Сразу (минимизировать flash), плюс ещё раз на load — когда
 			// шрифты и SVG-лого подтянутся, размеры пунктов могут уточниться.
@@ -225,21 +257,56 @@
 
 	// ============================================================
 	// --header-height CSS-переменная — используется мобильным меню
-	// для позиционирования под шапкой (top). Пересчитывается на resize
-	// и после переключения sticky-класса.
+	// для позиционирования под шапкой (top).
+	//
+	// Реализация — ResizeObserver: браузер сам сообщает актуальную высоту
+	// в safe-момент (после layout, но до paint), без forced reflow.
+	// Реагирует автоматически на:
+	//   - resize окна (шапка меняется по media queries)
+	//   - смену класса .ss-header--sticky (CSS-transition высоты)
+	//   - загрузку шрифтов / SVG-лого (при финальном раскрое)
+	// Поэтому setTimeout после toggle('.ss-header--sticky') больше не нужен.
+	//
+	// Fallback для очень старых браузеров без RO — getBoundingClientRect
+	// на resize (как раньше). Устанавливается разово в rAF, чтобы не форсить
+	// reflow во время инициализации.
 	// ============================================================
-	var updateHeaderHeight = function () {
-		if (!header) return;
-		var h = header.getBoundingClientRect().height;
-		document.documentElement.style.setProperty('--header-height', h + 'px');
+	var setHeaderHeight = function (h) {
+		document.documentElement.style.setProperty('--header-height', Math.round(h) + 'px');
 	};
-	updateHeaderHeight();
-	window.addEventListener('resize', updateHeaderHeight);
+
+	if (header) {
+		if ('ResizeObserver' in window) {
+			var headerRO = new ResizeObserver(function (entries) {
+				var entry = entries[0];
+				if (!entry) return;
+				var h;
+				if (entry.borderBoxSize && entry.borderBoxSize.length) {
+					// Актуальный API: borderBoxSize возвращает массив (для fragmented layout).
+					h = entry.borderBoxSize[0].blockSize;
+				} else {
+					// Legacy API — Safari <15.4, старые Chromium.
+					h = entry.contentRect.height;
+				}
+				setHeaderHeight(h);
+			});
+			headerRO.observe(header);
+		} else {
+			// Fallback — старые браузеры (IE, очень старые Safari).
+			var updateHeaderHeightFallback = function () {
+				setHeaderHeight(header.getBoundingClientRect().height);
+			};
+			requestAnimationFrame(updateHeaderHeightFallback);
+			window.addEventListener('resize', updateHeaderHeightFallback);
+		}
+	}
 
 	// ============================================================
 	// Фаза 4 — Sticky-шапка. Шапка всегда position: fixed. При scrollY > 0
 	// добавляется класс .ss-header--sticky, который сжимает шапку по высоте
 	// и уменьшает лого (плавный transition из CSS).
+	//
+	// --header-height обновляется ResizeObserver'ом выше — здесь только toggle.
 	// ============================================================
 	if (header) {
 		var isSticky = false;
@@ -250,8 +317,6 @@
 			if (shouldBeSticky === isSticky) return;
 			isSticky = shouldBeSticky;
 			header.classList.toggle('ss-header--sticky', isSticky);
-			// Пересчитываем --header-height после окончания CSS-transition (250ms).
-			setTimeout(updateHeaderHeight, 270);
 		};
 
 		window.addEventListener('scroll', updateSticky, { passive: true });

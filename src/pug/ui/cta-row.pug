@@ -1,0 +1,84 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "CTA-ряд (.ss-cta-row)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 CTA-ряд (.ss-cta-row)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Светло-серый box с центрированным заголовком и рядом кнопок. Используется в контенте статьи как вставка «нужна помощь? вот действия». Стили —
+				code src/scss/blocks/_cta-row.scss
+				| . Кнопки — через миксин
+				code +ssBtn
+				| , вариант выбираем по контексту.
+
+			//- ===== Пример из макета =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title 3 кнопки (пример из макета)
+
+				.breadcrumbs-catalog__demo
+					.ss-cta-row
+						p.ss-cta-row__title.ss-fs-18 Нужна схема обвязки для вашего калорифера?
+						.ss-cta-row__buttons
+							+ssBtn('Обсудить решение', { variant: 'dark' })
+							+ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-dark' })
+							+ssBtn('Получить схему', { variant: 'outline-light' })
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-cta-row
+						|     p.ss-cta-row__title.ss-fs-18 Нужна схема обвязки для вашего калорифера?
+						|     .ss-cta-row__buttons
+						|         +ssBtn('Обсудить решение', { variant: 'dark' })
+						|         +ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-dark' })
+						|         +ssBtn('Получить схему', { variant: 'outline-light' })
+
+			//- ===== 2 кнопки =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title 2 кнопки (другой набор)
+
+				.breadcrumbs-catalog__demo
+					.ss-cta-row
+						p.ss-cta-row__title.ss-fs-18 Хотите получить консультацию инженера?
+						.ss-cta-row__buttons
+							+ssBtn('Задать вопрос', { variant: 'dark' })
+							+ssBtn('Оставить заявку', { variant: 'outline-dark' })
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-cta-row
+						|  — обёртка. Фон
+						code --secondary3
+						| , радиус 10, паддинг 30 20 (мобилка — 20).
+					li
+						code .ss-cta-row__title
+						|  — центрированный заголовок. Font-size задаётся утилитой (по дефолту
+						code .ss-fs-18
+						|  = fluid 18↔14). Отступ снизу 20.
+					li
+						code .ss-cta-row__buttons
+						|  — flex-row с
+						code justify-content: center
+						|  и gap 10. На
+						code < $md
+						|  становится колонкой,
+						code align-items: stretch
+						|  — каждая кнопка на всю ширину.
+					li
+						strong Варианты кнопок:
+						|  выбираем по контексту через
+						code +ssBtn(text, { variant: '...' })
+						| . Из макета —
+						code dark
+						| ,
+						code outline-dark
+						| ,
+						code outline-light
+						| .

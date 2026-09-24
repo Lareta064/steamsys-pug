@@ -5,9 +5,6 @@ $baseFs: 16;
   @return ($pxsize / $baseFs) * 1rem;
 }
 
-@function size($pxsize) {
-	@return calc(($pxsize/17))*1vw;
-}
 // ===== Breakpoints =====
 // Desktop-first: базовые стили пишутся для самого большого экрана,
 // затем сужаются через миксин `down` (max-width).

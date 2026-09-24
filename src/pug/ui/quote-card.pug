@@ -1,0 +1,83 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Карточка цитаты автора (.ss-quote-card)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Карточка цитаты автора (.ss-quote-card)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Тёмная карточка с цитатой автора статьи, его именем/должностью и CTA-кнопкой. Круглый аватар слева. Стили —
+				code src/scss/blocks/_quote-card.scss
+				| .
+
+			//- ===== Пример =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример
+
+				.breadcrumbs-catalog__demo
+					.ss-quote-card
+						.ss-quote-card__avatar
+							img(src=`${basePath}img/ava.webp` width='65' height='65', alt='', loading='lazy', decoding='async')
+						.ss-quote-card__body
+							blockquote.ss-quote-card__text.ss-fs-22 Если в схеме нет безопасного дренажа при остановке, калорифер остаётся уязвимым даже при правильно выбранном конденсатоотводчике.
+							p.ss-quote-card__author-name Александр Баженов
+							p.ss-quote-card__author-role Инженер-проектировщик, автор статьи
+							+ssBtn('Передать параметры инженеру', { variant: 'white' })
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-quote-card
+						|     .ss-quote-card__avatar
+						|         img(src='...' alt='', loading='lazy', decoding='async')
+						|     .ss-quote-card__body
+						|         blockquote.ss-quote-card__text.ss-fs-22 Цитата…
+						|         p.ss-quote-card__author-name Автор
+						|         p.ss-quote-card__author-role Должность
+						|         +ssBtn('Передать параметры инженеру', { variant: 'white' })
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-quote-card
+						|  — обёртка. Фон
+						code --primary
+						| , цвет
+						code --white
+						| , радиус 10, паддинг 30 (моб — 20). Flex-row, на
+						code < $md
+						|  стек — аватар сверху.
+					li
+						code .ss-quote-card__avatar > img
+						|  — 80×80 (моб — 60×60), круглый (
+						code border-radius: 50%
+						| ),
+						code object-fit: cover
+						| .
+					li
+						code .ss-quote-card__text
+						|  — blockquote с обнулённым margin. Weight 700, line-height 1.4, цвет
+						code --white
+						| . Font-size — утилита
+						code .ss-fs-22
+						|  в разметке (fluid 22↔16).
+					li
+						code .ss-quote-card__author-name
+						|  — 15/700, цвет
+						code --white
+						| .
+					li
+						code .ss-quote-card__author-role
+						|  — 14/400, цвет
+						code --secondary1
+						| . Отступ снизу 20 — до кнопки.
+					li
+						strong Кнопка:
+						|  вариант
+						code white
+						|  (белая заливка, тёмный border/текст) для контраста на тёмном фоне карточки.

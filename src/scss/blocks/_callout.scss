@@ -1,0 +1,58 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-callout — плашка «Инженерное замечание» и подобные врезки
+// в контенте статьи. Простая карточка на белом фоне с тонким бордером:
+// uppercase-kicker сверху + body-текст.
+//
+// Разметка:
+//   .ss-callout
+//     p.ss-callout__kicker Инженерное замечание
+//     .ss-callout__body
+//       p Текст замечания…
+// ==============================================================
+
+.ss-callout {
+	box-sizing: border-box;
+	padding: 18px 20px;
+	background: var(--secondary3);
+	border: 1px solid var(--secondary2);
+	border-left: 4px solid var(--accent2);
+	border-radius: 4px;
+
+	@include down($md) {
+		padding: 16px 18px;
+	}
+}
+
+.ss-callout__kicker {
+	margin: 0 0 12px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 12px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--secondary);
+}
+
+.ss-callout__body {
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.6;
+	color: var(--primary);
+
+	p {
+		margin: 0 0 12px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	strong,
+	b {
+		font-weight: 600;
+	}
+}

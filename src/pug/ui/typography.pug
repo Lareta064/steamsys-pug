@@ -10,6 +10,9 @@ block content
 
 	- var sizes = [{ n: 28, lh: 130 }, { n: 24, lh: 130 }, { n: 22, lh: 130 }, { n: 20, lh: 140 }, { n: 18, lh: 140 }, { n: 16, lh: 140 }, { n: 14, lh: 140 }, { n: 12, lh: 140 }]
 
+	//- Fluid font-size utilities — пары desktop↔mobile
+	- var fluid = [{ n: 32, m: 24 }, { n: 28, m: 20 }, { n: 24, m: 18 }, { n: 22, m: 16 }, { n: 20, m: 16 }, { n: 18, m: 14 }, { n: 16, m: 14 }, { n: 14, m: 12 }]
+
 	.container-dashboard.ss-wrapper
 		h2.db-h2 Типографика
 
@@ -46,3 +49,21 @@ block content
 					div(style="display:flex; flex-direction:column; gap:4px; margin-bottom:20px;")
 						p(class='ss-semi-' + s.n)= sampleB
 						p.ss-reg-14.ss-txt-secondary .ss-semi-#{s.n} — SemiBold, #{s.n}/#{s.lh}/0
+
+			//- ===== Fluid font-size utilities =====
+			h3(style="margin-top:48px; margin-bottom:8px;") Fluid font-size utilities (.ss-fs-*)
+			p.ss-reg-14.ss-txt-secondary(style="margin-bottom:20px;")
+				| Плавный переход от мобильного размера к десктопному в диапазоне viewport 744 → 1920. Только
+				code font-size
+				| . Font-weight и line-height задаются рядом (
+				code .ss-reg-*
+				| /
+				code .ss-medi-*
+				| /
+				code .ss-semi-*
+				| ) или в стилях компонента. Ресайзи окно, чтобы увидеть переход.
+			.ss-wrapper
+				each f in fluid
+					div(style="display:flex; flex-direction:column; gap:4px; margin-bottom:20px;")
+						p(class='ss-fs-' + f.n + ' ss-medi-' + f.n)= sampleB
+						p.ss-reg-14.ss-txt-secondary .ss-fs-#{f.n} — fluid #{f.m} ↔ #{f.n}

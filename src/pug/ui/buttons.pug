@@ -71,11 +71,69 @@ block content
 			//- ===== Квадратная кнопка с иконкой =====
 			h3.buttons-catalog__section-title Квадратная кнопка (.ss-icon-btn)
 			p.buttons-catalog__intro.ss-reg-14.ss-txt-secondary
-				| Отдельный компонент — квадратная кнопка 65×64 с иконкой по центру. Используется, например, на карточке решения.
+				| Отдельный компонент — квадратная кнопка 65×64 с иконкой (svg 24×24) по центру. Используется на карточке решения и в тулбарах. Миксин
+				code +ssIconBtn(iconName, { variant, tag, href, label, disabled })
+				|  из
+				code src/pug/mixins/_ss-icon-btn.pug
+				| . Два варианта:
+				code default
+				|  — тёмный фон
+				code --primary
+				|  → hover
+				code --accent1
+				| .
+				code accent
+				|  — фон
+				code --accent1
+				|  → hover
+				code --accent2
+				| .
 
+			h4.buttons-catalog__subtitle default
 			.buttons-catalog__row(style="gap:16px;")
 				+ssIconBtn('arrow-up-right', { label: 'Перейти к решению' })
 				+ssIconBtn('arrow-right', { label: 'Далее' })
 				+ssIconBtn('plus-circle', { label: 'Добавить' })
 				+ssIconBtn('arrow-up-right', { tag: 'a', href: '#', label: 'Ссылка' })
 				+ssIconBtn('arrow-up-right', { label: 'Disabled', disabled: true })
+
+			h4.buttons-catalog__subtitle --accent
+			.buttons-catalog__row(style="gap:16px;")
+				+ssIconBtn('arrow-up-right', { variant: 'accent', label: 'Перейти' })
+				+ssIconBtn('plus-circle', { variant: 'accent', label: 'Добавить' })
+
+
+			//- ===== Стрелки Swiper-слайдера =====
+			h3.buttons-catalog__section-title Стрелки Swiper (.ss-swiper-btn)
+			p.buttons-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Универсальные стрелки навигации Swiper-слайдеров. Один класс на кнопку — визуал и позиционирование внутри слайдера. Модификатор
+				code --prev
+				|  /
+				code --next
+				|  задаёт и chevron-иконку, и absolute-позицию (left/right 20px, top center). Родитель-слайдер должен быть
+				code position: relative
+				| . 65×64, radius 10, svg 24×24, bg
+				code --secondary3
+				|  → hover
+				code --accent1
+				| . Скрыты на
+				code < $lg
+				|  (моб/планшет — работает свайп). Стили —
+				code src/scss/blocks/_swiper-btn.scss
+				| , миксин —
+				code src/pug/mixins/_ss-swiper-btn.pug
+				| .
+
+			.buttons-catalog__row(style="position: relative; gap: 16px;")
+				+ssSwiperBtn('prev')(style='position: static; transform: none;')
+				+ssSwiperBtn('next')(style='position: static; transform: none;')
+
+			p.buttons-catalog__intro.ss-reg-14.ss-txt-secondary(style="margin-top: 10px;")
+				| В демо выше — inline-стили обнуляют position, чтобы стрелки показались бок о бок без слайдера-родителя. В реальной разметке position/transform уже включены в модификаторы
+				code --prev/--next
+				| .
+
+			pre.buttons-catalog__snippet(style="margin-top:16px;")
+				code
+					| +ssSwiperBtn('prev')
+					| +ssSwiperBtn('next')

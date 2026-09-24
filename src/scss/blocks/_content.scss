@@ -1,0 +1,151 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-content — обёртка для контента из редактора админки.
+// Владелец сайта пишет разметку без классов, всё оформляется по тегу.
+//
+// Стилизуем: h2/h3/h4/p/ul/ol/li/strong/em/a/blockquote/hr.
+// Прямые дети — .ss-callout, .ss-fact-card, figure и др. компоненты —
+// получают одинаковый вертикальный воздух через селектор :not(типографские теги).
+//
+// ================ Про специфичность (важно) ================
+// Каждый тег имеет ДВА правила:
+//   1) .ss-content h2   (0-1-1) — структурные свойства: margin.
+//      Обычная специфичность нужна, чтобы перебивать глобальный ss-wrapper
+//      сброс `.ss-wrapper :where(h1..h4, p) { margin: 0 }` (0-1-0).
+//   2) :where(.ss-content) h2 (0-0-1) — типографика: font-size, weight, color.
+//      Пониженная специфичность нужна, чтобы utility-классы .ss-fs-*
+//      и BEM-модификаторы блоков (.ss-cta-row__title и т.п.) выигрывали
+//      без !important.
+// ==============================================================
+
+
+// ---------- Structural (margin) — обычная специфичность 0-1-1 ----------
+// Держат вертикальный ритм заголовков/абзацев. Перебивают ss-wrapper reset.
+.ss-content h2 { margin: 40px 0 20px; }
+.ss-content h3 { margin: 30px 0 15px; }
+.ss-content h4 { margin: 25px 0 10px; }
+.ss-content p  { margin: 0 0 15px; }
+
+.ss-content ul,
+.ss-content ol {
+	margin: 0 0 15px;
+	padding-left: 24px;
+}
+
+
+// ---------- Typography — низкая специфичность 0-0-1 (utility-friendly) ----------
+:where(.ss-content) h2 {
+	font-weight: 700;
+	font-size: clamp(22px, 0.51vw + 18.20px, 28px); // 28 ↔ 22
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+:where(.ss-content) h3 {
+	font-weight: 700;
+	font-size: clamp(18px, 0.34vw + 15.47px, 22px); // 22 ↔ 18
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+:where(.ss-content) h4 {
+	font-weight: 700;
+	font-size: clamp(16px, 0.17vw + 14.73px, 18px); // 18 ↔ 16
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+:where(.ss-content) p {
+	font-weight: 400;
+	font-size: clamp(14px, 0.17vw + 12.73px, 16px); // 16 ↔ 14
+	line-height: 1.6;
+	color: var(--primary);
+}
+
+:where(.ss-content) ul { list-style: disc; }
+:where(.ss-content) ol { list-style: decimal; }
+
+:where(.ss-content) li {
+	margin-bottom: 10px;
+	font-weight: 400;
+	font-size: clamp(14px, 0.17vw + 12.73px, 16px);
+	line-height: 1.6;
+	color: var(--primary);
+
+	&:last-child { margin-bottom: 0; }
+
+	// Вложенный список — уменьшенный верхний margin, чтобы не отрывался
+	ul, ol {
+		margin-top: 10px;
+		margin-bottom: 0;
+	}
+}
+
+
+// ---------- Inline formatting ----------
+:where(.ss-content) strong,
+:where(.ss-content) b {
+	font-weight: 700;
+}
+
+:where(.ss-content) em,
+:where(.ss-content) i {
+	font-style: italic;
+}
+
+:where(.ss-content) a {
+	color: var(--accent1);
+	text-decoration: none;
+	transition: color .2s ease;
+
+	&:hover { color: var(--secondary); }
+}
+
+
+// ---------- Blockquote ----------
+:where(.ss-content) blockquote {
+	margin: 20px 0;
+	padding: 15px 20px;
+	background: var(--secondary3);
+	border-left: 4px solid var(--accent2);
+	border-radius: 4px;
+
+	p:last-child { margin-bottom: 0; }
+}
+
+
+// ---------- Horizontal rule ----------
+:where(.ss-content) hr {
+	margin: 30px 0;
+	border: 0;
+	border-top: 1px solid var(--secondary2);
+}
+
+
+// ---------- First / last child ----------
+:where(.ss-content) > *:first-child { margin-top: 0; }
+:where(.ss-content) > *:last-child { margin-bottom: 0; }
+
+
+// ==============================================================
+// Вертикальный ритм для «нетипографских» блоков внутри .ss-content.
+//
+// Прямые дети (компоненты сразу под .ss-content) И дети <section> —
+// у обоих одинаковый ритм. Разделение: :where(.ss-content) > … охватывает
+// прямых детей, :where(.ss-content) section > … — детей секций (TOC-якоря).
+// Значения: 40 десктоп / 30 мобилка.
+//
+// Список тегов-исключений — заголовки/абзацы/списки/цитата/hr. Всё
+// остальное (.ss-callout, .ss-fact-card, .ss-simple-table, .ss-gallery,
+// .ss-video-side, .ss-quote-card, .ss-cta-row, .ss-img-text-list, figure,
+// .ss-info-pair и любые новые) получает вертикальный воздух автоматически.
+// ==============================================================
+:where(.ss-content) > :not(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, hr),
+:where(.ss-content) section > :not(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, hr) {
+	margin-block: 40px;
+
+	@include down($md) {
+		margin-block: 30px;
+	}
+}

@@ -2,10 +2,14 @@
 //-
 //- iconName — имя иконки без префикса `svg-`.
 //- opts — необязательный объект настроек:
+//-     variant   default (тёмная primary) | accent
 //-     tag       button | a          (default: button)
 //-     href      URL (только при tag='a')
 //-     label     aria-label (обязателен: кнопка без текста нуждается в имени)
 //-     disabled  true → атрибут disabled (button) или .is-disabled (a)
+//-
+//- Для стрелок Swiper-слайдеров используй отдельный компонент
+//- +ssSwiperBtn('prev'|'next') (см. src/pug/mixins/_ss-swiper-btn.pug).
 //-
 //- Примеры:
 //-   +ssIconBtn('arrow-up-right', { label: 'Перейти к решению' })
@@ -15,6 +19,7 @@ mixin ssIconBtn(iconName, opts)
 		var o = opts || {};
 		var tag = o.tag || 'button';
 		var classes = 'ss-icon-btn';
+		if (o.variant === 'accent') classes += ' ss-icon-btn--accent';
 		if (tag === 'a' && o.disabled) classes += ' is-disabled';
 
 	if tag === 'a'

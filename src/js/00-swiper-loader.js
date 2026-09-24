@@ -10,8 +10,11 @@
 //      к вьюпорту (rootMargin 200px — начинаем чуть заранее), и подгружает
 //      скрипт. После загрузки — вызывает все накопленные колбэки.
 //
-// CSS (swiper.min.css) грузится обычным <link> в head — он маленький
-// (~18 КБ) и нужен сразу, иначе слайдер мигнёт неоформленным при инициализации.
+// CSS (swiper.min.css) подключён в layout.pug через <link media="print"
+// onload="this.media='all'"> — не блокирует Critical Path (PageSpeed
+// не считает такой <link> render-blocking), но начинает загружаться сразу
+// вместе с остальными ресурсами. К моменту прокрутки до первого .swiper
+// CSS уже применён — мигания неоформленным нет.
 //
 // Если Swiper уже загружен глобально (напр. в UI-каталоге через <script>
 // в layout-ui.pug) — очередь сразу разбирается, всё работает как раньше.
@@ -40,16 +43,41 @@
 		queue.length = 0;
 	}
 
+	// Ищем корень Битрикс-шаблона по любому уже загруженному ассету
+	// вида /local/templates/<theme>/…. На dev-хостинге верстка посажена
+	// в Битрикс, swiper.min.css склеивается в общий CSS-бандл, отдельного
+	// <link>-а на него в DOM нет (виден только в BX.setCSSList([...])) —
+	// поэтому href для swiper.js оттуда не вытащить. А `./libs/swiper/…`
+	// резолвится в корень домена, где файлов нет (они лежат в шаблоне).
+	function findBitrixTemplateBase() {
+		var re = /^(.*\/local\/templates\/[^\/]+\/)/;
+		var els = document.querySelectorAll('link[href], script[src]');
+		for (var i = 0; i < els.length; i++) {
+			var u = els[i].href || els[i].src;
+			var m = u && u.match(re);
+			if (m) return m[1];
+		}
+		return null;
+	}
+
 	function loadSwiper() {
 		if (loading || ready) return;
 		loading = true;
 
-		// Берём href от уже загруженного swiper.min.css, меняем расширение —
-		// получаем корректный URL и для корневых html, и для build/ui/*.
+		// 1. Прямая ссылка на swiper.min.css — самый надёжный вариант,
+		//    работает и для статики (build/*.html, build/ui/*.html), и для
+		//    Битрикса, если <link> уцелел и не был склеен в бандл.
 		var cssLink = document.querySelector('link[href*="libs/swiper/swiper.min.css"]');
-		var url = cssLink
-			? cssLink.href.replace(/swiper\.min\.css(\?.*)?$/, 'swiper.js')
-			: './libs/swiper/swiper.js';
+		var url;
+		if (cssLink) {
+			url = cssLink.href.replace(/swiper\.min\.css(\?.*)?$/, 'swiper.js');
+		} else {
+			// 2. Битрикс склеил swiper.min.css в бандл — определяем корень
+			//    шаблона по любому /local/templates/<theme>/… и строим URL.
+			var base = findBitrixTemplateBase();
+			// 3. Фолбэк — относительный путь (для чистой статики).
+			url = base ? base + 'libs/swiper/swiper.js' : './libs/swiper/swiper.js';
+		}
 
 		var s = document.createElement('script');
 		s.src = url;

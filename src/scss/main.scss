@@ -32,7 +32,7 @@
 @use "blocks/_stage-card";
 @use "blocks/_role-card";
 @use "blocks/_benefit-card";
-@use "blocks/_profit";
+@use "blocks/_profit-panel";
 @use "blocks/_partner-card";
 @use "blocks/_partners-slider";
 @use "blocks/_review-card";
@@ -43,33 +43,51 @@
 @use "blocks/_cat-list";
 @use "blocks/_article-card";
 @use "blocks/_cta-card";
+@use "blocks/_sticky-side";
+@use "blocks/_accordion";
+@use "blocks/_callout";
+@use "blocks/_fact-card";
+@use "blocks/_simple-table";
+@use "blocks/_img-text-row";
+@use "blocks/_cta-row";
+@use "blocks/_quote-card";
+@use "blocks/_video-side";
+@use "blocks/_figure";
+@use "blocks/_gallery";
+@use "blocks/_swiper-btn";
+@use "blocks/_content";
+@use "blocks/_toc";
 @use "blocks/_footer-contacts";
 @use "blocks/_footer-bottom";
 
 // sections — базовая обёртка + именованные модификаторы + общие Swiper-стили
 @use "sections/_section";
 @use "sections/_swiper";
-@use "sections/_section-roles";
-@use "sections/_section-benefits";
-@use "sections/_section-experience";
-@use "sections/_section-tasks";
-@use "sections/_section-feature";
-@use "sections/_section-portfolio";
-@use "sections/_section-calc-docs";
-@use "sections/_section-profit";
+@use "sections/_roles";
+@use "sections/_benefits";
+@use "sections/_experience";
+@use "sections/_tasks";
+@use "sections/_feature";
+@use "sections/_portfolio";
+@use "sections/_calc-docs";
+@use "sections/_profit";
 @use "sections/_stages";
-@use "sections/_section-tab-catalog";
-@use "sections/_section-cases";
-@use "sections/_section-feedback";
+@use "sections/_tab-catalog";
+@use "sections/_cases";
+@use "sections/_feedback";
 @use "sections/_footer";
 @use "sections/_header";
-@use "sections/_section-hero";
-@use "sections/_section-hero-inner";
-@use "sections/_section-blog";
-@use "sections/_section-running-line";
+@use "sections/_hero";
+@use "sections/_hero-inner";
+@use "sections/_blog";
+@use "sections/_running-line";
 @use "blocks/_menu";
 @use "blocks/_mobile-menu";
 @use "blocks/_modal";
+
+// pages — стили конкретных страниц (single-article и т.п.).
+// Живут после blocks/sections, но до typography-утилит.
+@use "pages/_single-article";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

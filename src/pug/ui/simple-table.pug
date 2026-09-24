@@ -1,0 +1,157 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Таблица (.ss-simple-table)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Таблица (.ss-simple-table)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Обёртка + стили голых тегов
+				code table
+				| /
+				code thead
+				| /
+				code tbody
+				| /
+				code tr
+				| /
+				code th
+				| /
+				code td
+				| . Таблицы приходят из редактора админки — задаём один класс на обёртку, дальше всё стилизуется по тегу. Стили —
+				code src/scss/blocks/_simple-table.scss
+				| .
+
+			//- ===== Base =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример (без bleed)
+
+				.breadcrumbs-catalog__demo
+					.ss-simple-table
+						table
+							thead
+								tr
+									th Критерий
+									th Правильная обвязка
+									th Проблемная обвязка
+							tbody
+								tr
+									th(scope='row') Отвод конденсата
+									td Непрерывный, через поплавковый КО
+									td Импульсный или нестабильный
+								tr
+									th(scope='row') Воздух при пуске
+									td Удаляется через воздухоотводчик
+									td Остаётся в теплообменнике
+								tr
+									th(scope='row') Остановка зимой
+									td Есть дренаж и защита от замерзания
+									td Конденсат остаётся в трубках
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-simple-table
+						|     table
+						|         thead
+						|             tr
+						|                 th Критерий
+						|                 th Правильная обвязка
+						|                 th Проблемная обвязка
+						|         tbody
+						|             tr
+						|                 th(scope='row') Отвод конденсата
+						|                 td …
+						|                 td …
+
+			//- ===== With mob-bleed =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title С расширением на моб (+ .ss-mob-bleed)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| На
+					code < $md
+					|  таблица «растекается» до краёв вьюпорта — swipe-зона комфортнее. На больших экранах ведёт себя как обычная обёртка.
+
+				.breadcrumbs-catalog__demo
+					.ss-simple-table.ss-mob-bleed
+						table
+							thead
+								tr
+									th Параметр
+									th Что указать
+									th Зачем нужен
+							tbody
+								tr
+									td Давление пара
+									td бар(и) перед калорифером
+									td Подбор арматуры и КО
+								tr
+									td Расход пара
+									td кг/ч или тепловая нагрузка
+									td Расчёт пропускной способности
+								tr
+									td Противодавление
+									td давление в конденсатной линии
+									td Проверка фактического отвода
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-simple-table.ss-mob-bleed
+						|     table
+						|         thead …
+						|         tbody …
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про разметку и стили
+				ul
+					li
+						code .ss-simple-table
+						|  — обёртка со скроллом
+						code overflow-x: auto
+						| . Внутри
+						code table
+						|  получает
+						code min-width: 640px
+						|  — на моб скроллится свайпом внутри обёртки.
+					li
+						code thead > tr > th
+						|  — светло-серый фон
+						code --secondary3
+						| , жирный текст цвета
+						code --primary
+						| . Верхний header-ряд.
+					li
+						code tbody > tr > th[scope=row]
+						|  — светло-серый фон
+						code --secondary3
+						| , типографика та же, что у обычного td (обычный вес). Метка ряда: вместе с header формируют «L»-каркас (верх + левая колонка). Жирным выделен только thead — в теле веса не меняем. Если по макету первая колонка НЕ выделена фоном, ставим обычный
+						code td
+						|  вместо
+						code th[scope=row]
+						| .
+					li
+						code tbody > tr > td
+						|  — белый фон, обычный текст
+						code --primary
+						| .
+					li
+						| Между всеми рядами (header→body и body→body) — тонкий
+						code border-top
+						|  цвета
+						code --secondary2
+						| .
+					li
+						strong Комбо с
+						code .ss-mob-bleed
+						| :
+						|  утилита из
+						code _global.scss
+						|  на
+						code < $md
+						|  выводит обёртку к краям экрана (
+						code margin-inline: calc(50% - 50vw)
+						| ) — удобная swipe-зона.

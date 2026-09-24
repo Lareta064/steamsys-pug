@@ -1,0 +1,66 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Изображение с подписью (.ss-figure)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Изображение с подписью (.ss-figure)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Универсальная фигура с подписью для контента статьи. Семантические
+				code figure
+				|  /
+				code figcaption
+				| . Aspect — по натуральной пропорции исходника, без фиксированного box'а. Стили —
+				code src/scss/blocks/_figure.scss
+				| .
+
+			//- ===== Base =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример
+
+				.breadcrumbs-catalog__demo
+					figure.ss-figure
+						img(src=`${basePath}img/1.webp` width='474' height='842', alt='Общий вид обвязки калорифера', loading='lazy', decoding='async')
+						figcaption Подпись к большому фото: что именно показано, на какие участки обратить внимание при обходе, почему это важно для эксплуатации.
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| figure.ss-figure
+						|     img(src='...' alt='...', loading='lazy', decoding='async')
+						|     figcaption Подпись к фото…
+
+			//- ===== Проверка на других пропорциях =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Проверка на разных пропорциях
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Верстка не ломается при любой пропорции — высота автоматически из натуральной пропорции.
+
+				.breadcrumbs-catalog__demo(style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px;')
+					figure.ss-figure
+						img(src=`${basePath}img/2.webp` width='480' height='269', alt='', loading='lazy', decoding='async')
+						figcaption 2.webp — другая пропорция
+					figure.ss-figure
+						img(src=`${basePath}img/3.webp` width='532' height='532', alt='', loading='lazy', decoding='async')
+						figcaption 3.webp — третья пропорция
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code figure.ss-figure
+						|  — обёртка. Обнулённый
+						code margin
+						|  (браузерный дефолт у figure — 40px).
+					li
+						code img
+						|  — width 100%, height auto, радиус 10.
+					li
+						code figcaption
+						|  — 400/1.5, fluid 14↔12, цвет
+						code --secondary
+						| . Отступ сверху 10.

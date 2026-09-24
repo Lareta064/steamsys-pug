@@ -230,6 +230,73 @@ block content
 						strong Зачем.
 						|  PageSpeed Insights → аудит «Properly size images». На мобильной сети лишние сотни kB картинки бьют в LCP (Core Web Vitals) — SEO-фактор в 2026.
 
+				h4.docs-catalog__subtitle Ленивая загрузка — loading="lazy"
+				p
+					| Все картинки, которые
+					strong  ниже первого экрана,
+					|  помечаем атрибутом
+					code loading="lazy"
+					|  плюс
+					code decoding="async"
+					| . Браузер сам подгрузит их, только когда пользователь докрутит близко. Экономит трафик и разгружает Critical Path на первой отрисовке.
+
+				pre.docs-catalog__code
+					code
+						| picture
+						|     source(srcset='/img/photo.webp 1x, /img/photo@2x.webp 2x')
+						|     img(src='/img/photo.webp' alt='...' loading='lazy' decoding='async')
+
+				h4.docs-catalog__subtitle Hero / LCP-картинка — БЕЗ lazy
+				p
+					| Главная картинка первого экрана (hero) —
+					strong  никогда не lazy.
+					|  Если поставить, Chrome отложит её загрузку → LCP-метрика (Largest Contentful Paint) резко просядет. Наоборот, для hero стоит явно поднять приоритет:
+
+				pre.docs-catalog__code
+					code
+						| picture
+						|     source(srcset='/img/hero.webp 1x, /img/hero@2x.webp 2x')
+						|     img(src='/img/hero.webp' alt='...' fetchpriority='high')
+
+				p
+					| Атрибут
+					code fetchpriority="high"
+					|  говорит браузеру: качать эту картинку в первую очередь, обгоняя прочие ресурсы. На мобильной сети выигрыш ~100–300ms LCP.
+
+				h4.docs-catalog__subtitle Обязательно — размеры или aspect-ratio
+				p
+					| В паре с
+					code loading="lazy"
+					|  у каждой
+					code img
+					|  должны быть заданы
+					strong  реальные размеры
+					| : либо атрибутами
+					code width
+					|  и
+					code height
+					|  (в пикселях исходника), либо через
+					code aspect-ratio
+					|  в CSS блока-контейнера. Иначе картинка сначала занимает 0 высоты, а потом «прыгает» на своё место — контент прыгает вместе с ней (Cumulative Layout Shift, CLS).
+
+				pre.docs-catalog__code
+					code
+						| //- атрибутами
+						| img(src='/img/photo.webp' width='800' height='600' alt='...' loading='lazy' decoding='async')
+						|
+						| //- либо aspect-ratio в CSS блока
+						| .photo-frame { aspect-ratio: 4 / 3; }
+						| img.photo-frame(src='/img/photo.webp' alt='...' loading='lazy')
+
+				.docs-catalog__note
+					p
+						strong Итог.
+						|  Правило простое: у первого экрана —
+						code fetchpriority="high"
+						| , у остальных —
+						code loading="lazy" decoding="async"
+						| , у всех — размеры (атрибуты или aspect-ratio).
+
 			//- ===== Точки перелома =====
 			section.docs-catalog__section#breakpoints
 				h3.docs-catalog__section-title Точки перелома
@@ -359,12 +426,12 @@ block content
 					|  и работают со своими паддингами:
 				ul
 					li
-						code .ss-section-hero
+						code .ss-hero
 						|  — hero-секция с фоновой картинкой и метриками. Свой
 						code padding-top: calc(60 + var(--header-height))
 						| , свой bottom.
 					li
-						code .ss-section-running-line
+						code .ss-running-line
 						|  — тонкая бегущая полоса. padding
 						code 20px 0
 						|  внутри тёмного bg.
@@ -374,7 +441,7 @@ block content
 
 				h4.docs-catalog__subtitle Спец-размер: feature
 				p
-					code .ss-section-feature
+					code .ss-feature
 					|  перебивает базовые паддинги на
 					strong 55 top / 80 bottom
 					|  (desktop) и
@@ -384,7 +451,7 @@ block content
 				h4.docs-catalog__subtitle Как добавить новую секцию
 				ol
 					li Создать
-						code src/pug/sections/_section-имя.pug
+						code src/pug/sections/_имя.pug
 						|  с корневым элементом
 						code section.ss-section.имя-класса
 						| .
@@ -718,9 +785,9 @@ block content
 				ul
 					li
 						strong Секция «Обратная связь» —
-						code src/pug/sections/_section-feedback-b24.pug
+						code src/pug/sections/_feedback-b24.pug
 						| . Внешний бокс (
-						code .ss-section-feedback__form-box
+						code .ss-feedback__form-box
 						| ) — наш, внутри —
 						code .ss-b24-form &gt; .b24-form
 						| .
@@ -854,7 +921,7 @@ block content
 						tr
 							td: code .b24-form-header / -header-title
 							td Заголовок формы (у нас скрыт — свой заголовок над формой рисует
-								code .ss-section-feedback__form-title
+								code .ss-feedback__form-title
 								| )
 						tr
 							td: code .b24-form-field
@@ -1014,7 +1081,7 @@ block content
 				h4.docs-catalog__subtitle Внешний бокс — наш, форма — их
 				p
 					| Мы намеренно оставили
-					code .ss-section-feedback__form-box
+					code .ss-feedback__form-box
 					|  (бордер, паддинги, радиус) как внешний контейнер, а битрикс-DOM положили внутрь. При интеграции достаточно заменить содержимое бокса скриптом — визуально ничего не поедет. Внутренним обёрткам битрикса (
 					code .b24-form-wrapper
 					| ,
@@ -1186,7 +1253,7 @@ block content
 					li
 						a.docs-catalog__card(href='section-headers.html')
 							strong Заголовки секций
-							span .ss-kicker, .ss-section-header, .ss-section-intro, .ss-section-hero.
+							span .ss-kicker, .ss-section-header, .ss-section-intro, .ss-hero.
 					li
 						a.docs-catalog__card(href='grid.html')
 							strong Сетка

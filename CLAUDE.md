@@ -55,6 +55,21 @@ Many partials in `main.scss` are commented out intentionally; uncomment as featu
 
 `imgWebp` converts JPG/PNG → WebP (originals are not copied). SVGs are copied verbatim. Everything else in `src/img/` is min+copied. Because JPG/PNG become `.webp`, references in Pug/SCSS must use the `.webp` extension.
 
+**Правила разметки `<img>` (обязательны для всех новых картинок):**
+
+- **Ниже первого экрана** — `loading="lazy" decoding="async"`. Экономит трафик и разгружает Critical Path.
+- **Hero / LCP-картинка** (первый экран) — БЕЗ `loading="lazy"` (иначе браузер отложит загрузку и LCP просядет), плюс явно `fetchpriority="high"` (поднимает приоритет в очереди — выигрыш ~100–300ms LCP на мобиле).
+- **Всегда** — атрибуты `width` и `height` (в реальных пикселях исходника) ИЛИ `aspect-ratio` в CSS блока-контейнера. Без этого `loading="lazy"` даёт CLS: картинка появляется и «прыгает» контент.
+
+Пример:
+```pug
+//- Hero
+img(src='./img/hero.webp' width='1920' height='800' alt='...' fetchpriority='high')
+
+//- Всё, что ниже первого экрана
+img(src='./img/photo.webp' width='800' height='600' alt='...' loading='lazy' decoding='async')
+```
+
 ### Other assets
 
 - `src/js/**/*.js` — concatenated (no bundler, no transpile) into `build/js/main.js`. `main.js` is currently empty; adding new files just appends them.

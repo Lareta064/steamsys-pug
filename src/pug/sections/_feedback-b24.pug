@@ -1,0 +1,116 @@
+//- ============================================================
+//- ss-feedback--b24
+//- Копия секции «Обратная связь», но <form> заменена на
+//- мок разметки, которую генерирует битрикс-скрипт CRM-формы.
+//- Классы всего Bitrix-виджета префиксуются .b24-form-*.
+//-
+//- В продакшене .b24-form внутри .ss-b24-form заменяется одной строкой:
+//-     script(data-b24-form="click/N/hash" data-skip-moving="true")
+//- Битрикс сам вставит DOM. Обёртка .ss-b24-form остаётся — на ней
+//- держатся все стили и темовые модификаторы (--light и т.д.).
+//-
+//- Внешняя обёртка .ss-feedback__form-box (бордер, паддинги,
+//- радиус) — наша. Внутренние паддинги/фон .b24-form сбрасываются в
+//- src/scss/base/_b24-form.scss, чтобы не было двойных отступов.
+//- ============================================================
+section.ss-section.ss-section--tinted.ss-feedback.ss-feedback--b24
+	.ss-container.ss-wrapper
+		.ss-feedback__grid
+			//- ==================== Левая колонка (без изменений) ====================
+			.ss-feedback__left
+				.ss-feedback__header
+					span.ss-kicker.ss-txt-accent3 Обратная связь
+					h2.ss-h2 Подберите готовую систему под&nbsp;параметры объекта
+
+				ul.ss-contacts-list.ss-contacts-list--hero
+					li.ss-contacts-list__item
+						p.ss-contacts-list__label Телефон
+						p.ss-contacts-list__value.ss-h4 +7 (812) 602-77-70
+					li.ss-contacts-list__item
+						p.ss-contacts-list__label Почта
+						p.ss-contacts-list__value.ss-h4 info@steamsys.ru
+					li.ss-contacts-list__item
+						p.ss-contacts-list__label Режим работы
+						p.ss-contacts-list__value.ss-medi-20
+							| Работаем: Пн - Пт с 9:00 до 18:00
+							br
+							| Выходной: Сб - Вс
+
+			//- ==================== Правая колонка — Bitrix-форма ====================
+			.ss-feedback__form-box
+				p.ss-feedback__form-title Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня
+
+				//- ===== НАЧАЛО BITRIX-РАЗМЕТКИ =====
+				.ss-b24-form
+					//- === РЕАЛЬНАЯ БИТРИКС-ФОРМА (inline/30/w7g773) ===
+					//- Битрикс сам вставит <form> с полями на место <script>.
+					//- Наши стили (_b24-form.scss) заточены под реальный DOM битрикса,
+					//- цепляются селекторами `.ss-b24-form form ...` и `.ss-b24-form .b24-form-*`.
+					script(data-b24-form='inline/30/w7g773', data-skip-moving='true').
+						(function(w,d,u){var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/180000|0);var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);})(window,document,'https://portal.steamsys.ru/upload/crm/form/loader_30_w7g773.js');
+
+					//- === МОК ВЁРСТКИ — оставлен как reference DOM-структуры (не рендерится) ===
+					//- Изначально написан по гипотетической структуре — реальный битрикс
+					//- отдаёт другой DOM (см. prototype/bitrix-form/script-form.html).
+					//- Раскомментировать при отключении скрипта нельзя без правки SCSS.
+					//- .b24-form
+						.b24-form-wrapper
+							.b24-form-content
+								.b24-form-padding-side
+
+									//- Все поля идут одним стеком — так их выдаёт дефолтная битрикс-разметка.
+									//- placeholder=" " нужен для мока — тогда :placeholder-shown корректно
+									//- различает «пусто» и «заполнено» без JS битрикса.
+									.b24-form-field.b24-form-field-string
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Ваше имя
+												span.b24-form-control-label-required *
+											input.b24-form-control.b24-form-control-string(type='text', name='NAME', placeholder=' ')
+
+									.b24-form-field.b24-form-field-phone
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Телефон
+												span.b24-form-control-label-required *
+											input.b24-form-control.b24-form-control-string(type='tel', name='PHONE', placeholder=' ')
+
+									.b24-form-field.b24-form-field-email
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Email для отправки КП
+											input.b24-form-control.b24-form-control-string(type='email', name='EMAIL', placeholder=' ')
+
+									.b24-form-field.b24-form-field-file
+										.b24-form-control-container
+											label.b24-form-control-file
+												input.b24-form-control-file-input(type='file', name='FILE')
+												span.b24-form-control-file-icon
+													+svgIcon('clip')
+												span.b24-form-control-file-label Прикрепить ТЗ, спецификацию или опросный лист
+												button.b24-form-control-file-remove(type='button', aria-label='Удалить прикреплённый файл')
+													+svgIcon('delete')
+
+									.b24-form-field.b24-form-field-text
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Комментарий к файлу или краткое описание задачи
+											textarea.b24-form-control.b24-form-control-textarea(name='COMMENTS', placeholder=' ')
+
+									.b24-form-field.b24-form-field-agreement
+										label.b24-form-field-agreement-label
+											.b24-form-control-agreement
+												.b24-form-control-agreement-checkbox
+													input.b24-form-control-agreement-checkbox-input(type='checkbox', name='AGREEMENT')
+													span.b24-form-control-agreement-checkbox-square
+												.b24-form-control-agreement-text
+													| Нажимая кнопку, вы соглашаетесь с
+													a(href='#') политикой конфиденциальности
+
+							.b24-form-btn-block
+								.b24-form-btn-container
+									button.b24-form-btn.b24-form-btn-shadow(type='submit')
+										span.b24-form-btn-icon
+											+svgIcon('mail')
+										span.b24-form-btn-text Получить расчёт
+				//- ===== КОНЕЦ BITRIX-РАЗМЕТКИ =====

@@ -1,0 +1,73 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-fact-card — карточка «фрагмент расчёта / ключевые параметры».
+// Светло-серый box с заголовком сверху и рядами key/value (2 колонки).
+// Ряды разделены тонкой линией.
+//
+// Разметка:
+//   .ss-fact-card
+//     p.ss-fact-card__title Фрагмент расчёта для статьи
+//     .ss-fact-card__row
+//       .ss-fact-card__key Исходные данные
+//       .ss-fact-card__value Пар 6 бар, расход 280 кг/ч, …
+//     .ss-fact-card__row
+//       .ss-fact-card__key Проверка КО
+//       .ss-fact-card__value …
+//
+// На < $md — key/value перестраиваются в колонку.
+// ==============================================================
+
+.ss-fact-card {
+	box-sizing: border-box;
+	padding: 30px 20px;
+	background: var(--secondary3);
+	border-radius: 10px;
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+.ss-fact-card__title {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+}
+
+.ss-fact-card__row {
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	gap: 20px;
+	padding: 20px 0;
+	border-top: 1px solid var(--secondary2);
+
+	// Первый ряд идёт сразу под title — верхний бордер не нужен.
+	&:first-child {
+		border-top: 0;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+.ss-fact-card__key {
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 1.5;
+	color: var(--primary);
+}
+
+.ss-fact-card__value {
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 1.6;
+	color: var(--primary);
+}

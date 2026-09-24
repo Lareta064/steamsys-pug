@@ -26,24 +26,25 @@
 	background: rgba(255, 255, 255, .85);
 	backdrop-filter: blur(5px);
 	-webkit-backdrop-filter: blur(5px);
-	min-height: 126px;
-	padding-block: 24px;
-	transition: min-height .25s, padding-block .25s;
+	min-height: 50px;
+	padding-block: 15px;
+	transition: padding-block .25s;
 
+	// На < $xl min-height не нужен — контента и так хватает, чтобы шапка
+	// не схлопывалась. Уменьшаем вертикальные паддинги для компактности.
 	@include down($xl) {
-		min-height: 100px;
-		padding-block: 20px;
+		padding-block: 8px;
 	}
 }
 
-// Sticky — только сжимает высоту (лого уменьшается через ниже).
-// Никакой slide-in анимации: шапка уже на месте, только меняется размер.
+// Sticky — тень + лёгкое сжатие на десктопе (≥ $xl):
+// уменьшенный padding и чуть меньший логотип. На < $xl шапка уже компактная,
+// дополнительно не сжимаем.
 .ss-header--sticky {
 	box-shadow: 0 0 10px rgba(0,0,0, .2);
-	@include up($md) {
-		min-height: 89px;
-		padding-block: 16px;
-		
+
+	@include up($xl) {
+		padding-block: 10px;
 	}
 }
 
@@ -55,41 +56,57 @@
 }
 
 // ------------------------------
-// Логотип 164×77 (моб 120×57 после sticky, отдельная спека — Фаза 4).
-// Использует цвет primary (лого через currentColor из logo-sprite).
+// Логотип.
+// ≥ $xl (1200+):  150×70 (пропорция 164:77 сохранена — 150 × 77/164 ≈ 70).
+//                 Sticky-сжатие 120×56 (~80%). Транзишн 0.25s.
+// < $xl:          77×36 — компактный вариант, sticky не сжимает дополнительно.
+// Цвет через currentColor из logo-sprite.
 // ------------------------------
-// Ширина контейнера логотипа зафиксирована (164 десктоп / 127 моб),
-// чтобы при сжатии SVG в sticky-состоянии остальной контент шапки
-// не сдвигался влево. SVG внутри свободно уменьшается, пустое место
-// справа от лого — визуально незаметно.
 .ss-header__logo {
 	flex-shrink: 0;
 	display: inline-flex;
 	align-items: center;
-	width: 164px;
+	width: 150px;
 	color: var(--primary);
 	text-decoration: none;
-
-	@include down($xl) {
-		width: 127px;
-	}
+	transition: width .25s;
 
 	svg {
-		width: 164px;
-		height: 77px;
-		transition: width .45s, height .45s;
+		width: 150px;
+		height: 70px;
+		transition: width .25s, height .25s;
+	}
 
-		// Sticky на десктопе — сжатый логотип 120×57.
-		.ss-header--sticky & {
-			@include up($md) {
+	// Sticky-сжатие только на десктопе (≥ $xl).
+	.ss-header--sticky & {
+		@include up($xl) {
+			width: 120px;
+
+			svg {
 				width: 120px;
-				height: 57px;
+				height: 56px;
 			}
 		}
+	}
 
-		@include down($xl) {
-			width: 127px;
-			height: 60px;
+	// Компактная зона 1200-1364 — чуть уменьшенный логотип 120×56
+	// (совпадает со sticky-сжатым размером). Пропорция 164:77 сохранена.
+	@media (min-width: 1200px) and (max-width: 1364px) {
+		width: 120px;
+
+		svg {
+			width: 120px;
+			height: 56px;
+		}
+	}
+
+	// На < $xl — компактный вариант всегда.
+	@include down($xl) {
+		width: 77px;
+
+		svg {
+			width: 77px;
+			height: 36px;
 		}
 	}
 }
@@ -127,8 +144,13 @@
 		color: var(--accent1);
 	}
 
-	// 1200-1799 — уменьшаем шрифт, чтобы шапка была компактнее.
-	@media (min-width: 1200px) and (max-width: 1799px) {
+	// 1200-1364 — самая компактная зона, шрифт до 15px.
+	@media (min-width: 1200px) and (max-width: 1364px) {
+		font-size: 15px;
+	}
+
+	// 1365-1799 — промежуточная зона, шрифт 18px.
+	@media (min-width: 1365px) and (max-width: 1799px) {
 		font-size: 18px;
 	}
 

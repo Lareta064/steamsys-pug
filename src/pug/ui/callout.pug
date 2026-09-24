@@ -1,0 +1,59 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Плашка-замечание (.ss-callout)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Плашка-замечание (.ss-callout)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Врезка «Инженерное замечание» и подобные информационные блоки в контенте статьи. Белая карточка с тонким бордером, uppercase-kicker сверху и обычным body-текстом. Стили —
+				code src/scss/blocks/_callout.scss
+				| .
+
+			//- ===== Base =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример
+
+				.breadcrumbs-catalog__demo
+					.ss-callout
+						p.ss-callout__kicker Инженерное замечание
+						.ss-callout__body
+							p Если калорифер периодически «подмерзает», проблему нельзя решать только увеличением давления пара. Чаще всего причина находится в отводе конденсата: конденсат не уходит из нижней точки, а при остановке превращается в лёд.
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-callout
+						|     p.ss-callout__kicker Инженерное замечание
+						|     .ss-callout__body
+						|         p Текст замечания…
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-callout
+						|  — обёртка. Белый фон, бордер 1px
+						code --secondary2
+						| , левый бордер 4px
+						code --accent2
+						|  (акцент-полоса), радиус 4, паддинг 18 20.
+					li
+						code .ss-callout__kicker
+						|  — uppercase-подпись 12/700, letter-spacing 0.08em, цвет
+						code --secondary
+						| . Отступ снизу 12.
+					li
+						code .ss-callout__body
+						|  — контент. 16/1.6, цвет
+						code --primary
+						| .
+						code p
+						|  внутри получают отступы автоматически.
+					li
+						strong Заметка:
+						|  тёмный вариант в макете пока не встретился — добавим модификатор, когда потребуется.

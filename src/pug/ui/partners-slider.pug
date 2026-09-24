@@ -48,7 +48,7 @@ block content
 										.ss-partner-card
 											picture
 												source(srcset=`${basePath}img/${p.name}.webp 1x, ${basePath}img/${p.name}@2x.webp 2x`)
-												img(src=`${basePath}img/${p.name}.webp`, width=200, height=90, alt=p.alt)
+												img(src=`${basePath}img/${p.name}.webp`, width=200, height=90, alt=p.alt, loading='lazy', decoding='async')
 							.swiper-pagination
 					button.ss-partners-slider__nav.ss-partners-slider__nav--next(type='button', aria-label='Следующий')
 						+svgIcon('chevron-right')
@@ -64,7 +64,7 @@ block content
 				.ss-partner-card
 					picture
 						source(srcset=`${basePath}img/partner1.webp 1x, ${basePath}img/partner1@2x.webp 2x`)
-						img(src=`${basePath}img/partner1.webp`, width=200, height=90, alt='Балтика')
+						img(src=`${basePath}img/partner1.webp`, width=200, height=90, alt='Балтика', loading='lazy', decoding='async')
 
 			h3.partners-catalog__section-title Сниппет партнёров
 			pre.partners-catalog__snippet
@@ -78,7 +78,7 @@ block content
 					|                 .swiper-slide
 					|                     .ss-partner-card
 					|                         picture
-					|                             img(src='...', alt='')
+					|                             img(src='...', alt='', loading='lazy', decoding='async')
 					|             .swiper-pagination
 					|     button.ss-partners-slider__nav.ss-partners-slider__nav--next(type='button')
 					|         +svgIcon('chevron-right')
@@ -105,7 +105,7 @@ block content
 									.ss-review-card__author
 										picture.ss-review-card__avatar
 											source(srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x`)
-											img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=r.author)
+											img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=r.author, loading='lazy', decoding='async')
 										.ss-review-card__author-meta
 											p.ss-review-card__author-name= r.author
 											p.ss-review-card__author-position= r.position
@@ -122,7 +122,7 @@ block content
 					.ss-review-card__author
 						picture.ss-review-card__avatar
 							source(srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x`)
-							img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=reviews[0].author)
+							img(src=`${basePath}img/ava.webp`, width=65, height=65, alt=reviews[0].author, loading='lazy', decoding='async')
 						.ss-review-card__author-meta
 							p.ss-review-card__author-name= reviews[0].author
 							p.ss-review-card__author-position= reviews[0].position
@@ -139,7 +139,7 @@ block content
 					|                     p.ss-review-card__text Отзыв…
 					|                 .ss-review-card__author
 					|                     picture.ss-review-card__avatar
-					|                         img(src='...', alt='')
+					|                         img(src='...', alt='', loading='lazy', decoding='async')
 					|                     .ss-review-card__author-meta
 					|                         p.ss-review-card__author-name Имя
 					|                         p.ss-review-card__author-position Должность

@@ -1,0 +1,15 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Почему замерзает паровой калорифер и как это предотвратить — База знаний STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner
+		include ../sections/_article.pug
+		include ../sections/_feedback-b24-inner.pug
+	include ../sections/_footer.pug
+
+	//- Модалки страницы (скрыты по умолчанию, открываются JS по data-modal="<id>")
+	include ../sections/_modal-request-b24.pug

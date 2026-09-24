@@ -1,0 +1,117 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Аккордеон (.ss-accordion)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Аккордеон (.ss-accordion)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Универсальный аккордеон для FAQ, разворачиваемых блоков в статье и т.п. Стили —
+				code src/scss/blocks/_accordion.scss
+				| , JS —
+				code src/js/accordion.js
+				| . Иконка «+/−» рисуется CSS-псевдоэлементами — SVG не нужен.
+				br
+				| Раскрытие плавное — через
+				code grid-template-rows: 0fr → 1fr
+				|  (CSS-only, без измерения высоты в JS).
+
+			//- ===== Пример: FAQ =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title FAQ (несколько item'ов открываются независимо)
+
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Разметка — через миксин
+					code +ssAccordionItem(title, id)
+					| . Клик на header переключает состояние. Атрибут
+					code data-accordion
+					|  на контейнере — крючок для JS-делегации.
+
+				.breadcrumbs-catalog__demo(style='max-width: 720px;')
+					.ss-accordion(data-accordion)
+						+ssAccordionItem('В чём разница между правильной и неправильной обвязкой для защиты от замерзания?', 'faq-1')
+							p Правильная обвязка включает поплавковый конденсатоотводчик с воздухоотводчиком, термостатический клапан защиты от замерзания и дренажный вентиль. Неправильная — один термодинамический КО без защитного клапана и без дренажа.
+						+ssAccordionItem('Какой конденсатоотводчик лучше для калорифера?', 'faq-2')
+							p Поплавковый КО с интегрированным воздухоотводчиком — оптимальный выбор для паровых калориферов. Он обеспечивает непрерывный отвод конденсата независимо от нагрузки, в том числе при пуске и малых нагрузках.
+						+ssAccordionItem('Можно ли добавить защиту от замерзания к существующей обвязке?', 'faq-3')
+							p Да, в большинстве случаев можно установить термостатический клапан защиты от замерзания и заменить КО без переделки всей обвязки. Для оценки необходим осмотр и параметры существующей системы.
+						+ssAccordionItem('Как правильно запустить калорифер после длительной остановки?', 'faq-4')
+							p Перед подачей пара необходимо открыть дренажный вентиль, убедиться в отсутствии воды в трубках. Подавать пар медленно, контролируя давление. Только после прогрева и устойчивого отвода конденсата выйти на рабочий режим.
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-accordion(data-accordion)
+						|     +ssAccordionItem('Вопрос 1?', 'faq-1')
+						|         p Ответ 1
+						|     +ssAccordionItem('Вопрос 2?', 'faq-2')
+						|         p Ответ 2
+
+			//- ===== Пример: single-open режим =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Режим «открыт только один» (data-accordion="single")
+
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| При раскрытии одного item'а остальные внутри того же контейнера автоматически сворачиваются.
+
+				.breadcrumbs-catalog__demo(style='max-width: 720px;')
+					.ss-accordion(data-accordion='single')
+						+ssAccordionItem('Вариант A', 'sngl-1')
+							p Раскрытие этого пункта закроет остальные в этом же аккордеоне.
+						+ssAccordionItem('Вариант B', 'sngl-2')
+							p То же самое: остальные закроются автоматически.
+						+ssAccordionItem('Вариант C', 'sngl-3')
+							p Классика single-open UX.
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-accordion
+						|  — обёртка. Тонкий border-top, между item'ами разделители (border-bottom на item).
+					li
+						code .ss-accordion__item
+						|  — контейнер одного пункта.
+					li
+						code .ss-accordion__header
+						|  — кнопка (
+						code button
+						| ). Отвечает за клик и aria-expanded. Внутри — title + icon.
+					li
+						code .ss-accordion__title
+						|  — текст вопроса. Bullet-маркер «•» — CSS
+						code ::before
+						| .
+					li
+						code .ss-accordion__icon
+						|  — «+/−»-иконка,
+						code ::before
+						|  и
+						code ::after
+						| . Вертикальная линия крутится на 90° при
+						code aria-expanded="true"
+						|  и «исчезает» под горизонтальной.
+					li
+						code .ss-accordion__body
+						|  — grid-контейнер, анимирующий раскрытие через
+						code grid-template-rows
+						|  (0fr → 1fr).
+						code overflow: hidden
+						|  клипует контент по мере схлопывания.
+					li
+						code .ss-accordion__body-inner
+						|  — grid-child с
+						code min-height: 0
+						|  (позволяет треку схлопнуться до 0). Голый, без padding.
+					li
+						code .ss-accordion__body-content
+						|  — визуальный контейнер контента: padding и типографика ответа.
+					li
+						code [data-accordion]
+						|  — крючок JS. Значение
+						code "single"
+						|  включает режим «открыт только один».

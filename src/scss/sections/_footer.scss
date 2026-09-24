@@ -64,18 +64,22 @@
 // gap 80 на ≥1920, fluid ниже, стек на <$md.
 .ss-footer__nav {
 	display: flex;
-	justify-content: flex-end;
-	flex-wrap: wrap;
+	// justify-content: flex-end;
+	// flex-wrap: wrap;
 	gap: 80px;
-
+	.ss-footer-nav__item{
+		flex:1;
+	}
 	@include down($xxxl) {
-		gap: clamp(20px, 4vw, 80px);
+		gap: clamp(20px, 3vw, 80px);
 	}
 
 	// <1600 — прижимаем nav к левому краю (по спеке, чтобы не разрывать
 	// компактную группу колонок при сужении экрана).
 	@media (max-width: 1599px) {
 		justify-content: flex-start;
+		// flex-wrap: wrap;
+		gap: 20px;
 	}
 
 	@include down($lg) {

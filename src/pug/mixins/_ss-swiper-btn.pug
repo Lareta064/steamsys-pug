@@ -1,0 +1,23 @@
+//- ssSwiperBtn(direction, [label]) — стрелка навигации Swiper-слайдера.
+//-
+//- direction — 'prev' | 'next'. Определяет и иконку (chevron-left/right),
+//-             и позиционный BEM-модификатор (--prev / --next).
+//- label — aria-label. По дефолту — «Предыдущий слайд» / «Следующий слайд».
+//-
+//- Стили — src/scss/blocks/_swiper-btn.scss.
+//- Родитель-обёртка слайдера должен иметь position: relative
+//- (у .ss-gallery это уже так — см. _gallery.scss).
+//-
+//- Примеры:
+//-   +ssSwiperBtn('prev')
+//-   +ssSwiperBtn('next')
+//-   +ssSwiperBtn('prev', 'К предыдущей карточке')
+mixin ssSwiperBtn(direction, label)
+	-
+		var icon = direction === 'next' ? 'chevron-right' : 'chevron-left';
+		var defaultLabel = direction === 'next' ? 'Следующий слайд' : 'Предыдущий слайд';
+		var ariaLabel = label || defaultLabel;
+		var classes = 'ss-swiper-btn ss-swiper-btn--' + direction;
+
+	button(class=classes type='button' aria-label=ariaLabel)&attributes(attributes)
+		+svgIcon(icon)

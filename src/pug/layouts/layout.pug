@@ -24,17 +24,24 @@ html(lang="ru")
 		//- SVG первый + sizes='any' — Chrome предпочтёт векторную (в ней сидит
 		//- prefers-color-scheme для dark-mode). Без sizes='any' Chrome берёт
 		//- растр с явным размером и игнорирует SVG.
-		link(rel='icon' type='image/svg+xml' href='./favicon/favicon.svg' sizes='any')
-		link(rel='icon' type='image/png' href='./favicon/favicon-96x96.png' sizes='96x96')
+		link(rel='icon' type='image/svg+xml' href=`${basePath}favicon/favicon.svg` sizes='any')
+		link(rel='icon' type='image/png' href=`${basePath}favicon/favicon-96x96.png` sizes='96x96')
 		//- alternate icon вместо legacy 'shortcut icon' — фолбэк для древних браузеров.
-		//- link(rel='alternate icon' href='./favicon/favicon.ico')
-		link(rel='apple-touch-icon' sizes='180x180' href='./favicon/apple-touch-icon.png')
+		//- link(rel='alternate icon' href=`${basePath}favicon/favicon.ico`)
+		link(rel='apple-touch-icon' sizes='180x180' href=`${basePath}favicon/apple-touch-icon.png`)
 		meta(name='apple-mobile-web-app-title' content='MyWebSite')
-		link(rel='manifest' href='./favicon/site.webmanifest')
+		link(rel='manifest' href=`${basePath}favicon/site.webmanifest`)
 		//========= vendor styles ========
-		link(rel="stylesheet" href="./libs/swiper/swiper.min.css")
+		//- Swiper CSS грузится асинхронно: media="print" исключает файл из
+		//- render-blocking (браузер не блокирует Critical Path под "печатный"
+		//- CSS), onload переключает media на 'all' — стили применяются сразу
+		//- после загрузки. К моменту прокрутки до первого .swiper — уже готов.
+		//- <noscript> — фоллбек для отключённого JS.
+		link(rel="stylesheet" href=`${basePath}libs/swiper/swiper.min.css` media="print" onload="this.media='all'")
+		noscript
+			link(rel="stylesheet" href=`${basePath}libs/swiper/swiper.min.css`)
 		//========= custom styles ========
-		link(rel="stylesheet"  href="./css/main.css")
+		link(rel="stylesheet" href=`${basePath}css/main.css`)
 		title !{title}
 		style.
 			!{customStyle}
@@ -47,4 +54,4 @@ html(lang="ru")
 		//- Swiper грузится лениво из src/js/00-swiper-loader.js
 		//- (при приближении первого .swiper к вьюпорту). Убирает ~140 КБ
 		//- из «unused JavaScript» на первом рендере — важно для mobile PageSpeed.
-		script(src="./js/main.js")
+		script(src=`${basePath}js/main.js`)

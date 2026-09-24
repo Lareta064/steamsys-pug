@@ -3,13 +3,12 @@
 .menu-toggle {
 	display: none;
 	flex-shrink: 0;
-	width: 40px;
-	height: 40px;	
+	width: 34px;
+	height: 34px;
 	z-index: 11;
 	cursor: pointer;
 	justify-content: center;
 	align-items: center;
-	
 }
 
 @media (max-width: 1199px) {
@@ -22,7 +21,7 @@
 .menu-toggle span {
 	position: relative;
 	height: 2px;
-	width: 36px;
+	width: 30px;
 	border-radius: 3px;
 	background-color: var(--primary);
 	-webkit-transition: .2s;
@@ -45,11 +44,11 @@
 }
 
 .menu-toggle span:after {
-	top: -10px;
+	top: -8px;
 }
 
 .menu-toggle span:before {
-	bottom: -10px;
+	bottom: -8px;
 }
 
 .active.menu-toggle span {

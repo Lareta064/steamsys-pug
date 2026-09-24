@@ -28,9 +28,11 @@
 	display: flex;
 	align-items: center;
 	gap: 20px;
-	@include up($xl){
+	// Padding-left только на широких экранах (≥ 1365). В компактной зоне
+	// 1200-1364 убираем, чтобы уместить все пункты меню без переполнения.
+	@media (min-width: 1365px) {
 		padding-left: 25px;
-	}	
+	}
 }
 
 .ss-menu__item {
@@ -52,10 +54,11 @@
 	white-space: nowrap;
 	transition: color .2s;
 
-	// 1200-1799 — уменьшаем шрифт, чтобы уместить больше пунктов в ряд.
-	// @media (min-width: 1200px) and (max-width: 1799px) {
-	// 	font-size: 16px;
-	// }
+	// Компактная зона 1200-1364 — уменьшаем шрифт до 14px,
+	// чтобы весь ряд первого уровня меню уместился без переполнения.
+	@media (min-width: 1200px) and (max-width: 1364px) {
+		font-size: 14px;
+	}
 
 	&:hover {
 		color: var(--accent4);
@@ -260,6 +263,12 @@
 	text-decoration: none;
 	transition: color .2s;
 
+	// Компактная зона 1200-1364 — уменьшаем до 14px, чтобы не быть
+	// крупнее пунктов первого уровня меню (тоже 14px в этой зоне).
+	@media (min-width: 1200px) and (max-width: 1364px) {
+		font-size: 14px;
+	}
+
 	// Синий bullet 8×8 с линейным градиентом.
 	&::before {
 		content: '';
@@ -294,6 +303,12 @@
 	color: var(--secondary1);
 	text-decoration: none;
 	transition: color .2s;
+
+	// Компактная зона 1200-1364 — chips до 12px, чтобы визуальная
+	// иерархия сохранилась: level 1 = level 2 = 14px, chips 3-го уровня < 14.
+	@media (min-width: 1200px) and (max-width: 1364px) {
+		font-size: 12px;
+	}
 
 	&:hover {
 		color: var(--accent4);
