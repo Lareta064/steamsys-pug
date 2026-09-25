@@ -178,7 +178,8 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 10px;
-		padding: 12px 20px;
+		height: 44px;
+		padding: 0 20px;
 		background: transparent;
 		border: 1px solid var(--primary1);
 		border-radius: 10px;
@@ -203,6 +204,19 @@
 		svg {
 			width: 20px;
 			height: 20px;
+		}
+
+		// <$md — прячем текст, оставляем только иконку. Кнопка становится
+		// компактной 65×44 с центрированной иконкой (для узких мобильных
+		// экранов, где текст «Фильтры» съедает место у соседей в toolbar).
+		@include down($md) {
+			width: 65px;
+			padding: 0;
+			justify-content: center;
+
+			span {
+				display: none;
+			}
 		}
 	}
 

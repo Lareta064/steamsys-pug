@@ -77,6 +77,15 @@
 	.ss-filters {
 		background: transparent;
 	}
+
+	// На <$xl (1200) sidebar перестаёт быть отдельной колонкой: триггер
+	// «Фильтры» уходит в top toolbar main-колонки, а drawer внутри sidebar
+	// становится position: fixed. Растворяем обёртку через display: contents —
+	// её box не рендерится (нет серого фона, padding'а, ширины, sticky),
+	// drawer-ребёнок остаётся в DOM и открывается штатно.
+	@include down($xl) {
+		display: contents;
+	}
 }
 
 // ------------------------------
@@ -121,19 +130,56 @@
 
 // ------------------------------
 // Toolbar — горизонтальная строка с элементами по краям.
-// Используется дважды: сверху над сеткой и снизу под ней.
+// Используется дважды: сверху над сеткой (с триггером «Фильтры» + Найдено
+// + Сортировка/Switch) и снизу под ней (пагинация + «Показывать»).
+//
+// Десктоп: flex + space-between. Триггер «Фильтры» скрыт (display: none
+// в _filters.scss на ≥$xl), в top toolbar остаются 2 элемента:
+//   [Найдено] ... [Sort + Switch]
+//
+// <$xl (1200): у top toolbar (тот, где есть триггер) — grid из 2 строк:
+//   [Фильтры] [Sort + Switch]
+//   [Найдено — full width]
+// Bottom toolbar (без триггера) остаётся flex — фильтр по :has() не задевает.
 // ------------------------------
 .ss-catalog__toolbar {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 20px;
+
+	@include down($xl) {
+		&:has(.ss-filters-trigger) {
+			display: grid;
+			grid-template-columns: auto 1fr;
+			grid-template-areas:
+				"trigger tools"
+				"count   count";
+			row-gap: 15px;
+			align-items: center;
+
+			.ss-filters-trigger { grid-area: trigger; }
+			.ss-catalog__toolbar-right { grid-area: tools; justify-self: end; }
+			p { grid-area: count; }
+		}
+	}
 }
 
 .ss-catalog__toolbar-right {
 	display: flex;
 	align-items: center;
 	gap: 20px;
+
+	// <$md — Switch «Плитка / Список» прячем: на узких экранах grid-режим
+	// единственный полезный, list-режим здесь избыточен. Плюс скрываем
+	// подпись «Сортировка:» — на моб. остаётся только сам select-контрол
+	// (внутри него виден текущий выбор, подпись избыточна).
+	@include down($md) {
+		.ss-switch,
+		.ss-select-labeled__label {
+			display: none;
+		}
+	}
 }
 
 // Селект «Показывать» — компактный (значение всего 1-2 цифры). Базовый

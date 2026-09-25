@@ -8,8 +8,13 @@ section.ss-catalog
 			aside.ss-catalog__sidebar
 				include _filters.pug
 			.ss-catalog__main
-				//- Top toolbar: count / sort + view switch
+				//- Top toolbar. На десктопе: [Найдено] ... [Сортировка + Switch].
+				//- На <1200 (адаптив в _catalog.scss) — реорганизуется в 2 строки:
+				//- [Фильтры (trigger)] ... [Сортировка + Switch] / [Найдено — full width]
 				.ss-catalog__toolbar
+					button.ss-filters-trigger.js-filters-trigger(type='button' aria-controls='filters-drawer' aria-expanded='false')
+						+svgIcon('sliders')
+						span Фильтры
 					p.ss-medi-16 Найдено 120 моделей
 					.ss-catalog__toolbar-right
 						.ss-select-labeled

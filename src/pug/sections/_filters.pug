@@ -1,9 +1,9 @@
 - var filterGroups = [{ id: 'filter-type', title: 'Тип', open: false, items: [{ label: 'Со свободноплавающим поплавком' }, { label: 'Поплавковые для больших расходов' }, { label: 'Термодинамические' }, { label: 'Термостатические' }, { label: 'Для сжатого воздуха' }] }, { id: 'filter-brand', title: 'Бренд', open: false, items: [{ label: 'TLV', checked: true }, { label: 'Yoshitake' }] }, { id: 'filter-conn', title: 'Присоединение', open: false, type: 'radio', name: 'filter-conn', items: [{ label: 'Резьбовое' }, { label: 'Фланцевое' }, { label: 'Приварное' }] }, { id: 'filter-material', title: 'Материал корпуса', open: false, items: [{ label: 'Сталь' }, { label: 'Чугун' }, { label: 'Нерж. сталь' }] }, { id: 'filter-dn', title: 'DN, мм', open: false, items: [{ label: '15' }, { label: '25' }, { label: '50' }, { label: '100' }] }, { id: 'filter-pn', title: 'PN, бар', open: false, items: [{ label: '16' }, { label: '25' }, { label: '40' }] }, { id: 'filter-temp', title: 'Температура среды, °C', open: false, items: [{ label: 'до 200' }, { label: 'до 400' }, { label: 'до 600' }] }]
 
-//- Триггер «Фильтры» — виден только на <$xl (1200). CSS прячет его на десктопе.
-button.ss-filters-trigger.js-filters-trigger(type='button' aria-controls='filters-drawer' aria-expanded='false')
-	+svgIcon('sliders')
-	span Фильтры
+//- Триггер «Фильтры» — не здесь. Страница-потребитель (напр. _catalog.pug
+//- в toolbar, /ui/filters.html рядом с колонкой) ставит его сама, чтобы
+//- каждая раскладка могла позиционировать триггер по своим правилам.
+//- CSS триггера (.ss-filters-trigger) живёт в _filters.scss.
 
 //- Drawer-обёртка: на десктопе прозрачный контейнер (сайдбар виден штатно),
 //- на <$xl превращается в fixed-панель справа с overlay.

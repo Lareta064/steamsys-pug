@@ -10,7 +10,11 @@ block content
 			.filters-demo__main { min-height: 400px; border: 1px dashed var(--secondary2); border-radius: 10px; padding: 30px; color: var(--secondary); }
 			@media (max-width: 1199px) { .filters-demo { grid-template-columns: 1fr; } }
 		.filters-demo
-			include ../sections/_filters.pug
+			div
+				button.ss-filters-trigger.js-filters-trigger(type='button' aria-controls='filters-drawer' aria-expanded='false')
+					+svgIcon('sliders')
+					span Фильтры
+				include ../sections/_filters.pug
 			.filters-demo__main
 				p Main-контент каталога (карточки товаров, сортировка, пагинация).
 				p(style='margin-top: 10px; font-size: 13px;')
