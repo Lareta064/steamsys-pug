@@ -106,6 +106,28 @@ block content
 					code row-gap: 20
 					| .
 
+				//- Модификатор --column
+				h4.section-headers-catalog__subtitle Модификатор --column (h2 + лид-параграф в столбик)
+				p.section-headers-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Для секций, где под заголовком нужен параграф-лид (или иной inline-контент), без пары «kicker слева / h2 справа». Оба ребёнка (h2 + p, или любые) выстраиваются в столбик с
+					code row-gap: 20
+					| — без промежуточной обёртки
+					code .ss-section-header__title
+					| . Отступ снизу до контента секции остаётся штатным (
+					code margin-bottom: 60
+					| , 40 на моб).
+
+				.section-headers-catalog__demo
+					.ss-section-header.ss-section-header--column
+						h2.ss-h2 В каких системах используются
+						p.ss-reg-16.ss-txt-secondary Конденсатоотводчики применяются в большинстве паровых систем — от обвязки теплообменников до дренажа редукционных установок.
+
+				pre.section-headers-catalog__snippet(style="margin-top:16px;")
+					code
+						| .ss-section-header.ss-section-header--column
+						|     h2.ss-h2 Заголовок секции
+						|     p.ss-reg-16.ss-txt-secondary Лид-описание под заголовком.
+
 			//- ========== Section intro ==========
 			section.section-headers-catalog__section#section-intro
 				h3.section-headers-catalog__section-title .ss-section-intro

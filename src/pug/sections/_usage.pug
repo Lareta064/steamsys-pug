@@ -2,12 +2,12 @@
 
 section.ss-section.ss-usage
 	.ss-container.ss-wrapper
-		.ss-usage__intro
+		.ss-section-header.ss-section-header--column
 			h2.ss-h2 В каких системах используются
-			p.ss-usage__lead Конденсатоотводчики применяются в большинстве паровых систем — от обвязки теплообменников до дренажа редукционных установок.
+			p.ss-reg-16.ss-txt-secondary Конденсатоотводчики применяются в большинстве паровых систем — от обвязки теплообменников до дренажа редукционных установок.
 		.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1
 			each item in usageItems
 				article.ss-info-card
-					h3.ss-semi-20= item.title
-					p.ss-reg-16.ss-txt-secondary= item.desc
-					+ssLink(item.linkText)
+					h3.ss-semi-18= item.title
+					p.ss-reg-14.ss-txt-secondary= item.desc
+					+ssLink(item.linkText, { size: 'md' })

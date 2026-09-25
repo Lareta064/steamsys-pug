@@ -29,9 +29,23 @@
 	border-radius: 10px;
 	color: var(--primary);
 
+	// На всех экранах <$xxxl (1920) — компактнее (20 вместо 30). Только
+	// на very-large мониторах ≥1920 держим базовый 30.
+	@include down($xxxl) {
+		padding: 20px;
+	}
+
 	// Ссылка внизу карточки (компонент .ss-link выведен через +ssLink).
 	// margin-top: auto — забирает всё свободное место над ссылкой.
 	> .ss-link {
 		margin-top: auto;
 	}
+}
+
+// Модификатор — заголовок uppercase (напр. секция «Документы»).
+// Целим по UI-классу .ss-semi-14 (не по тегу h3), чтобы стиль не привязывался
+// к разметке — заголовок может быть h3/h2/p с этим же классом типографики.
+.ss-info-card--upper .ss-semi-14 {
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
 }

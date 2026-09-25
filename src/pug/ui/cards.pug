@@ -254,16 +254,43 @@ block content
 					.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1
 						each item in infoItems
 							article.ss-info-card
-								h3.ss-semi-20= item.title
-								p.ss-reg-16.ss-txt-secondary= item.desc
-								+ssLink(item.linkText)
+								h3.ss-semi-18= item.title
+								p.ss-reg-14.ss-txt-secondary= item.desc
+								+ssLink(item.linkText, { size: 'md' })
+
+				h4.cards-catalog__subtitle Модификатор --upper (uppercase-заголовок, .ss-semi-14)
+				.cards-catalog__demo.ss-bg-gray
+					.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+						article.ss-info-card.ss-info-card--upper
+							h3.ss-semi-14 Паспорта
+							p.ss-reg-14.ss-txt-secondary Паспорта на оборудование TLV, Spirax Sarco, Yoshitake.
+							+ssLink('Запросить', { size: 'md' })
+						article.ss-info-card.ss-info-card--upper
+							h3.ss-semi-14 Сертификаты
+							p.ss-reg-14.ss-txt-secondary Сертификаты соответствия, декларации ТР ЕАЭС.
+							+ssLink('Запросить', { size: 'md' })
+						article.ss-info-card.ss-info-card--upper
+							h3.ss-semi-14 Таблицы подбора
+							p.ss-reg-14.ss-txt-secondary Подбор по давлению, расходу. Таблицы TLV и Spirax Sarco.
+							+ssLink('Скачать', { size: 'md' })
+						article.ss-info-card.ss-info-card--upper
+							h3.ss-semi-14 Опросный лист
+							p.ss-reg-14.ss-txt-secondary Форма для подбора: тип системы, давление, расход.
+							+ssLink('Заполнить онлайн', { size: 'md' })
 
 				pre.cards-catalog__snippet
 					code
+						| //- Базовый вариант
 						| article.ss-info-card
-						|     h3.ss-semi-20 Заголовок
-						|     p.ss-reg-16.ss-txt-secondary Описание
-						|     +ssLink('Подробнее о …')
+						|     h3.ss-semi-18 Заголовок
+						|     p.ss-reg-14.ss-txt-secondary Описание
+						|     +ssLink('Подробнее о …', { size: 'md' })
+						|
+						| //- --upper — uppercase-заголовок под секции типа «Документы»
+						| article.ss-info-card.ss-info-card--upper
+						|     h3.ss-semi-14 Паспорта
+						|     p.ss-reg-14.ss-txt-secondary Описание
+						|     +ssLink('Запросить', { size: 'md' })
 
 			//- ========== Solution card ==========
 			section.cards-catalog__section#solution-card

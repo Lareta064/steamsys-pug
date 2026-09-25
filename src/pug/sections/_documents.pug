@@ -1,0 +1,12 @@
+- var docItems = [{ title: 'Паспорта', desc: 'Паспорта на оборудование TLV, Spirax Sarco, Yoshitake, Mival. По запросу на конкретный артикул.', linkText: 'Запросить' }, { title: 'Сертификаты', desc: 'Сертификаты соответствия, декларации ТР ЕАЭС, разрешения на применение.', linkText: 'Запросить' }, { title: 'Таблицы подбора', desc: 'Подбор по давлению, расходу, дифференциальному давлению. Таблицы TLV и Spirax Sarco.', linkText: 'Скачать' }, { title: 'Опросный лист', desc: 'Форма для подбора конденсатоотводчиков: тип системы, давление, расход, количество точек.', linkText: 'Заполнить онлайн' }]
+
+section.ss-section.ss-documents
+	.ss-container.ss-wrapper
+		.ss-section-header
+			h2.ss-h2 Документы по конденсатоотводчикам
+		.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+			each item in docItems
+				article.ss-info-card.ss-info-card--upper
+					h3.ss-semi-14= item.title
+					p.ss-reg-14.ss-txt-secondary= item.desc
+					+ssLink(item.linkText, { size: 'md' })
