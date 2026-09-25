@@ -1,0 +1,132 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-filters — сайдбар с фильтрами для каталога.
+//
+// Разметка: aside > head + groups + footer.
+//   .ss-filters__head    — заголовок «Фильтры» + кнопка «Сбросить»
+//   .ss-filters__groups  — контейнер аккордеонных групп ([data-accordion])
+//   .ss-filters__group   — одна группа (совмещается с .ss-accordion__item)
+//   .ss-filters__list    — список чекбоксов внутри раскрытой группы
+//   .ss-filters__footer  — кнопка «Применить фильтры»
+//
+// Механика раскрытия — reuse .ss-accordion:
+//   - контейнер получает [data-accordion] → src/js/accordion.js
+//     ловит клик по .ss-accordion__header и переключает aria-expanded;
+//   - анимация раскрытия — CSS через grid-template-rows: 0fr → 1fr.
+//   Ничего нового в JS.
+//
+// Дефолтный вид .ss-accordion — буллит перед заголовком + «+/−» справа.
+// В .ss-filters переопределяем: буллита нет, вместо «+/−» — chevron-down
+// с ротацией 180° (как в mobile-menu).
+// ==============================
+
+.ss-filters {
+	background: var(--white);
+	.ss-accordion__item {
+    	border-bottom: 1px solid var(--secondary1);
+	}	
+}
+
+// ------------------------------
+// Head — «Фильтры» + кнопка «Сбросить». Разделитель снизу — как у групп
+// аккордеона (border-bottom того же цвета) — head визуально работает как
+// «нулевой» item ряда.
+// ------------------------------
+.ss-filters__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid var(--secondary1);
+}
+
+.ss-filters__title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+// ------------------------------
+// Группы — reuse .ss-accordion. Здесь только доводки под наш дизайн.
+// ------------------------------
+
+// Убираем буллит перед заголовком (у .ss-accordion__title дефолтный ::before).
+.ss-filters .ss-accordion__title {
+	padding-left: 0;
+
+	&::before {
+		content: none;
+	}
+}
+
+// Дефолтная иконка «+/−» — прячем, вместо неё .ss-filters__chevron.
+.ss-filters .ss-accordion__icon {
+	display: none;
+}
+
+// Компактнее шапка группы (у базового .ss-accordion__header — padding 20 0).
+.ss-filters .ss-accordion__header {
+	padding: 10px 0;
+}
+
+// Chevron-down справа. Ротация 180° при раскрытии. Цвет inherit — идёт
+// от .ss-accordion__header (по умолчанию primary, в открытом состоянии
+// перекрашиваем header в accent1 → chevron за ним следом).
+.ss-filters__chevron {
+	flex-shrink: 0;
+	color: inherit;
+	transition: transform .25s;
+	width: 20px;
+	height: 20px;
+}
+
+// Раскрытая группа помечена цветом accent1 — и заголовок, и chevron.
+.ss-filters .ss-accordion__header[aria-expanded="true"] {
+	color: var(--accent1);
+}
+
+.ss-filters .ss-accordion__header[aria-expanded="true"] .ss-filters__chevron {
+	transform: rotate(180deg);
+}
+
+// ------------------------------
+// Список чекбоксов внутри раскрытой группы.
+// Обнуляем стандартную обёртку .ss-accordion__body-content (padding-left 20
+// под буллит + шрифт 15) — под наш чекбокс-список это не нужно.
+// ------------------------------
+.ss-filters .ss-accordion__body-content {
+	padding: 10px 0 16px;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.ss-filters__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+// Чекбокс/радио + подпись — по верхнему краю (длинные подписи в 2 строки
+// смотрятся ровнее, маркер не «плавает» посередине текстового блока).
+// У базовых .ss-checkbox / .ss-radio — align-items: center. Ширина 100% —
+// кликабельна вся строка фильтра, а не только рядом с текстом.
+.ss-filters__list .ss-checkbox,
+.ss-filters__list .ss-radio {
+	align-items: flex-start;
+	width: 100%;
+}
+
+// ------------------------------
+// Footer — «Применить фильтры»
+// ------------------------------
+.ss-filters__footer {
+	padding-top: 20px;
+}

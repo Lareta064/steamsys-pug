@@ -1,0 +1,30 @@
+- var filterGroups = [{ id: 'filter-type', title: 'Тип', open: true, items: [{ label: 'Со свободноплавающим поплавком' }, { label: 'Поплавковые для больших расходов' }, { label: 'Термодинамические' }, { label: 'Термостатические' }, { label: 'Для сжатого воздуха' }] }, { id: 'filter-brand', title: 'Бренд', open: false, items: [{ label: 'TLV', checked: true }, { label: 'Yoshitake' }] }, { id: 'filter-conn', title: 'Присоединение', open: false, type: 'radio', name: 'filter-conn', items: [{ label: 'Резьбовое' }, { label: 'Фланцевое' }, { label: 'Приварное' }] }, { id: 'filter-material', title: 'Материал корпуса', open: false, items: [{ label: 'Сталь' }, { label: 'Чугун' }, { label: 'Нерж. сталь' }] }, { id: 'filter-dn', title: 'DN, мм', open: false, items: [{ label: '15' }, { label: '25' }, { label: '50' }, { label: '100' }] }, { id: 'filter-pn', title: 'PN, бар', open: false, items: [{ label: '16' }, { label: '25' }, { label: '40' }] }, { id: 'filter-temp', title: 'Температура среды, °C', open: false, items: [{ label: 'до 200' }, { label: 'до 400' }, { label: 'до 600' }] }]
+
+aside.ss-filters
+	.ss-filters__head
+		h3.ss-filters__title Фильтры
+		+ssBtn('Сбросить', { variant: 'outline-dark', size: 'small' })
+	.ss-filters__groups(data-accordion)
+		each g in filterGroups
+			.ss-filters__group.ss-accordion__item
+				button.ss-accordion__header(type='button' aria-expanded=g.open ? 'true' : 'false' aria-controls=g.id)
+					span.ss-accordion__title= g.title
+					+svgIcon('chevron-down')(class='ss-filters__chevron')
+				.ss-accordion__body(id=g.id)
+					.ss-accordion__body-inner
+						.ss-accordion__body-content
+							ul.ss-filters__list
+								each item in g.items
+									li
+										if g.type === 'radio'
+											label.ss-radio.ss-radio--light
+												input.ss-radio__input(type='radio' name=g.name checked=item.checked)
+												span.ss-radio__box
+												span.ss-radio__label= item.label
+										else
+											label.ss-checkbox.ss-checkbox--light
+												input.ss-checkbox__input(type='checkbox' checked=item.checked)
+												span.ss-checkbox__box
+												span.ss-checkbox__label= item.label
+	.ss-filters__footer
+		+ssBtn('Применить фильтры', { variant: 'dark', full: true })
