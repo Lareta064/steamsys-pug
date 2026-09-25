@@ -20,6 +20,7 @@ block content
 				ul.cards-catalog__toc-list
 					li: a(href='#feature-card') .ss-feature-card
 					li: a(href='#task-card') .ss-task-card
+					li: a(href='#category-card') .ss-category-card
 					li: a(href='#solution-card') .ss-solution-card
 					li: a(href='#experience-card') .ss-experience-card
 					li: a(href='#stage-card') .ss-stage-card
@@ -103,6 +104,69 @@ block content
 						|         p.ss-task-card__title Заголовок
 						|         p.ss-task-card__text Описание
 						|         +ssLink('Ссылка', { variant: 'light' })(class='ss-task-card__link')
+
+			//- ========== Category card ==========
+			- var categoryItems = [{ img: 'tool1', title: 'Со свободноплавающим поплавком', desc: 'Непрерывный отвод конденсата без потерь пара.' }, { img: 'tool2', title: 'Поплавковые для больших расходов', desc: 'Для теплообменников и установок с высокой нагрузкой.' }, { img: 'tool3', title: 'Термодинамические', desc: 'Компактные решения для паропроводов.' }, { img: 'tool1', title: 'Термостатические', desc: 'Для отвода воздуха и переохлаждённого конденсата.' }]
+
+			section.cards-catalog__section#category-card
+				h3.cards-catalog__section-title .ss-category-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Карточка категории каталога: фото продукта сверху (
+					code &lt;picture&gt;
+					| + 1x/2x srcset, mob-варианта нет — на всех экранах карточка примерно одной ширины, фикс. пропорция 235/210,
+					code object-fit: contain
+					| ), заголовок + описание, скрытая ссылка «Перейти в раздел» проявляется на hover карточки и всегда прижата к низу (
+					code margin-top: auto
+					| ). Border меняется на accent1 при наведении. У текстовых элементов только UI-классы (
+					code .ss-semi-22
+					| /
+					code .ss-reg-14
+					| /
+					code .ss-txt-*
+					| ) — заголовку с узким fluid-размером 18↔22 и авто-переносами по русскому словарю доводка задана через
+					code .ss-category-card .ss-semi-22
+					| .
+
+				h4.cards-catalog__subtitle 4 в ряд (.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1)
+				.cards-catalog__demo.ss-bg-gray
+					.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+						each item in categoryItems
+							a.ss-category-card(href='#')
+								picture.ss-category-card__img
+									source(srcset=`${basePath}img/${item.img}.webp 1x, ${basePath}img/${item.img}@2x.webp 2x`)
+									img.ss-img-contain(src=`${basePath}img/${item.img}.webp` width='235' height='210' alt=item.title loading='lazy' decoding='async')
+								.ss-category-card__body
+									p.ss-semi-22.ss-txt-primary= item.title
+									p.ss-reg-14.ss-txt-secondary= item.desc
+									span.ss-category-card__more.ss-medi-18
+										| Перейти в раздел
+										+svgIcon('arrow-right')
+
+				h4.cards-catalog__subtitle Одиночная (для сравнения desktop/mobile)
+				.cards-catalog__demo.ss-bg-gray
+					a.ss-category-card(href='#')
+						picture.ss-category-card__img
+							source(srcset=`${basePath}img/tool3.webp 1x, ${basePath}img/tool3@2x.webp 2x`)
+							img.ss-img-contain(src=`${basePath}img/tool3.webp` width='235' height='210' alt='Термодинамические' loading='lazy' decoding='async')
+						.ss-category-card__body
+							p.ss-semi-22.ss-txt-primary Термодинамические
+							p.ss-reg-14.ss-txt-secondary Компактные решения для паропроводов.
+							span.ss-category-card__more.ss-medi-18
+								| Перейти в раздел
+								+svgIcon('arrow-right')
+
+				pre.cards-catalog__snippet
+					code
+						| a.ss-category-card(href='#')
+						|     picture.ss-category-card__img
+						|         source(srcset='/img/tool1.webp 1x, /img/tool1@2x.webp 2x')
+						|         img.ss-img-contain(src='/img/tool1.webp' width='235' height='210' alt='...' loading='lazy' decoding='async')
+						|     .ss-category-card__body
+						|         p.ss-semi-22.ss-txt-primary Заголовок
+						|         p.ss-reg-14.ss-txt-secondary Описание
+						|         span.ss-category-card__more.ss-medi-18
+						|             | Перейти в раздел
+						|             +svgIcon('arrow-right')
 
 			//- ========== Solution card ==========
 			section.cards-catalog__section#solution-card
