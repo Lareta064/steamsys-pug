@@ -22,6 +22,7 @@ block content
 					li: a(href='#task-card') .ss-task-card
 					li: a(href='#category-card') .ss-category-card
 					li: a(href='#product-card') .ss-product-card
+					li: a(href='#info-card') .ss-info-card
 					li: a(href='#solution-card') .ss-solution-card
 					li: a(href='#experience-card') .ss-experience-card
 					li: a(href='#stage-card') .ss-stage-card
@@ -235,6 +236,34 @@ block content
 						|             dd до 220 °C
 						|     p.ss-reg-14.ss-txt-secondary Под заказ
 						|     +ssBtn('Запросить КП', { variant: 'dark', full: true })
+
+			//- ========== Info card ==========
+			- var infoItems = [{ title: 'Станции возврата конденсата (СВК)', desc: 'Поплавковые и насосные КО обеспечивают непрерывный дренаж конденсата из сборного бака в систему возврата.', linkText: 'Подробнее о СВК' }, { title: 'Обвязка паровых калориферов', desc: 'Термодинамические и поплавковые КО защищают калорифер от замерзания и обеспечивают полный дренаж при остановке.', linkText: 'Подробнее об обвязке' }, { title: 'Обвязка теплообменников', desc: 'Поплавковые КО с непрерывным дренажем — основной вид для кожухотрубных и пластинчатых ТО.', linkText: 'Подробнее' }]
+
+			section.cards-catalog__section#info-card
+				h3.cards-catalog__section-title .ss-info-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Универсальная простая карточка «заголовок + описание + ссылка». Без картинки, без иконки, без тегов. Пригодна под «в каких системах используются», «задачи», «отрасли» и т.п. — любые списки блоков title/text/link. Ссылка (
+					code +ssLink
+					| ) прижата к низу через
+					code margin-top: auto
+					|  — в ряду карточки на одной линии независимо от длины описания.
+
+				h4.cards-catalog__subtitle 3 в ряд (.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1)
+				.cards-catalog__demo.ss-bg-gray
+					.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1
+						each item in infoItems
+							article.ss-info-card
+								h3.ss-semi-20= item.title
+								p.ss-reg-16.ss-txt-secondary= item.desc
+								+ssLink(item.linkText)
+
+				pre.cards-catalog__snippet
+					code
+						| article.ss-info-card
+						|     h3.ss-semi-20 Заголовок
+						|     p.ss-reg-16.ss-txt-secondary Описание
+						|     +ssLink('Подробнее о …')
 
 			//- ========== Solution card ==========
 			section.cards-catalog__section#solution-card

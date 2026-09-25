@@ -30,6 +30,7 @@
 @use "blocks/_task-card";
 @use "blocks/_category-card";
 @use "blocks/_product-card";
+@use "blocks/_info-card";
 @use "blocks/_form-row";
 @use "blocks/_filters";
 @use "blocks/_solution-card";
@@ -79,6 +80,7 @@
 @use "sections/_stages";
 @use "sections/_tab-catalog";
 @use "sections/_catalog";
+@use "sections/_usage";
 @use "sections/_cases";
 @use "sections/_feedback";
 @use "sections/_footer";
