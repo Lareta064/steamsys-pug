@@ -1,0 +1,109 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-product-card — карточка товара из отфильтрованного списка каталога.
+//
+// Структура сверху вниз:
+//   .ss-product-card__img   — коробка под фото, height 160, contain, centered
+//   .ss-tag-group           — теги: бренд (dark) + тип (mini light)
+//   заголовок               — .ss-semi-20 (или .ss-h6), артикул типа JX45
+//   опциональный subtitle   — .ss-reg-14.ss-txt-secondary, полное название
+//   .ss-product-card__specs — dl, key-left / value-right (DN / PN / Температура)
+//   доп. строка             — «Под заказ» / «В наличии» (опционально)
+//   +ssBtn outline-dark full — «Запросить КП», прижат к низу через margin-top:auto
+//
+// Теги — reuse .ss-tag--dark (бренд) + .ss-tag--gray (тип). Оба —
+// цветовые модификаторы одной базы .ss-tag, отличаются только заливкой.
+// В card-scope ужаты по высоте (28) и радиусу (6) — одна пара правил
+// на .ss-tag ловит обе плашки, их геометрия совпадает автоматически.
+//
+// Кнопка «Запросить КП» — reuse .ss-btn--outline-dark.ss-btn--full.
+// margin-top:auto прибивает её к низу, чтобы в ряду карточек с разным
+// объёмом контента кнопки были на одной линии.
+// ==============================
+
+.ss-product-card {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 20px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	color: var(--primary);
+	transition: border-color .2s;
+
+	&:hover {
+		border-color: var(--accent1);
+	}
+}
+
+// ------------------------------
+// Коробка под фото — height 160, contain, centered. overflow:hidden —
+// страховка от вылета (см. правило в RULES).
+
+// ------------------------------
+.ss-product-card__img {
+	display: block;
+	height: 130px;
+	flex-shrink: 0;
+	background: inherit;
+	border-radius: 6px;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+
+// ------------------------------
+// Теги внутри карточки — компактнее базовых 38px .ss-tag. Селектор
+// .ss-tag ловит и базу, и цветовые модификаторы (--dark, --gray) —
+// геометрия у них общая, размер / паддинги / радиус выравниваются
+// одним правилом.
+// ------------------------------
+.ss-product-card .ss-tag {
+	height: 28px;
+	padding: 0 10px;
+	font-size: 13px;
+	border-radius: 6px;
+}
+
+// ------------------------------
+// Список характеристик — dl со строкой на пару. Ключ слева, значение справа.
+// Обёртка div вокруг каждой dt/dd — валидна по HTML5 и даёт нам flex-строку.
+// ------------------------------
+.ss-product-card__specs {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.ss-product-card__specs-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 20px;
+
+	dt {
+		margin: 0;
+		color: var(--secondary);
+		font-weight: 400;
+	}
+
+	dd {
+		margin: 0;
+		color: var(--primary);
+		font-weight: 500;
+		text-align: right;
+	}
+}
+
+// ------------------------------
+// Кнопка «Запросить КП» — прибиваем к низу карточки. Работает благодаря
+// flex-column-родителю: margin-top:auto забирает всё свободное место
+// над кнопкой, кнопка встаёт на нижней границе карточки.
+// ------------------------------
+.ss-product-card > .ss-btn {
+	margin-top: auto;
+}

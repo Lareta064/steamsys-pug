@@ -21,6 +21,7 @@ block content
 					li: a(href='#feature-card') .ss-feature-card
 					li: a(href='#task-card') .ss-task-card
 					li: a(href='#category-card') .ss-category-card
+					li: a(href='#product-card') .ss-product-card
 					li: a(href='#solution-card') .ss-solution-card
 					li: a(href='#experience-card') .ss-experience-card
 					li: a(href='#stage-card') .ss-stage-card
@@ -167,6 +168,71 @@ block content
 						|         span.ss-category-card__more.ss-medi-18
 						|             | Перейти в раздел
 						|             +svgIcon('arrow-right')
+
+			//- ========== Product card ==========
+			- var productItems = [{ img: 'tool1', brand: 'TLV', type: 'Поплавковый', title: 'JX45', subtitle: 'Поплавковый конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '25 бар' }, { k: 'Температура', v: 'до 220 °C' }], avail: 'Под заказ' }, { img: 'tool2', brand: 'Spirax', type: 'Термодинамич.', title: 'TD52L', subtitle: 'Термодинамический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 300 °C' }], avail: 'Под заказ' }, { img: 'tool3', brand: 'TLV', type: 'Термостатич.', title: 'L21S', subtitle: 'Термостатический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 250 °C' }], avail: 'Под заказ' }]
+
+			section.cards-catalog__section#product-card
+				h3.cards-catalog__section-title .ss-product-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Карточка товара из отфильтрованного списка каталога. Внутри: фото (
+					code height 160
+					| ,
+					code object-fit: contain
+					| ), теги (reuse
+					code .ss-tag--dark
+					|  бренд +
+					code .ss-tag--gray
+					|  тип), заголовок-артикул, subtitle-название, dl-список характеристик (ключ слева / значение справа) и submit-кнопка (
+					code .ss-btn--outline-dark.ss-btn--full
+					| ). Кнопка прижата к низу через
+					code margin-top: auto
+					|  — в ряду карточки одной высоты, кнопки на одной линии.
+
+				h4.cards-catalog__subtitle 3 в ряд (.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1)
+				.cards-catalog__demo.ss-bg-gray
+					.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1
+						each item in productItems
+							article.ss-product-card
+								.ss-product-card__img
+									img.ss-img-contain(src=`${basePath}img/${item.img}.webp` width='235' height='160' alt=item.title loading='lazy' decoding='async')
+								.ss-tag-group
+									span.ss-tag.ss-tag--dark= item.brand
+									span.ss-tag.ss-tag--gray= item.type
+								h3.ss-semi-20= item.title
+								if item.subtitle
+									p.ss-reg-14.ss-txt-secondary= item.subtitle
+								dl.ss-product-card__specs
+									each s in item.specs
+										.ss-product-card__specs-row
+											dt= s.k
+											dd= s.v
+								if item.avail
+									p.ss-reg-14.ss-txt-secondary= item.avail
+								+ssBtn('Запросить КП', { variant: 'dark', full: true })
+
+				pre.cards-catalog__snippet
+					code
+						| article.ss-product-card
+						|     .ss-product-card__img
+						|         img.ss-img-contain(src='/img/name.webp' width='235' height='160' alt='...' loading='lazy' decoding='async')
+						|     .ss-tag-group
+						|         span.ss-tag.ss-tag--dark TLV
+						|         span.ss-tag.ss-tag--gray Поплавковый
+						|     h3.ss-semi-20 JX45
+						|     p.ss-reg-14.ss-txt-secondary Поплавковый конденсатоотводчик
+						|     dl.ss-product-card__specs
+						|         .ss-product-card__specs-row
+						|             dt DN
+						|             dd 15–50
+						|         .ss-product-card__specs-row
+						|             dt PN
+						|             dd 25 бар
+						|         .ss-product-card__specs-row
+						|             dt Температура
+						|             dd до 220 °C
+						|     p.ss-reg-14.ss-txt-secondary Под заказ
+						|     +ssBtn('Запросить КП', { variant: 'dark', full: true })
 
 			//- ========== Solution card ==========
 			section.cards-catalog__section#solution-card
