@@ -1,11 +1,17 @@
 extends ../layouts/layout-ui-sections.pug
 
 block content
-	//- Демо-раскладка: сайдбар слева (~280) + пустая main-зона справа.
-	//- В реальном каталоге сетку задаёт страница; здесь inline-стили только
-	//- ради быстрого визуального контекста.
+	//- Демо-раскладка:
+	//- ≥1200 — сайдбар слева (280) + main справа (пустой блок для контекста).
+	//- <1200 — стек: триггер «Фильтры» + main. Клик по триггеру открывает drawer.
 	.ss-container.ss-wrapper(style='padding-block: 40px;')
-		div(style='display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start;')
+		style.
+			.filters-demo { display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start; }
+			.filters-demo__main { min-height: 400px; border: 1px dashed var(--secondary2); border-radius: 10px; padding: 30px; color: var(--secondary); }
+			@media (max-width: 1199px) { .filters-demo { grid-template-columns: 1fr; } }
+		.filters-demo
 			include ../sections/_filters.pug
-			div(style='min-height: 400px; border: 1px dashed var(--secondary2); border-radius: 10px; padding: 30px; color: var(--secondary);')
+			.filters-demo__main
 				p Main-контент каталога (карточки товаров, сортировка, пагинация).
+				p(style='margin-top: 10px; font-size: 13px;')
+					| Сузь окно &lt; 1200 — сайдбар превратится в кнопку «Фильтры», по клику откроется drawer справа поверх контента.
