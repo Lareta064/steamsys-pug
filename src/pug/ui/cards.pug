@@ -199,7 +199,8 @@ block content
 								.ss-tag-group
 									span.ss-tag.ss-tag--dark= item.brand
 									span.ss-tag.ss-tag--gray= item.type
-								h3.ss-semi-20= item.title
+								h3.ss-semi-20
+									a(href='#')= item.title
 								if item.subtitle
 									p.ss-reg-14.ss-txt-secondary= item.subtitle
 								dl.ss-product-card__specs
@@ -219,7 +220,8 @@ block content
 						|     .ss-tag-group
 						|         span.ss-tag.ss-tag--dark TLV
 						|         span.ss-tag.ss-tag--gray Поплавковый
-						|     h3.ss-semi-20 JX45
+						|     h3.ss-semi-20
+						|         a(href='/catalog/jx45') JX45
 						|     p.ss-reg-14.ss-txt-secondary Поплавковый конденсатоотводчик
 						|     dl.ss-product-card__specs
 						|         .ss-product-card__specs-row

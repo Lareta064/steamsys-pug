@@ -31,10 +31,17 @@
 	border: 1px solid var(--secondary2);
 	border-radius: 10px;
 	color: var(--primary);
-	transition: border-color .2s;
 
-	&:hover {
-		border-color: var(--accent1);
+	// Заголовок карточки — отдельная ссылка на страницу товара. Цвет
+	// наследует от карточки (--primary), на hover красится в accent1.
+	h3 a {
+		color: inherit;
+		text-decoration: none;
+		transition: color .2s;
+
+		&:hover {
+			color: var(--accent1);
+		}
 	}
 }
 
@@ -72,6 +79,7 @@
 // ------------------------------
 .ss-product-card__specs {
 	margin: 0;
+	padding-bottom: 20px;   // просвет до «Под заказ» / кнопки
 	display: flex;
 	flex-direction: column;
 	gap: 6px;

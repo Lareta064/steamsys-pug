@@ -1,0 +1,144 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-catalog — секция «Каталог товаров».
+//
+// Раскладка:
+//   заголовок страницы (h1)
+//   .ss-catalog__layout — grid: sidebar 280 | main 1fr
+//     aside.ss-catalog__sidebar — include _filters.pug (.ss-filters + drawer)
+//     .ss-catalog__main
+//       .ss-catalog__toolbar (top) — «Найдено N» / сортировка + switch
+//       .ss-grid.ss-grid--row-4 — product cards
+//       .ss-catalog__toolbar (bottom) — пагинация / «Показывать N»
+//
+// Все компоненты внутри — существующие: .ss-filters, .ss-product-card,
+// .ss-select-labeled, .ss-switch, .ss-pagination, .ss-grid. Сама секция —
+// тонкая обёртка + layout поверх, без своей UI-типографики.
+//
+// Адаптив (первым проходом): при <$xl (1200) grid → 1fr, sidebar-drawer
+// работает сам (см. _filters.scss). Дальнейший адаптив toolbar / grid —
+// вторым шагом.
+// ==============================
+
+.ss-catalog {
+	padding-block: 40px;
+
+	// Заголовок каталога — вправо на ≥$md. У .ss-section-header по дефолту
+	// flex + justify-content: space-between; с одним ребёнком это оставляет
+	// h1 у левого края. flex-end двигает его вправо. На <$md
+	// section-header переходит в flex-column / align-items: flex-start,
+	// заголовок уходит влево — так и должно быть на мобилке.
+	.ss-section-header {
+		justify-content: flex-end;
+	}
+}
+
+.ss-catalog__layout {
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	gap: 30px;
+	align-items: start;
+	@include down($xxl) {
+		gap: 20px;
+		
+	}
+	@include down($xl) {
+		grid-template-columns: 1fr;
+	}
+}
+
+// ------------------------------
+// Sidebar — коробка вокруг .ss-filters: круговой паддинг 20 и фикс. ширина.
+// Ширина совпадает с колонкой grid'а. box-sizing: border-box из .ss-wrapper —
+// padding входит внутрь.
+//
+// background --secondary3 — самый светлый серый, визуально отделяет sidebar
+// от белого main-контента и белых карточек.
+//
+// position: sticky — sidebar «висит» при скролле длинного списка карточек.
+// Работает благодаря align-items: start на grid-родителе (иначе grid-child
+// растянулся бы на всю высоту строки и sticky был бы бесполезен).
+// top — var(--header-height) для production (задаёт header-menu.js
+// на реальной странице); fallback 0 для демо-страниц без шапки; плюс 20
+// для просвета от верхнего края.
+// ------------------------------
+.ss-catalog__sidebar {
+	width: 300px;
+	padding: 20px;
+	background: var(--secondary3);
+	border-radius: 10px;
+	position: sticky;
+	top: calc(var(--header-height, 0px) + 20px);
+
+	// .ss-filters по умолчанию рисует белый фон (для standalone-использования).
+	// Внутри sidebar с secondary3 бэком нужно прозрачное — иначе получим
+	// «карточка в карточке» с белым пятном.
+	.ss-filters {
+		background: transparent;
+	}
+}
+
+// ------------------------------
+// Main column — flex-column для вертикального ритма между toolbar / grid.
+// ------------------------------
+.ss-catalog__main {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	min-width: 0;   // важно для grid-child'а с плотным контентом (product-card)
+
+	// Внутренняя сетка карточек: сжимаем column-gap до 20 (у базового
+	// .ss-grid — 30) — карточкам с плотным контентом визуально просторнее.
+	// row-gap оставляем 30 из базового.
+	.ss-grid {
+		column-gap: 20px;
+	}
+
+	// Пока sidebar 260 присутствует (≥$xl / 1200), main тесная — 4 карточки
+	// в ряд лезут только на ≥1600. Ниже — уплотняем поэтапно:
+	//   1365–1599 → 3 в ряд (12/4 = span 4)
+	//   1200–1364 → 2 в ряд (12/6 = span 6), карточки становятся широкими
+	//               и key-value спеки перестают тесниться.
+	// <1200 отдаём базовым .ss-grid--xl-row-3 / --lg-row-2 / --md-row-1
+	// (там sidebar уже в drawer'е, main на всю ширину).
+	// 1600 и 1365 не совпадают ни с одним из наших стандартных брейкпоинтов
+	// ($xxl 1440 / $xxxl 1920) — доводка локальная, не трогает базовые
+	// модификаторы .ss-grid. Если те же пороги понадобятся ещё где-то —
+	// вынесем в общие модификаторы.
+	@media (min-width: 1365px) and (max-width: 1599px) {
+		.ss-grid > * {
+			grid-column: span 4;
+		}
+	}
+
+	@media (min-width: 1200px) and (max-width: 1364px) {
+		.ss-grid > * {
+			grid-column: span 6;
+		}
+	}
+}
+
+// ------------------------------
+// Toolbar — горизонтальная строка с элементами по краям.
+// Используется дважды: сверху над сеткой и снизу под ней.
+// ------------------------------
+.ss-catalog__toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+}
+
+.ss-catalog__toolbar-right {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+// Селект «Показывать» — компактный (значение всего 1-2 цифры). Базовый
+// .ss-select тянется на ширину контейнера — здесь ограничиваем 100.
+.ss-select.ss-catalog__per-page {
+	width: 100px;
+	min-width:100px;
+}

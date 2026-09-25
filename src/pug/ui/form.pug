@@ -25,6 +25,7 @@ block content
 					li: a(href='#form-row') .ss-form-row — тёмная / светлая
 					li: a(href='#checkbox') .ss-checkbox — тёмный / светлый
 					li: a(href='#radio') .ss-radio — тёмный / светлый
+					li: a(href='#switch') .ss-switch — сегментный переключатель
 					li: a(href='#composed') Полный пример
 					li: a(href='#search') .ss-search-wrapper — поиск
 					li: a(href='#b24-form') .ss-b24-form — светлая тема
@@ -312,6 +313,43 @@ block content
 						|     input.ss-radio__input(type='radio', name='group2')
 						|     span.ss-radio__box
 						|     span.ss-radio__label Вариант
+
+			//- ========== Switch ==========
+			section.form-catalog__section#switch
+				h3.form-catalog__section-title .ss-switch
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Сегментный переключатель (напр. «Плитка / Список» на странице каталога). Собран на нативных
+					code &lt;input type="radio"&gt;
+					|  с одинаковым
+					code name
+					| : один активен за раз, checked-опция подсвечивается тёмным (
+					code --primary
+					| ), остальные остаются на белом фоне. JS не нужен. Клавиатура — стрелки перемещают выбор в группе.
+					br
+					| Высота 44, radius 10, border
+					code --secondary2
+					| ,
+					code overflow: hidden
+					|  на контейнере клипует фон checked-опции под скругление.
+
+				.form-catalog__demo
+					.ss-switch
+						label.ss-switch__option
+							input.ss-switch__input(type='radio' name='demo-view' value='grid' checked)
+							span.ss-switch__label Плитка
+						label.ss-switch__option
+							input.ss-switch__input(type='radio' name='demo-view' value='list')
+							span.ss-switch__label Список
+
+				pre.form-catalog__snippet
+					code
+						| .ss-switch
+						|     label.ss-switch__option
+						|         input.ss-switch__input(type='radio' name='view' value='grid' checked)
+						|         span.ss-switch__label Плитка
+						|     label.ss-switch__option
+						|         input.ss-switch__input(type='radio' name='view' value='list')
+						|         span.ss-switch__label Список
 
 			//- ========== Composed ==========
 			section.form-catalog__section#composed
