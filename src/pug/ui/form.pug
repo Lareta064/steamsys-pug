@@ -22,6 +22,7 @@ block content
 					li: a(href='#input') .ss-input
 					li: a(href='#textarea') .ss-textarea
 					li: a(href='#file') .ss-file
+					li: a(href='#form-row') .ss-form-row — тёмная / светлая
 					li: a(href='#checkbox') .ss-checkbox — тёмный / светлый
 					li: a(href='#radio') .ss-radio — тёмный / светлый
 					li: a(href='#composed') Полный пример
@@ -119,6 +120,88 @@ block content
 						|         span.ss-file__label Прикрепить …
 						|         button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
 						|             +svgIcon('delete')
+
+			//- ========== Form row (dark) ==========
+			section.form-catalog__section#form-row
+				h3.form-catalog__section-title .ss-form-row
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Секционная плашка «Есть спецификация от инженера?» — быстрый путь для закупщика на странице каталога (по референсу
+					code /steamsys/wireframes/wireframe_07_kategoriya_oborudovaniya.html
+					|  → div.spec-strip). Обёртка
+					code .ss-form-row
+					|  — на 100% ширины экрана (dark bg), внутри — стандартный
+					code .ss-container
+					| , внутри —
+					code .ss-form-row__inner
+					|  (grid из 3 колонок: label auto | fields 1fr | submit auto).
+					br
+					| Fields — 3
+					code .ss-form-item
+					|  с
+					code .ss-input
+					|  и плавающим label (
+					code .ss-form-label
+					| ) + компонент
+					code .ss-file
+					|  (label + hidden input + иконка + подпись + кнопка удаления). Всё — наши общие UI-компоненты формы.
+					br
+					| Drag&amp;drop нет — клик по
+					code .ss-file
+					|  открывает диалог выбора файла (нативно). Подмена подписи на имя файла + показ кнопки удаления — существующим
+					code src/js/file-input.js
+					| .
+					br
+					| Раскладка:
+					code ≥1600
+					|  — 3 колонки (label | fields | submit);
+					code 1200–1599
+					|  — label наверх на всю ширину, ниже fields + submit;
+					code &lt; $xl
+					|  — всё в столбик.
+					br
+					| Светлая тема — модификатор
+					code .ss-form-row--light
+					|  (фон
+					code --secondary3
+					| , текст
+					code --primary
+					| , focus/hover у полей —
+					code --accent1
+					| , submit-кнопка
+					code variant: 'primary'
+					| ).
+
+				p.form-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Живой пример — на отдельной секционной странице
+					code /ui/form-row.html
+					|  (layout-ui-sections, без sidebar — блок на 100% ширины выглядит корректно). Здесь не дублируем: узкий каталог с левой панелью «съедает» плашку.
+
+				pre.form-catalog__snippet
+					code
+						| .ss-form-row
+						|     .ss-container
+						|         .ss-form-row__inner
+						|             .ss-form-row__label
+						|                 p.ss-semi-18 Есть спецификация от инженера?
+						|                 p.ss-reg-14.ss-txt-secondary1 Загрузите файл — пришлём КП по каждой позиции
+						|             .ss-form-row__fields
+						|                 .ss-form-item
+						|                     input.ss-input.ss-input--sm(type='text' placeholder=' ')
+						|                     span.ss-form-label Ваше имя
+						|                 .ss-form-item
+						|                     input.ss-input.ss-input--sm(type='tel' placeholder=' ')
+						|                     span.ss-form-label Телефон
+						|                 .ss-form-item
+						|                     input.ss-input.ss-input--sm(type='email' placeholder=' ')
+						|                     span.ss-form-label Email
+						|                 label.ss-file.ss-file--sm
+						|                     input.ss-file__input(type='file' accept='.pdf,.xls,.xlsx,.doc,.docx')
+						|                     span.ss-file__icon
+						|                         +svgIcon('clip')
+						|                     span.ss-file__label Прикрепить файл
+						|                     button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
+						|                         +svgIcon('delete')
+						|             +ssBtn('Получить КП', { variant: 'white', icon: 'arrow-right' })
 
 			//- ========== Checkbox ==========
 			section.form-catalog__section#checkbox
