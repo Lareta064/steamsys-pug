@@ -519,11 +519,22 @@
 	padding-right: 0;
 }
 
-// Alert-состояние input'а — битрикс дорисовывает свой фон (обычно
-// красноватый). Держим прозрачный, как и в дефолтном состоянии —
-// цветом ошибки останется только border (см. --b24-border-focus в alert-стилях).
-.ss-b24-form .b24-form-control-alert.b24-form-control-string .b24-form-control {
+// Alert-состояние поля (валидация не пройдена). Битрикс задаёт своим
+// компаундом .b24-form-control-alert.b24-form-control-<type> бледно-розовый
+// border и подкрашивает background. Мы:
+//   1. Держим фон прозрачным, как и в дефолтном состоянии.
+//   2. Border красим в наш --error (#f25830) — контрастнее, читается как ошибка
+//      и на светлом, и на тёмном фоне (тёмно-красный проседал на dark theme).
+// Селекторы зеркалят битриксовы + префикс .ss-b24-form (спец 0-3-0 / 0-4-0),
+// устойчиво перебивают их дефолтные 0-2-0 / 0-3-0.
+.ss-b24-form .b24-form-control-alert.b24-form-control-checkbox,
+.ss-b24-form .b24-form-control-alert.b24-form-control-file,
+.ss-b24-form .b24-form-control-alert.b24-form-control-radiobox,
+.ss-b24-form .b24-form-control-alert.b24-form-control-list .b24-form-control,
+.ss-b24-form .b24-form-control-alert.b24-form-control-string .b24-form-control,
+.ss-b24-form .b24-form-control-alert.b24-form-control-text .b24-form-control {
 	background-color: transparent;
+	border-color: var(--error);
 }
 
 // Битрикс даёт .b24-form-control-desc (текст согласия) opacity: 0.5 —
@@ -541,13 +552,17 @@
 // linear-gradient background-image и подкрашивает background-color.
 // Перебиваем: гасим градиент, фон делаем полностью прозрачным, border —
 // наш --b24-border-focus (accent3 на тёмной теме, accent1 на светлой).
-// Селекторы повторяют битриксовы с добавлением префикса .ss-b24-form —
-// специфичность 0-4-0 перебивает их дефолтные 0-3-0.
+//
+// Битрикс использует селектор вида
+//   .b24-form-control-string .b24-form-control:focus:not([readonly])
+// (спец 0-4-0). Наш прежний вариант без :not([readonly]) имел 0-4-0 —
+// проигрывал по каскаду. Зеркалим их :not([readonly]) и добавляем префикс
+// .ss-b24-form → 0-5-0, устойчиво перебивает.
 // TODO: автозаполнение (:-webkit-autofill) стилизуем отдельно.
-.ss-b24-form .b24-form-control-string .b24-form-control:focus,
-.ss-b24-form .b24-form-control-string .b24-form-control:focus-visible,
-.ss-b24-form .b24-form-control-text .b24-form-control:focus,
-.ss-b24-form .b24-form-control-text .b24-form-control:focus-visible {
+.ss-b24-form .b24-form-control-string .b24-form-control:focus:not([readonly]),
+.ss-b24-form .b24-form-control-string .b24-form-control:focus-visible:not([readonly]),
+.ss-b24-form .b24-form-control-text .b24-form-control:focus:not([readonly]),
+.ss-b24-form .b24-form-control-text .b24-form-control:focus-visible:not([readonly]) {
 	background-color: transparent;
 	background-image: none;
 	border-color: var(--b24-border-focus);
