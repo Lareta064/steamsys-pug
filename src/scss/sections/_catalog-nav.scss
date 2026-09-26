@@ -1,0 +1,58 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-catalog-nav — секция навигации по подкатегориям каталога:
+// справа-сверху ссылка-подсказка «Как выбрать тип?», ниже — grid
+// из .ss-category-card.
+//
+// Раскладка карточек — 5 в ряд на desktop (не делится 12, поэтому
+// не через .ss-grid.--row-N, а свой grid-template-columns). Адаптив:
+//   ≥1600 → 5
+//   1200–1599 → 4
+//   1024–1199 → 3
+//   768–1023 → 2
+//   <768 → 1
+// ==============================
+
+.ss-catalog-nav {
+	padding-block: 60px;
+
+	@include down($md) {
+		padding-block: 40px;
+	}
+}
+
+// Head: ссылка «Как выбрать тип?» прижата к правому краю.
+.ss-catalog-nav__head {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 30px;
+
+	@include down($md) {
+		margin-bottom: 20px;
+	}
+}
+
+// Grid из карточек — не через .ss-grid, т.к. 5 не делится 12.
+.ss-catalog-nav__grid {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 20px;
+
+	@media (max-width: 1599px) {
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	@include down($xl) {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	@include down($lg) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 15px;
+	}
+}

@@ -1,0 +1,18 @@
+- var catalogNavItems = [{ img: 'tool1', title: 'Со свободноплавающим поплавком', desc: 'Непрерывный отвод конденсата без потерь пара.', href: '#' }, { img: 'tool2', title: 'Поплавковые для больших расходов', desc: 'Для теплообменников и установок с высокой нагрузкой.', href: '#' }, { img: 'tool3', title: 'Термодинамические', desc: 'Компактные решения для паропроводов.', href: '#' }, { img: 'tool1', title: 'Термостатические', desc: 'Для отвода воздуха и переохлаждённого конденсата.', href: '#' }, { img: 'tool2', title: 'Для сжатого воздуха', desc: 'Удаление конденсата из пневмосистем.', href: '#' }]
+
+section.ss-catalog-nav
+	.ss-container.ss-wrapper
+		.ss-catalog-nav__head
+			+ssLink('Как выбрать тип?')
+		.ss-catalog-nav__grid
+			each item in catalogNavItems
+				a.ss-category-card(href=item.href)
+					picture.ss-category-card__img
+						source(srcset=`${basePath}img/${item.img}.webp 1x, ${basePath}img/${item.img}@2x.webp 2x`)
+						img.ss-img-contain(src=`${basePath}img/${item.img}.webp` width='235' height='210' alt=item.title loading='lazy' decoding='async')
+					.ss-category-card__body
+						p.ss-semi-22.ss-txt-primary= item.title
+						p.ss-reg-14.ss-txt-secondary= item.desc
+						span.ss-category-card__more.ss-medi-18
+							| Перейти в раздел
+							+svgIcon('arrow-right')
