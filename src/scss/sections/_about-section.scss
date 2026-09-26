@@ -22,3 +22,11 @@
 		margin-top: 10px;
 	}
 }
+
+// На <$md база .ss-grid схлопывает row-gap до 10 — карточка эксперта
+// прижимается к тексту почти вплотную. Возвращаем 30 (стандарт scale).
+.ss-about-section .ss-grid {
+	@include down($md) {
+		row-gap: 30px;
+	}
+}

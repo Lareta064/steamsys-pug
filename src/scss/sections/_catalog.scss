@@ -163,6 +163,19 @@
 			p { grid-area: count; }
 		}
 	}
+
+	// Нижний toolbar (без .ss-filters-trigger): пагинация + «Показывать».
+	// На <$md пагинация может стать длинной и не влезть в один ряд рядом
+	// с per-page select. Складываем в колонку: сверху «Показывать»,
+	// снизу пагинация (в DOM пагинация идёт первой — column-reverse
+	// разворачивает порядок визуально без правки разметки).
+	@include down($md) {
+		&:not(:has(.ss-filters-trigger)) {
+			flex-direction: column-reverse;
+			align-items: flex-start;
+			gap: 20px;
+		}
+	}
 }
 
 .ss-catalog__toolbar-right {
