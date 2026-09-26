@@ -22,7 +22,7 @@
 // ==============================
 
 .ss-catalog {
-	padding-block: 40px;
+	// Внешние padding-block — от .ss-section (140/120/100).
 
 	// Заголовок каталога — вправо на ≥$md. У .ss-section-header по дефолту
 	// flex + justify-content: space-between; с одним ребёнком это оставляет
