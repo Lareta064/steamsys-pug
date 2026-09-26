@@ -1,0 +1,55 @@
+@use '../base/_var' as *;
+
+// ==============================
+// catalog-page — стили страницы каталога оборудования (build/catalog-page.html).
+// Сборка страницы из секций: header + hero (catalog) + about-section +
+// catalog + usage + documents + footer (уточняем по мере сборки).
+// ==============================
+
+// ------------------------------
+// Hero-inner страницы каталога — bg image с индустриальным фото +
+// градиентная завеса для читаемости текста слева.
+//
+// Fallback — --primary1 (тёмно-синий), тот же, что задаёт базовая
+// .ss-hero-inner--dark. Если картинка не подгрузится, hero всё равно
+// останется тёмным.
+//
+// image-set с 1x/2x — retina-версия для дисплеев ≥2dppx.
+// Позиция image — center right, чтобы главный визуальный объект
+// (труба/оборудование) находился справа, а слева оставалось «тёмное»
+// пространство под текст (h1 + description + actions).
+// ------------------------------
+.catalog-page__hero .ss-hero-inner__body {
+	position: relative;
+	background-color: var(--primary1);
+	background-image: image-set(
+		url('../img/catalog-hero.webp') 1x,
+		url('../img/catalog-hero@2x.webp') 2x
+	);
+	background-size: cover;
+	background-position: center right;
+	background-repeat: no-repeat;
+	overflow: hidden;
+
+	// Градиентная завеса — тёмная слева (текст читается), плавно уходит
+	// в прозрачность справа (фотография остаётся видимой).
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg,
+			rgba(3, 29, 42, 0.92) 0%,
+			rgba(3, 29, 42, 0.75) 30%,
+			rgba(3, 29, 42, 0.35) 65%,
+			rgba(3, 29, 42, 0) 100%
+		);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	// Все прямые дети body поверх завесы.
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+}

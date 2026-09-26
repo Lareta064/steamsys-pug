@@ -84,6 +84,134 @@
 
 
 // --------------------------------------------------------------
+// Actions — ряд CTA-кнопок под lead'ом. Используется, когда в hero
+// вместо строки поиска нужна группа action-кнопок (напр. каталог:
+// «Подобрать», «Аналог», «Загрузить ТЗ»).
+// --------------------------------------------------------------
+.ss-hero-inner__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-top: 10px;
+}
+
+
+// --------------------------------------------------------------
+// Facts — панель с 4 метриками внизу hero (лет / клиентов / срок /
+// «бесплатно»). Внутри hero body, спанит по ширине container'а.
+// Тёмный полу-прозрачный фон поверх bg-image, чтобы читалось.
+// Между items — тонкий вертикальный разделитель (как у .ss-metrics).
+// --------------------------------------------------------------
+.ss-hero-inner__facts {
+	margin-top: 40px;
+	padding: 20px 30px;
+	background: rgba(0, 0, 0, 0.35);
+	border-radius: 10px;
+	backdrop-filter: blur(4px);
+
+	@include down($lg) {
+		margin-top: 30px;
+		padding: 15px 20px;
+	}
+}
+
+.ss-hero-inner__facts-inner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 20px;
+
+	@include down($lg) {
+		flex-wrap: wrap;
+	}
+
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}
+
+.ss-hero-inner__fact {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	flex: 1;
+	padding-left: 30px;
+
+	// Разделитель слева у всех, кроме первого.
+	&:not(:first-child) {
+		border-left: 1px solid rgba(255, 255, 255, 0.15);
+	}
+
+	&:first-child {
+		padding-left: 0;
+	}
+
+	@include down($xxl) {
+		padding-left: 20px;
+	}
+
+	// Мобилка — стек, разделители снизу вместо левых.
+	@include down($md) {
+		padding: 12px 0;
+		padding-left: 0;
+
+		&:not(:first-child) {
+			border-left: none;
+			border-top: 1px solid rgba(255, 255, 255, 0.15);
+		}
+	}
+}
+
+.ss-hero-inner__fact-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.1);
+
+	// color на самом svg (специфичность 0-1-1) — перекрывает базовые
+	// хардкод-цвета .svg-target (accent1), .svg-shield/.svg-calendar
+	// (#79B0E3) из _svg-icons.scss. Также фиксирует размер 20×20 (у
+	// .svg-shield/.svg-calendar базовый 52×52).
+	svg {
+		width: 20px;
+		height: 20px;
+		color: var(--accent3);
+	}
+}
+
+.ss-hero-inner__fact-text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;   // не даём внутренним p (nowrap на value) распирать item
+}
+
+.ss-hero-inner__fact-value {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 22px;
+	line-height: 1.2;
+	color: var(--white);
+	white-space: nowrap;
+}
+
+.ss-hero-inner__fact-label {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.3;
+	color: var(--secondary2);
+}
+
+
+// --------------------------------------------------------------
 // Модификатор --dark. Body с тёмным фоном + белый текст.
 // h1 переопределяем на белый (базовый .ss-h1 приходит с --primary).
 // --------------------------------------------------------------

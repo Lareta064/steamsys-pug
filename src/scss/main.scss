@@ -97,6 +97,7 @@
 // pages — стили конкретных страниц (single-article и т.п.).
 // Живут после blocks/sections, но до typography-утилит.
 @use "pages/_single-article";
+@use "pages/_catalog-page";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

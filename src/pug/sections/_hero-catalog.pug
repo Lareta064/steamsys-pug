@@ -1,0 +1,52 @@
+//- ============================================================
+//- Hero-секция страницы каталога оборудования.
+//- Тёмный вариант с bg-image (индустриальное фото). Внутри:
+//- breadcrumbs + h1 + description + actions (3 кнопки) + facts (4 метрики).
+//- BG image + градиентная завеса — в src/scss/pages/_catalog-page.scss.
+//- ============================================================
+section.ss-hero-inner.ss-hero-inner--dark.catalog-page__hero
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='/') Главная
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='/catalog/') Оборудование
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Конденсатоотводчики
+
+	.ss-hero-inner__body
+		.ss-container.ss-wrapper
+			.ss-hero-inner__body-inner
+				h1.ss-h1 Конденсатоотводчики
+				p.ss-hero-inner__lead Автоматический отвод конденсата из паровых систем. Подбор оборудования по типу, давлению и расходу с учётом условий вашей системы.
+				.ss-hero-inner__actions
+					+ssBtn('Подобрать оборудование', { variant: 'accent5', icon: 'arrow-right' })
+					+ssBtn('Подобрать аналог',       { variant: 'outline-light' })
+					+ssBtn('Загрузить спецификацию', { variant: 'outline-light' })
+			.ss-hero-inner__facts
+				.ss-hero-inner__facts-inner
+					.ss-hero-inner__fact
+						span.ss-hero-inner__fact-icon
+							+svgIcon('target')
+						.ss-hero-inner__fact-text
+							p.ss-hero-inner__fact-value 16 лет
+							p.ss-hero-inner__fact-label на рынке пароконденсатных систем
+					.ss-hero-inner__fact
+						span.ss-hero-inner__fact-icon
+							+svgIcon('user')
+						.ss-hero-inner__fact-text
+							p.ss-hero-inner__fact-value 7 000+
+							p.ss-hero-inner__fact-label клиентов по всей России
+					.ss-hero-inner__fact
+						span.ss-hero-inner__fact-icon
+							+svgIcon('calendar')
+						.ss-hero-inner__fact-text
+							p.ss-hero-inner__fact-value от 1 дня
+							p.ss-hero-inner__fact-label подготовка КП и поставка
+					.ss-hero-inner__fact
+						span.ss-hero-inner__fact-icon
+							+svgIcon('shield')
+						.ss-hero-inner__fact-text
+							p.ss-hero-inner__fact-value Бесплатный
+							p.ss-hero-inner__fact-label технический подбор и консультация
