@@ -23,6 +23,7 @@ block content
 					li: a(href='#category-card') .ss-category-card
 					li: a(href='#product-card') .ss-product-card
 					li: a(href='#info-card') .ss-info-card
+					li: a(href='#expert-card') .ss-expert-card
 					li: a(href='#solution-card') .ss-solution-card
 					li: a(href='#experience-card') .ss-experience-card
 					li: a(href='#stage-card') .ss-stage-card
@@ -291,6 +292,37 @@ block content
 						|     h3.ss-semi-14 Паспорта
 						|     p.ss-reg-14.ss-txt-secondary Описание
 						|     +ssLink('Запросить', { size: 'md' })
+
+			//- ========== Expert card ==========
+			section.cards-catalog__section#expert-card
+				h3.cards-catalog__section-title .ss-expert-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Карточка эксперта раздела: kicker + аватар + имя/должность + био + ссылка на профиль. Ставится в правой колонке секции «О разделе» (или «О нас» / «Ведущий направления»). Аватар — 80×80 круг, без img рисуется серый плейсхолдер. Имя+должность связаны в
+					code __name-group
+					|  (gap 4), остальные блоки — gap 20 из родителя.
+
+				h4.cards-catalog__subtitle Одиночная карточка (сузь окно &lt; 1200 — увидишь, как ужимается padding до 20)
+				.cards-catalog__demo.ss-bg-gray
+					article.ss-expert-card(style='max-width: 320px;')
+						span.ss-kicker.ss-txt-secondary Эксперт раздела
+						.ss-expert-card__avatar
+						.ss-expert-card__name-group
+							h3.ss-semi-18 Павел Гилепп
+							p.ss-reg-14.ss-txt-secondary Технический директор
+						p.ss-reg-14.ss-txt-secondary 20+ лет в пароконденсатных системах. Подбирает оборудование по параметрам заказчика.
+						+ssLink('Профиль специалиста', { variant: 'dark', size: 'md', underline: true })
+
+				pre.cards-catalog__snippet
+					code
+						| article.ss-expert-card
+						|     span.ss-kicker.ss-txt-secondary Эксперт раздела
+						|     .ss-expert-card__avatar
+						|         img(src='/img/expert.webp' width='80' height='80' alt='Павел Гилепп' loading='lazy' decoding='async')
+						|     .ss-expert-card__name-group
+						|         h3.ss-semi-18 Павел Гилепп
+						|         p.ss-reg-14.ss-txt-secondary Технический директор
+						|     p.ss-reg-14.ss-txt-secondary Био — 2-3 строки.
+						|     +ssLink('Профиль специалиста', { variant: 'dark', size: 'md', underline: true })
 
 			//- ========== Solution card ==========
 			section.cards-catalog__section#solution-card
