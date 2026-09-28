@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[WF] Медиа — steamsys.ru</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f0f0f0; color: #1a1a1a; font-size: 14px; line-height: 1.5; }
+    a { color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { background: #fff; margin-bottom: 2px; }
+    .section-inner { padding: 48px 0; }
+    .header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+    .header-inner { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-box { width: 40px; height: 40px; background: #1a1a1a; border-radius: 4px; }
+    .logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.2; }
+    .nav { display: flex; gap: 22px; align-items: center; }
+    .nav a { font-size: 13px; color: #444; text-decoration: none; }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .header-phone-block { text-align: right; }
+    .header-phone { display: block; font-size: 13px; font-weight: 700; text-decoration: none; }
+    .header-hours { font-size: 11px; color: #888; }
+    .btn-primary, .btn-outline, .btn-ghost { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 10px 18px; border-radius: 4px; font-size: 13px; font-weight: 700; text-decoration: none; }
+    .btn-primary { background: #1a1a1a; color: #fff; border: 1px solid #1a1a1a; }
+    .btn-outline { background: #fff; color: #1a1a1a; border: 2px solid #1a1a1a; }
+    .btn-ghost { background: transparent; color: #444; border: 1px solid #d0d0d0; }
+    .breadcrumbs { background: #f7f7f7; border-bottom: 1px solid #e8e8e8; padding: 10px 0; }
+    .breadcrumbs-inner { display: flex; gap: 8px; align-items: center; color: #888; font-size: 12px; }
+    .breadcrumbs a { color: #555; text-decoration: none; }
+    .hero { background: #fff; }
+    .hero-inner { padding: 58px 0 38px; }
+    .eyebrow { font-size: 11px; color: #777; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 14px; }
+    h1 { font-size: 40px; line-height: 1.15; margin-bottom: 16px; letter-spacing: 0; }
+    .hero p { max-width: 690px; color: #555; font-size: 16px; line-height: 1.65; margin-bottom: 26px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .sec-title { font-size: 28px; line-height: 1.2; margin-bottom: 8px; }
+    .sec-sub { max-width: 760px; color: #666; font-size: 15px; line-height: 1.65; margin-bottom: 28px; }
+    .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+    .tab { padding: 9px 14px; border: 1px solid #dcdcdc; border-radius: 4px; background: #fafafa; color: #444; font-size: 13px; font-weight: 700; text-decoration: none; cursor: pointer; }
+    .tab.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+    .content-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .media-card { border: 1px solid #e4e4e4; border-radius: 4px; overflow: hidden; background: #fff; text-decoration: none; cursor: pointer; display: block; color: #1a1a1a; }
+    .media-card:hover { border-color: #1a1a1a; }
+    .thumb { aspect-ratio: 16/10; background: #ddd; display: flex; align-items: center; justify-content: center; position: relative; color: #888; font-size: 12px; }
+    .thumb.dark { background: #1a1a1a; color: #fff; }
+    .play { width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.9); color: #1a1a1a; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .count { position: absolute; right: 10px; bottom: 10px; padding: 3px 8px; border-radius: 12px; background: rgba(0,0,0,.65); color: #fff; font-size: 11px; }
+    .media-body { padding: 16px; }
+    .media-type { font-size: 11px; color: #888; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; }
+    .media-title { font-size: 15px; font-weight: 800; line-height: 1.35; margin-bottom: 8px; }
+    .media-desc { color: #666; font-size: 13px; line-height: 1.55; }
+    button.media-card { width: 100%; text-align: left; font-family: Arial, sans-serif; }
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,.72); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 24px; }
+    .modal.is-open { display: flex; }
+    .modal-window { width: min(920px, 100%); background: #111; color: #fff; border-radius: 4px; overflow: hidden; }
+    .modal-video { aspect-ratio: 16/9; background: #000; display: flex; align-items: center; justify-content: center; color: #777; font-size: 13px; }
+    .modal-head { display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 16px 18px; border-bottom: 1px solid #252525; }
+    .modal-title { font-size: 16px; font-weight: 800; }
+    .modal-close { width: 34px; height: 34px; border: 1px solid #444; border-radius: 4px; background: transparent; color: #fff; font-size: 22px; line-height: 1; cursor: pointer; }
+    .cta-section { background: #1a1a1a; color: #fff; }
+    .cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 56px 0; }
+    .cta-inner h2 { font-size: 28px; line-height: 1.25; margin-bottom: 12px; }
+    .cta-inner p { color: #aaa; }
+    .cta-form { display: grid; gap: 12px; }
+    .cta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cta-input { width: 100%; padding: 14px 16px; border: 1px solid rgba(255,255,255,.2); border-radius: 4px; background: rgba(255,255,255,.08); color: #fff; font-family: Arial, sans-serif; }
+    .cta-submit { padding: 14px 16px; border: 0; border-radius: 4px; background: #fff; color: #1a1a1a; font-weight: 800; cursor: pointer; }
+    .footer { background: #111; color: #aaa; padding: 28px 0; font-size: 12px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 24px; }
+    @media (max-width: 980px) { .nav { display: none; } .cta-inner { grid-template-columns: 1fr; } .content-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .header-right { display: none; } .content-grid, .cta-row { grid-template-columns: 1fr; } h1 { font-size: 30px; } }
+
+/* SHARED:CSS */
+.header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 14px; }
+.logo { display: flex; align-items: center; gap: 9px; color: inherit; text-decoration: none; flex-shrink: 0; }
+.logo-box { width: 38px; height: 38px; background: #1a1a1a; border-radius: 4px; flex-shrink: 0; }
+.logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.15; }
+.nav { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.nav a { font-size: 12px; color: #444; text-decoration: none; white-space: nowrap; }
+.nav a.active { color: #1a1a1a; font-weight: 700; }
+.nav .has-sub::after { content: ' ▾'; font-size: 9px; }
+.header-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.header-phone-block { text-align: right; border-left: 1px solid #e5e5e5; padding-left: 12px; }
+.header-phone { font-size: 13px; font-weight: 600; color: #1a1a1a; text-decoration: none; white-space: nowrap; }
+.header-hours { font-size: 11px; color: #888; }
+.header .btn-primary { padding: 10px 16px; font-size: 13px; }
+.cta-section { background: #1a1a1a; color: #fff; }
+.cta-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; padding: 56px 0; }
+.cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; color: #fff; }
+.cta-left p { font-size: 14px; color: #aaa; line-height: 1.6; margin: 0; }
+.cta-form { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.cta-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.cta-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 14px 16px; font-size: 14px; color: #fff; font-family: Arial, sans-serif; width: 100%; min-width: 0; }
+.cta-input::placeholder { color: #aaa; }
+.cta-file-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; }
+.cta-file-label-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #aaa; margin-bottom: 10px; }
+.cta-file-icon { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; flex-shrink: 0; }
+.cta-file-box textarea { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); resize: none; }
+.cta-submit { background: #fff; color: #1a1a1a; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; }
+.cta-note { font-size: 11px; color: #777; margin-top: 4px; }
+.form-success { display: block; padding: 20px 24px; background: #f0f9f0; border: 1px solid #4CAF50; border-radius: 8px; margin-top: 16px; }
+.form-success strong { display: block; font-size: 15px; font-weight: 700; color: #1a7a1a; margin-bottom: 6px; }
+.form-success p { font-size: 13px; color: #333; line-height: 1.6; margin: 0; }
+.form-success a { color: #1a7a1a; font-weight: 600; }
+.footer { background: #111; color: #aaa; }
+.footer-top { display: grid; grid-template-columns: 240px repeat(4, minmax(0, 1fr)); gap: 32px; padding: 48px 0 32px; border-bottom: 1px solid #222; }
+.footer-brand p { font-size: 12px; color: #aaa; margin-top: 12px; line-height: 1.6; }
+.footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a { font-size: 13px; color: #aaa; text-decoration: none; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 20px 0; font-size: 12px; color: #999; }
+@media (max-width: 1180px) { .nav { display: none; } .cta-inner { grid-template-columns: 1fr; } .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .header-right { display: none; } .cta-row { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr; } .footer-bottom { align-items: flex-start; flex-direction: column; } }
+/* /SHARED:CSS */
+</style>
+</head>
+<body>
+<!-- SHARED:HEADER -->
+<header class="header"><div class="container"><div class="header-inner">
+  <a href="wireframe_01_glavnaya.html" class="logo"><div class="logo-box"></div><div class="logo-text">ПАРОВЫЕ<br>СИСТЕМЫ</div></a>
+  <nav class="nav">
+    <a href="wireframe_02_hub_sistemy.html" class="has-sub">Решения</a>
+    <a href="wireframe_30_otrasli_hub.html" class="has-sub">Отрасли</a>
+    <a href="wireframe_07_kategoriya_oborudovaniya.html" class="has-sub">Оборудование</a>
+    <a href="wireframe_11_kejsy.html">Кейсы</a>
+    <a href="wireframe_18_baza_znanii_hub.html">База знаний</a>
+    <a href="wireframe_15_kalkulyatory.html" class="has-sub">Инструменты</a>
+    <a href="wireframe_14_o_kompanii.html" class="has-sub">О компании</a>
+    <a href="wireframe_12_kontakty.html">Контакты</a>
+  </nav>
+  <div class="header-right"><div class="header-phone-block">
+    <a href="tel:+78126027770" class="header-phone">+7 (812) 602-77-70</a>
+    <div class="header-hours">Пн-Пт, 9:00-18:00</div>
+  </div><a href="#cta" class="btn-primary">Рассчитать проект</a></div>
+</div></div></header>
+<!-- /SHARED:HEADER -->
+
+<div class="breadcrumbs"><div class="container"><div class="breadcrumbs-inner">
+  <a href="wireframe_01_glavnaya.html">Главная</a><span>/</span><span>Медиа</span>
+</div></div></div>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow">Медиа</div>
+          <h1>Видео и фотоальбомы</h1>
+          <p>Объекты, монтаж, оборудование и обучающие материалы по паровым системам.</p>
+          <div class="hero-actions">
+            <a class="btn-primary" href="#latest">Смотреть материалы</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="latest">
+    <div class="container section-inner">
+      <h2 class="sec-title">Материалы</h2>
+      <div class="tabs">
+        <button class="tab active" type="button" data-filter="all">Все</button>
+        <button class="tab" type="button" data-filter="video">Видео</button>
+        <button class="tab" type="button" data-filter="album">Фотоальбомы</button>
+      </div>
+      <!-- Фильтр по направлению -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;">
+        <span style="font-size:12px;color:#888;align-self:center;">Направление:</span>
+        <a href="#" style="font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;background:#1a1a1a;color:#fff;text-decoration:none;">Все</a>
+        <a href="#" style="font-size:12px;padding:4px 12px;border-radius:20px;border:1px solid #ddd;color:#444;text-decoration:none;">РОУ / БРОУ</a>
+        <a href="#" style="font-size:12px;padding:4px 12px;border-radius:20px;border:1px solid #ddd;color:#444;text-decoration:none;">СВК</a>
+        <a href="#" style="font-size:12px;padding:4px 12px;border-radius:20px;border:1px solid #ddd;color:#444;text-decoration:none;">Обвязка</a>
+        <a href="#" style="font-size:12px;padding:4px 12px;border-radius:20px;border:1px solid #ddd;color:#444;text-decoration:none;">Конденсатоотводчики</a>
+        <a href="#" style="font-size:12px;padding:4px 12px;border-radius:20px;border:1px solid #ddd;color:#444;text-decoration:none;">Пищевая отрасль</a>
+      </div>
+      <div class="content-grid">
+        <button class="media-card" type="button" data-kind="video" data-video-title="Монтаж РОУ на пищевом предприятии">
+          <div class="thumb dark"><div class="play">▶</div><span class="count">14:32</span></div>
+          <div class="media-body"><div class="media-type">Видео</div><div class="media-title">Монтаж РОУ на пищевом предприятии</div>
+          <div style="margin-top:6px;font-size:11px;"><a href="wireframe_03_rou_brou.html" style="color:#1a5cff;text-decoration:none;" onclick="event.stopPropagation()">→ РОУ / БРОУ</a></div></div>
+        </button>
+        <a class="media-card" href="wireframe_27b_fotogalereja_albom.html" data-kind="album">
+          <div class="thumb"><span class="count">38 фото</span></div>
+          <div class="media-body"><div class="media-type">Фотоальбом</div><div class="media-title">Станции возврата конденсата</div>
+          <div style="margin-top:6px;font-size:11px;"><span style="color:#1a5cff;">→ СВК</span></div></div>
+        </a>
+        <button class="media-card" type="button" data-kind="video" data-video-title="Как проверить работу конденсатоотводчика">
+          <div class="thumb dark"><div class="play">▶</div><span class="count">08:10</span></div>
+          <div class="media-body"><div class="media-type">Видео</div><div class="media-title">Как проверить работу конденсатоотводчика</div>
+          <div style="margin-top:6px;font-size:11px;"><a href="wireframe_07_kategoriya_oborudovaniya.html" style="color:#1a5cff;text-decoration:none;" onclick="event.stopPropagation()">→ Конденсатоотводчики</a></div></div>
+        </button>
+        <a class="media-card" href="wireframe_27b_fotogalereja_albom.html" data-kind="album">
+          <div class="thumb"><span class="count">24 фото</span></div>
+          <div class="media-body"><div class="media-type">Фотоальбом</div><div class="media-title">Тепловые пункты и ИТП ГВС</div>
+          <div style="margin-top:6px;font-size:11px;"><span style="color:#1a5cff;">→ ОУ / ИТП</span></div></div>
+        </a>
+        <button class="media-card" type="button" data-kind="video" data-video-title="Настройка станции возврата конденсата">
+          <div class="thumb dark"><div class="play">▶</div><span class="count">06:40</span></div>
+          <div class="media-body"><div class="media-type">Видео</div><div class="media-title">Настройка станции возврата конденсата</div>
+          <div style="margin-top:6px;font-size:11px;"><a href="wireframe_04_svk.html" style="color:#1a5cff;text-decoration:none;" onclick="event.stopPropagation()">→ СВК</a></div></div>
+        </button>
+        <a class="media-card" href="wireframe_27b_fotogalereja_albom.html" data-kind="album">
+          <div class="thumb"><span class="count">31 фото</span></div>
+          <div class="media-body"><div class="media-type">Фотоальбом</div><div class="media-title">Обвязка калорифера</div>
+          <div style="margin-top:6px;font-size:11px;"><span style="color:#1a5cff;">→ Обвязка калорифера</span></div></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHARED:CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-left">
+        <h2>Подберите готовую систему под параметры объекта</h2>
+        <p>Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня</p>
+      </div>
+      <form class="cta-form">
+        <div class="cta-row">
+          <input class="cta-input" type="text" placeholder="Ваше имя" aria-label="Ваше имя">
+          <input class="cta-input" type="tel" placeholder="Телефон" aria-label="Телефон">
+        </div>
+        <input type="email" class="cta-input" placeholder="Email для отправки КП" aria-label="Email">
+        <div class="cta-file-box">
+          <label class="cta-file-label-wrap">
+            <span class="cta-file-icon">📎</span>
+            <span class="cta-file-label">Прикрепить ТЗ, спецификацию или опросный лист</span>
+            <input type="file" style="display:none;" accept=".pdf,.xls,.xlsx,.doc,.docx" onchange="this.closest('label').querySelector('.cta-file-label').textContent=this.files[0]?this.files[0].name:'Прикрепить ТЗ, спецификацию или опросный лист'">
+          </label>
+          <textarea class="cta-input" rows="2" placeholder="Комментарий к файлу или краткое описание задачи" aria-label="Комментарий"></textarea>
+        </div>
+        <button class="cta-submit" type="button" data-goal="forma_parametry_rou">Получить расчёт</button>
+        <div class="cta-note">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности. Ответим в течение 1 рабочего дня.</div>
+      </form>
+    </div>
+  </div>
+</section>
+<!-- /SHARED:CTA -->
+</main>
+
+<div class="modal" id="videoModal" aria-hidden="true">
+  <div class="modal-window">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle">Видео</div>
+      <button class="modal-close" type="button" aria-label="Закрыть">×</button>
+    </div>
+    <div class="modal-video">Здесь будет встроенный видеоплеер</div>
+  </div>
+</div>
+<!-- SHARED:FOOTER -->
+<footer class="footer"><div class="container">
+  <div class="footer-top">
+    <div class="footer-brand"><div class="logo"><div class="logo-box" style="background:#333;"></div><div class="logo-text" style="color:#aaa;">ПАРОВЫЕ<br>СИСТЕМЫ</div></div><p>Пароконденсатные системы для промышленности</p></div>
+    <div class="footer-col"><h4>Решения</h4><ul><li><a href="wireframe_03_rou_brou.html">РОУ и БРОУ</a></li><li><a href="wireframe_04_svk.html">СВК</a></li><li><a href="wireframe_05_ou_itp.html">ОУ/ИТП</a></li><li><a href="wireframe_06_obvyazka_kalorifer.html">Обвязка</a></li></ul></div>
+    <div class="footer-col"><h4>Оборудование</h4><ul><li><a href="wireframe_07_kategoriya_oborudovaniya.html">Конденсатоотводчики</a></li><li><a href="wireframe_32_brendy_hub.html">Бренды</a></li></ul></div>
+    <div class="footer-col"><h4>Инструменты</h4><ul><li><a href="wireframe_15_kalkulyatory.html">Калькуляторы</a></li><li><a href="wireframe_16_oprosnie_listy.html">Опросные листы</a></li><li><a href="wireframe_13_dokumentatsiya.html">Документация</a></li></ul></div>
+    <div class="footer-col"><h4>Компания</h4><ul><li><a href="wireframe_14_o_kompanii.html">О компании</a></li><li><a href="wireframe_11_kejsy.html">Кейсы</a></li><li><a href="wireframe_18_baza_znanii_hub.html">База знаний</a></li><li><a href="wireframe_12_kontakty.html">Контакты</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <span>© 2008–2026 ООО «Паровые системы» · Все права защищены</span>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="#" style="color:#999;text-decoration:none;">СОУТ</a>
+        <a href="#" style="color:#999;text-decoration:none;">Политика конфиденциальности</a>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <button onclick="var p=this.nextElementSibling;p.style.display=p.style.display==='block'?'none':'block'" style="cursor:pointer;background:transparent;border:none;padding:0;display:flex;align-items:center;gap:6px;opacity:0.5;" title="Разработчик сайта">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="11" fill="#fff" fill-opacity=".15"/><text x="11" y="16" font-size="13" font-weight="800" fill="#fff" font-family="Arial" text-anchor="middle">К</text></svg>
+      </button>
+      <div style="display:none;position:absolute;bottom:calc(100% + 10px);right:0;background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:20px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.15);z-index:200;color:#1a1a1a;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;">Паспорт проекта</div>
+          <button onclick="this.closest('div[style]').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:18px;color:#bbb;padding:0;line-height:1;">×</button>
+        </div>
+        <div style="font-size:13px;color:#444;line-height:1.8;margin-bottom:16px;">
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Клиент:</strong> ООО «Паровые системы», steamsys.ru</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Разработчик:</strong> Маркетинговое агентство КОГИТ</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Услуги:</strong> Разработка, SEO, контекстная реклама</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Год:</strong> 2026</div>
+        </div>
+        <a href="https://kogit.ru" target="_blank" rel="noopener" style="display:block;font-size:13px;font-weight:700;color:#fff;text-decoration:none;padding:10px 14px;background:#1a1a1a;border-radius:4px;text-align:center;margin-bottom:8px;">Маркетинговое агентство КОГИТ →</a>
+        <a href="https://kogit.ru/cases/steamsys/" target="_blank" rel="noopener" style="display:block;font-size:12px;color:#888;text-decoration:none;text-align:center;padding:6px 0;">Продвижение промышленных предприятий</a>
+      </div>
+    </div>
+  </div>
+</div></footer>
+<!-- /SHARED:FOOTER -->
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const cards = document.querySelectorAll('.media-card');
+  const modal = document.querySelector('#videoModal');
+  const modalTitle = document.querySelector('#modalTitle');
+  const closeModal = document.querySelector('.modal-close');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const filter = tab.dataset.filter;
+      tabs.forEach(item => item.classList.remove('active'));
+      tab.classList.add('active');
+      cards.forEach(card => {
+        card.style.display = filter === 'all' || card.dataset.kind === filter ? 'block' : 'none';
+      });
+    });
+  });
+
+  document.querySelectorAll('[data-kind="video"]').forEach(card => {
+    card.addEventListener('click', () => {
+      modalTitle.textContent = card.dataset.videoTitle;
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+    });
+  });
+
+  function hideModal() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  closeModal.addEventListener('click', hideModal);
+  modal.addEventListener('click', event => {
+    if (event.target === modal) hideModal();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') hideModal();
+  });
+</script>
+<!-- SHARED:PROTOTYPE_NAV -->
+<div style="position:fixed;bottom:16px;right:16px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px 16px;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:9999;max-height:80vh;overflow-y:auto;min-width:200px;">
+<div style="font-weight:700;margin-bottom:8px;color:#888;font-size:11px;letter-spacing:0.5px;">ПРОТОТИПЫ STEAMSYS.RU</div>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Основные</div>
+<a href="wireframe_01_glavnaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Главная</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Системы и решения</div>
+<a href="wireframe_02_hub_sistemy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Хаб «Системы и решения»</a>
+<a href="wireframe_03_rou_brou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— РОУ/БРОУ</a>
+<a href="wireframe_04_svk.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— СВК</a>
+<a href="wireframe_05_ou_itp.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— ОУ/ИТП</a>
+<a href="wireframe_06_obvyazka_kalorifer.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка калорифера</a>
+<a href="wireframe_34_obvyazka_teploobmennika.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка теплообменника</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Отрасли</div>
+<a href="wireframe_30_otrasli_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отрасли — хаб</a>
+<a href="wireframe_31_otrasl_pishchevaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Пищевая промышленность</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Оборудование</div>
+<a href="wireframe_07_kategoriya_oborudovaniya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Категория товаров</a>
+<a href="wireframe_08_kartochka_tovara.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Карточка товара</a>
+<a href="wireframe_32_brendy_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Бренды — хаб</a>
+<a href="wireframe_09_brend.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Бренд TLV</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">База знаний</div>
+<a href="wireframe_18_baza_znanii_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">БЗ — хаб</a>
+<a href="wireframe_10_baza_znanii_statya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Статья (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Кейсы</div>
+<a href="wireframe_11_kejsy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Кейсы — список</a>
+<a href="wireframe_19_keys_card.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Кейс (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Инструменты</div>
+<a href="wireframe_15_kalkulyatory.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Калькуляторы — хаб</a>
+<a href="wireframe_20_kalkulyator_ekonomii_ko.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Калькулятор КО</a>
+<a href="wireframe_16_oprosnie_listy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Опросные листы</a>
+<a href="wireframe_17_oprosnyj_list_rou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Опросный лист РОУ</a>
+<a href="wireframe_13_dokumentatsiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Документация</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">О компании</div>
+<a href="wireframe_14_o_kompanii.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">О компании</a>
+<a href="wireframe_21_komanda.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Команда</a>
+<a href="wireframe_28_sotrudnik.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Сотрудник (карточка)</a>
+<a href="wireframe_22_otzyvy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отзывы</a>
+<a href="wireframe_23_karera.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Карьера</a>
+<a href="wireframe_29_vakansiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Вакансия (карточка)</a>
+<a href="wireframe_24_rekvizity.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Реквизиты</a>
+<a href="wireframe_25_faq.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Вопрос-ответ</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Медиа</div>
+<strong style="display:block;color:#1a5cff;margin-bottom:3px;font-weight:700;">Медиа — хаб ←</strong>
+<a href="wireframe_27b_fotogalereja_albom.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Альбом (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Контакты</div>
+<a href="wireframe_12_kontakty.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Контакты</a>
+</div>
+<!-- /SHARED:PROTOTYPE_NAV -->
+<script id="shared-cta-handler">
+(function(){
+  document.querySelectorAll(".cta-submit").forEach(function(btn){
+    if (btn.dataset.ctaBound === "1") return;
+    btn.dataset.ctaBound = "1";
+    btn.addEventListener("click",function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var form=btn.closest(".cta-form") || btn.closest("form") || btn.parentElement;
+      var existing=form && form.parentNode ? form.parentNode.querySelector(".form-success") : document.querySelector(".form-success");
+      if(existing&&existing.style.display!="none")return;
+      var msg=document.createElement("div");
+      msg.className="form-success";
+      msg.innerHTML="<strong>&#10003; Заявка принята</strong><p>Свяжемся в течение 4 часов в рабочее время. Срочно — звоните: <a href=\"tel:+78126027770\">+7 (812) 602-77-70</a></p>";
+      if(form&&form.parentNode){form.parentNode.insertBefore(msg,form.nextSibling);}
+      msg.style.display="block";
+      btn.disabled=true;btn.style.opacity="0.5";
+    }, true);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[WF] Станции возврата конденсата (СВК) — steamsys.ru</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Arial', sans-serif; background: #f0f0f0; color: #1a1a1a; font-size: 14px; line-height: 1.5; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section { background: #fff; margin-bottom: 2px; }
+.section-inner { padding: 48px 0; }
+.header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-box { width: 40px; height: 40px; background: #1a1a1a; border-radius: 4px; }
+.logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.2; }
+.nav { display: flex; gap: 24px; }
+.nav a { font-size: 13px; color: #444; text-decoration: none; }
+.nav .has-sub::after { content: ' ▾'; font-size: 10px; }
+.header-right { display: flex; align-items: center; gap: 16px; }
+.header-phone { font-size: 13px; font-weight: 600; color: #1a1a1a; text-decoration: none; }
+    .header-phone-block { text-align: right; }
+    .header-hours { font-size: 11px; color: #888; }
+.btn-primary { background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: none; cursor: pointer; }
+.btn-outline { background: transparent; color: #1a1a1a; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: 2px solid #1a1a1a; cursor: pointer; }
+.btn-ghost { background: transparent; color: #444; padding: 8px 16px; border-radius: 4px; font-size: 13px; text-decoration: none; display: inline-block; border: 1px solid #ccc; cursor: pointer; }
+.breadcrumbs { background: #f7f7f7; border-bottom: 1px solid #e8e8e8; padding: 10px 0; }
+.breadcrumbs-inner { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
+.breadcrumbs-inner a { color: #555; text-decoration: none; }
+.breadcrumbs-inner span { color: #ccc; }
+.hero { background: #fff; }
+.hero-inner { display: grid; grid-template-columns: 1fr 420px; gap: 48px; padding: 56px 0 48px; align-items: start; }
+.hero-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
+.hero h1 { font-size: 40px; font-weight: 700; line-height: 1.15; color: #111; margin-bottom: 16px; }
+.hero-sub { font-size: 16px; color: #555; line-height: 1.6; margin-bottom: 32px; max-width: 520px; }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 32px; }
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.stat-card { background: #f7f7f7; padding: 20px; }
+.stat-card:first-child { grid-column: 1/-1; background: #1a1a1a; color: #fff; }
+.stat-value { font-size: 28px; font-weight: 700; line-height: 1; }
+.stat-card:first-child .stat-value { color: #fff; }
+.stat-label { font-size: 12px; color: #888; margin-top: 4px; }
+.stat-card:first-child .stat-label { color: #aaa; }
+.hero-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge { background: #f0f0f0; border: 1px solid #e0e0e0; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #555; }
+.trustbar { background: #f7f7f7; border-top: 1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8; }
+.trustbar-inner { display: grid; grid-template-columns: repeat(4, 1fr); padding: 24px 0; gap: 24px; }
+.trust-item { text-align: center; }
+.trust-num { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+.trust-txt { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.4; }
+.sec-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+.sec-title { font-size: 28px; font-weight: 700; color: #111; margin-bottom: 8px; }
+.sec-sub { font-size: 15px; color: #666; line-height: 1.6; max-width: 640px; margin-bottom: 32px; }
+.problems-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.problem-card { background: #f7f7f7; padding: 24px 20px; }
+.problem-card:nth-child(odd) { background: #f2f2f2; }
+.problem-icon { width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; margin-bottom: 12px; }
+.problem-title { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+.problem-desc { font-size: 12px; color: #777; line-height: 1.5; }
+.apply-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+.apply-block { background: #f7f7f7; padding: 24px; border-radius: 4px; }
+.apply-block h3 { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 12px; }
+.apply-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.apply-tag { background: #fff; border: 1px solid #e0e0e0; padding: 6px 12px; border-radius: 20px; font-size: 13px; color: #333; }
+.scheme-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.scheme-img { background: #f0f0f0; border: 1px dashed #ccc; border-radius: 4px; height: 320px; display: flex; align-items: center; justify-content: center; }
+.scheme-placeholder { font-size: 12px; color: #bbb; text-align: center; }
+.scheme-steps { list-style: none; }
+.scheme-step { display: flex; gap: 12px; margin-bottom: 20px; align-items: flex-start; }
+.step-num { min-width: 28px; height: 28px; background: #1a1a1a; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+.step-text strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.step-text span { font-size: 13px; color: #666; }
+.comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.comp-item { background: #f7f7f7; padding: 20px; display: flex; gap: 12px; align-items: flex-start; }
+.comp-num { font-size: 24px; font-weight: 700; color: #d0d0d0; line-height: 1; min-width: 32px; }
+.comp-text strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.comp-text span { font-size: 12px; color: #777; }
+.comp-item.highlighted { background: #1a1a1a; }
+.comp-item.highlighted .comp-text strong { color: #fff; }
+.comp-item.highlighted .comp-text span { color: #aaa; }
+.comp-item.highlighted .comp-num { color: #555; }
+.params-table { width: 100%; border-collapse: collapse; }
+.params-table th { background: #f2f2f2; text-align: left; padding: 12px 16px; font-size: 13px; font-weight: 600; color: #444; border-bottom: 2px solid #e0e0e0; }
+.params-table td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid #f0f0f0; color: #333; }
+.params-table td:first-child { font-weight: 500; color: #1a1a1a; }
+.variants-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.variant-card { border: 1px solid #e8e8e8; border-radius: 4px; padding: 24px; position: relative; }
+.variant-card.popular { border-color: #1a1a1a; }
+.variant-badge { position: absolute; top: -10px; left: 20px; background: #1a1a1a; color: #fff; font-size: 11px; padding: 3px 10px; border-radius: 10px; }
+.variant-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.variant-desc { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 16px; }
+.variant-spec { font-size: 12px; color: #999; border-top: 1px solid #f0f0f0; padding-top: 12px; }
+.designer { background: #f2f2f2; }
+.designer-inner { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+.designer-left h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+.designer-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.designer-action { background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 16px; display: flex; gap: 12px; align-items: flex-start; }
+.action-icon { width: 32px; height: 32px; background: #f0f0f0; border-radius: 4px; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.action-text strong { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.action-text a { font-size: 12px; color: #1a1a1a; font-weight: 600; text-decoration: underline; }
+.cases-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.case-card { border: 1px solid #e8e8e8; border-radius: 4px; overflow: hidden; }
+.case-img { background: #e8e8e8; height: 160px; display: flex; align-items: center; justify-content: center; }
+.case-img-label { font-size: 11px; color: #aaa; }
+.case-body { padding: 20px; }
+.case-tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 8px; }
+.case-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+.case-desc { font-size: 13px; color: #666; margin-bottom: 16px; line-height: 1.5; }
+.case-metrics { display: flex; gap: 20px; padding: 12px 0; border-top: 1px solid #f0f0f0; }
+.case-metric strong { display: block; font-size: 20px; font-weight: 700; }
+.case-metric span { font-size: 11px; color: #888; }
+.effect-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.effect-card { padding: 28px 24px; background: #f7f7f7; }
+.effect-card:nth-child(3n+1) { background: #1a1a1a; color: #fff; }
+.effect-val { font-size: 36px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+.effect-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.effect-label { font-size: 12px; color: #888; }
+.effect-card:nth-child(3n+1) .effect-label { color: #666; }
+.faq-list { list-style: none; border-top: 1px solid #e8e8e8; }
+.faq-item { border-bottom: 1px solid #e8e8e8; }
+.faq-q { padding: 20px 0; font-size: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+.faq-q::after { content: '+'; font-size: 20px; color: #bbb; }
+.faq-a { padding: 0 0 20px; font-size: 14px; color: #666; line-height: 1.7; }
+.cta-section { background: #1a1a1a; color: #fff; }
+.cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 56px 0; }
+.cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+.cta-left p { font-size: 14px; color: #aaa; line-height: 1.6; }
+.cta-form { display: flex; flex-direction: column; gap: 12px; }
+.cta-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 14px 16px; font-size: 14px; color: #fff; }
+.cta-input::placeholder { color: #aaa; }
+.cta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cta-submit { background: #fff; color: #1a1a1a; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.cta-note { font-size: 11px; color: #666; margin-top: 4px; }
+.footer { background: #111; color: #aaa; }
+.footer-top { display: grid; grid-template-columns: 240px repeat(4, 1fr); gap: 32px; padding: 48px 0 32px; border-bottom: 1px solid #222; }
+.footer-brand p { font-size: 12px; color: #aaa; margin-top: 12px; line-height: 1.6; }
+.footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a { font-size: 13px; color: #aaa; text-decoration: none; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; font-size: 12px; color: #999; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mt-32 { margin-top: 32px; }
+.row-link { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; text-decoration: none; color: #1a1a1a; }
+.row-link::after { content: '→'; }
+
+/* SHARED:CSS */
+.header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 14px; }
+.logo { display: flex; align-items: center; gap: 9px; color: inherit; text-decoration: none; flex-shrink: 0; }
+.logo-box { width: 38px; height: 38px; background: #1a1a1a; border-radius: 4px; flex-shrink: 0; }
+.logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.15; }
+.nav { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.nav a { font-size: 12px; color: #444; text-decoration: none; white-space: nowrap; }
+.nav a.active { color: #1a1a1a; font-weight: 700; }
+.nav .has-sub::after { content: ' ▾'; font-size: 9px; }
+.header-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.header-phone-block { text-align: right; border-left: 1px solid #e5e5e5; padding-left: 12px; }
+.header-phone { font-size: 13px; font-weight: 600; color: #1a1a1a; text-decoration: none; white-space: nowrap; }
+.header-hours { font-size: 11px; color: #888; }
+.header .btn-primary { padding: 10px 16px; font-size: 13px; }
+.cta-section { background: #1a1a1a; color: #fff; }
+.cta-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; padding: 56px 0; }
+.cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; color: #fff; }
+.cta-left p { font-size: 14px; color: #aaa; line-height: 1.6; margin: 0; }
+.cta-form { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.cta-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.cta-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 14px 16px; font-size: 14px; color: #fff; font-family: Arial, sans-serif; width: 100%; min-width: 0; }
+.cta-input::placeholder { color: #aaa; }
+.cta-file-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; }
+.cta-file-label-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #aaa; margin-bottom: 10px; }
+.cta-file-icon { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; flex-shrink: 0; }
+.cta-file-box textarea { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); resize: none; }
+.cta-submit { background: #fff; color: #1a1a1a; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; }
+.cta-note { font-size: 11px; color: #777; margin-top: 4px; }
+.form-success { display: block; padding: 20px 24px; background: #f0f9f0; border: 1px solid #4CAF50; border-radius: 8px; margin-top: 16px; }
+.form-success strong { display: block; font-size: 15px; font-weight: 700; color: #1a7a1a; margin-bottom: 6px; }
+.form-success p { font-size: 13px; color: #333; line-height: 1.6; margin: 0; }
+.form-success a { color: #1a7a1a; font-weight: 600; }
+.footer { background: #111; color: #aaa; }
+.footer-top { display: grid; grid-template-columns: 240px repeat(4, minmax(0, 1fr)); gap: 32px; padding: 48px 0 32px; border-bottom: 1px solid #222; }
+.footer-brand p { font-size: 12px; color: #aaa; margin-top: 12px; line-height: 1.6; }
+.footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a { font-size: 13px; color: #aaa; text-decoration: none; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 20px 0; font-size: 12px; color: #999; }
+@media (max-width: 1180px) { .nav { display: none; } .cta-inner { grid-template-columns: 1fr; } .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .header-right { display: none; } .cta-row { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr; } .footer-bottom { align-items: flex-start; flex-direction: column; } }
+/* /SHARED:CSS */
+</style>
+</head>
+<body>
+<!-- SHARED:HEADER -->
+<header class="header"><div class="container"><div class="header-inner">
+  <a href="wireframe_01_glavnaya.html" class="logo"><div class="logo-box"></div><div class="logo-text">ПАРОВЫЕ<br>СИСТЕМЫ</div></a>
+  <nav class="nav">
+    <a href="wireframe_02_hub_sistemy.html" class="has-sub active">Решения</a>
+    <a href="wireframe_30_otrasli_hub.html" class="has-sub">Отрасли</a>
+    <a href="wireframe_07_kategoriya_oborudovaniya.html" class="has-sub">Оборудование</a>
+    <a href="wireframe_11_kejsy.html">Кейсы</a>
+    <a href="wireframe_18_baza_znanii_hub.html">База знаний</a>
+    <a href="wireframe_15_kalkulyatory.html" class="has-sub">Инструменты</a>
+    <a href="wireframe_14_o_kompanii.html" class="has-sub">О компании</a>
+    <a href="wireframe_12_kontakty.html">Контакты</a>
+  </nav>
+  <div class="header-right"><div class="header-phone-block">
+    <a href="tel:+78126027770" class="header-phone">+7 (812) 602-77-70</a>
+    <div class="header-hours">Пн-Пт, 9:00-18:00</div>
+  </div><a href="#cta" class="btn-primary">Рассчитать проект</a></div>
+</div></div></header>
+<!-- /SHARED:HEADER -->
+
+<!-- BREADCRUMBS -->
+<div class="breadcrumbs"><div class="container"><div class="breadcrumbs-inner">
+  <a href="wireframe_01_glavnaya.html">Главная</a>
+  <span>/</span>
+  <a href="wireframe_02_hub_sistemy.html">Решения</a>
+    <a href="wireframe_30_otrasli_hub.html" class="has-sub">Отрасли</a>
+  <span>/</span>
+  Станции возврата конденсата
+</div></div></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-label">Готовые инженерные решения</div>
+        <h1>Станции возврата конденсата (СВК)</h1>
+        <p class="hero-sub">Возвращаем конденсат в систему, снижаем потери тепла и воды. Экономия на паре, водоподготовке и энергоносителях — со сроком окупаемости от 9 месяцев.</p>
+        <div class="hero-ctas">
+          <a href="#cta" class="btn-primary">Получить расчёт станции</a>
+          <a href="#cta" class="btn-outline">Отправить параметры конденсата</a>
+          <a href="#" class="btn-ghost">Запросить схему</a>
+        </div>
+        <div class="hero-badges">
+          <span class="badge">Срок окупаемости 9–18 мес.</span>
+          <span class="badge">Расчёт за 1 день</span>
+          <span class="badge">Блочная поставка</span>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-value">Экономия до 25% затрат на пар</div>
+          <div class="stat-label">Котёл получает горячий конденсат вместо холодной воды</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">до 95%</div>
+          <div class="stat-label">возврат тепла</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">от 0.1 т/ч</div>
+          <div class="stat-label">расход конденсата</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">12 мес.</div>
+          <div class="stat-label">гарантия</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUSTBAR -->
+<div class="trustbar">
+  <div class="container">
+    <div class="trustbar-inner">
+      <div class="trust-item">
+        <div class="trust-num">150+</div>
+        <div class="trust-txt">реализованных СВК</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">до 95%</div>
+        <div class="trust-txt">возврат конденсата</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">9 мес.</div>
+        <div class="trust-txt">типовой срок окупаемости</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-num">24/7</div>
+        <div class="trust-txt">режим работы</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: ПОЧЕМУ ОБРАЩАЮТСЯ -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <div class="sec-title">Почему обращаются за СВК</div>
+      <p class="sec-sub">Потери конденсата — это прямые потери денег. Каждая тонна слитого конденсата — это деньги на химводоподготовку, тепло и воду, выброшенные в канализацию.</p>
+      <div class="problems-grid">
+        <div class="problem-card">
+          <div class="problem-icon"></div>
+          <div class="problem-title">Потери конденсата идут в канализацию</div>
+          <div class="problem-desc">Конденсат сливается без использования, предприятие теряет тепло и химически подготовленную воду</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon"></div>
+          <div class="problem-title">Перерасход пара из-за низкого возврата</div>
+          <div class="problem-desc">Котёл нагревает холодную воду вместо горячего конденсата — потребление газа и энергии растёт</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon"></div>
+          <div class="problem-title">Избыточные затраты на водоподготовку</div>
+          <div class="problem-desc">Без возврата конденсата требуется подпитка котла сырой водой и её химическая обработка реагентами</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon"></div>
+          <div class="problem-title">Нестабильная работа котельной</div>
+          <div class="problem-desc">Непостоянный расход подпиточной воды создаёт скачки давления и температуры в котловом контуре</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon"></div>
+          <div class="problem-title">Дорогостоящие реагенты и химия</div>
+          <div class="problem-desc">Без возврата конденсата расход деаэраторов, ингибиторов коррозии и антинакипинов значительно выше</div>
+        </div>
+        <div class="problem-card">
+          <div class="problem-icon"></div>
+          <div class="problem-title">Сложность эксплуатации системы</div>
+          <div class="problem-desc">Отсутствие станции означает ручной контроль, ненадёжный учёт и высокую нагрузку на персонал</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: ГДЕ ПРИМЕНЯЕТСЯ -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <div class="sec-title">Где устанавливается СВК</div>
+      <div class="apply-grid">
+        <div class="apply-block">
+          <h3>Типы объектов</h3>
+          <div class="apply-tags">
+            <span class="apply-tag">Котельные</span>
+            <span class="apply-tag">Теплопункты</span>
+            <span class="apply-tag">Пароконденсатные системы</span>
+            <span class="apply-tag">Теплообменники</span>
+            <span class="apply-tag">Калориферы</span>
+            <span class="apply-tag">Сушильные линии</span>
+          </div>
+        </div>
+        <div class="apply-block">
+          <h3>Отрасли</h3>
+          <div class="apply-tags">
+            <span class="apply-tag">Пищевая промышленность</span>
+            <span class="apply-tag">ЦБП</span>
+            <span class="apply-tag">Химическая</span>
+            <span class="apply-tag">Деревообработка</span>
+            <span class="apply-tag">Фармацевтика</span>
+            <span class="apply-tag">Энергетика</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: ПРИНЦИП РАБОТЫ -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <div class="sec-title">Принцип работы станции</div>
+      <p class="sec-sub">СВК — это замкнутый контур: конденсат собирается, накапливается и возвращается в котельную в виде горячей воды, снижая нагрузку на котёл.</p>
+      <div class="scheme-inner">
+        <div class="scheme-img">
+          <div class="scheme-placeholder">Принципиальная схема СВК<br><br>[графика инженерной схемы]</div>
+        </div>
+        <ol class="scheme-steps">
+          <li class="scheme-step">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Сбор конденсата</strong>
+              <span>Конденсат собирается после теплообменников, калориферов и других потребителей пара через конденсатоотводчики</span>
+            </div>
+          </li>
+          <li class="scheme-step">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>Накопление в баке</strong>
+              <span>Конденсат поступает в бак-накопитель станции, где поддерживается нужная температура и уровень</span>
+            </div>
+          </li>
+          <li class="scheme-step">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>Перекачка насосным блоком</strong>
+              <span>Насосный блок перекачивает конденсат обратно в котельную по конденсатопроводу</span>
+            </div>
+          </li>
+          <li class="scheme-step">
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <strong>Автоматический контроль</strong>
+              <span>Автоматика контролирует уровень в баке и давление в системе, управляет насосами в автоматическом режиме</span>
+            </div>
+          </li>
+          <li class="scheme-step">
+            <div class="step-num">5</div>
+            <div class="step-text">
+              <strong>Горячая подпитка котла</strong>
+              <span>Котёл получает горячую воду вместо холодной — снижается расход топлива, стабилизируется режим работы</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: СОСТАВ СТАНЦИИ -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <div class="sec-title">Состав станции возврата конденсата</div>
+      <p class="sec-sub">Поставляем полностью собранную, обвязанную и испытанную станцию. Остаётся только подключить к трубопроводам и сети.</p>
+      <div class="comp-grid">
+        <div class="comp-item">
+          <div class="comp-num">01</div>
+          <div class="comp-text">
+            <strong>Бак-накопитель конденсата</strong>
+            <span>Сварной бак из углеродистой или нержавеющей стали с теплоизоляцией, объём от 0.25 до 10 м³</span>
+          </div>
+        </div>
+        <div class="comp-item highlighted">
+          <div class="comp-num">02</div>
+          <div class="comp-text">
+            <strong>Насосный блок</strong>
+            <span>Один или два насоса (рабочий + резервный) для перекачки конденсата в котельную</span>
+          </div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-num">03</div>
+          <div class="comp-text">
+            <strong>Запорная арматура</strong>
+            <span>Шаровые краны на входе и выходе, байпасные линии, дренажи и воздушники</span>
+          </div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-num">04</div>
+          <div class="comp-text">
+            <strong>Датчики уровня и температуры</strong>
+            <span>Поплавковые или ультразвуковые датчики уровня, термометры и манометры</span>
+          </div>
+        </div>
+        <div class="comp-item highlighted">
+          <div class="comp-num">05</div>
+          <div class="comp-text">
+            <strong>Блок автоматики</strong>
+            <span>Шкаф управления с контроллером, управляет насосами по уровню в баке, защита от сухого хода</span>
+          </div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-num">06</div>
+          <div class="comp-text">
+            <strong>Трубная обвязка</strong>
+            <span>Всё смонтировано на общей раме — остаётся только подключение к внешним трубопроводам</span>
+          </div>
+        </div>
+        <div class="comp-item">
+          <div class="comp-num">07</div>
+          <div class="comp-text">
+            <strong>Элементы безопасности</strong>
+            <span>Предохранительные клапаны, обратные клапаны, защита от превышения давления</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: ТЕХНИЧЕСКИЕ ПАРАМЕТРЫ -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <div class="sec-title">Параметры исполнения СВК</div>
+      <p class="sec-sub">Два базовых типоряда — стандартное и усиленное исполнение. Также выполняем индивидуальные проекты под любые параметры.</p>
+      <table class="params-table">
+        <thead>
+          <tr>
+            <th>Параметр</th>
+            <th>Стандартное исполнение</th>
+            <th>Усиленное исполнение</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Расход конденсата</td><td>0.1–5 т/ч</td><td>5–50 т/ч</td></tr>
+          <tr><td>Температура конденсата</td><td>до 95°C</td><td>до 130°C</td></tr>
+          <tr><td>Рабочее давление</td><td>до 6 бар</td><td>до 16 бар</td></tr>
+          <tr><td>Высота подъёма</td><td>до 30 м</td><td>до 80 м</td></tr>
+          <tr><td>Объём бака</td><td>0.25–2 м³</td><td>2–10 м³</td></tr>
+          <tr><td>Материал</td><td>Углеродистая сталь</td><td>Нержавеющая сталь</td></tr>
+          <tr><td>Режим работы</td><td>Непрерывный / прерывистый</td><td>Непрерывный 24/7</td></tr>
+          <tr><td>Управление</td><td>Местное / автоматическое</td><td>Дистанционное / АСУ ТП</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: ВАРИАНТЫ ИСПОЛНЕНИЯ -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <div class="sec-title">Варианты исполнения станции</div>
+      <p class="sec-sub">Выбирайте готовый вариант или закажите индивидуальный проект под параметры вашего объекта.</p>
+      <div class="variants-grid">
+        <div class="variant-card">
+          <div class="variant-title">Стандартная СВК</div>
+          <div class="variant-desc">Типовой ряд из серийных компонентов. Быстрая поставка, стандартная документация, минимальные сроки монтажа.</div>
+          <div class="variant-spec">Расход: 0.1–5 т/ч · Срок поставки: 2–3 недели</div>
+        </div>
+        <div class="variant-card popular">
+          <div class="variant-badge">Рекомендуем</div>
+          <div class="variant-title">Индивидуальная СВК</div>
+          <div class="variant-desc">Проектируется под конкретные параметры объекта: расход, температуру, давление, способ подключения. Оптимальный выбор для большинства задач.</div>
+          <div class="variant-spec">Расход: любой · Срок: 3–5 недель после опросного листа</div>
+        </div>
+        <div class="variant-card">
+          <div class="variant-title">Для действующей системы</div>
+          <div class="variant-desc">Встраивание СВК в уже работающую систему без реконструкции трубопроводов. Минимальный простой производства при монтаже.</div>
+          <div class="variant-spec">Подходит для retrofit-проектов · Анализ схемы включён</div>
+        </div>
+        <div class="variant-card">
+          <div class="variant-title">Сдвоенная / резервированная СВК</div>
+          <div class="variant-desc">Два независимых насосных блока с автоматическим переключением. Для критических объектов с требованием непрерывной работы 24/7.</div>
+          <div class="variant-spec">Режим 24/7 · Нет простоев при обслуживании насоса</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: ИСХОДНЫЕ ДАННЫЕ ДЛЯ ИНЖЕНЕРА -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <h2 class="sec-title">Какие данные нужны инженеру</h2>
+      <p class="sec-sub">Чем точнее исходные данные — тем быстрее подбор и точнее стоимость. Минимальный набор для расчёта:</p>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;">
+        <div style="background:#f7f7f7;border-radius:4px;padding:20px;">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Расход и температура</div>
+          <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#444;line-height:2;">
+            <li>Расход конденсата (т/ч или кг/ч)</li>
+            <li>Температура конденсата (°C)</li>
+            <li>Режим работы: непрерывный / периодический</li>
+          </ul>
+        </div>
+        <div style="background:#f7f7f7;border-radius:4px;padding:20px;">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Давление и схема</div>
+          <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#444;line-height:2;">
+            <li>Давление конденсата на входе (бар)</li>
+            <li>Высота подъёма конденсата (м)</li>
+            <li>Схема возврата: самотёком или под давлением</li>
+          </ul>
+        </div>
+        <div style="background:#f7f7f7;border-radius:4px;padding:20px;">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Объект и документы</div>
+          <ul style="list-style:none;padding:0;margin:0;font-size:13px;color:#444;line-height:2;">
+            <li>Тип и материал теплообменного оборудования</li>
+            <li>Схема объекта или ситуационный план</li>
+            <li>Требования к автоматике и управлению</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:12px;">
+        <a href="wireframe_17_oprosnyj_list_rou.html" class="btn-primary">Заполнить опросный лист СВК</a>
+        <a href="#cta" class="btn-outline">Задать вопрос инженеру</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: ЭКОНОМИЧЕСКИЙ ЭФФЕКТ / ROI -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <div class="sec-title">Экономический эффект и ROI</div>
+      <p class="sec-sub">Возврат конденсата — одна из немногих инженерных мер с измеримым и быстрым экономическим эффектом.</p>
+      <div class="effect-grid">
+        <div class="effect-card">
+          <div class="effect-val">−25%</div>
+          <div class="effect-title">Затраты на пар</div>
+          <div class="effect-label">Котёл нагревает горячий конденсат вместо холодной воды</div>
+        </div>
+        <div class="effect-card">
+          <div class="effect-val">+95%</div>
+          <div class="effect-title">Возврат тепла</div>
+          <div class="effect-label">Тепловая энергия конденсата остаётся в системе</div>
+        </div>
+        <div class="effect-card">
+          <div class="effect-val">−30%</div>
+          <div class="effect-title">Затраты на водоподготовку</div>
+          <div class="effect-label">Меньше сырой воды — меньше реагентов и деаэрации</div>
+        </div>
+        <div class="effect-card">
+          <div class="effect-val">9–18 мес.</div>
+          <div class="effect-title">Окупаемость</div>
+          <div class="effect-label">Типовой срок возврата инвестиций по реализованным проектам</div>
+        </div>
+        <div class="effect-card">
+          <div class="effect-val">−40%</div>
+          <div class="effect-title">Потребление реагентов</div>
+          <div class="effect-label">Снижение расхода антинакипинов и ингибиторов коррозии</div>
+        </div>
+        <div class="effect-card">
+          <div class="effect-val">24/7</div>
+          <div class="effect-title">Стабильная работа котла</div>
+          <div class="effect-label">Постоянная горячая подпитка — равномерный режим котла</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: ДЛЯ ПРОЕКТИРОВЩИКА -->
+<div class="section designer">
+  <div class="container">
+    <div class="section-inner">
+      <div class="designer-inner">
+        <div class="designer-left">
+          <div class="sec-label">Проектировщикам</div>
+          <h2>Техническая документация по СВК</h2>
+          <p style="font-size:13px;color:#666;line-height:1.6;margin-top:8px;">Все необходимые материалы для включения СВК в проект. Инженерные консультации бесплатно.</p>
+        </div>
+        <div class="designer-actions">
+          <div class="designer-action">
+            <div class="action-icon">📋</div>
+            <div class="action-text">
+              <strong>Опросный лист СВК</strong>
+              <a href="#">Скачать PDF</a>
+            </div>
+          </div>
+          <div class="designer-action">
+            <div class="action-icon">📐</div>
+            <div class="action-text">
+              <strong>Типовая схема</strong>
+              <a href="#">Получить схему</a>
+            </div>
+          </div>
+          <div class="designer-action">
+            <div class="action-icon">🗂</div>
+            <div class="action-text">
+              <strong>CAD / 3D / BIM</strong>
+              <a href="#">Запросить модель</a>
+            </div>
+          </div>
+          <div class="designer-action">
+            <div class="action-icon">📄</div>
+            <div class="action-text">
+              <strong>Техническое описание</strong>
+              <a href="#">Скачать PDF</a>
+            </div>
+          </div>
+          <div class="designer-action">
+            <div class="action-icon">✅</div>
+            <div class="action-text">
+              <strong>Паспорт и сертификаты</strong>
+              <a href="#">Запросить документы</a>
+            </div>
+          </div>
+          <div class="designer-action">
+            <div class="action-icon">💬</div>
+            <div class="action-text">
+              <strong>Консультация инженера</strong>
+              <a href="#cta">Задать вопрос</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: КЕЙСЫ -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <div class="sec-title">Кейсы СВК</div>
+      <p class="sec-sub">Проекты с измеримым экономическим эффектом в разных отраслях.</p>
+      <div class="cases-grid">
+        <div class="case-card">
+          <div class="case-img"><div class="case-img-label">[фото объекта / схема]</div></div>
+          <div class="case-body">
+            <div class="case-tag">Химическое производство · Тульская обл.</div>
+            <div class="case-title">СВК для возврата конденсата от теплообменников при производстве лакокрасочных материалов</div>
+            <div class="case-desc">Ранее конденсат от 8 теплообменников сливался в канализацию. Установлена СВК с баком 1 м³ и двумя насосами, автоматика интегрирована в существующую систему управления.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><strong>−22%</strong><span>затраты на пар</span></div>
+              <div class="case-metric"><strong>95%</strong><span>возврат конденсата</span></div>
+              <div class="case-metric"><strong>11 мес.</strong><span>окупаемость</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="case-card">
+          <div class="case-img"><div class="case-img-label">[фото объекта / схема]</div></div>
+          <div class="case-body">
+            <div class="case-tag">ЦБП · Архангельская обл.</div>
+            <div class="case-title">Сдвоенная СВК для бумагоделательной машины, режим 24/7</div>
+            <div class="case-desc">Производство требует бесперебойной работы пароконденсатной системы. Реализована сдвоенная станция с автоматическим переключением насосов и резервным питанием.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><strong>2 т/ч</strong><span>возврат конденсата</span></div>
+              <div class="case-metric"><strong>−28%</strong><span>затраты</span></div>
+              <div class="case-metric"><strong>8 мес.</strong><span>окупаемость</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-24">
+        <a href="wireframe_11_kejsy.html" class="row-link">Все кейсы по системам возврата конденсата</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- СЕКЦИЯ: FAQ -->
+<div class="section">
+  <div class="container">
+    <div class="section-inner">
+      <div class="sec-title">FAQ по станциям возврата конденсата</div>
+      <ul class="faq-list">
+        <li class="faq-item">
+          <div class="faq-q">Зачем возвращать конденсат, если его можно слить?</div>
+          <div class="faq-a">Конденсат — это очищенная горячая вода при температуре 80–130°C. Её слив означает потерю тепла, химически подготовленной воды и самого ресурса. По нашей практике возврат конденсата снижает затраты на пар на 20–25%, на водоподготовку — на 25–35%. При расходе конденсата от 1 т/ч годовая экономия составляет сотни тысяч рублей.</div>
+        </li>
+        <li class="faq-item">
+          <div class="faq-q">Какие параметры нужны для расчёта станции?</div>
+          <div class="faq-a">Для предварительного расчёта достаточно: расход конденсата (т/ч или кг/ч), температура конденсата (°C), рабочее давление в системе (бар), расстояние до котельной (м) и перепад высот. Остальное уточняем при технической консультации.</div>
+        </li>
+        <li class="faq-item">
+          <div class="faq-q">Можно ли встроить СВК в действующую систему?</div>
+          <div class="faq-a">Да, это один из самых частых запросов. Мы анализируем существующую схему, предлагаем точки подключения, которые не требуют остановки производства или сводят простой к минимуму. Станция монтируется на раме и подключается к действующим трубопроводам.</div>
+        </li>
+        <li class="faq-item">
+          <div class="faq-q">Сколько стоит станция возврата конденсата?</div>
+          <div class="faq-a">Стоимость зависит от производительности, материала, комплектации и исполнения. Стандартные станции от 0.5 т/ч начинаются от 180 000 руб. Точная стоимость — после расчёта по параметрам вашего объекта. Расчёт бесплатный, срок — 1 рабочий день.</div>
+        </li>
+        <li class="faq-item">
+          <div class="faq-q">Как быстро окупается СВК?</div>
+          <div class="faq-a">По нашим реализованным проектам — от 8 до 18 месяцев. Срок окупаемости зависит от расхода конденсата, стоимости газа/пара и затрат на водоподготовку. Мы выполняем экономический расчёт ROI вместе с техническим предложением — вы получаете обоснование перед принятием решения.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SHARED:CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-left">
+        <h2>Подберите готовую систему под параметры объекта</h2>
+        <p>Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня</p>
+      </div>
+      <form class="cta-form">
+        <div class="cta-row">
+          <input class="cta-input" type="text" placeholder="Ваше имя" aria-label="Ваше имя">
+          <input class="cta-input" type="tel" placeholder="Телефон" aria-label="Телефон">
+        </div>
+        <input type="email" class="cta-input" placeholder="Email для отправки КП" aria-label="Email">
+        <div class="cta-file-box">
+          <label class="cta-file-label-wrap">
+            <span class="cta-file-icon">📎</span>
+            <span class="cta-file-label">Прикрепить ТЗ, спецификацию или опросный лист</span>
+            <input type="file" style="display:none;" accept=".pdf,.xls,.xlsx,.doc,.docx" onchange="this.closest('label').querySelector('.cta-file-label').textContent=this.files[0]?this.files[0].name:'Прикрепить ТЗ, спецификацию или опросный лист'">
+          </label>
+          <textarea class="cta-input" rows="2" placeholder="Комментарий к файлу или краткое описание задачи" aria-label="Комментарий"></textarea>
+        </div>
+        <button class="cta-submit" type="button" data-goal="forma_parametry_rou">Получить расчёт</button>
+        <div class="cta-note">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности. Ответим в течение 1 рабочего дня.</div>
+      </form>
+    </div>
+  </div>
+</section>
+<!-- /SHARED:CTA -->
+<!-- SHARED:FOOTER -->
+<footer class="footer"><div class="container">
+  <div class="footer-top">
+    <div class="footer-brand"><div class="logo"><div class="logo-box" style="background:#333;"></div><div class="logo-text" style="color:#aaa;">ПАРОВЫЕ<br>СИСТЕМЫ</div></div><p>Пароконденсатные системы для промышленности</p></div>
+    <div class="footer-col"><h4>Решения</h4><ul><li><a href="wireframe_03_rou_brou.html">РОУ и БРОУ</a></li><li><a href="wireframe_04_svk.html">СВК</a></li><li><a href="wireframe_05_ou_itp.html">ОУ/ИТП</a></li><li><a href="wireframe_06_obvyazka_kalorifer.html">Обвязка</a></li></ul></div>
+    <div class="footer-col"><h4>Оборудование</h4><ul><li><a href="wireframe_07_kategoriya_oborudovaniya.html">Конденсатоотводчики</a></li><li><a href="wireframe_32_brendy_hub.html">Бренды</a></li></ul></div>
+    <div class="footer-col"><h4>Инструменты</h4><ul><li><a href="wireframe_15_kalkulyatory.html">Калькуляторы</a></li><li><a href="wireframe_16_oprosnie_listy.html">Опросные листы</a></li><li><a href="wireframe_13_dokumentatsiya.html">Документация</a></li></ul></div>
+    <div class="footer-col"><h4>Компания</h4><ul><li><a href="wireframe_14_o_kompanii.html">О компании</a></li><li><a href="wireframe_11_kejsy.html">Кейсы</a></li><li><a href="wireframe_18_baza_znanii_hub.html">База знаний</a></li><li><a href="wireframe_12_kontakty.html">Контакты</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <span>© 2008–2026 ООО «Паровые системы» · Все права защищены</span>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="#" style="color:#999;text-decoration:none;">СОУТ</a>
+        <a href="#" style="color:#999;text-decoration:none;">Политика конфиденциальности</a>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <button onclick="var p=this.nextElementSibling;p.style.display=p.style.display==='block'?'none':'block'" style="cursor:pointer;background:transparent;border:none;padding:0;display:flex;align-items:center;gap:6px;opacity:0.5;" title="Разработчик сайта">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="11" fill="#fff" fill-opacity=".15"/><text x="11" y="16" font-size="13" font-weight="800" fill="#fff" font-family="Arial" text-anchor="middle">К</text></svg>
+      </button>
+      <div style="display:none;position:absolute;bottom:calc(100% + 10px);right:0;background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:20px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.15);z-index:200;color:#1a1a1a;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;">Паспорт проекта</div>
+          <button onclick="this.closest('div[style]').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:18px;color:#bbb;padding:0;line-height:1;">×</button>
+        </div>
+        <div style="font-size:13px;color:#444;line-height:1.8;margin-bottom:16px;">
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Клиент:</strong> ООО «Паровые системы», steamsys.ru</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Разработчик:</strong> Маркетинговое агентство КОГИТ</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Услуги:</strong> Разработка, SEO, контекстная реклама</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Год:</strong> 2026</div>
+        </div>
+        <a href="https://kogit.ru" target="_blank" rel="noopener" style="display:block;font-size:13px;font-weight:700;color:#fff;text-decoration:none;padding:10px 14px;background:#1a1a1a;border-radius:4px;text-align:center;margin-bottom:8px;">Маркетинговое агентство КОГИТ →</a>
+        <a href="https://kogit.ru/cases/steamsys/" target="_blank" rel="noopener" style="display:block;font-size:12px;color:#888;text-decoration:none;text-align:center;padding:6px 0;">Продвижение промышленных предприятий</a>
+      </div>
+    </div>
+  </div>
+</div></footer>
+<!-- /SHARED:FOOTER -->
+
+<!-- NAV PANEL -->
+<!-- SHARED:PROTOTYPE_NAV -->
+<div style="position:fixed;bottom:16px;right:16px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px 16px;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:9999;max-height:80vh;overflow-y:auto;min-width:200px;">
+<div style="font-weight:700;margin-bottom:8px;color:#888;font-size:11px;letter-spacing:0.5px;">ПРОТОТИПЫ STEAMSYS.RU</div>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Основные</div>
+<a href="wireframe_01_glavnaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Главная</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Системы и решения</div>
+<a href="wireframe_02_hub_sistemy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Хаб «Системы и решения»</a>
+<a href="wireframe_03_rou_brou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— РОУ/БРОУ</a>
+<strong style="display:block;color:#1a5cff;margin-bottom:3px;font-weight:700;padding-left:10px;">— СВК ←</strong>
+<a href="wireframe_05_ou_itp.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— ОУ/ИТП</a>
+<a href="wireframe_06_obvyazka_kalorifer.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка калорифера</a>
+<a href="wireframe_34_obvyazka_teploobmennika.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка теплообменника</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Отрасли</div>
+<a href="wireframe_30_otrasli_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отрасли — хаб</a>
+<a href="wireframe_31_otrasl_pishchevaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Пищевая промышленность</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Оборудование</div>
+<a href="wireframe_07_kategoriya_oborudovaniya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Категория товаров</a>
+<a href="wireframe_08_kartochka_tovara.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Карточка товара</a>
+<a href="wireframe_32_brendy_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Бренды — хаб</a>
+<a href="wireframe_09_brend.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Бренд TLV</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">База знаний</div>
+<a href="wireframe_18_baza_znanii_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">БЗ — хаб</a>
+<a href="wireframe_10_baza_znanii_statya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Статья (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Кейсы</div>
+<a href="wireframe_11_kejsy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Кейсы — список</a>
+<a href="wireframe_19_keys_card.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Кейс (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Инструменты</div>
+<a href="wireframe_15_kalkulyatory.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Калькуляторы — хаб</a>
+<a href="wireframe_20_kalkulyator_ekonomii_ko.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Калькулятор КО</a>
+<a href="wireframe_16_oprosnie_listy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Опросные листы</a>
+<a href="wireframe_17_oprosnyj_list_rou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Опросный лист РОУ</a>
+<a href="wireframe_13_dokumentatsiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Документация</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">О компании</div>
+<a href="wireframe_14_o_kompanii.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">О компании</a>
+<a href="wireframe_21_komanda.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Команда</a>
+<a href="wireframe_28_sotrudnik.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Сотрудник (карточка)</a>
+<a href="wireframe_22_otzyvy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отзывы</a>
+<a href="wireframe_23_karera.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Карьера</a>
+<a href="wireframe_29_vakansiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Вакансия (карточка)</a>
+<a href="wireframe_24_rekvizity.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Реквизиты</a>
+<a href="wireframe_25_faq.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Вопрос-ответ</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Медиа</div>
+<a href="wireframe_33_media_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Медиа — хаб</a>
+<a href="wireframe_27b_fotogalereja_albom.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Альбом (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Контакты</div>
+<a href="wireframe_12_kontakty.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Контакты</a>
+</div>
+<!-- /SHARED:PROTOTYPE_NAV -->
+<script id="shared-cta-handler">
+(function(){
+  document.querySelectorAll(".cta-submit").forEach(function(btn){
+    if (btn.dataset.ctaBound === "1") return;
+    btn.dataset.ctaBound = "1";
+    btn.addEventListener("click",function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var form=btn.closest(".cta-form") || btn.closest("form") || btn.parentElement;
+      var existing=form && form.parentNode ? form.parentNode.querySelector(".form-success") : document.querySelector(".form-success");
+      if(existing&&existing.style.display!="none")return;
+      var msg=document.createElement("div");
+      msg.className="form-success";
+      msg.innerHTML="<strong>&#10003; Заявка принята</strong><p>Свяжемся в течение 4 часов в рабочее время. Срочно — звоните: <a href=\"tel:+78126027770\">+7 (812) 602-77-70</a></p>";
+      if(form&&form.parentNode){form.parentNode.insertBefore(msg,form.nextSibling);}
+      msg.style.display="block";
+      btn.disabled=true;btn.style.opacity="0.5";
+    }, true);
+  });
+})();
+</script>
+</body>
+</html>

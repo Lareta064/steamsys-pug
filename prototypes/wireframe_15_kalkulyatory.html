@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[WF] Калькуляторы — steamsys.ru</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Arial', sans-serif; background: #f0f0f0; color: #1a1a1a; font-size: 14px; line-height: 1.5; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section { background: #fff; margin-bottom: 2px; }
+.section-inner { padding: 48px 0; }
+.header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-box { width: 40px; height: 40px; background: #1a1a1a; border-radius: 4px; }
+.logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.2; }
+.nav { display: flex; gap: 24px; }
+.nav a { font-size: 13px; color: #444; text-decoration: none; }
+.nav a.active { color: #1a1a1a; font-weight: 700; }
+.nav .has-sub::after { content: ' ▾'; font-size: 10px; }
+.header-right { display: flex; align-items: center; gap: 16px; }
+.header-phone { font-size: 13px; font-weight: 600; color: #1a1a1a; text-decoration: none; }
+    .header-phone-block { text-align: right; }
+    .header-hours { font-size: 11px; color: #888; }
+.btn-primary { background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: none; cursor: pointer; }
+.btn-outline { background: transparent; color: #1a1a1a; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: 2px solid #1a1a1a; cursor: pointer; }
+.btn-ghost { background: transparent; color: #444; padding: 8px 16px; border-radius: 4px; font-size: 13px; text-decoration: none; display: inline-block; border: 1px solid #ccc; cursor: pointer; }
+.breadcrumbs { background: #f7f7f7; border-bottom: 1px solid #e8e8e8; padding: 10px 0; }
+.breadcrumbs-inner { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
+.breadcrumbs-inner a { color: #555; text-decoration: none; }
+.breadcrumbs-inner span { color: #ccc; }
+.sec-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+.sec-title { font-size: 28px; font-weight: 700; color: #111; margin-bottom: 8px; }
+.sec-sub { font-size: 15px; color: #666; line-height: 1.6; max-width: 640px; margin-bottom: 32px; }
+.badge { background: #f0f0f0; border: 1px solid #e0e0e0; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #555; }
+.cta-section { background: #1a1a1a; color: #fff; }
+.cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 56px 0; }
+.cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+.cta-left p { font-size: 14px; color: #aaa; line-height: 1.6; }
+.cta-form { display: flex; flex-direction: column; gap: 12px; }
+.cta-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 14px 16px; font-size: 14px; color: #fff; }
+.cta-input::placeholder { color: #aaa; }
+.cta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cta-submit { background: #fff; color: #1a1a1a; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; }
+.cta-note { font-size: 11px; color: #666; margin-top: 4px; }
+.footer { background: #111; color: #aaa; }
+.footer-top { display: grid; grid-template-columns: 240px repeat(4, 1fr); gap: 32px; padding: 48px 0 32px; border-bottom: 1px solid #222; }
+.footer-brand p { font-size: 12px; color: #aaa; margin-top: 12px; line-height: 1.6; }
+.footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a { font-size: 13px; color: #aaa; text-decoration: none; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; font-size: 12px; color: #999; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mt-32 { margin-top: 32px; }
+.row-link { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; text-decoration: none; color: #1a1a1a; }
+.row-link::after { content: '→'; }
+
+/* Calc hub specific */
+.calc-hub-hero { background: #1a1a1a; color: #fff; padding: 56px 0; }
+.calc-hub-hero h1 { font-size: 40px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; }
+.calc-hub-hero p { font-size: 16px; color: #aaa; line-height: 1.6; max-width: 560px; }
+.calc-catalog-layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 32px; align-items: start; }
+.calc-catalog-nav { position: sticky; top: 88px; border: 1px solid #e4e4e4; border-radius: 8px; background: #fff; padding: 16px; }
+.calc-nav-title { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.calc-nav-link { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 4px; font-size: 13px; color: #333; text-decoration: none; margin-bottom: 4px; }
+.calc-nav-link.active { background: #1a1a1a; color: #fff; font-weight: 700; }
+.calc-nav-link span:last-child { color: #999; font-size: 11px; }
+.calc-nav-link.active span:last-child { color: #ccc; }
+.calc-group { border-top: 1px solid #e8e8e8; padding-top: 28px; margin-top: 28px; }
+.calc-group:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+.calc-group-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: end; margin-bottom: 16px; }
+.calc-group-title { font-size: 22px; font-weight: 700; color: #111; margin-bottom: 6px; }
+.calc-group-desc { font-size: 14px; color: #666; line-height: 1.6; max-width: 620px; }
+.calc-group-count { font-size: 12px; color: #888; white-space: nowrap; }
+.calc-list { border: 1px solid #e8e8e8; border-radius: 8px; overflow: hidden; background: #fff; }
+.calc-list-item { display: grid; grid-template-columns: minmax(0, 1fr) 120px 110px auto; gap: 16px; align-items: center; padding: 16px 18px; border-bottom: 1px solid #f0f0f0; text-decoration: none; color: #1a1a1a; }
+.calc-list-item:last-child { border-bottom: none; }
+.calc-list-item:hover { background: #fafafa; }
+.calc-list-item.prototype-live { background: #f8fbff; border-left: 4px solid #1a5cff; padding-left: 14px; }
+.calc-list-item.prototype-live:hover { background: #eef5ff; }
+.calc-list-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.calc-list-badge { display: inline-block; margin-left: 8px; padding: 3px 8px; border-radius: 10px; background: #1a5cff; color: #fff; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; vertical-align: middle; }
+.calc-list-desc { font-size: 12px; color: #666; line-height: 1.5; }
+.calc-list-meta { font-size: 12px; color: #777; }
+.calc-list-source { font-size: 11px; color: #888; padding: 4px 8px; border: 1px solid #e0e0e0; border-radius: 12px; justify-self: start; }
+.calc-list-action { font-size: 13px; font-weight: 700; color: #1a5cff; white-space: nowrap; padding: 7px 11px; border: 1px solid #c9d8ff; border-radius: 4px; background: #f6f8ff; }
+.calc-list-action::after { content: ' →'; }
+.calc-list-item:hover .calc-list-action { background: #1a5cff; border-color: #1a5cff; color: #fff; }
+.calc-featured { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+.calc-featured-card { border: 1px solid #e8e8e8; border-radius: 8px; padding: 20px; background: #fff; }
+.calc-featured-card strong { display: block; font-size: 15px; margin-bottom: 8px; }
+.calc-featured-card span { display: block; font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 14px; }
+.calc-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.calc-card { border: 1px solid #e8e8e8; border-radius: 8px; padding: 32px; position: relative; background: #fff; }
+.calc-card.available { border-color: #1a1a1a; }
+.calc-card.coming-soon { opacity: 0.6; }
+.calc-card-badge { position: absolute; top: -11px; left: 24px; font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 10px; }
+.badge-available { background: #1a1a1a; color: #fff; }
+.badge-soon { background: #f0f0f0; color: #888; border: 1px solid #e0e0e0; }
+.calc-card-icon { width: 48px; height: 48px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px; }
+.calc-card.available .calc-card-icon { background: #1a1a1a; }
+.calc-card-title { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 10px; line-height: 1.3; }
+.calc-card-desc { font-size: 14px; color: #666; line-height: 1.6; margin-bottom: 20px; }
+.calc-card-meta { display: flex; gap: 16px; margin-bottom: 24px; }
+.calc-card-meta span { font-size: 12px; color: #999; }
+.calc-card-meta strong { color: #555; }
+.calc-card a.btn-primary { font-size: 14px; padding: 12px 20px; }
+.calc-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+.calc-card-tag { font-size: 11px; color: #888; background: #f5f5f5; padding: 3px 10px; border-radius: 10px; }
+.trustbar { background: #f7f7f7; border-top: 1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8; }
+.trustbar-inner { display: grid; grid-template-columns: repeat(4, 1fr); padding: 24px 0; gap: 24px; }
+.trust-item { text-align: center; }
+.trust-num { font-size: 24px; font-weight: 700; color: #1a1a1a; }
+.trust-txt { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.4; }
+
+/* SHARED:CSS */
+.header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 14px; }
+.logo { display: flex; align-items: center; gap: 9px; color: inherit; text-decoration: none; flex-shrink: 0; }
+.logo-box { width: 38px; height: 38px; background: #1a1a1a; border-radius: 4px; flex-shrink: 0; }
+.logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.15; }
+.nav { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.nav a { font-size: 12px; color: #444; text-decoration: none; white-space: nowrap; }
+.nav a.active { color: #1a1a1a; font-weight: 700; }
+.nav .has-sub::after { content: ' ▾'; font-size: 9px; }
+.header-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.header-phone-block { text-align: right; border-left: 1px solid #e5e5e5; padding-left: 12px; }
+.header-phone { font-size: 13px; font-weight: 600; color: #1a1a1a; text-decoration: none; white-space: nowrap; }
+.header-hours { font-size: 11px; color: #888; }
+.header .btn-primary { padding: 10px 16px; font-size: 13px; }
+.cta-section { background: #1a1a1a; color: #fff; }
+.cta-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; padding: 56px 0; }
+.cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; color: #fff; }
+.cta-left p { font-size: 14px; color: #aaa; line-height: 1.6; margin: 0; }
+.cta-form { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.cta-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.cta-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 14px 16px; font-size: 14px; color: #fff; font-family: Arial, sans-serif; width: 100%; min-width: 0; }
+.cta-input::placeholder { color: #aaa; }
+.cta-file-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; }
+.cta-file-label-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #aaa; margin-bottom: 10px; }
+.cta-file-icon { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; flex-shrink: 0; }
+.cta-file-box textarea { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); resize: none; }
+.cta-submit { background: #fff; color: #1a1a1a; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; }
+.cta-note { font-size: 11px; color: #777; margin-top: 4px; }
+.form-success { display: block; padding: 20px 24px; background: #f0f9f0; border: 1px solid #4CAF50; border-radius: 8px; margin-top: 16px; }
+.form-success strong { display: block; font-size: 15px; font-weight: 700; color: #1a7a1a; margin-bottom: 6px; }
+.form-success p { font-size: 13px; color: #333; line-height: 1.6; margin: 0; }
+.form-success a { color: #1a7a1a; font-weight: 600; }
+.footer { background: #111; color: #aaa; }
+.footer-top { display: grid; grid-template-columns: 240px repeat(4, minmax(0, 1fr)); gap: 32px; padding: 48px 0 32px; border-bottom: 1px solid #222; }
+.footer-brand p { font-size: 12px; color: #aaa; margin-top: 12px; line-height: 1.6; }
+.footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a { font-size: 13px; color: #aaa; text-decoration: none; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 20px 0; font-size: 12px; color: #999; }
+@media (max-width: 1180px) { .nav { display: none; } .cta-inner { grid-template-columns: 1fr; } .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .header-right { display: none; } .cta-row { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr; } .footer-bottom { align-items: flex-start; flex-direction: column; } }
+/* /SHARED:CSS */
+</style>
+</head>
+<body>
+<!-- SHARED:HEADER -->
+<header class="header"><div class="container"><div class="header-inner">
+  <a href="wireframe_01_glavnaya.html" class="logo"><div class="logo-box"></div><div class="logo-text">ПАРОВЫЕ<br>СИСТЕМЫ</div></a>
+  <nav class="nav">
+    <a href="wireframe_02_hub_sistemy.html" class="has-sub">Решения</a>
+    <a href="wireframe_30_otrasli_hub.html" class="has-sub">Отрасли</a>
+    <a href="wireframe_07_kategoriya_oborudovaniya.html" class="has-sub">Оборудование</a>
+    <a href="wireframe_11_kejsy.html">Кейсы</a>
+    <a href="wireframe_18_baza_znanii_hub.html">База знаний</a>
+    <a href="wireframe_15_kalkulyatory.html" class="has-sub active">Инструменты</a>
+    <a href="wireframe_14_o_kompanii.html" class="has-sub">О компании</a>
+    <a href="wireframe_12_kontakty.html">Контакты</a>
+  </nav>
+  <div class="header-right"><div class="header-phone-block">
+    <a href="tel:+78126027770" class="header-phone">+7 (812) 602-77-70</a>
+    <div class="header-hours">Пн-Пт, 9:00-18:00</div>
+  </div><a href="#cta" class="btn-primary">Рассчитать проект</a></div>
+</div></div></header>
+<!-- /SHARED:HEADER -->
+
+<!-- BREADCRUMBS -->
+<div class="breadcrumbs"><div class="container"><div class="breadcrumbs-inner">
+  <a href="wireframe_01_glavnaya.html">Главная</a><span>/</span><span>Калькуляторы</span>
+</div></div></div>
+
+<!-- HERO -->
+<div class="calc-hub-hero">
+  <div class="container">
+    <div class="sec-label" style="color:#888;">Инженерные инструменты</div>
+    <h1>Калькуляторы</h1>
+    <p>Оценочные расчёты для первичного анализа экономики модернизации. Точный расчёт под ваш объект — от инженера за 24 часа, бесплатно.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:24px;">
+      <span class="badge" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:#ccc;">Без регистрации</span>
+      <span class="badge" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:#ccc;">Мгновенный результат</span>
+      <span class="badge" style="background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:#ccc;">Точность ±30%</span>
+    </div>
+  </div>
+</div>
+
+<!-- КАЛЬКУЛЯТОРЫ -->
+<section class="section"><div class="container"><div class="section-inner">
+  <div class="sec-label">Каталог инструментов</div>
+  <h2 class="sec-title">Выберите раздел и расчетную задачу</h2>
+  <p class="sec-sub">Расчёты сгруппированы по рабочей среде и инженерной задаче: пар, конденсат, вода, воздух, экономика и справочные таблицы.</p>
+
+  <div class="calc-featured">
+    <div class="calc-featured-card">
+      <strong>Быстрый вход для энергетика</strong>
+      <span>Экономика возврата конденсата, потери через КО, окупаемость модернизации.</span>
+      <a href="#economy" class="row-link">Рассчитать экономию</a>
+    </div>
+    <div class="calc-featured-card">
+      <strong>Подбор трубопроводов</strong>
+      <span>Диаметр, скорость, расход и потери давления для пара, конденсата и воды.</span>
+      <a href="#steam" class="row-link">Перейти к расчетам</a>
+    </div>
+    <div class="calc-featured-card">
+      <strong>Точный расчет инженера</strong>
+      <span>Если нужны проверка исходных данных, схема или расчет для КП.</span>
+      <a href="#cta" class="row-link">Передать параметры</a>
+    </div>
+  </div>
+
+  <div class="calc-catalog-layout">
+    <aside class="calc-catalog-nav">
+      <div class="calc-nav-title">Разделы</div>
+      <a class="calc-nav-link active" href="#steam"><span>Пар</span><span>8</span></a>
+      <a class="calc-nav-link" href="#condensate"><span>Конденсат</span><span>7</span></a>
+      <a class="calc-nav-link" href="#water"><span>Вода</span><span>6</span></a>
+      <a class="calc-nav-link" href="#air"><span>Воздух</span><span>5</span></a>
+      <a class="calc-nav-link" href="#economy"><span>Экономика</span><span>5</span></a>
+      <a class="calc-nav-link" href="#tables"><span>Таблицы и свойства</span><span>3</span></a>
+    </aside>
+
+    <div>
+      <div class="calc-group" id="steam">
+        <div class="calc-group-head">
+          <div>
+            <div class="calc-group-title">Пар</div>
+            <div class="calc-group-desc">Расчеты паропроводов, клапанов, расхода и состояния пара. Основной источник - Wengi, точечные сверки - TLV.</div>
+          </div>
+          <div class="calc-group-count">8 калькуляторов</div>
+        </div>
+        <div class="calc-list">
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Расчет диаметра паропровода по потерям давления</div><div class="calc-list-desc">Подбор DN по расходу, давлению, длине и допустимому падению давления.</div></div>
+            <div class="calc-list-meta">6 параметров</div><div class="calc-list-source">TLV/Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Расчет диаметра паропровода по скорости</div><div class="calc-list-desc">Быстрый подбор внутреннего диаметра по расходу и предельной скорости пара.</div></div>
+            <div class="calc-list-meta">3 параметра</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Скорость пара в трубе</div><div class="calc-list-desc">Проверка фактической скорости в выбранном DN.</div></div>
+            <div class="calc-list-meta">4 параметра</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Расход пара в трубопроводе</div><div class="calc-list-desc">Обратный расчет расхода по давлению, диаметру и скорости.</div></div>
+            <div class="calc-list-meta">4 параметра</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Потери давления на участке паропровода</div><div class="calc-list-desc">Проверка падения давления для заданной длины и DN.</div></div>
+            <div class="calc-list-meta">6 параметров</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:#888;">Связанное решение: <a href="wireframe_03_rou_brou.html" style="color:#1a1a1a;font-weight:600;text-decoration:none;">РОУ / БРОУ →</a></div>
+      </div>
+
+      <div class="calc-group" id="condensate">
+        <div class="calc-group-head">
+          <div>
+            <div class="calc-group-title">Конденсат</div>
+            <div class="calc-group-desc">Подбор конденсатопроводов до и после КО, за насосом, расчет вторичного пара и нагрузки конденсата.</div>
+          </div>
+          <div class="calc-group-count">7 калькуляторов</div>
+        </div>
+        <div class="calc-list">
+          <a class="calc-list-item prototype-live" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Диаметр конденсатопровода от КО до места сбора по скорости <span class="calc-list-badge">Боевой прототип</span></div><div class="calc-list-desc">Расчет двухфазной смеси с учетом вторичного пара, противодавления и DN.</div></div>
+            <div class="calc-list-meta">6 параметров</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Диаметр конденсатопровода от КО до места сбора по потерям давления</div><div class="calc-list-desc">Подбор DN по допустимому падению давления в линии возврата.</div></div>
+            <div class="calc-list-meta">6 параметров</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Диаметр конденсатопровода за насосом бака сбора</div><div class="calc-list-desc">Подбор напорной линии после насоса возврата конденсата.</div></div>
+            <div class="calc-list-meta">3 параметра</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Количество пара вторичного вскипания</div><div class="calc-list-desc">Расчет flash steam при снижении давления конденсата.</div></div>
+            <div class="calc-list-meta">3 параметра</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:#888;">Связанное решение: <a href="wireframe_04_svk.html" style="color:#1a1a1a;font-weight:600;text-decoration:none;">Станции возврата конденсата (СВК) →</a></div>
+      </div>
+
+      <div class="calc-group" id="economy">
+        <div class="calc-group-head">
+          <div>
+            <div class="calc-group-title">Экономика и окупаемость</div>
+            <div class="calc-group-desc">Предварительная оценка экономии, стоимости пара, возврата конденсата и окупаемости модернизации.</div>
+          </div>
+          <div class="calc-group-count">5 калькуляторов</div>
+        </div>
+        <div class="calc-list">
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Расчет потерь пара через конденсатоотводчики</div><div class="calc-list-desc">Потери пара, экономия в год и срок окупаемости замены КО.</div></div>
+            <div class="calc-list-meta">5 параметров</div><div class="calc-list-source">Steamsys</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Экономия от возврата конденсата</div><div class="calc-list-desc">Тепловая составляющая, водоподготовка и срок окупаемости СВК.</div></div>
+            <div class="calc-list-meta">4 параметра</div><div class="calc-list-source">Steamsys</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html">
+            <div><div class="calc-list-title">Стоимость 1 тонны пара</div><div class="calc-list-desc">Расчет себестоимости пара без учета или с учетом стоимости воды.</div></div>
+            <div class="calc-list-meta">5 параметров</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div>
+          </a>
+        </div>
+        <div style="margin-top:12px;font-size:12px;color:#888;">Связанные решения: <a href="wireframe_07_kategoriya_oborudovaniya.html" style="color:#1a1a1a;font-weight:600;text-decoration:none;">Конденсатоотводчики →</a> &nbsp;·&nbsp; <a href="wireframe_04_svk.html" style="color:#1a1a1a;font-weight:600;text-decoration:none;">СВК →</a></div>
+      </div>
+
+      <div class="calc-group" id="water">
+        <div class="calc-group-head">
+          <div>
+            <div class="calc-group-title">Вода</div>
+            <div class="calc-group-desc">Расчеты водяных трубопроводов и клапанов для вспомогательных контуров.</div>
+          </div>
+          <div class="calc-group-count">6 калькуляторов</div>
+        </div>
+        <div class="calc-list">
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html"><div><div class="calc-list-title">Диаметр трубопровода воды по скорости</div><div class="calc-list-desc">Подбор DN по расходу воды и допустимой скорости.</div></div><div class="calc-list-meta">3 параметра</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div></a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html"><div><div class="calc-list-title">Диаметр трубопровода воды по потерям давления</div><div class="calc-list-desc">Подбор DN по длине и допустимому падению давления.</div></div><div class="calc-list-meta">5 параметров</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div></a>
+        </div>
+      </div>
+
+      <div class="calc-group" id="air">
+        <div class="calc-group-head">
+          <div>
+            <div class="calc-group-title">Воздух</div>
+            <div class="calc-group-desc">Расчеты нагрева воздуха, смесей пара с воздухом и вспомогательных воздушных линий.</div>
+          </div>
+          <div class="calc-group-count">5 калькуляторов</div>
+        </div>
+        <div class="calc-list">
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html"><div><div class="calc-list-title">Расход пара на нагрев воздуха</div><div class="calc-list-desc">Оценка нагрузки пара для вентиляционных и технологических нагревателей.</div></div><div class="calc-list-meta">5 параметров</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div></a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html"><div><div class="calc-list-title">Падение температуры насыщенного пара при смеси с воздухом</div><div class="calc-list-desc">Оценка влияния воздуха на температуру паровоздушной смеси.</div></div><div class="calc-list-meta">2 параметра</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div></a>
+        </div>
+      </div>
+
+      <div class="calc-group" id="tables">
+        <div class="calc-group-head">
+          <div>
+            <div class="calc-group-title">Таблицы и свойства</div>
+            <div class="calc-group-desc">Справочные таблицы для проверки расчетов и инженерных исходных данных.</div>
+          </div>
+          <div class="calc-group-count">3 таблицы</div>
+        </div>
+        <div class="calc-list">
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html"><div><div class="calc-list-title">Свойства насыщенного пара и воды по давлению</div><div class="calc-list-desc">Температура, удельный объем, энтальпия и теплота парообразования.</div></div><div class="calc-list-meta">338 строк</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div></a>
+          <a class="calc-list-item" href="wireframe_20_kalkulyator_ekonomii_ko.html"><div><div class="calc-list-title">Свойства насыщенного пара и воды по температуре</div><div class="calc-list-desc">Справочная таблица для расчетов по температуре насыщения.</div></div><div class="calc-list-meta">375 строк</div><div class="calc-list-source">Wengi</div><div class="calc-list-action">Рассчитать</div></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Точный расчёт -->
+  <div style="background:#f7f7f7;border:1px solid #e0e0e0;border-radius:8px;padding:32px;margin-top:40px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;">
+    <div>
+      <div class="sec-label" style="margin-bottom:6px;">Нужна точность?</div>
+      <div style="font-size:18px;font-weight:700;margin-bottom:8px;">Точный расчёт от инженера — за 24 часа, бесплатно</div>
+      <div style="font-size:14px;color:#666;line-height:1.6;">Калькуляторы дают оценку ±30%. Для обоснования перед руководством нужен точный расчёт с учётом реальных параметров вашей системы. Инженер подготовит расчёт в формате A4 — с цифрами, рекомендациями и сроком окупаемости.</div>
+    </div>
+    <div style="min-width:200px;text-align:center;">
+      <a href="#cta" class="btn-primary" style="padding:14px 24px;font-size:14px;display:block;margin-bottom:8px;">Получить точный расчёт</a>
+      <div style="font-size:11px;color:#999;">Ответ в течение 24 часов</div>
+    </div>
+  </div>
+
+</div></div></section>
+
+<!-- КАК РАБОТАЮТ КАЛЬКУЛЯТОРЫ -->
+<section class="section" style="background:#fafafa;"><div class="container"><div class="section-inner">
+  <div class="sec-label">Методология</div>
+  <h2 class="sec-title">Как работают расчёты</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;">
+    <div style="background:#fff;border:1px solid #e8e8e8;border-radius:4px;padding:24px;">
+      <div style="font-size:28px;font-weight:700;color:#d0d0d0;margin-bottom:12px;">01</div>
+      <strong style="display:block;font-size:15px;margin-bottom:8px;">Вводите параметры</strong>
+      <span style="font-size:13px;color:#666;line-height:1.6;">Давление пара, расход, количество оборудования, стоимость пара — только то, что вы знаете. Неизвестные параметры заменяются типовыми значениями.</span>
+    </div>
+    <div style="background:#fff;border:1px solid #e8e8e8;border-radius:4px;padding:24px;">
+      <div style="font-size:28px;font-weight:700;color:#d0d0d0;margin-bottom:12px;">02</div>
+      <strong style="display:block;font-size:15px;margin-bottom:8px;">Мгновенный результат</strong>
+      <span style="font-size:13px;color:#666;line-height:1.6;">Расчёт выполняется в браузере. Данные никуда не передаются. Результат появляется сразу — потери, экономия, срок окупаемости.</span>
+    </div>
+    <div style="background:#fff;border:1px solid #e8e8e8;border-radius:4px;padding:24px;">
+      <div style="font-size:28px;font-weight:700;color:#d0d0d0;margin-bottom:12px;">03</div>
+      <strong style="display:block;font-size:15px;margin-bottom:8px;">Точный расчёт от инженера</strong>
+      <span style="font-size:13px;color:#666;line-height:1.6;">Если нужна точность для защиты перед руководством — передайте параметры. Инженер уточнит данные и подготовит расчёт на 1 страницу A4.</span>
+    </div>
+  </div>
+</div></div></section>
+
+<!-- SHARED:CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-left">
+        <h2>Подберите готовую систему под параметры объекта</h2>
+        <p>Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня</p>
+      </div>
+      <form class="cta-form">
+        <div class="cta-row">
+          <input class="cta-input" type="text" placeholder="Ваше имя" aria-label="Ваше имя">
+          <input class="cta-input" type="tel" placeholder="Телефон" aria-label="Телефон">
+        </div>
+        <input type="email" class="cta-input" placeholder="Email для отправки КП" aria-label="Email">
+        <div class="cta-file-box">
+          <label class="cta-file-label-wrap">
+            <span class="cta-file-icon">📎</span>
+            <span class="cta-file-label">Прикрепить ТЗ, спецификацию или опросный лист</span>
+            <input type="file" style="display:none;" accept=".pdf,.xls,.xlsx,.doc,.docx" onchange="this.closest('label').querySelector('.cta-file-label').textContent=this.files[0]?this.files[0].name:'Прикрепить ТЗ, спецификацию или опросный лист'">
+          </label>
+          <textarea class="cta-input" rows="2" placeholder="Комментарий к файлу или краткое описание задачи" aria-label="Комментарий"></textarea>
+        </div>
+        <button class="cta-submit" type="button" data-goal="forma_parametry_rou">Получить расчёт</button>
+        <div class="cta-note">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности. Ответим в течение 1 рабочего дня.</div>
+      </form>
+    </div>
+  </div>
+</section>
+<!-- /SHARED:CTA -->
+<!-- SHARED:FOOTER -->
+<footer class="footer"><div class="container">
+  <div class="footer-top">
+    <div class="footer-brand"><div class="logo"><div class="logo-box" style="background:#333;"></div><div class="logo-text" style="color:#aaa;">ПАРОВЫЕ<br>СИСТЕМЫ</div></div><p>Пароконденсатные системы для промышленности</p></div>
+    <div class="footer-col"><h4>Решения</h4><ul><li><a href="wireframe_03_rou_brou.html">РОУ и БРОУ</a></li><li><a href="wireframe_04_svk.html">СВК</a></li><li><a href="wireframe_05_ou_itp.html">ОУ/ИТП</a></li><li><a href="wireframe_06_obvyazka_kalorifer.html">Обвязка</a></li></ul></div>
+    <div class="footer-col"><h4>Оборудование</h4><ul><li><a href="wireframe_07_kategoriya_oborudovaniya.html">Конденсатоотводчики</a></li><li><a href="wireframe_32_brendy_hub.html">Бренды</a></li></ul></div>
+    <div class="footer-col"><h4>Инструменты</h4><ul><li><a href="wireframe_15_kalkulyatory.html">Калькуляторы</a></li><li><a href="wireframe_16_oprosnie_listy.html">Опросные листы</a></li><li><a href="wireframe_13_dokumentatsiya.html">Документация</a></li></ul></div>
+    <div class="footer-col"><h4>Компания</h4><ul><li><a href="wireframe_14_o_kompanii.html">О компании</a></li><li><a href="wireframe_11_kejsy.html">Кейсы</a></li><li><a href="wireframe_18_baza_znanii_hub.html">База знаний</a></li><li><a href="wireframe_12_kontakty.html">Контакты</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <span>© 2008–2026 ООО «Паровые системы» · Все права защищены</span>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="#" style="color:#999;text-decoration:none;">СОУТ</a>
+        <a href="#" style="color:#999;text-decoration:none;">Политика конфиденциальности</a>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <button onclick="var p=this.nextElementSibling;p.style.display=p.style.display==='block'?'none':'block'" style="cursor:pointer;background:transparent;border:none;padding:0;display:flex;align-items:center;gap:6px;opacity:0.5;" title="Разработчик сайта">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="11" fill="#fff" fill-opacity=".15"/><text x="11" y="16" font-size="13" font-weight="800" fill="#fff" font-family="Arial" text-anchor="middle">К</text></svg>
+      </button>
+      <div style="display:none;position:absolute;bottom:calc(100% + 10px);right:0;background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:20px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.15);z-index:200;color:#1a1a1a;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;">Паспорт проекта</div>
+          <button onclick="this.closest('div[style]').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:18px;color:#bbb;padding:0;line-height:1;">×</button>
+        </div>
+        <div style="font-size:13px;color:#444;line-height:1.8;margin-bottom:16px;">
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Клиент:</strong> ООО «Паровые системы», steamsys.ru</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Разработчик:</strong> Маркетинговое агентство КОГИТ</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Услуги:</strong> Разработка, SEO, контекстная реклама</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Год:</strong> 2026</div>
+        </div>
+        <a href="https://kogit.ru" target="_blank" rel="noopener" style="display:block;font-size:13px;font-weight:700;color:#fff;text-decoration:none;padding:10px 14px;background:#1a1a1a;border-radius:4px;text-align:center;margin-bottom:8px;">Маркетинговое агентство КОГИТ →</a>
+        <a href="https://kogit.ru/cases/steamsys/" target="_blank" rel="noopener" style="display:block;font-size:12px;color:#888;text-decoration:none;text-align:center;padding:6px 0;">Продвижение промышленных предприятий</a>
+      </div>
+    </div>
+  </div>
+</div></footer>
+<!-- /SHARED:FOOTER -->
+<!-- SHARED:PROTOTYPE_NAV -->
+<div style="position:fixed;bottom:16px;right:16px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px 16px;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:9999;max-height:80vh;overflow-y:auto;min-width:200px;">
+<div style="font-weight:700;margin-bottom:8px;color:#888;font-size:11px;letter-spacing:0.5px;">ПРОТОТИПЫ STEAMSYS.RU</div>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Основные</div>
+<a href="wireframe_01_glavnaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Главная</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Системы и решения</div>
+<a href="wireframe_02_hub_sistemy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Хаб «Системы и решения»</a>
+<a href="wireframe_03_rou_brou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— РОУ/БРОУ</a>
+<a href="wireframe_04_svk.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— СВК</a>
+<a href="wireframe_05_ou_itp.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— ОУ/ИТП</a>
+<a href="wireframe_06_obvyazka_kalorifer.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка калорифера</a>
+<a href="wireframe_34_obvyazka_teploobmennika.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка теплообменника</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Отрасли</div>
+<a href="wireframe_30_otrasli_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отрасли — хаб</a>
+<a href="wireframe_31_otrasl_pishchevaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Пищевая промышленность</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Оборудование</div>
+<a href="wireframe_07_kategoriya_oborudovaniya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Категория товаров</a>
+<a href="wireframe_08_kartochka_tovara.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Карточка товара</a>
+<a href="wireframe_32_brendy_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Бренды — хаб</a>
+<a href="wireframe_09_brend.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Бренд TLV</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">База знаний</div>
+<a href="wireframe_18_baza_znanii_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">БЗ — хаб</a>
+<a href="wireframe_10_baza_znanii_statya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Статья (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Кейсы</div>
+<a href="wireframe_11_kejsy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Кейсы — список</a>
+<a href="wireframe_19_keys_card.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Кейс (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Инструменты</div>
+<strong style="display:block;color:#1a5cff;margin-bottom:3px;font-weight:700;">Калькуляторы — хаб ←</strong>
+<a href="wireframe_20_kalkulyator_ekonomii_ko.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Калькулятор КО</a>
+<a href="wireframe_16_oprosnie_listy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Опросные листы</a>
+<a href="wireframe_17_oprosnyj_list_rou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Опросный лист РОУ</a>
+<a href="wireframe_13_dokumentatsiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Документация</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">О компании</div>
+<a href="wireframe_14_o_kompanii.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">О компании</a>
+<a href="wireframe_21_komanda.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Команда</a>
+<a href="wireframe_28_sotrudnik.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Сотрудник (карточка)</a>
+<a href="wireframe_22_otzyvy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отзывы</a>
+<a href="wireframe_23_karera.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Карьера</a>
+<a href="wireframe_29_vakansiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Вакансия (карточка)</a>
+<a href="wireframe_24_rekvizity.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Реквизиты</a>
+<a href="wireframe_25_faq.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Вопрос-ответ</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Медиа</div>
+<a href="wireframe_33_media_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Медиа — хаб</a>
+<a href="wireframe_27b_fotogalereja_albom.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Альбом (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Контакты</div>
+<a href="wireframe_12_kontakty.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Контакты</a>
+</div>
+<!-- /SHARED:PROTOTYPE_NAV -->
+<script id="shared-cta-handler">
+(function(){
+  document.querySelectorAll(".cta-submit").forEach(function(btn){
+    if (btn.dataset.ctaBound === "1") return;
+    btn.dataset.ctaBound = "1";
+    btn.addEventListener("click",function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var form=btn.closest(".cta-form") || btn.closest("form") || btn.parentElement;
+      var existing=form && form.parentNode ? form.parentNode.querySelector(".form-success") : document.querySelector(".form-success");
+      if(existing&&existing.style.display!="none")return;
+      var msg=document.createElement("div");
+      msg.className="form-success";
+      msg.innerHTML="<strong>&#10003; Заявка принята</strong><p>Свяжемся в течение 4 часов в рабочее время. Срочно — звоните: <a href=\"tel:+78126027770\">+7 (812) 602-77-70</a></p>";
+      if(form&&form.parentNode){form.parentNode.insertBefore(msg,form.nextSibling);}
+      msg.style.display="block";
+      btn.disabled=true;btn.style.opacity="0.5";
+    }, true);
+  });
+})();
+</script>
+</body>
+</html>
