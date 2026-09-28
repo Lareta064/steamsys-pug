@@ -1,0 +1,24 @@
+.ss-form-row
+	.ss-container
+		.ss-form-row__inner
+			.ss-form-row__label
+				p.ss-semi-18 Есть спецификация от инженера?
+				p.ss-reg-14.ss-txt-secondary1 Загрузите файл — пришлём КП по каждой позиции
+			.ss-form-row__fields
+				.ss-form-item
+					input.ss-input.ss-input--sm(type='text' placeholder=' ')
+					span.ss-form-label Ваше имя
+				.ss-form-item
+					input.ss-input.ss-input--sm(type='tel' placeholder=' ')
+					span.ss-form-label Телефон
+				.ss-form-item
+					input.ss-input.ss-input--sm(type='email' placeholder=' ')
+					span.ss-form-label Email
+				label.ss-file.ss-file--sm
+					input.ss-file__input(type='file' accept='.pdf,.xls,.xlsx,.doc,.docx')
+					span.ss-file__icon
+						+svgIcon('clip')
+					span.ss-file__label Прикрепить файл
+					button.ss-file__remove(type='button', aria-label='Удалить прикреплённый файл')
+						+svgIcon('delete')
+			+ssBtn('Получить КП', { variant: 'white', icon: 'arrow-right' })

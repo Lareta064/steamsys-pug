@@ -137,8 +137,15 @@
 	}
 }
 
-// ------------------------------
-// .ss-textarea — многострочное поле ввода.
+// Модификатор — компактный инпут высотой 55 (совпадает с высотой .ss-btn).
+// Использую в горизонтальных плашках-строках, где кнопка задаёт baseline
+// (напр. .ss-form-row). padding-inline оставляю 20, чтобы .ss-form-label
+// корректно позиционировался (у него left: 20).
+.ss-input--sm {
+	height: 55px;
+}
+
+
 // ------------------------------
 .ss-textarea {
 	box-sizing: border-box;
@@ -273,6 +280,51 @@
 
 .ss-file.is-attached .ss-file__remove {
 	display: inline-flex;
+}
+
+// ------------------------------
+// .ss-file--sm — компактный вариант: всё внутри одной рамки (как инпут).
+// Иконка скрепки, подпись и кнопка удаления живут внутри общего 55-tall
+// бордера, а не в двух отдельных блоках. Высота совпадает с .ss-input--sm
+// и .ss-btn — используем в горизонтальных плашках-строках (.ss-form-row).
+// ------------------------------
+.ss-file--sm {
+	box-sizing: border-box;
+	height: 55px;
+	padding: 0 12px 0 15px;
+	column-gap: 10px;
+	border: 1px solid var(--secondary);
+	border-radius: 10px;
+	transition: border-color .2s;
+
+	&:hover,
+	&:focus-within {
+		border-color: var(--accent3);
+	}
+
+	// Иконка — без своей рамки. Размер задаёт сам svg (.svg-clip 19×20).
+	.ss-file__icon {
+		width: auto;
+		height: auto;
+		border: none;
+		color: var(--secondary2);
+	}
+
+	&:hover .ss-file__icon,
+	&:focus-within .ss-file__icon {
+		color: var(--accent3);
+	}
+
+	// Подпись — 16 (базовые 18 великоваты для 55-высоты).
+	.ss-file__label {
+		font-size: 16px;
+	}
+
+	// Кнопка удаления — компактнее, чтобы уместиться в 55.
+	.ss-file__remove {
+		width: 30px;
+		height: 30px;
+	}
 }
 
 // ------------------------------

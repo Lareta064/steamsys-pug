@@ -1,0 +1,59 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-expert-card — карточка эксперта раздела: kicker + аватар +
+// имя/роль + био + ссылка на профиль. Обычно ставится в правой колонке
+// секции «О разделе» / «О компании» / «Кто ведёт направление».
+//
+// Разметка:
+//   article.ss-expert-card
+//     span.ss-kicker.ss-txt-secondary Эксперт раздела
+//     .ss-expert-card__avatar
+//       img(src='...' alt='Имя')      ← опционально, без img — серый круг
+//     .ss-expert-card__name-group
+//       h3.ss-semi-18 Имя Фамилия
+//       p.ss-reg-14.ss-txt-secondary Должность
+//     p.ss-reg-14.ss-txt-secondary Био — 2-3 строки.
+//     +ssLink('Профиль специалиста', { variant: 'dark', size: 'md', underline: true })
+//
+// Аватар — квадрат с border-radius: 50%, overflow: hidden. Без img
+// показывается серый круг-плейсхолдер (--secondary2 фон).
+// __name-group — компактная связка «имя + должность» (gap 4), чтобы
+// они читались как одна единица; между другими блоками карточки — gap 20.
+// ==============================
+
+.ss-expert-card {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 30px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	color: var(--primary);
+
+	@include down($xxxl) {
+		padding: 20px;
+	}
+}
+
+.ss-expert-card__avatar {
+	width: 80px;
+	height: 80px;
+	flex-shrink: 0;
+	border-radius: 50%;
+	background: var(--secondary2);
+	overflow: hidden;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.ss-expert-card__name-group {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}

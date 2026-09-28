@@ -1,0 +1,81 @@
+@use '_var' as *;
+
+// ==============================
+// .ss-switch — сегментный переключатель («Плитка / Список»).
+//
+// Механика — на нативных <input type="radio"> с одинаковым name.
+// JS не нужен: один input.ss-switch__input за раз получает :checked,
+// label его подсвечивает тёмным фоном. Клавиатура работает штатно
+// (стрелки перемещаются между radio в группе).
+//
+// Разметка:
+//   .ss-switch
+//     label.ss-switch__option
+//       input.ss-switch__input(type='radio' name='view' value='grid' checked)
+//       span.ss-switch__label Плитка
+//     label.ss-switch__option
+//       input.ss-switch__input(type='radio' name='view' value='list')
+//       span.ss-switch__label Список
+//
+// Опционально label может содержать иконку через +svgIcon(...) рядом со span.
+// ==============================
+
+.ss-switch {
+	display: inline-flex;
+	height: 44px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	overflow: hidden;   // клипует фон checked-опции под скругление контейнера
+}
+
+.ss-switch__option {
+	display: flex;
+	align-items: stretch;
+	cursor: pointer;
+}
+
+// Нативный input скрыт визуально (sr-only), доступен клавиатуре и ассистивным.
+.ss-switch__input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+.ss-switch__label {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 0 20px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+	white-space: nowrap;
+	transition: background-color .2s, color .2s;
+}
+
+// Checked — тёмный фон + белый текст.
+.ss-switch__input:checked + .ss-switch__label {
+	background: var(--primary);
+	color: var(--white);
+}
+
+// Hover на невыбранной опции — лёгкая подсветка серым.
+.ss-switch__option:hover .ss-switch__input:not(:checked) + .ss-switch__label {
+	background: var(--secondary3);
+}
+
+// Клавиатурный фокус — outline внутри опции (чтобы не выйти за границу контейнера).
+.ss-switch__input:focus-visible + .ss-switch__label {
+	outline: 2px solid var(--accent1);
+	outline-offset: -2px;
+}

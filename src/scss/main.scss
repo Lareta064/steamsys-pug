@@ -18,6 +18,7 @@
 @use "base/_list";
 @use "base/_icon-btn";
 @use "base/_tabs";
+@use "base/_switch";
 @use "base/_form";
 @use "base/_b24-form";
 @use "base/_search";
@@ -27,6 +28,12 @@
 @use "blocks/_social.scss";
 @use "blocks/_feature-card";
 @use "blocks/_task-card";
+@use "blocks/_category-card";
+@use "blocks/_product-card";
+@use "blocks/_info-card";
+@use "blocks/_expert-card";
+@use "blocks/_form-row";
+@use "blocks/_filters";
 @use "blocks/_solution-card";
 @use "blocks/_experience-card";
 @use "blocks/_stage-card";
@@ -73,6 +80,9 @@
 @use "sections/_profit";
 @use "sections/_stages";
 @use "sections/_tab-catalog";
+@use "sections/_catalog";
+@use "sections/_about-section";
+@use "sections/_catalog-nav";
 @use "sections/_cases";
 @use "sections/_feedback";
 @use "sections/_footer";
@@ -88,6 +98,7 @@
 // pages — стили конкретных страниц (single-article и т.п.).
 // Живут после blocks/sections, но до typography-утилит.
 @use "pages/_single-article";
+@use "pages/_catalog-page";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

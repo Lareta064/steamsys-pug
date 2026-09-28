@@ -1,0 +1,93 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-category-card — карточка категории каталога.
+//
+// Разметка: <a> — вся карточка кликабельна, одна цель.
+// Внутри — два блока:
+//   .ss-category-card__img  — коробка под фото продукта, фикс. aspect-ratio.
+//   .ss-category-card__body — flex-column, grow:1, gap:10 (под заголовком).
+//
+// Дети .ss-category-card__body:
+//   1) заголовок  .ss-semi-22 .ss-txt-primary
+//   2) описание   .ss-reg-14  .ss-txt-secondary
+//   3) .ss-category-card__more — «Перейти в раздел» + стрелка.
+//      margin-top:auto → всегда прижат к низу карточки, opacity:0 в покое,
+//      opacity:1 при hover карточки. Место резервируется всегда — высоты
+//      карточек в ряду одинаковые независимо от того, показан ли more.
+//
+// Hover карточки: border → accent1 + more проявляется.
+// ==============================
+
+.ss-category-card {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 20px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	color: var(--primary);
+	text-decoration: none;
+	transition: border-color .2s;
+
+	&:hover {
+		border-color: var(--accent1);
+	}
+
+	// Заголовок: узкий fluid-диапазон 18↔22 (между брейкпоинтами
+	// 744↔1920). Своей утилиты .ss-fs-22-18 нет — переопределяем
+	// только font-size у .ss-semi-22, weight/line-height берутся из UI-класса.
+	// Плюс мягкий перенос длинных слов: overflow-wrap рвёт слово только если
+	// оно физически не влезает; hyphens: auto ставит дефис по русскому
+	// словарю браузера (работает благодаря lang="ru" в layout).
+	.ss-semi-22 {
+		font-size: clamp(18px, 0.34vw + 15.47px, 22px);
+		overflow-wrap: break-word;
+		hyphens: auto;
+	}
+}
+
+// Коробка под фото — фикс. пропорция под макет (235×210).
+// flex-shrink:0 — не даём коробке усохнуть, когда текстовый блок
+// растягивается по высоте карточки. overflow:hidden — страховка
+// от вылета img за границы коробки (см. правила: «Изображения»).
+// max-height: 235 — soft cap на случай, если карточку разместят
+// в контейнере шире её max-width 300; выше картинка не растянется.
+.ss-category-card__img {
+	display: block;             // <picture> по дефолту inline — форсим block
+	aspect-ratio: 235 / 210;
+	max-height: 235px;
+	flex-shrink: 0;
+	overflow: hidden;
+}
+
+// Текстовая часть — растягивается на всю оставшуюся высоту, чтобы
+// __more мог прижаться к низу через margin-top:auto.
+.ss-category-card__body {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	gap: 10px;
+}
+
+// «Перейти в раздел →». В покое скрыт (opacity 0), но занимает своё
+// место в layout — карточки в ряду не «прыгают» по высоте на hover.
+.ss-category-card__more {
+	margin-top: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	color: var(--accent1);
+	opacity: 0;
+	transition: opacity .2s;
+
+	svg {
+		width: 20px;
+		height: 20px;
+	}
+
+	.ss-category-card:hover & {
+		opacity: 1;
+	}
+}

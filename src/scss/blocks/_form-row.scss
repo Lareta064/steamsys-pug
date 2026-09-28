@@ -1,0 +1,206 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-form-row — секционная плашка «Есть спецификация от инженера?»,
+// собранная из нашей формы: .ss-input + .ss-file + +ssBtn.
+// На 100% ширины экрана (dark bg тянется edge-to-edge), внутри —
+// стандартный .ss-container, внутри — .ss-form-row__inner (grid из
+// 3 колонок: label auto | fields 1fr | submit auto).
+//
+// Разметка:
+//   .ss-form-row
+//     .ss-container
+//       .ss-form-row__inner
+//         .ss-form-row__label
+//           p.ss-semi-18 Заголовок
+//           p.ss-reg-14.ss-txt-secondary1 Подпись
+//         .ss-form-row__fields
+//           .ss-form-item
+//             input.ss-input(type='text' placeholder=' ')
+//             span.ss-form-label Ваше имя
+//           ... ещё 2 .ss-form-item (телефон, email)
+//           label.ss-file
+//             input.ss-file__input(type='file')
+//             span.ss-file__icon
+//               +svgIcon('clip')
+//             span.ss-file__label Прикрепить файл
+//             button.ss-file__remove(type='button' aria-label='...')
+//               +svgIcon('delete')
+//         +ssBtn('Получить КП', { variant: 'white', icon: 'arrow-right' })
+//
+// Дефолтная тема — тёмная (var(--primary) bg). Светлая планируется
+// модификатором .ss-form-row--light (следующим шагом).
+//
+// Drag&drop нет — клик по .ss-file открывает диалог выбора файла
+// (нативно через label + hidden input). Подмена подписи на имя файла —
+// существующим src/js/file-input.js (если .ss-file.is-attached ставится,
+// показывается .ss-file__remove).
+// ==============================
+
+.ss-form-row {
+	background: var(--primary);
+	color: var(--white);
+	padding-block: 30px;
+}
+
+// ------------------------------
+// Grid:
+//   ≥1600 — 3 колонки: label auto | fields 1fr | submit auto.
+//   1200–1599 — label на всю ширину сверху, ниже — fields + submit в один ряд.
+//   <$xl (1200) — всё в столбик.
+// grid-template-areas — удобно рулить размещением элементов по брейкпоинтам,
+// не трогая порядок в разметке.
+// ------------------------------
+.ss-form-row__inner {
+	display: grid;
+	grid-template-areas: "label fields submit";
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 24px;
+
+	@media (max-width: 1599px) {
+		grid-template-areas:
+			"label  label"
+			"fields submit";
+		grid-template-columns: 1fr auto;
+		row-gap: 20px;
+	}
+
+	@include down($xl) {
+		grid-template-areas:
+			"label"
+			"fields"
+			"submit";
+		grid-template-columns: 1fr;
+		row-gap: 20px;
+	}
+}
+
+// ------------------------------
+// Левая колонка — заголовок + подпись. Типографика — UI-классы у p.
+// max-width на ≥1600 — не даём тексту расползаться в ущерб полям справа.
+// На <1600 label уезжает наверх на всю ширину — снимаем max-width.
+// ------------------------------
+.ss-form-row__label {
+	grid-area: label;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	max-width: 320px;
+
+	@media (max-width: 1599px) {
+		max-width: none;
+	}
+}
+
+// ------------------------------
+// Центр — ряд .ss-form-item (растягиваются равномерно, flex:1) +
+// .ss-file (не растягивается). .ss-file по дефолту width:100% —
+// в горизонтальном ряду это лишнее, переопределяем.
+// ------------------------------
+.ss-form-row__fields {
+	grid-area: fields;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
+	.ss-form-item {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.ss-file {
+		width: auto;
+		flex: 0 0 auto;
+	}
+
+	@include down($xl) {
+		flex-wrap: wrap;
+
+		.ss-form-item {
+			flex: 1 1 220px;
+		}
+
+		.ss-file {
+			flex: 1 1 100%;
+		}
+	}
+}
+
+// Submit-кнопка — прямой ребёнок __inner, но у неё нет своего wrapper-класса
+// (выведена через +ssBtn). Прибиваем её к grid-area 'submit' — иначе
+// раскладка положится на порядок в DOM и на 1200–1599 кнопка встанет
+// после fields как отдельная строка.
+.ss-form-row__inner > .ss-btn {
+	grid-area: submit;
+}
+
+// ==============================
+// .ss-form-row--light — светлая тема.
+// Фон — --secondary3 (F8F9F9), текст — --primary. Инпуты и .ss-file
+// красим под светлый фон: текст в поле — --primary, плавающий label
+// в float-состоянии закрывает бордер подложкой --secondary3, focus/hover
+// у инпутов и файла — --accent1 (у тёмной темы был --accent3).
+// В pug подставляем: .ss-form-row.ss-form-row--light + submit-кнопка
+// variant: 'primary' (белая на светлом слилась бы).
+// ==============================
+.ss-form-row--light {
+	background: var(--secondary3);
+	color: var(--primary);
+
+	// --- Inputs ---
+	.ss-input,
+	.ss-textarea {
+		color: var(--primary);
+
+		&:focus-visible {
+			border-color: var(--accent1);
+		}
+	}
+
+	// Float-состояние label'а — подложка под цвет секции.
+	.ss-form-item:focus-within .ss-form-label,
+	.ss-form-item:has(.ss-input:not(:placeholder-shown)) .ss-form-label,
+	.ss-form-item:has(.ss-textarea:not(:placeholder-shown)) .ss-form-label {
+		background: var(--secondary3);
+	}
+
+	// --- File (--sm вариант) ---
+	.ss-file--sm {
+		&:hover,
+		&:focus-within {
+			border-color: var(--accent1);
+		}
+
+		// Скрепка в rest-состоянии — цвет текста (не бледный
+		// --secondary2 из базового .ss-file--sm; на светлом он теряется).
+		.ss-file__icon {
+			color: var(--primary);
+		}
+
+		&:hover .ss-file__icon,
+		&:focus-within .ss-file__icon {
+			color: var(--accent1);
+		}
+
+		.ss-file__label {
+			color: var(--primary);
+		}
+
+		.ss-file__remove {
+			&:hover {
+				color: var(--accent1);
+			}
+
+			&:focus-visible {
+				outline-color: var(--accent1);
+			}
+		}
+	}
+
+	// --- Подпись под заголовком (secondary1 на тёмной был читаем, здесь
+	// он бы «выцвел» на светлом фоне) — переопределяем на --secondary.
+	.ss-form-row__label .ss-txt-secondary1 {
+		color: var(--secondary);
+	}
+}

@@ -39,6 +39,14 @@
 	color: var(--white);
 }
 
+// Заливной серый (secondary2 + primary текст). Пара к --dark для рядом
+// стоящих плашек в карточках товара («бренд dark + тип gray»). Та же
+// геометрия, что и у базового .ss-tag, отличается только заливка/текст.
+.ss-tag--gray {
+	background: var(--secondary2);
+	color: var(--primary);
+}
+
 // Плоский — без фона, цвет наследуется от контекста.
 // Оттенок задаётся утилитой (.ss-txt-accent1, .ss-txt-accent3 и т.п.).
 .ss-tag--plain {

@@ -1,0 +1,305 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-filters — сайдбар с фильтрами для каталога.
+//
+// Разметка: aside > head + groups + footer.
+//   .ss-filters__head    — заголовок «Фильтры» + кнопка «Сбросить»
+//   .ss-filters__groups  — контейнер аккордеонных групп ([data-accordion])
+//   .ss-filters__group   — одна группа (совмещается с .ss-accordion__item)
+//   .ss-filters__list    — список чекбоксов внутри раскрытой группы
+//   .ss-filters__footer  — кнопка «Применить фильтры»
+//
+// Механика раскрытия — reuse .ss-accordion:
+//   - контейнер получает [data-accordion] → src/js/accordion.js
+//     ловит клик по .ss-accordion__header и переключает aria-expanded;
+//   - анимация раскрытия — CSS через grid-template-rows: 0fr → 1fr.
+//   Ничего нового в JS.
+//
+// Дефолтный вид .ss-accordion — буллит перед заголовком + «+/−» справа.
+// В .ss-filters переопределяем: буллита нет, вместо «+/−» — chevron-down
+// с ротацией 180° (как в mobile-menu).
+// ==============================
+
+.ss-filters {
+	background: var(--white);
+	.ss-accordion__item {
+    	border-bottom: 1px solid var(--secondary1);
+	}	
+}
+
+// ------------------------------
+// Head — «Фильтры» + кнопка «Сбросить». Разделитель снизу — как у групп
+// аккордеона (border-bottom того же цвета) — head визуально работает как
+// «нулевой» item ряда.
+// ------------------------------
+.ss-filters__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid var(--secondary1);
+
+	// «Сбросить» — 44 (между .ss-btn--small 50 и .ss-btn--tiny 40).
+	// Своего размера в базовых кнопках нет; локально задаём здесь.
+	// Если понадобится в других местах — можно вынести модификатор.
+	.ss-btn {
+		height: 44px;
+	}
+}
+
+.ss-filters__title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 20px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+// ------------------------------
+// Группы — reuse .ss-accordion. Здесь только доводки под наш дизайн.
+// ------------------------------
+
+// Убираем буллит перед заголовком (у .ss-accordion__title дефолтный ::before).
+.ss-filters .ss-accordion__title {
+	padding-left: 0;
+
+	&::before {
+		content: none;
+	}
+}
+
+// Дефолтная иконка «+/−» — прячем, вместо неё .ss-filters__chevron.
+.ss-filters .ss-accordion__icon {
+	display: none;
+}
+
+// Компактнее шапка группы (у базового .ss-accordion__header — padding 20 0).
+.ss-filters .ss-accordion__header {
+	padding: 10px 0;
+}
+
+// Chevron-down справа. Ротация 180° при раскрытии. Цвет inherit — идёт
+// от .ss-accordion__header (по умолчанию primary, в открытом состоянии
+// перекрашиваем header в accent1 → chevron за ним следом).
+.ss-filters__chevron {
+	flex-shrink: 0;
+	color: inherit;
+	transition: transform .25s;
+	width: 20px;
+	height: 20px;
+}
+
+// Раскрытая группа помечена цветом accent1 — и заголовок, и chevron.
+.ss-filters .ss-accordion__header[aria-expanded="true"] {
+	color: var(--accent1);
+}
+
+.ss-filters .ss-accordion__header[aria-expanded="true"] .ss-filters__chevron {
+	transform: rotate(180deg);
+}
+
+// ------------------------------
+// Список чекбоксов внутри раскрытой группы.
+// Обнуляем стандартную обёртку .ss-accordion__body-content (padding-left 20
+// под буллит + шрифт 15) — под наш чекбокс-список это не нужно.
+// ------------------------------
+.ss-filters .ss-accordion__body-content {
+	padding: 10px 0 16px;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.ss-filters__list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+// Чекбокс/радио + подпись — по верхнему краю (длинные подписи в 2 строки
+// смотрятся ровнее, маркер не «плавает» посередине текстового блока).
+// У базовых .ss-checkbox / .ss-radio — align-items: center. Ширина 100% —
+// кликабельна вся строка фильтра, а не только рядом с текстом.
+.ss-filters__list .ss-checkbox,
+.ss-filters__list .ss-radio {
+	align-items: flex-start;
+	width: 100%;
+}
+
+// ------------------------------
+// Footer — «Применить фильтры»
+// ------------------------------
+.ss-filters__footer {
+	padding-top: 20px;
+}
+
+
+// ==============================
+// Drawer / trigger — на <$xl (1200) фильтры уезжают в выезжающую
+// панель справа поверх контента. На десктопе триггер скрыт, drawer
+// работает прозрачным контейнером — сайдбар рендерится штатно.
+//
+// Разметка (собирается в _filters.pug):
+//   button.ss-filters-trigger.js-filters-trigger(aria-controls='filters-drawer')
+//     +svgIcon('sliders')
+//     span Фильтры
+//   .ss-filters-drawer#filters-drawer
+//     .ss-filters-drawer__overlay
+//     .ss-filters-drawer__panel
+//       button.ss-filters-drawer__close.js-filters-close(aria-label='Закрыть')
+//         +svgIcon('cross')
+//       aside.ss-filters ...  ← существующий контент
+//
+// Логика открытия — src/js/filters-drawer.js:
+//   - клик по .js-filters-trigger → .is-open на drawer + .lock на body;
+//   - клик по overlay / .js-filters-close / Escape — закрывают;
+//   - matchMedia на 1200 — если ресайз через порог вверх при открытом
+//     drawer, закрываем.
+// ==============================
+
+// По умолчанию (≥$xl): триггер и chrome drawer'а скрыты — сайдбар живёт
+// обычным блоком внутри .ss-filters-drawer__panel (тот на десктопе
+// прозрачный, никаких fixed / padding).
+.ss-filters-trigger,
+.ss-filters-drawer__overlay,
+.ss-filters-drawer__close {
+	display: none;
+}
+
+@include down($xl) {
+
+	// Триггер «Фильтры» — outline-dark кнопка с иконкой sliders.
+	.ss-filters-trigger {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		height: 44px;
+		padding: 0 20px;
+		background: transparent;
+		border: 1px solid var(--primary1);
+		border-radius: 10px;
+		color: var(--primary1);
+		font-family: var(--font-family);
+		font-weight: 500;
+		font-size: 16px;
+		line-height: 1.4;
+		cursor: pointer;
+		transition: border-color .2s, color .2s;
+
+		&:hover {
+			border-color: var(--accent2);
+			color: var(--accent2);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--primary1);
+			outline-offset: 2px;
+		}
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+
+		// <$md — прячем текст, оставляем только иконку. Кнопка становится
+		// компактной 65×44 с центрированной иконкой (для узких мобильных
+		// экранов, где текст «Фильтры» съедает место у соседей в toolbar).
+		@include down($md) {
+			width: 65px;
+			padding: 0;
+			justify-content: center;
+
+			span {
+				display: none;
+			}
+		}
+	}
+
+	// Обёртка drawer: fixed на весь экран, поверх контента (z-index 90 —
+	// ниже sticky-шапки, у которой 100).
+	.ss-filters-drawer {
+		position: fixed;
+		inset: 0;
+		top:52px;
+		z-index: 90;
+		visibility: hidden;
+		pointer-events: none;
+		transition: visibility 0s .3s;
+
+		&.is-open {
+			visibility: visible;
+			pointer-events: auto;
+			transition: visibility 0s 0s;
+		}
+	}
+
+	// Полупрозрачный overlay — по клику закрывает drawer.
+	.ss-filters-drawer__overlay {
+		display: block;
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, .5);
+		opacity: 0;
+		transition: opacity .3s;
+
+		.ss-filters-drawer.is-open & {
+			opacity: 1;
+		}
+	}
+
+	// Панель — выезжает справа, максимум 380.
+	.ss-filters-drawer__panel {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		max-width: 380px;
+		padding: 20px;
+		background: var(--white);
+		overflow-y: auto;
+		transform: translateX(100%);
+		transition: transform .3s;
+
+		.ss-filters-drawer.is-open & {
+			transform: translateX(0);
+		}
+	}
+
+	// Кнопка «Закрыть» — крестик в правом верхнем углу панели.
+	.ss-filters-drawer__close {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		margin-left: auto;
+		margin-bottom: 10px;
+		padding: 0;
+		background: none;
+		border: none;
+		color: var(--primary);
+		cursor: pointer;
+		transition: color .2s;
+
+		&:hover {
+			color: var(--accent1);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--accent1);
+			outline-offset: 2px;
+			border-radius: 4px;
+		}
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+}

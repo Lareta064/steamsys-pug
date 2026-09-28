@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[WF] Карточка кейса — steamsys.ru</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Arial', sans-serif; background: #f0f0f0; color: #1a1a1a; font-size: 14px; line-height: 1.5; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { background: #fff; margin-bottom: 2px; }
+    .section-inner { padding: 48px 0; }
+    .header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-box { width: 40px; height: 40px; background: #1a1a1a; border-radius: 4px; }
+    .logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.2; }
+    .nav { display: flex; gap: 24px; }
+    .nav a { font-size: 13px; color: #444; text-decoration: none; }
+    .nav .has-sub::after { content: ' ▾'; font-size: 10px; }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .header-phone { font-size: 13px; font-weight: 600; color: #1a1a1a; text-decoration: none; }
+    .header-phone-block { text-align: right; }
+    .header-hours { font-size: 11px; color: #888; }
+    .btn-primary { background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: none; cursor: pointer; }
+    .btn-outline { background: transparent; color: #1a1a1a; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: 2px solid #1a1a1a; cursor: pointer; }
+    .btn-ghost { background: transparent; color: #444; padding: 8px 16px; border-radius: 4px; font-size: 13px; text-decoration: none; display: inline-block; border: 1px solid #ccc; cursor: pointer; }
+    .breadcrumbs { background: #f7f7f7; border-bottom: 1px solid #e8e8e8; padding: 10px 0; }
+    .breadcrumbs-inner { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
+    .breadcrumbs-inner a { color: #555; text-decoration: none; }
+    .breadcrumbs-inner span { color: #ccc; }
+    .sec-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+    .sec-title { font-size: 28px; font-weight: 700; color: #111; margin-bottom: 8px; }
+    .sec-sub { font-size: 15px; color: #666; line-height: 1.6; max-width: 640px; margin-bottom: 32px; }
+    .badge { background: #f0f0f0; border: 1px solid #e0e0e0; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #555; }
+    .params-table { width: 100%; border-collapse: collapse; }
+    .params-table th { background: #f2f2f2; text-align: left; padding: 12px 16px; font-size: 13px; font-weight: 600; color: #444; border-bottom: 2px solid #e0e0e0; }
+    .params-table td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid #f0f0f0; color: #333; }
+    .params-table td:first-child { font-weight: 500; color: #1a1a1a; }
+    .cta-section { background: #1a1a1a; color: #fff; }
+    .cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 56px 0; }
+    .cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+    .cta-left p { font-size: 14px; color: #aaa; line-height: 1.6; }
+    .cta-form { display: flex; flex-direction: column; gap: 12px; }
+    .cta-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 14px 16px; font-size: 14px; color: #fff; width: 100%; font-family: Arial, sans-serif; }
+    .cta-input::placeholder { color: #aaa; }
+    .cta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cta-submit { background: #fff; color: #1a1a1a; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; }
+    .cta-note { font-size: 11px; color: #666; margin-top: 4px; }
+    .footer { background: #111; color: #aaa; }
+    .footer-top { display: grid; grid-template-columns: 240px repeat(4, 1fr); gap: 32px; padding: 48px 0 32px; border-bottom: 1px solid #222; }
+    .footer-brand p { font-size: 12px; color: #aaa; margin-top: 12px; line-height: 1.6; }
+    .footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
+    .footer-col ul li a { font-size: 13px; color: #aaa; text-decoration: none; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; font-size: 12px; color: #999; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .mt-32 { margin-top: 32px; }
+    .row-link { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; text-decoration: none; color: #1a1a1a; }
+    .row-link::after { content: '→'; }
+    .case-card { border: 1px solid #e8e8e8; border-radius: 4px; overflow: hidden; }
+    .case-img { background: #e8e8e8; height: 160px; display: flex; align-items: center; justify-content: center; }
+    .case-img-label { font-size: 11px; color: #aaa; }
+    .case-body { padding: 20px; }
+    .case-tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 8px; }
+    .case-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+    .case-desc { font-size: 13px; color: #666; margin-bottom: 16px; line-height: 1.5; }
+    .case-metrics { display: flex; gap: 20px; padding: 12px 0; border-top: 1px solid #f0f0f0; }
+    .case-metric strong { display: block; font-size: 20px; font-weight: 700; }
+    .case-metric span { font-size: 11px; color: #888; }
+
+    /* Full case */
+    .fullcase-layout { display: grid; grid-template-columns: 1fr 360px; gap: 40px; align-items: start; }
+    .problem-block { background: #f7f7f7; border-left: 4px solid #1a1a1a; padding: 16px 20px; margin-bottom: 16px; font-size: 15px; line-height: 1.7; color: #333; }
+    .fullcase-label { font-size: 12px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; margin-top: 20px; }
+    .fullcase-value { font-size: 14px; color: #333; margin-bottom: 4px; }
+    .result-metrics { display: flex; gap: 24px; margin: 20px 0; }
+    .result-metric strong { display: block; font-size: 32px; font-weight: 700; color: #1a1a1a; line-height: 1; }
+    .result-metric span { font-size: 12px; color: #888; margin-top: 4px; display: block; }
+    blockquote { background: #f7f7f7; border-left: 4px solid #d0d0d0; padding: 16px 20px; margin: 20px 0; font-size: 14px; line-height: 1.7; color: #555; font-style: italic; border-radius: 0 4px 4px 0; }
+    blockquote cite { display: block; font-size: 12px; color: #888; font-style: normal; margin-top: 8px; }
+    .scheme-img { background: #e8e8e8; height: 280px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 12px; color: #aaa; }
+
+    /* Case card page specific */
+    .case-hero-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .case-hero-tag { background: #f0f0f0; border: 1px solid #e0e0e0; padding: 4px 12px; border-radius: 20px; font-size: 12px; color: #555; }
+    .case-sidebar { position: sticky; top: 80px; align-self: start; }
+    .sidebar-block { border: 1px solid #e8e8e8; border-radius: 4px; padding: 20px; margin-bottom: 16px; }
+    .sidebar-block h3 { font-size: 14px; font-weight: 700; margin-bottom: 12px; color: #111; }
+    .detail-row { display: flex; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+    .detail-label { color: #888; min-width: 120px; }
+    .detail-value { color: #333; font-weight: 500; }
+
+/* SHARED:CSS */
+.header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 14px; }
+.logo { display: flex; align-items: center; gap: 9px; color: inherit; text-decoration: none; flex-shrink: 0; }
+.logo-box { width: 38px; height: 38px; background: #1a1a1a; border-radius: 4px; flex-shrink: 0; }
+.logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.15; }
+.nav { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.nav a { font-size: 12px; color: #444; text-decoration: none; white-space: nowrap; }
+.nav a.active { color: #1a1a1a; font-weight: 700; }
+.nav .has-sub::after { content: ' ▾'; font-size: 9px; }
+.header-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.header-phone-block { text-align: right; border-left: 1px solid #e5e5e5; padding-left: 12px; }
+.header-phone { font-size: 13px; font-weight: 600; color: #1a1a1a; text-decoration: none; white-space: nowrap; }
+.header-hours { font-size: 11px; color: #888; }
+.header .btn-primary { padding: 10px 16px; font-size: 13px; }
+.cta-section { background: #1a1a1a; color: #fff; }
+.cta-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; padding: 56px 0; }
+.cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; color: #fff; }
+.cta-left p { font-size: 14px; color: #aaa; line-height: 1.6; margin: 0; }
+.cta-form { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.cta-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.cta-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 14px 16px; font-size: 14px; color: #fff; font-family: Arial, sans-serif; width: 100%; min-width: 0; }
+.cta-input::placeholder { color: #aaa; }
+.cta-file-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; }
+.cta-file-label-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #aaa; margin-bottom: 10px; }
+.cta-file-icon { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; flex-shrink: 0; }
+.cta-file-box textarea { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); resize: none; }
+.cta-submit { background: #fff; color: #1a1a1a; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; }
+.cta-note { font-size: 11px; color: #777; margin-top: 4px; }
+.form-success { display: block; padding: 20px 24px; background: #f0f9f0; border: 1px solid #4CAF50; border-radius: 8px; margin-top: 16px; }
+.form-success strong { display: block; font-size: 15px; font-weight: 700; color: #1a7a1a; margin-bottom: 6px; }
+.form-success p { font-size: 13px; color: #333; line-height: 1.6; margin: 0; }
+.form-success a { color: #1a7a1a; font-weight: 600; }
+.footer { background: #111; color: #aaa; }
+.footer-top { display: grid; grid-template-columns: 240px repeat(4, minmax(0, 1fr)); gap: 32px; padding: 48px 0 32px; border-bottom: 1px solid #222; }
+.footer-brand p { font-size: 12px; color: #aaa; margin-top: 12px; line-height: 1.6; }
+.footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a { font-size: 13px; color: #aaa; text-decoration: none; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 20px 0; font-size: 12px; color: #999; }
+@media (max-width: 1180px) { .nav { display: none; } .cta-inner { grid-template-columns: 1fr; } .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .header-right { display: none; } .cta-row { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr; } .footer-bottom { align-items: flex-start; flex-direction: column; } }
+/* /SHARED:CSS */
+</style>
+</head>
+<body>
+<!-- SHARED:HEADER -->
+<header class="header"><div class="container"><div class="header-inner">
+  <a href="wireframe_01_glavnaya.html" class="logo"><div class="logo-box"></div><div class="logo-text">ПАРОВЫЕ<br>СИСТЕМЫ</div></a>
+  <nav class="nav">
+    <a href="wireframe_02_hub_sistemy.html" class="has-sub">Решения</a>
+    <a href="wireframe_30_otrasli_hub.html" class="has-sub">Отрасли</a>
+    <a href="wireframe_07_kategoriya_oborudovaniya.html" class="has-sub">Оборудование</a>
+    <a href="wireframe_11_kejsy.html" class="active">Кейсы</a>
+    <a href="wireframe_18_baza_znanii_hub.html">База знаний</a>
+    <a href="wireframe_15_kalkulyatory.html" class="has-sub">Инструменты</a>
+    <a href="wireframe_14_o_kompanii.html" class="has-sub">О компании</a>
+    <a href="wireframe_12_kontakty.html">Контакты</a>
+  </nav>
+  <div class="header-right"><div class="header-phone-block">
+    <a href="tel:+78126027770" class="header-phone">+7 (812) 602-77-70</a>
+    <div class="header-hours">Пн-Пт, 9:00-18:00</div>
+  </div><a href="#cta" class="btn-primary">Рассчитать проект</a></div>
+</div></div></header>
+<!-- /SHARED:HEADER -->
+
+<!-- BREADCRUMBS -->
+<div class="breadcrumbs"><div class="container"><div class="breadcrumbs-inner">
+  <a href="wireframe_01_glavnaya.html">Главная</a><span>/</span><a href="wireframe_11_kejsy.html">Кейсы</a><span>/</span>Диагностика и замена КО на молочном комбинате
+</div></div></div>
+
+<!-- HERO -->
+<div class="section"><div class="container"><div class="section-inner">
+  <div class="case-hero-tags">
+    <span class="case-hero-tag">Молочная промышленность</span>
+    <span class="case-hero-tag">Диагностика</span>
+    <span class="case-hero-tag">Конденсатоотводчики TLV</span>
+  </div>
+  <h1 style="font-size:36px;font-weight:700;color:#111;line-height:1.2;margin-bottom:20px;max-width:820px;">Диагностика и замена конденсатоотводчиков на молочном комбинате — снижение потерь пара на 15%</h1>
+  <div style="display:flex;gap:32px;flex-wrap:wrap;margin-bottom:16px;">
+    <div style="display:flex;flex-direction:column;">
+      <span style="font-size:32px;font-weight:700;color:#1a1a1a;line-height:1;">−15%</span>
+      <span style="font-size:12px;color:#888;margin-top:4px;">расход пара</span>
+    </div>
+    <div style="display:flex;flex-direction:column;">
+      <span style="font-size:32px;font-weight:700;color:#1a1a1a;line-height:1;">12 КО</span>
+      <span style="font-size:12px;color:#888;margin-top:4px;">выявлено нерабочих</span>
+    </div>
+    <div style="display:flex;flex-direction:column;">
+      <span style="font-size:32px;font-weight:700;color:#1a1a1a;line-height:1;">6 мес.</span>
+      <span style="font-size:12px;color:#888;margin-top:4px;">окупаемость</span>
+    </div>
+  </div>
+  <div style="display:flex;gap:16px;font-size:13px;color:#888;flex-wrap:wrap;">
+    <span>Отрасль: <strong style="color:#333;">Молочная промышленность</strong></span>
+    <span>Регион: <strong style="color:#333;">Краснодарский край</strong></span>
+    <span>Год: <strong style="color:#333;">2023</strong></span>
+  </div>
+</div></div></div>
+
+<!-- CASE CONTENT -->
+<div class="section"><div class="container"><div class="section-inner">
+  <div class="fullcase-layout">
+
+    <!-- LEFT: MAIN CONTENT -->
+    <div>
+
+      <!-- Ситуация -->
+      <h2 style="font-size:20px;font-weight:700;margin-bottom:12px;">Ситуация</h2>
+      <div class="problem-block">
+        На молочном комбинате «Вкусный» (Краснодарский край) эксплуатировалась пароконденсатная система с 48 конденсатоотводчиками различных типов. По данным энергетика предприятия, потери конденсата составляли около 35% от общего расхода пара. Часть оборудования не обслуживалась более 5 лет. Ни разу не проводилась инструментальная диагностика состояния КО. Руководство предприятия хотело понять реальный масштаб потерь и обосновать бюджет на замену.
+      </div>
+
+      <!-- Объект -->
+      <div class="fullcase-label">Объект</div>
+      <div class="fullcase-value">Молочный комбинат «Вкусный», Краснодарский край</div>
+      <div class="fullcase-label">Отрасль</div>
+      <div class="fullcase-value">Пищевая промышленность / молочное производство</div>
+
+      <!-- Входные параметры -->
+      <h2 style="font-size:20px;font-weight:700;margin-top:28px;margin-bottom:12px;">Входные параметры</h2>
+      <table class="params-table">
+        <thead>
+          <tr>
+            <th>Параметр</th>
+            <th>Значение</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Рабочее давление пара</td><td>6 бар</td></tr>
+          <tr><td>Количество конденсатоотводчиков</td><td>48 шт.</td></tr>
+          <tr><td>Оценочные потери конденсата</td><td>35% от расхода</td></tr>
+          <tr><td>Типы КО</td><td>Смешанные: поплавковые и термодинамические</td></tr>
+          <tr><td>Время эксплуатации без обслуживания</td><td>Более 5 лет</td></tr>
+          <tr><td>Расход пара предприятия</td><td>~4,5 т/час</td></tr>
+        </tbody>
+      </table>
+
+      <!-- Предложенное решение -->
+      <h2 style="font-size:20px;font-weight:700;margin-top:28px;margin-bottom:12px;">Предложенное решение</h2>
+      <p style="font-size:14px;color:#333;line-height:1.7;margin-bottom:12px;">
+        Мы предложили провести инструментальную диагностику всех 48 конденсатоотводчиков с помощью ультразвукового оборудования и термографии. По итогам диагностики — составить карту состояния КО с рекомендациями по очерёдности замены.
+      </p>
+      <p style="font-size:14px;color:#333;line-height:1.7;margin-bottom:12px;">
+        Диагностика выявила 12 конденсатоотводчиков в режиме «открыт» (непрерывный пропуск пара) и 8 — в режиме «закрыт» (накопление конденсата, гидроудары). Итого 20 из 48 КО работали некорректно.
+      </p>
+      <p style="font-size:14px;color:#333;line-height:1.7;">
+        Приоритетом первой очереди стала замена 12 «открытых» КО — именно они давали основной объём прямых потерь пара. Для замены подобраны поплавковые конденсатоотводчики TLV серии J3S с учётом рабочего давления и расхода конденсата на каждой точке, а также арматура и смотровые стёкла для контроля работы системы.
+      </p>
+
+      <!-- Состав оборудования -->
+      <h2 style="font-size:20px;font-weight:700;margin-top:28px;margin-bottom:12px;">Состав оборудования</h2>
+      <ul style="list-style:none;padding:0;">
+        <li style="display:flex;align-items:baseline;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:14px;color:#333;">
+          <span style="min-width:6px;height:6px;background:#1a1a1a;border-radius:50%;display:inline-block;margin-top:5px;flex-shrink:0;"></span>
+          <span>Конденсатоотводчик поплавковый <strong>TLV J3S</strong> — 12 шт.</span>
+        </li>
+        <li style="display:flex;align-items:baseline;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:14px;color:#333;">
+          <span style="min-width:6px;height:6px;background:#1a1a1a;border-radius:50%;display:inline-block;margin-top:5px;flex-shrink:0;"></span>
+          <span>Фильтр-сепаратор <strong>TLV A3</strong> — 4 шт.</span>
+        </li>
+        <li style="display:flex;align-items:baseline;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:14px;color:#333;">
+          <span style="min-width:6px;height:6px;background:#1a1a1a;border-radius:50%;display:inline-block;margin-top:5px;flex-shrink:0;"></span>
+          <span>Смотровые стёкла <strong>TLV SG10</strong> — 16 шт.</span>
+        </li>
+        <li style="display:flex;align-items:baseline;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0f0;font-size:14px;color:#333;">
+          <span style="min-width:6px;height:6px;background:#1a1a1a;border-radius:50%;display:inline-block;margin-top:5px;flex-shrink:0;"></span>
+          <span>Сетчатые фильтры Y-типа — 12 шт.</span>
+        </li>
+      </ul>
+
+      <!-- Результат -->
+      <h2 style="font-size:20px;font-weight:700;margin-top:28px;margin-bottom:16px;">Результат</h2>
+      <div class="result-metrics">
+        <div class="result-metric">
+          <strong>−15%</strong>
+          <span>снижение расхода пара</span>
+        </div>
+        <div class="result-metric">
+          <strong>12</strong>
+          <span>КО заменено в первой очереди</span>
+        </div>
+        <div class="result-metric">
+          <strong>6 мес.</strong>
+          <span>окупаемость замены</span>
+        </div>
+      </div>
+      <p style="font-size:14px;color:#333;line-height:1.7;margin-bottom:12px;">
+        После замены 12 конденсатоотводчиков первой очереди расход пара снизился на 15% — что полностью совпало с прогнозом, сделанным по итогам диагностики. Предприятие получило экономию порядка 1,8 млн руб. в год при стоимости замены около 900 тыс. руб.
+      </p>
+      <p style="font-size:14px;color:#333;line-height:1.7;">
+        Замена второй очереди (8 «закрытых» КО) запланирована на следующий плановый останов. По расчётам, суммарный эффект после завершения полной замены составит до 22% экономии пара.
+      </p>
+
+      <!-- Quote -->
+      <blockquote>
+        «Мы ожидали найти проблемы, но не ожидали, что 12 конденсатоотводчиков работают в открытом режиме. После замены котельная сразу показала снижение нагрузки — это было видно по приборам учёта. Расчёт окупаемости, который предоставили специалисты, оказался точным.»
+        <cite>— Главный энергетик, молочный комбинат «Вкусный»</cite>
+      </blockquote>
+
+      <!-- Что можно повторить -->
+      <div style="background:#f7f7f7;border-radius:6px;padding:24px;margin-top:28px;margin-bottom:0;">
+        <h2 style="font-size:18px;font-weight:700;margin-bottom:10px;">Что можно повторить на вашем объекте</h2>
+        <p style="font-size:13px;color:#555;line-height:1.6;margin-bottom:16px;">Аналогичный подход применим для паровых систем с конденсатоотводчиками: диагностика — расчёт эффекта — замена в плановый останов. Инженер оценит систему по параметрам и предложит оптимальный объём работ.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="#cta" class="btn-primary" style="font-size:13px;padding:10px 18px;">Запросить похожее решение</a>
+          <a href="wireframe_16_oprosnie_listy.html" class="btn-outline" style="font-size:13px;padding:10px 18px;">Отправить параметры системы</a>
+          <a href="wireframe_13_dokumentatsiya.html" style="font-size:13px;color:#1a1a1a;text-decoration:none;font-weight:600;padding:10px 0;display:inline-flex;align-items:center;">Схемы и документы →</a>
+        </div>
+      </div>
+
+      <!-- Похожие кейсы -->
+      <h2 style="font-size:20px;font-weight:700;margin-top:36px;margin-bottom:16px;">Похожие кейсы</h2>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+
+        <div class="case-card">
+          <div class="case-img"><span class="case-img-label">Фото объекта</span></div>
+          <div class="case-body">
+            <div class="case-tag">Деревообработка · Вологда</div>
+            <div class="case-title">Обвязка 24 паровых калориферов в сушильных камерах</div>
+            <div class="case-desc">Диагностика и замена КО в сушильных камерах. Устранение гидроударов и потерь тепла.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><strong>0</strong><span>замерзаний за 3 зимы</span></div>
+              <div class="case-metric"><strong>−15%</strong><span>брак</span></div>
+            </div>
+            <a href="wireframe_19_keys_card.html" class="row-link mt-16">Читать кейс</a>
+          </div>
+        </div>
+
+        <div class="case-card">
+          <div class="case-img"><span class="case-img-label">Фото объекта</span></div>
+          <div class="case-body">
+            <div class="case-tag">Химическое производство · Тула</div>
+            <div class="case-title">СВК для возврата конденсата от теплообменников производства лаков</div>
+            <div class="case-desc">Организация замкнутого контура возврата конденсата. Снижение затрат на водоподготовку.</div>
+            <div class="case-metrics">
+              <div class="case-metric"><strong>95%</strong><span>возврат конденсата</span></div>
+              <div class="case-metric"><strong>11 мес.</strong><span>окупаемость</span></div>
+            </div>
+            <a href="wireframe_19_keys_card.html" class="row-link mt-16">Читать кейс</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /LEFT -->
+
+    <!-- RIGHT: SIDEBAR -->
+    <div class="case-sidebar">
+
+      <div class="sidebar-block">
+        <a href="#cta" class="btn-primary" style="width:100%;text-align:center;display:block;padding:14px;">Запросить похожее решение</a>
+        <div style="font-size:11px;color:#888;margin-top:8px;text-align:center;">Ответим в течение 4 часов в рабочее время</div>
+      </div>
+
+      <div class="sidebar-block">
+        <h3>Детали проекта</h3>
+        <div class="detail-row">
+          <span class="detail-label">Клиент</span>
+          <span class="detail-value">МК «Вкусный»</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Отрасль</span>
+          <span class="detail-value">Молочная промышленность</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Регион</span>
+          <span class="detail-value">Краснодарский край</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Тип решения</span>
+          <span class="detail-value">Диагностика и замена КО</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Оборудование</span>
+          <span class="detail-value">TLV J3S, A3, SG10</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Год</span>
+          <span class="detail-value">2023</span>
+        </div>
+      </div>
+
+      <div class="sidebar-block">
+        <h3>Связанные решения</h3>
+        <a href="wireframe_04_svk.html" style="display:block;font-size:13px;color:#1a1a1a;text-decoration:none;padding:8px 0;border-bottom:1px solid #f0f0f0;">→ Станция возврата конденсата (СВК)</a>
+        <a href="wireframe_07_kategoriya_oborudovaniya.html" style="display:block;font-size:13px;color:#1a1a1a;text-decoration:none;padding:8px 0;">→ Конденсатоотводчики TLV</a>
+      </div>
+
+      <div class="sidebar-block" style="background:#f7f7f7;">
+        <h3>Хотите узнать состояние своей системы?</h3>
+        <p style="font-size:13px;color:#555;line-height:1.6;margin-bottom:12px;">Диагностика конденсатоотводчиков выявляет реальные потери и позволяет обосновать бюджет на замену цифрами.</p>
+        <a href="wireframe_20_kalkulyator_ekonomii_ko.html" style="font-size:13px;color:#1a1a1a;font-weight:600;text-decoration:none;">Рассчитать потери онлайн →</a>
+      </div>
+
+    </div><!-- /SIDEBAR -->
+
+  </div>
+</div></div></div>
+
+<!-- SHARED:CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-left">
+        <h2>Подберите готовую систему под параметры объекта</h2>
+        <p>Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня</p>
+      </div>
+      <form class="cta-form">
+        <div class="cta-row">
+          <input class="cta-input" type="text" placeholder="Ваше имя" aria-label="Ваше имя">
+          <input class="cta-input" type="tel" placeholder="Телефон" aria-label="Телефон">
+        </div>
+        <input type="email" class="cta-input" placeholder="Email для отправки КП" aria-label="Email">
+        <div class="cta-file-box">
+          <label class="cta-file-label-wrap">
+            <span class="cta-file-icon">📎</span>
+            <span class="cta-file-label">Прикрепить ТЗ, спецификацию или опросный лист</span>
+            <input type="file" style="display:none;" accept=".pdf,.xls,.xlsx,.doc,.docx" onchange="this.closest('label').querySelector('.cta-file-label').textContent=this.files[0]?this.files[0].name:'Прикрепить ТЗ, спецификацию или опросный лист'">
+          </label>
+          <textarea class="cta-input" rows="2" placeholder="Комментарий к файлу или краткое описание задачи" aria-label="Комментарий"></textarea>
+        </div>
+        <button class="cta-submit" type="button" data-goal="forma_parametry_rou">Получить расчёт</button>
+        <div class="cta-note">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности. Ответим в течение 1 рабочего дня.</div>
+      </form>
+    </div>
+  </div>
+</section>
+<!-- /SHARED:CTA -->
+<!-- SHARED:FOOTER -->
+<footer class="footer"><div class="container">
+  <div class="footer-top">
+    <div class="footer-brand"><div class="logo"><div class="logo-box" style="background:#333;"></div><div class="logo-text" style="color:#aaa;">ПАРОВЫЕ<br>СИСТЕМЫ</div></div><p>Пароконденсатные системы для промышленности</p></div>
+    <div class="footer-col"><h4>Решения</h4><ul><li><a href="wireframe_03_rou_brou.html">РОУ и БРОУ</a></li><li><a href="wireframe_04_svk.html">СВК</a></li><li><a href="wireframe_05_ou_itp.html">ОУ/ИТП</a></li><li><a href="wireframe_06_obvyazka_kalorifer.html">Обвязка</a></li></ul></div>
+    <div class="footer-col"><h4>Оборудование</h4><ul><li><a href="wireframe_07_kategoriya_oborudovaniya.html">Конденсатоотводчики</a></li><li><a href="wireframe_32_brendy_hub.html">Бренды</a></li></ul></div>
+    <div class="footer-col"><h4>Инструменты</h4><ul><li><a href="wireframe_15_kalkulyatory.html">Калькуляторы</a></li><li><a href="wireframe_16_oprosnie_listy.html">Опросные листы</a></li><li><a href="wireframe_13_dokumentatsiya.html">Документация</a></li></ul></div>
+    <div class="footer-col"><h4>Компания</h4><ul><li><a href="wireframe_14_o_kompanii.html">О компании</a></li><li><a href="wireframe_11_kejsy.html">Кейсы</a></li><li><a href="wireframe_18_baza_znanii_hub.html">База знаний</a></li><li><a href="wireframe_12_kontakty.html">Контакты</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <span>© 2008–2026 ООО «Паровые системы» · Все права защищены</span>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="#" style="color:#999;text-decoration:none;">СОУТ</a>
+        <a href="#" style="color:#999;text-decoration:none;">Политика конфиденциальности</a>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <button onclick="var p=this.nextElementSibling;p.style.display=p.style.display==='block'?'none':'block'" style="cursor:pointer;background:transparent;border:none;padding:0;display:flex;align-items:center;gap:6px;opacity:0.5;" title="Разработчик сайта">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="11" fill="#fff" fill-opacity=".15"/><text x="11" y="16" font-size="13" font-weight="800" fill="#fff" font-family="Arial" text-anchor="middle">К</text></svg>
+      </button>
+      <div style="display:none;position:absolute;bottom:calc(100% + 10px);right:0;background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:20px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.15);z-index:200;color:#1a1a1a;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;">Паспорт проекта</div>
+          <button onclick="this.closest('div[style]').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:18px;color:#bbb;padding:0;line-height:1;">×</button>
+        </div>
+        <div style="font-size:13px;color:#444;line-height:1.8;margin-bottom:16px;">
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Клиент:</strong> ООО «Паровые системы», steamsys.ru</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Разработчик:</strong> Маркетинговое агентство КОГИТ</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Услуги:</strong> Разработка, SEO, контекстная реклама</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Год:</strong> 2026</div>
+        </div>
+        <a href="https://kogit.ru" target="_blank" rel="noopener" style="display:block;font-size:13px;font-weight:700;color:#fff;text-decoration:none;padding:10px 14px;background:#1a1a1a;border-radius:4px;text-align:center;margin-bottom:8px;">Маркетинговое агентство КОГИТ →</a>
+        <a href="https://kogit.ru/cases/steamsys/" target="_blank" rel="noopener" style="display:block;font-size:12px;color:#888;text-decoration:none;text-align:center;padding:6px 0;">Продвижение промышленных предприятий</a>
+      </div>
+    </div>
+  </div>
+</div></footer>
+<!-- /SHARED:FOOTER -->
+
+<!-- NAV PANEL -->
+<!-- SHARED:PROTOTYPE_NAV -->
+<div style="position:fixed;bottom:16px;right:16px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px 16px;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:9999;max-height:80vh;overflow-y:auto;min-width:200px;">
+<div style="font-weight:700;margin-bottom:8px;color:#888;font-size:11px;letter-spacing:0.5px;">ПРОТОТИПЫ STEAMSYS.RU</div>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Основные</div>
+<a href="wireframe_01_glavnaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Главная</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Системы и решения</div>
+<a href="wireframe_02_hub_sistemy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Хаб «Системы и решения»</a>
+<a href="wireframe_03_rou_brou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— РОУ/БРОУ</a>
+<a href="wireframe_04_svk.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— СВК</a>
+<a href="wireframe_05_ou_itp.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— ОУ/ИТП</a>
+<a href="wireframe_06_obvyazka_kalorifer.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка калорифера</a>
+<a href="wireframe_34_obvyazka_teploobmennika.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка теплообменника</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Отрасли</div>
+<a href="wireframe_30_otrasli_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отрасли — хаб</a>
+<a href="wireframe_31_otrasl_pishchevaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Пищевая промышленность</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Оборудование</div>
+<a href="wireframe_07_kategoriya_oborudovaniya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Категория товаров</a>
+<a href="wireframe_08_kartochka_tovara.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Карточка товара</a>
+<a href="wireframe_32_brendy_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Бренды — хаб</a>
+<a href="wireframe_09_brend.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Бренд TLV</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">База знаний</div>
+<a href="wireframe_18_baza_znanii_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">БЗ — хаб</a>
+<a href="wireframe_10_baza_znanii_statya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Статья (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Кейсы</div>
+<a href="wireframe_11_kejsy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Кейсы — список</a>
+<strong style="display:block;color:#1a5cff;margin-bottom:3px;font-weight:700;padding-left:10px;">— Кейс (карточка) ←</strong>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Инструменты</div>
+<a href="wireframe_15_kalkulyatory.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Калькуляторы — хаб</a>
+<a href="wireframe_20_kalkulyator_ekonomii_ko.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Калькулятор КО</a>
+<a href="wireframe_16_oprosnie_listy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Опросные листы</a>
+<a href="wireframe_17_oprosnyj_list_rou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Опросный лист РОУ</a>
+<a href="wireframe_13_dokumentatsiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Документация</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">О компании</div>
+<a href="wireframe_14_o_kompanii.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">О компании</a>
+<a href="wireframe_21_komanda.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Команда</a>
+<a href="wireframe_28_sotrudnik.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Сотрудник (карточка)</a>
+<a href="wireframe_22_otzyvy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отзывы</a>
+<a href="wireframe_23_karera.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Карьера</a>
+<a href="wireframe_29_vakansiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Вакансия (карточка)</a>
+<a href="wireframe_24_rekvizity.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Реквизиты</a>
+<a href="wireframe_25_faq.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Вопрос-ответ</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Медиа</div>
+<a href="wireframe_33_media_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Медиа — хаб</a>
+<a href="wireframe_27b_fotogalereja_albom.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Альбом (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Контакты</div>
+<a href="wireframe_12_kontakty.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Контакты</a>
+</div>
+<!-- /SHARED:PROTOTYPE_NAV -->
+<script id="shared-cta-handler">
+(function(){
+  document.querySelectorAll(".cta-submit").forEach(function(btn){
+    if (btn.dataset.ctaBound === "1") return;
+    btn.dataset.ctaBound = "1";
+    btn.addEventListener("click",function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var form=btn.closest(".cta-form") || btn.closest("form") || btn.parentElement;
+      var existing=form && form.parentNode ? form.parentNode.querySelector(".form-success") : document.querySelector(".form-success");
+      if(existing&&existing.style.display!="none")return;
+      var msg=document.createElement("div");
+      msg.className="form-success";
+      msg.innerHTML="<strong>&#10003; Заявка принята</strong><p>Свяжемся в течение 4 часов в рабочее время. Срочно — звоните: <a href=\"tel:+78126027770\">+7 (812) 602-77-70</a></p>";
+      if(form&&form.parentNode){form.parentNode.insertBefore(msg,form.nextSibling);}
+      msg.style.display="block";
+      btn.disabled=true;btn.style.opacity="0.5";
+    }, true);
+  });
+})();
+</script>
+</body>
+</html>

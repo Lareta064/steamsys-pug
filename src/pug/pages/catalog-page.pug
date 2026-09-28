@@ -1,0 +1,19 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Каталог оборудования — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner
+		include ../sections/_hero-catalog.pug
+		include ../sections/_catalog-nav.pug
+		include ../sections/_form-row.pug
+		include ../sections/_catalog.pug
+		include ../sections/_usage.pug
+		include ../sections/_documents.pug
+		include ../sections/_faq.pug
+		include ../sections/_about-section.pug
+		include ../sections/_feedback-b24.pug
+	include ../sections/_footer.pug

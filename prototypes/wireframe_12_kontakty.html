@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[WF] Контакты — steamsys.ru</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Arial', sans-serif; background: #f0f0f0; color: #1a1a1a; font-size: 14px; line-height: 1.5; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { background: #fff; margin-bottom: 2px; }
+    .section-inner { padding: 48px 0; }
+    .header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-box { width: 40px; height: 40px; background: #1a1a1a; border-radius: 4px; }
+    .logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.2; }
+    .nav { display: flex; gap: 24px; }
+    .nav a { font-size: 13px; color: #444; text-decoration: none; }
+    .nav .has-sub::after { content: ' ▾'; font-size: 10px; }
+    .header-right { display: flex; align-items: center; gap: 16px; }
+    .header-phone { font-size: 13px; font-weight: 600; color: #1a1a1a; text-decoration: none; }
+    .header-phone-block { text-align: right; }
+    .header-hours { font-size: 11px; color: #888; }
+    .btn-primary { background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: none; cursor: pointer; }
+    .btn-outline { background: transparent; color: #1a1a1a; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: 2px solid #1a1a1a; cursor: pointer; }
+    .btn-ghost { background: transparent; color: #444; padding: 8px 16px; border-radius: 4px; font-size: 13px; text-decoration: none; display: inline-block; border: 1px solid #ccc; cursor: pointer; }
+    .breadcrumbs { background: #f7f7f7; border-bottom: 1px solid #e8e8e8; padding: 10px 0; }
+    .breadcrumbs-inner { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
+    .breadcrumbs-inner a { color: #555; text-decoration: none; }
+    .breadcrumbs-inner span { color: #ccc; }
+    .trustbar { background: #f7f7f7; border-top: 1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8; }
+    .trustbar-inner { display: grid; grid-template-columns: repeat(4, 1fr); padding: 24px 0; gap: 24px; }
+    .trust-item { text-align: center; }
+    .trust-num { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+    .trust-txt { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.4; }
+    .sec-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+    .sec-title { font-size: 28px; font-weight: 700; color: #111; margin-bottom: 8px; }
+    .sec-sub { font-size: 15px; color: #666; line-height: 1.6; max-width: 640px; margin-bottom: 32px; }
+    .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .comp-item { background: #f7f7f7; padding: 20px; display: flex; gap: 12px; align-items: flex-start; }
+    .comp-num { font-size: 24px; font-weight: 700; color: #d0d0d0; line-height: 1; min-width: 32px; }
+    .comp-text strong { display: block; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .comp-text span { font-size: 12px; color: #777; }
+    .comp-item.highlighted { background: #1a1a1a; }
+    .comp-item.highlighted .comp-text strong { color: #fff; }
+    .comp-item.highlighted .comp-text span { color: #aaa; }
+    .comp-item.highlighted .comp-num { color: #555; }
+    .params-table { width: 100%; border-collapse: collapse; }
+    .params-table th { background: #f2f2f2; text-align: left; padding: 12px 16px; font-size: 13px; font-weight: 600; color: #444; border-bottom: 2px solid #e0e0e0; }
+    .params-table td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid #f0f0f0; color: #333; }
+    .params-table td:first-child { font-weight: 500; color: #1a1a1a; }
+    .variants-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .variant-card { border: 1px solid #e8e8e8; border-radius: 4px; padding: 24px; position: relative; }
+    .variant-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .variant-desc { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 16px; }
+    .variant-spec { font-size: 12px; color: #999; border-top: 1px solid #f0f0f0; padding-top: 12px; }
+    .designer { background: #f2f2f2; }
+    .designer-inner { display: grid; grid-template-columns: 280px 1fr; gap: 40px; align-items: start; }
+    .designer-left h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .designer-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .designer-action { background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 16px; display: flex; gap: 12px; align-items: flex-start; }
+    .action-icon { width: 32px; height: 32px; background: #f0f0f0; border-radius: 4px; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .action-text strong { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .action-text a { font-size: 12px; color: #1a1a1a; font-weight: 600; text-decoration: underline; }
+    .faq-list { list-style: none; border-top: 1px solid #e8e8e8; }
+    .faq-item { border-bottom: 1px solid #e8e8e8; }
+    .faq-q { padding: 20px 0; font-size: 15px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+    .faq-q::after { content: '+'; font-size: 20px; color: #bbb; }
+    .faq-a { padding: 0 0 20px; font-size: 14px; color: #666; line-height: 1.7; }
+    .cta-section { background: #1a1a1a; color: #fff; }
+    .cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 56px 0; }
+    .cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
+    .cta-left p { font-size: 14px; color: #aaa; line-height: 1.6; }
+    .cta-form { display: flex; flex-direction: column; gap: 12px; }
+    .cta-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 14px 16px; font-size: 14px; color: #fff; width: 100%; }
+    .cta-input::placeholder { color: #aaa; }
+    .cta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .cta-submit { background: #fff; color: #1a1a1a; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; }
+    .cta-note { font-size: 11px; color: #666; margin-top: 4px; }
+    .footer { background: #111; color: #aaa; }
+    .footer-top { display: grid; grid-template-columns: 240px repeat(4, 1fr); gap: 32px; padding: 48px 0 32px; border-bottom: 1px solid #222; }
+    .footer-brand p { font-size: 12px; color: #aaa; margin-top: 12px; line-height: 1.6; }
+    .footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
+    .footer-col ul li a { font-size: 13px; color: #aaa; text-decoration: none; }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; font-size: 12px; color: #999; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .mt-32 { margin-top: 32px; }
+    .row-link { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; text-decoration: none; color: #1a1a1a; }
+    .row-link::after { content: '→'; }
+
+/* SHARED:CSS */
+.header { background: #fff; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 100; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 14px; }
+.logo { display: flex; align-items: center; gap: 9px; color: inherit; text-decoration: none; flex-shrink: 0; }
+.logo-box { width: 38px; height: 38px; background: #1a1a1a; border-radius: 4px; flex-shrink: 0; }
+.logo-text { font-size: 13px; font-weight: 700; text-transform: uppercase; line-height: 1.15; }
+.nav { display: flex; align-items: center; gap: 11px; min-width: 0; }
+.nav a { font-size: 12px; color: #444; text-decoration: none; white-space: nowrap; }
+.nav a.active { color: #1a1a1a; font-weight: 700; }
+.nav .has-sub::after { content: ' ▾'; font-size: 9px; }
+.header-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.header-phone-block { text-align: right; border-left: 1px solid #e5e5e5; padding-left: 12px; }
+.header-phone { font-size: 13px; font-weight: 600; color: #1a1a1a; text-decoration: none; white-space: nowrap; }
+.header-hours { font-size: 11px; color: #888; }
+.header .btn-primary { padding: 10px 16px; font-size: 13px; }
+.cta-section { background: #1a1a1a; color: #fff; }
+.cta-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: center; padding: 56px 0; }
+.cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; color: #fff; }
+.cta-left p { font-size: 14px; color: #aaa; line-height: 1.6; margin: 0; }
+.cta-form { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.cta-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.cta-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 14px 16px; font-size: 14px; color: #fff; font-family: Arial, sans-serif; width: 100%; min-width: 0; }
+.cta-input::placeholder { color: #aaa; }
+.cta-file-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 12px 16px; }
+.cta-file-label-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 13px; color: #aaa; margin-bottom: 10px; }
+.cta-file-icon { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; flex-shrink: 0; }
+.cta-file-box textarea { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); resize: none; }
+.cta-submit { background: #fff; color: #1a1a1a; border: none; border-radius: 4px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; width: 100%; }
+.cta-note { font-size: 11px; color: #777; margin-top: 4px; }
+.form-success { display: block; padding: 20px 24px; background: #f0f9f0; border: 1px solid #4CAF50; border-radius: 8px; margin-top: 16px; }
+.form-success strong { display: block; font-size: 15px; font-weight: 700; color: #1a7a1a; margin-bottom: 6px; }
+.form-success p { font-size: 13px; color: #333; line-height: 1.6; margin: 0; }
+.form-success a { color: #1a7a1a; font-weight: 600; }
+.footer { background: #111; color: #aaa; }
+.footer-top { display: grid; grid-template-columns: 240px repeat(4, minmax(0, 1fr)); gap: 32px; padding: 48px 0 32px; border-bottom: 1px solid #222; }
+.footer-brand p { font-size: 12px; color: #aaa; margin-top: 12px; line-height: 1.6; }
+.footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 16px; }
+.footer-col ul { list-style: none; padding: 0; margin: 0; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a { font-size: 13px; color: #aaa; text-decoration: none; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 20px 0; font-size: 12px; color: #999; }
+@media (max-width: 1180px) { .nav { display: none; } .cta-inner { grid-template-columns: 1fr; } .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .header-right { display: none; } .cta-row { grid-template-columns: 1fr; } .footer-top { grid-template-columns: 1fr; } .footer-bottom { align-items: flex-start; flex-direction: column; } }
+/* /SHARED:CSS */
+</style>
+</head>
+<body>
+<!-- SHARED:HEADER -->
+<header class="header"><div class="container"><div class="header-inner">
+  <a href="wireframe_01_glavnaya.html" class="logo"><div class="logo-box"></div><div class="logo-text">ПАРОВЫЕ<br>СИСТЕМЫ</div></a>
+  <nav class="nav">
+    <a href="wireframe_02_hub_sistemy.html" class="has-sub">Решения</a>
+    <a href="wireframe_30_otrasli_hub.html" class="has-sub">Отрасли</a>
+    <a href="wireframe_07_kategoriya_oborudovaniya.html" class="has-sub">Оборудование</a>
+    <a href="wireframe_11_kejsy.html">Кейсы</a>
+    <a href="wireframe_18_baza_znanii_hub.html">База знаний</a>
+    <a href="wireframe_15_kalkulyatory.html" class="has-sub">Инструменты</a>
+    <a href="wireframe_14_o_kompanii.html" class="has-sub">О компании</a>
+    <a href="wireframe_12_kontakty.html" class="active">Контакты</a>
+  </nav>
+  <div class="header-right"><div class="header-phone-block">
+    <a href="tel:+78126027770" class="header-phone">+7 (812) 602-77-70</a>
+    <div class="header-hours">Пн-Пт, 9:00-18:00</div>
+  </div><a href="#cta" class="btn-primary">Рассчитать проект</a></div>
+</div></div></header>
+<!-- /SHARED:HEADER -->
+
+<!-- BREADCRUMBS -->
+<div class="breadcrumbs"><div class="container"><div class="breadcrumbs-inner">
+  <a href="wireframe_01_glavnaya.html">Главная</a>
+  <span>/</span>
+  <span>Контакты</span>
+</div></div></div>
+
+<!-- HERO -->
+<div class="section"><div class="container"><div style="padding: 48px 0 32px;">
+  <div class="sec-label">Свяжитесь с нами</div>
+  <h1 style="font-size: 36px; font-weight: 700; margin-bottom: 12px;">Контакты</h1>
+  <p style="font-size: 16px; color: #555; max-width: 640px;">Инженеры и менеджеры на связи в рабочее время. Ответим на технические вопросы, подготовим расчёт и КП.</p>
+  <div style="display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
+    <a href="tel:+78126027770" class="btn-primary">Позвонить</a>
+    <a href="mailto:info@steamsys.ru" class="btn-outline">Написать на email</a>
+    <a href="#cta" class="btn-ghost">Оставить заявку</a>
+    <a href="#" class="btn-ghost">WhatsApp</a>
+  </div>
+</div></div></div>
+
+<!-- TRUSTBAR -->
+<div class="trustbar"><div class="container"><div class="trustbar-inner">
+  <div class="trust-item">
+    <div class="trust-num">Пн–Пт</div>
+    <div class="trust-txt">9:00–18:00 / режим работы</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-num">+7 (812) 602-77-70</div>
+    <div class="trust-txt">звонок бесплатный</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-num" style="font-size: 18px;">info@steamsys.ru</div>
+    <div class="trust-txt">email</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-num">Санкт-Петербург</div>
+    <div class="trust-txt">офис и склад</div>
+  </div>
+</div></div></div>
+
+<!-- ОСНОВНОЙ КОНТАКТ + КАРТА -->
+<div class="section"><div class="container"><div class="section-inner">
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
+
+    <!-- Левая колонка -->
+    <div>
+      <div style="font-size: 32px; font-weight: 700; margin-bottom: 6px;">+7 (812) 602-77-70</div>
+      <p style="font-size: 14px; color: #888; margin-bottom: 20px;">Санкт-Петербург · Пн–Пт 9:00–18:00</p>
+
+      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
+        <a href="tel:+78126027770" class="btn-primary">Позвонить</a>
+        <a href="mailto:info@steamsys.ru" class="btn-outline">info@steamsys.ru</a>
+        <a href="https://t.me/steamsys" class="btn-ghost" target="_blank">Telegram</a>
+      </div>
+
+      <!-- Офисы -->
+      <div style="display:flex;flex-direction:column;gap:8px;">
+
+        <div style="background:#f7f7f7;padding:18px 20px;border-radius:4px;border-left:3px solid #1a1a1a;">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#888;margin-bottom:6px;">Санкт-Петербург — главный офис</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:2px;">+7 (812) 602-77-70</div>
+          <div style="font-size:13px;color:#555;margin-bottom:2px;">191119, ул. Воронежская, д. 5, лит. А, оф. 123</div>
+          <div style="font-size:12px;color:#888;">м. Обводный канал · Пн–Пт 9:00–18:00</div>
+        </div>
+
+        <div style="background:#f7f7f7;padding:18px 20px;border-radius:4px;">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#888;margin-bottom:6px;">Санкт-Петербург — склад</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:2px;">+7 (812) 602-77-70</div>
+          <div style="font-size:13px;color:#555;margin-bottom:2px;">пос. Шушары, Московское шоссе, 19, корп. 2</div>
+          <div style="font-size:12px;color:#888;">Пн–Пт 9:30–17:30</div>
+        </div>
+
+        <div style="background:#f7f7f7;padding:18px 20px;border-radius:4px;">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#888;margin-bottom:6px;">Москва</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:2px;">+7 (495) 128-03-67</div>
+          <div style="font-size:12px;color:#888;">Пн–Пт 9:00–18:00</div>
+        </div>
+
+        <div style="background:#f7f7f7;padding:18px 20px;border-radius:4px;">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#888;margin-bottom:6px;">Екатеринбург</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:2px;">+7 (343) 302-15-12</div>
+          <div style="font-size:13px;color:#555;margin-bottom:2px;">ул. Антона Валека, д. 13, оф. 305, БЦ «Прайм»</div>
+          <div style="font-size:12px;color:#888;">Пн–Пт 9:00–18:00</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Правая колонка — карта -->
+    <div>
+      <div style="background: #e8e8e8; height: 320px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #bbb;">
+        Карта Яндекс / Google — вставляется при разработке
+      </div>
+    </div>
+
+  </div>
+</div></div></div>
+
+<!-- РАЗДЕЛЕНИЕ ПО ОТДЕЛАМ -->
+<div style="background: #fafafa; margin-bottom: 2px;"><div class="container"><div class="section-inner">
+  <div class="sec-title">Свяжитесь с нужным специалистом</div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 32px;">
+
+    <!-- Карточка 1: Отдел продаж -->
+    <div class="variant-card">
+      <div class="variant-title">Отдел продаж</div>
+      <div class="variant-desc">Для закупщиков и коммерческих запросов. КП, спецификации, сроки поставки.</div>
+      <p style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">+7 (812) 602-77-70 (доб. 101)</p>
+      <div class="variant-spec">Константин Терехов, руководитель отдела</div>
+      <div style="display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;">
+        <button class="btn-primary">Связаться</button>
+        <button class="btn-outline">Запросить КП</button>
+        <button class="btn-ghost">Отправить спецификацию</button>
+      </div>
+    </div>
+
+    <!-- Карточка 2: Инженерный отдел -->
+    <div class="variant-card" style="border-color: #1a1a1a;">
+      <div style="position: absolute; top: 16px; right: 16px; background: #1a1a1a; color: #fff; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 2px;">Рекомендуем</div>
+      <div class="variant-title">Инженерный отдел</div>
+      <div class="variant-desc">Для технических специалистов. Расчёты, подбор, консультации по системам и оборудованию.</div>
+      <p style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">engineer@steamsys.ru</p>
+      <div class="variant-spec">Александр Баженов, ведущий инженер</div>
+      <div style="display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;">
+        <button class="btn-primary">Написать инженеру</button>
+        <button class="btn-outline">Отправить параметры</button>
+        <button class="btn-ghost">Обсудить задачу</button>
+      </div>
+    </div>
+
+    <!-- Карточка 3: Сервис и диагностика -->
+    <div class="variant-card">
+      <div class="variant-title">Сервис и диагностика</div>
+      <div class="variant-desc">Техническая экспертиза, диагностика пароконденсатных систем, аудит конденсатоотводчиков.</div>
+      <p style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">service@steamsys.ru</p>
+      <div class="variant-spec" style="margin-bottom: 16px;">&nbsp;</div>
+      <div style="display: flex; gap: 8px; margin-top: 0; flex-wrap: wrap;">
+        <button class="btn-primary">Заказать диагностику</button>
+        <button class="btn-outline">Запросить экспертизу</button>
+      </div>
+    </div>
+
+    <!-- Карточка 4: Для проектировщиков -->
+    <div class="variant-card">
+      <div class="variant-title">Для проектировщиков</div>
+      <div class="variant-desc">Технические материалы для включения решений в проект: CAD, 3D, BIM, схемы, опросные листы.</div>
+      <p style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">project@steamsys.ru</p>
+      <div class="variant-spec" style="margin-bottom: 16px;">&nbsp;</div>
+      <div style="display: flex; gap: 8px; margin-top: 0; flex-wrap: wrap;">
+        <button class="btn-primary" data-goal="forma_cad_bim_zapros">Запросить CAD/3D/BIM</button>
+        <button class="btn-outline">Получить типовую схему</button>
+        <a href="wireframe_16_oprosnie_listy.html" class="btn-ghost" data-goal="oprosny_list_online">Заполнить опросный лист онлайн</a>
+      </div>
+    </div>
+
+  </div>
+</div></div></div>
+
+<!-- ДЛЯ ЗАКУПЩИКА -->
+<div class="section"><div class="container"><div class="section-inner">
+  <div class="sec-title">Всё для согласования поставщика</div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px;">
+
+    <div style="border: 1px solid #e8e8e8; padding: 16px; border-radius: 4px;">
+      <p style="font-weight: 600; margin-bottom: 4px;">КП по номенклатуре</p>
+      <p style="font-size: 12px; color: #888;">Спецификация → КП за 1 день</p>
+    </div>
+
+    <div style="border: 1px solid #e8e8e8; padding: 16px; border-radius: 4px;">
+      <p style="font-weight: 600; margin-bottom: 4px;">Реквизиты и карточка компании</p>
+      <p style="font-size: 12px; color: #888;">PDF для бухгалтерии</p>
+    </div>
+
+    <div style="border: 1px solid #e8e8e8; padding: 16px; border-radius: 4px;">
+      <p style="font-weight: 600; margin-bottom: 4px;">Сертификаты и лицензии</p>
+      <p style="font-size: 12px; color: #888;">Подтверждение надёжности поставщика</p>
+    </div>
+
+    <div style="border: 1px solid #e8e8e8; padding: 16px; border-radius: 4px;">
+      <p style="font-weight: 600; margin-bottom: 4px;">Сроки и условия поставки</p>
+      <p style="font-size: 12px; color: #888;">Договор поставки</p>
+    </div>
+
+    <div style="border: 1px solid #e8e8e8; padding: 16px; border-radius: 4px;">
+      <p style="font-weight: 600; margin-bottom: 4px;">Документы на товар</p>
+      <p style="font-size: 12px; color: #888;">Паспорта и сертификаты на оборудование</p>
+    </div>
+
+    <div style="border: 1px solid #e8e8e8; padding: 16px; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+      <a href="#" class="btn-outline" style="width: 100%; text-align: center;">Скачать карточку компании</a>
+    </div>
+
+  </div>
+</div></div></div>
+
+<!-- РЕКВИЗИТЫ -->
+<div style="background: #fafafa; margin-bottom: 2px;"><div class="container"><div class="section-inner">
+  <div class="sec-title">Реквизиты</div>
+
+  <table class="params-table" style="margin-top: 24px;">
+    <tbody>
+      <tr><td>Полное наименование</td><td>ООО «Паровые системы»</td></tr>
+      <tr><td>ОГРН</td><td>1234567890123</td></tr>
+      <tr><td>ИНН</td><td>7712345678</td></tr>
+      <tr><td>КПП</td><td>771201001</td></tr>
+      <tr><td>Юридический адрес</td><td>г. Санкт-Петербург, ул. Воронежская, д. 5, оф. 123</td></tr>
+      <tr><td>Фактический адрес</td><td>г. Санкт-Петербург, ул. Воронежская, д. 5, оф. 123</td></tr>
+      <tr><td>Банк</td><td>ПАО Сбербанк</td></tr>
+      <tr><td>БИК</td><td>044525225</td></tr>
+      <tr><td>Р/с</td><td>40702810938000012345</td></tr>
+      <tr><td>К/с</td><td>30101810400000000225</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top: 24px;">
+    <a href="#" class="btn-outline">Скачать карточку компании (PDF)</a>
+  </div>
+</div></div></div>
+
+<!-- SHARED:CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-inner">
+      <div class="cta-left">
+        <h2>Подберите готовую систему под параметры объекта</h2>
+        <p>Заполните форму или отправьте опросный лист — инженер подберёт оптимальное решение и рассчитает стоимость в течение 1 рабочего дня</p>
+      </div>
+      <form class="cta-form">
+        <div class="cta-row">
+          <input class="cta-input" type="text" placeholder="Ваше имя" aria-label="Ваше имя">
+          <input class="cta-input" type="tel" placeholder="Телефон" aria-label="Телефон">
+        </div>
+        <input type="email" class="cta-input" placeholder="Email для отправки КП" aria-label="Email">
+        <div class="cta-file-box">
+          <label class="cta-file-label-wrap">
+            <span class="cta-file-icon">📎</span>
+            <span class="cta-file-label">Прикрепить ТЗ, спецификацию или опросный лист</span>
+            <input type="file" style="display:none;" accept=".pdf,.xls,.xlsx,.doc,.docx" onchange="this.closest('label').querySelector('.cta-file-label').textContent=this.files[0]?this.files[0].name:'Прикрепить ТЗ, спецификацию или опросный лист'">
+          </label>
+          <textarea class="cta-input" rows="2" placeholder="Комментарий к файлу или краткое описание задачи" aria-label="Комментарий"></textarea>
+        </div>
+        <button class="cta-submit" type="button" data-goal="forma_parametry_rou">Получить расчёт</button>
+        <div class="cta-note">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности. Ответим в течение 1 рабочего дня.</div>
+      </form>
+    </div>
+  </div>
+</section>
+<!-- /SHARED:CTA -->
+<!-- SHARED:FOOTER -->
+<footer class="footer"><div class="container">
+  <div class="footer-top">
+    <div class="footer-brand"><div class="logo"><div class="logo-box" style="background:#333;"></div><div class="logo-text" style="color:#aaa;">ПАРОВЫЕ<br>СИСТЕМЫ</div></div><p>Пароконденсатные системы для промышленности</p></div>
+    <div class="footer-col"><h4>Решения</h4><ul><li><a href="wireframe_03_rou_brou.html">РОУ и БРОУ</a></li><li><a href="wireframe_04_svk.html">СВК</a></li><li><a href="wireframe_05_ou_itp.html">ОУ/ИТП</a></li><li><a href="wireframe_06_obvyazka_kalorifer.html">Обвязка</a></li></ul></div>
+    <div class="footer-col"><h4>Оборудование</h4><ul><li><a href="wireframe_07_kategoriya_oborudovaniya.html">Конденсатоотводчики</a></li><li><a href="wireframe_32_brendy_hub.html">Бренды</a></li></ul></div>
+    <div class="footer-col"><h4>Инструменты</h4><ul><li><a href="wireframe_15_kalkulyatory.html">Калькуляторы</a></li><li><a href="wireframe_16_oprosnie_listy.html">Опросные листы</a></li><li><a href="wireframe_13_dokumentatsiya.html">Документация</a></li></ul></div>
+    <div class="footer-col"><h4>Компания</h4><ul><li><a href="wireframe_14_o_kompanii.html">О компании</a></li><li><a href="wireframe_11_kejsy.html">Кейсы</a></li><li><a href="wireframe_18_baza_znanii_hub.html">База знаний</a></li><li><a href="wireframe_12_kontakty.html">Контакты</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <span>© 2008–2026 ООО «Паровые системы» · Все права защищены</span>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;">
+        <a href="#" style="color:#999;text-decoration:none;">СОУТ</a>
+        <a href="#" style="color:#999;text-decoration:none;">Политика конфиденциальности</a>
+      </div>
+    </div>
+    <div style="position:relative;">
+      <button onclick="var p=this.nextElementSibling;p.style.display=p.style.display==='block'?'none':'block'" style="cursor:pointer;background:transparent;border:none;padding:0;display:flex;align-items:center;gap:6px;opacity:0.5;" title="Разработчик сайта">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="11" fill="#fff" fill-opacity=".15"/><text x="11" y="16" font-size="13" font-weight="800" fill="#fff" font-family="Arial" text-anchor="middle">К</text></svg>
+      </button>
+      <div style="display:none;position:absolute;bottom:calc(100% + 10px);right:0;background:#fff;border:1px solid #e0e0e0;border-radius:6px;padding:20px;width:300px;box-shadow:0 8px 32px rgba(0,0,0,0.15);z-index:200;color:#1a1a1a;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <div style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;">Паспорт проекта</div>
+          <button onclick="this.closest('div[style]').style.display='none'" style="background:none;border:none;cursor:pointer;font-size:18px;color:#bbb;padding:0;line-height:1;">×</button>
+        </div>
+        <div style="font-size:13px;color:#444;line-height:1.8;margin-bottom:16px;">
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Клиент:</strong> ООО «Паровые системы», steamsys.ru</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Разработчик:</strong> Маркетинговое агентство КОГИТ</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Услуги:</strong> Разработка, SEO, контекстная реклама</div>
+          <div><strong style="color:#111;min-width:90px;display:inline-block;">Год:</strong> 2026</div>
+        </div>
+        <a href="https://kogit.ru" target="_blank" rel="noopener" style="display:block;font-size:13px;font-weight:700;color:#fff;text-decoration:none;padding:10px 14px;background:#1a1a1a;border-radius:4px;text-align:center;margin-bottom:8px;">Маркетинговое агентство КОГИТ →</a>
+        <a href="https://kogit.ru/cases/steamsys/" target="_blank" rel="noopener" style="display:block;font-size:12px;color:#888;text-decoration:none;text-align:center;padding:6px 0;">Продвижение промышленных предприятий</a>
+      </div>
+    </div>
+  </div>
+</div></footer>
+<!-- /SHARED:FOOTER -->
+
+<!-- NAV-ПАНЕЛЬ -->
+<!-- SHARED:PROTOTYPE_NAV -->
+<div style="position:fixed;bottom:16px;right:16px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:12px 16px;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,0.1);z-index:9999;max-height:80vh;overflow-y:auto;min-width:200px;">
+<div style="font-weight:700;margin-bottom:8px;color:#888;font-size:11px;letter-spacing:0.5px;">ПРОТОТИПЫ STEAMSYS.RU</div>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Основные</div>
+<a href="wireframe_01_glavnaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Главная</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Системы и решения</div>
+<a href="wireframe_02_hub_sistemy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Хаб «Системы и решения»</a>
+<a href="wireframe_03_rou_brou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— РОУ/БРОУ</a>
+<a href="wireframe_04_svk.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— СВК</a>
+<a href="wireframe_05_ou_itp.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— ОУ/ИТП</a>
+<a href="wireframe_06_obvyazka_kalorifer.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка калорифера</a>
+<a href="wireframe_34_obvyazka_teploobmennika.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Обвязка теплообменника</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Отрасли</div>
+<a href="wireframe_30_otrasli_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отрасли — хаб</a>
+<a href="wireframe_31_otrasl_pishchevaya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Пищевая промышленность</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Оборудование</div>
+<a href="wireframe_07_kategoriya_oborudovaniya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Категория товаров</a>
+<a href="wireframe_08_kartochka_tovara.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Карточка товара</a>
+<a href="wireframe_32_brendy_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Бренды — хаб</a>
+<a href="wireframe_09_brend.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Бренд TLV</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">База знаний</div>
+<a href="wireframe_18_baza_znanii_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">БЗ — хаб</a>
+<a href="wireframe_10_baza_znanii_statya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Статья (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Кейсы</div>
+<a href="wireframe_11_kejsy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Кейсы — список</a>
+<a href="wireframe_19_keys_card.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Кейс (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Инструменты</div>
+<a href="wireframe_15_kalkulyatory.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Калькуляторы — хаб</a>
+<a href="wireframe_20_kalkulyator_ekonomii_ko.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Калькулятор КО</a>
+<a href="wireframe_16_oprosnie_listy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Опросные листы</a>
+<a href="wireframe_17_oprosnyj_list_rou.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Опросный лист РОУ</a>
+<a href="wireframe_13_dokumentatsiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Документация</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">О компании</div>
+<a href="wireframe_14_o_kompanii.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">О компании</a>
+<a href="wireframe_21_komanda.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Команда</a>
+<a href="wireframe_28_sotrudnik.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Сотрудник (карточка)</a>
+<a href="wireframe_22_otzyvy.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Отзывы</a>
+<a href="wireframe_23_karera.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Карьера</a>
+<a href="wireframe_29_vakansiya.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Вакансия (карточка)</a>
+<a href="wireframe_24_rekvizity.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Реквизиты</a>
+<a href="wireframe_25_faq.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Вопрос-ответ</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Медиа</div>
+<a href="wireframe_33_media_hub.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;">Медиа — хаб</a>
+<a href="wireframe_27b_fotogalereja_albom.html" style="display:block;color:#1a1a1a;text-decoration:none;margin-bottom:3px;padding-left:10px;font-size:11px;color:#777;">— Альбом (карточка)</a>
+<div style="font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:1px;margin:8px 0 4px;padding-top:6px;border-top:1px solid #f0f0f0;">Контакты</div>
+<strong style="display:block;color:#1a5cff;margin-bottom:3px;font-weight:700;">Контакты ←</strong>
+</div>
+<!-- /SHARED:PROTOTYPE_NAV -->
+<script id="shared-cta-handler">
+(function(){
+  document.querySelectorAll(".cta-submit").forEach(function(btn){
+    if (btn.dataset.ctaBound === "1") return;
+    btn.dataset.ctaBound = "1";
+    btn.addEventListener("click",function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var form=btn.closest(".cta-form") || btn.closest("form") || btn.parentElement;
+      var existing=form && form.parentNode ? form.parentNode.querySelector(".form-success") : document.querySelector(".form-success");
+      if(existing&&existing.style.display!="none")return;
+      var msg=document.createElement("div");
+      msg.className="form-success";
+      msg.innerHTML="<strong>&#10003; Заявка принята</strong><p>Свяжемся в течение 4 часов в рабочее время. Срочно — звоните: <a href=\"tel:+78126027770\">+7 (812) 602-77-70</a></p>";
+      if(form&&form.parentNode){form.parentNode.insertBefore(msg,form.nextSibling);}
+      msg.style.display="block";
+      btn.disabled=true;btn.style.opacity="0.5";
+    }, true);
+  });
+})();
+</script>
+</body>
+</html>
