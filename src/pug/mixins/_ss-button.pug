@@ -5,6 +5,7 @@
 //-     variant   primary | secondary | outline | outline-dark | dark | light | outline-light | white  (default: primary)
 //-     size      big — крупная 74px | small — компактная 50px. Без опции — базовый 65px.       (default: базовый 65)
 //-     full      true — на всю ширину контейнера                                               (default: false)
+//-     xsFull    true — навешивает утилиту .ss-xs-full (на <$md кнопка 100%, кап 440px)        (default: false)
 //-     wrap      true — разрешить перенос текста в 2+ строк (нужно на узких CTA в сайдбаре)    (default: false)
 //-     icon      имя иконки без префикса `svg-` (напр. 'plus-circle')                          (default: null → без иконки)
 //-     iconSide  right | left                                                                   (default: right)
@@ -27,6 +28,7 @@ mixin ssBtn(text, opts)
 		if (o.size === 'big') classes += ' ss-btn--big';
 		if (o.size === 'small') classes += ' ss-btn--small';
 		if (o.full) classes += ' ss-btn--full';
+		if (o.xsFull) classes += ' ss-xs-full';
 		if (o.wrap) classes += ' ss-btn--wrap';
 		if (tag === 'a' && o.disabled) classes += ' is-disabled';
 

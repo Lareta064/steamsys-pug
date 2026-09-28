@@ -225,6 +225,7 @@
 	.ss-filters-drawer {
 		position: fixed;
 		inset: 0;
+		top:52px;
 		z-index: 90;
 		visibility: hidden;
 		pointer-events: none;
