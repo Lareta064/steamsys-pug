@@ -1,0 +1,37 @@
+- var productionTasks = [{ title: 'Снизить давление пара', text: 'Нужно уменьшить рабочее давление для подачи на технологическое оборудование или собственный контур.', solutions: 'РОУ, БРОУ, РУ (редукционные установки)', cta: 'Смотреть РОУ/БРОУ', bg: 'gallery1', href: '#task-roy-brou' }, { title: 'Охладить пар', text: 'Требуется снизить температуру перегретого пара до насыщенного состояния или до заданного значения.', solutions: 'БРОУ, ОУ, Охладительные установки', cta: 'Смотреть ОУ', bg: 'gallery2', href: '#task-oy' }, { title: 'Вернуть конденсат', text: 'Организовать сбор и возврат конденсата в котельную для снижения затрат на водоподготовку и топливо.', solutions: 'Станция возврата конденсата (СВК)', cta: 'Смотреть СВК', bg: 'gallery3', href: '#task-svk', popular: true }, { title: 'Стабилизировать нагрев', text: 'Обеспечить стабильную подачу тепла к калориферам или теплообменникам без гидроударов и температурных перепадов.', solutions: 'Обвязка калориферов, Обвязка теплообменника', cta: 'Смотреть обвязки', bg: 'gallery1', href: '#task-obvyazki' }, { title: 'Защитить от гидроударов', text: 'Устранить риски гидроударов в паропроводах и подводящих трубопроводах технологического оборудования.', solutions: 'РОУ, Конденсатоотводчики на линии', cta: 'Получить расчёт', bg: 'gallery2', href: '#task-hydroshock' }, { title: 'Повысить энергоэффективность', text: 'Комплексные решения: аудит потерь, возврат конденсата, оптимизация расхода пара на энергоёмких процессах.', solutions: 'РОУ + СВК + диагностика системы', cta: 'Заказать аудит', bg: 'gallery3', href: '#task-audit' }, { title: 'Модернизировать узел', text: 'Замена устаревшего оборудования, перепроектирование узла под новые параметры или требования производства.', solutions: 'Индивидуальный расчёт по параметрам объекта', cta: 'Смотреть решения', bg: 'gallery1', href: '#task-upgrade' }]
+
+section.ss-section.ss-production-tasks
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Выберите по производственной задаче
+				p.ss-production-tasks__desc Не знаете название установки — выбирайте по задаче
+
+		.swiper.swiper-pb.swiper-bars.js-production-tasks-slider
+			.swiper-wrapper
+				each t in productionTasks
+					.swiper-slide
+						//- Badge вынесен ВНЕ карточки: у .ss-solution-card
+						//- overflow: hidden (нужно для скругления bg-картинки
+						//- и градиентов), поэтому badge, подвешенный над верхним
+						//- краем карточки, иначе бы обрезался. Поднимаем его на
+						//- уровень .swiper-slide и позиционируем absolute внутри него.
+						if t.popular
+							span.ss-solution-card__badge Популярное
+						article.ss-solution-card.ss-production-tasks__card
+							picture.ss-solution-card__bg
+								source(media='(max-width: 767px)' srcset=`${basePath}img/${t.bg}-mob.webp 1x, ${basePath}img/${t.bg}-mob@2x.webp 2x`)
+								source(media='(min-width: 768px)' srcset=`${basePath}img/${t.bg}.webp 1x, ${basePath}img/${t.bg}@2x.webp 2x`)
+								img(src=`${basePath}img/${t.bg}.webp` width='567' height='340' alt='', loading='lazy', decoding='async')
+							a.ss-solution-card__overlay(href=t.href aria-label=t.title)
+							.ss-solution-card__content
+								.ss-solution-card__head
+									h3.ss-solution-card__title= t.title
+									p.ss-solution-card__text= t.text
+								p.ss-solution-card__meta
+									span.ss-solution-card__meta-label Решения:
+									|
+									= t.solutions
+								.ss-solution-card__footer
+									span.ss-solution-card__cta= t.cta
+			.swiper-pagination

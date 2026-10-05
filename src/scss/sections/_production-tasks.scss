@@ -1,0 +1,64 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-production-tasks — секция «Выберите по производственной задаче».
+// Внутри — swiper .js-production-tasks-slider с карточками .ss-solution-card
+// (та же стилистика, что на главной: bg-image + градиент + overlay-ссылка).
+// Пагинация-полоски из shared .swiper-bars (_swiper.scss).
+// ==============================
+.ss-production-tasks {
+	.ss-section-header {
+		margin-bottom: 40px;
+
+		@include down($md) {
+			margin-bottom: 30px;
+		}
+	}
+}
+
+// Подзаголовок под h2 — приглушённый серый, как в прототипе.
+.ss-production-tasks__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+// Карточки задач в слайдере — поведение футера:
+// на карточках главной футер прибивается margin-top: 52px (с кнопкой + стрелкой),
+// здесь футер пустой-одиночный span-CTA — прижимаем к низу через margin-top: auto,
+// чтобы разная длина text/meta не ломала вертикальную выровненность CTA.
+.ss-production-tasks__card .ss-solution-card__footer {
+	margin-top: auto;
+	padding-top: 30px;
+}
+
+// Равная высота слайдов. Контент карточек разной длины → без этого
+// короткие слайды сжимаются. min-height: 100% подтягивает slide к
+// высоте самого высокого в видимой группе (swiper-wrapper = flex,
+// align-items: stretch по дефолту). display: flex + width 100% у
+// карточки растягивают её на весь слайд.
+//
+// padding-top: 20 — резерв под badge «Популярное», который «сидит»
+// на верхнем крае карточки (половина сверху, половина внутри).
+// Иначе badge обрезался бы соседним слайдом/краем контейнера.
+.js-production-tasks-slider .swiper-slide {
+	position: relative;
+	height: auto;
+	min-height: 100%;
+	display: flex;
+	padding-top: 20px;
+
+	> .ss-solution-card {
+		width: 100%;
+	}
+
+	// Badge теперь живёт прямо в .swiper-slide (вне карточки).
+	// top: 6px — badge высотой 28px начинается с 6px, карточка — с 20px,
+	// значит 14px badge торчит над картой, 14px лежит на ней.
+	> .ss-solution-card__badge {
+		top: 6px;
+	}
+}

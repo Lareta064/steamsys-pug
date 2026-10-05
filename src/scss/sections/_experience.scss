@@ -14,11 +14,24 @@
 	.ss-section-header {
 		align-items: flex-end;
 
-		
+
 
 		@include down($md) {
 			align-items: flex-start;
 			row-gap: 40px;
 		}
+	}
+}
+
+// Равная высота слайдов. Контент карточек разной длины → короткие
+// слайды иначе ужимаются. min-height: 100% + display: flex тянут
+// slide к высоте самого высокого, карточка внутри занимает всю ширину.
+.js-experience-slider .swiper-slide {
+	height: auto;
+	min-height: 100%;
+	display: flex;
+
+	> .ss-experience-card {
+		width: 100%;
 	}
 }
