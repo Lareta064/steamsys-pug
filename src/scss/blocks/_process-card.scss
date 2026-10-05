@@ -1,0 +1,106 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-process-card — карточка «Тип оборудования / процесса».
+// Визуально близка к .ss-feature-card (белый фон, скругление, тень),
+// но вместо SVG-иконки сверху — иконка в синем квадрате (как в
+// .ss-stage-card__icon) + внизу CTA-ссылка со стрелкой.
+//
+// Разметка:
+//   article.ss-process-card
+//     span.ss-process-card__icon
+//       img(src='…' width='24' height='24' alt='')
+//     .ss-process-card__body
+//       p.ss-process-card__title …
+//       p.ss-process-card__text  …
+//     a.ss-process-card__cta(href='…') → Нужна обвязка
+//
+// Раскладку N в ряд решает родительский .ss-grid.
+// ==============================
+.ss-process-card {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+	padding: 30px;
+	background: var(--secondary3);
+	border-radius: 10px;
+
+	@include down($md) {
+		padding: 20px;
+		row-gap: 15px;
+	}
+}
+
+// Синий квадрат с иконкой — 48×48 с иконкой 24×24 белого цвета.
+// img — любая цветная PNG превращается в белую через
+// `filter: brightness(0) invert(1)` (чёрный → белый без цветового сдвига).
+.ss-process-card__icon {
+	display: grid;
+	place-items: center;
+	flex-shrink: 0;
+	width: 48px;
+	height: 48px;
+	border-radius: 10px;
+	background: var(--accent1);
+
+	img {
+		width: 24px;
+		height: 24px;
+		filter: brightness(0) invert(1);
+	}
+}
+
+.ss-process-card__body {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	min-width: 0;
+	// Прижимаем CTA к низу — тянется, разной длины text выравниваются.
+	flex-grow: 1;
+}
+
+.ss-process-card__title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-process-card__text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+// CTA-ссылка со стрелкой. Чёрный текст, hover — accent1.
+.ss-process-card__cta {
+	display: inline-flex;
+	align-items: center;
+	column-gap: 8px;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--primary);
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent1);
+	}
+}
+
+.ss-process-card__cta-arrow {
+	display: inline-block;
+	font-weight: 500;
+}
