@@ -1,0 +1,66 @@
+@use '../base/_var' as *;
+
+// ==============================
+// portfolio-page — стили страницы «Готовые системы и решения»
+// (build/portfolio-page.html). Сборка из секций:
+// header + hero-portfolio + feedback-b24 + footer (пока; доработаем).
+// ==============================
+
+// ------------------------------
+// Hero-inner страницы «Готовые системы и решения» —
+// тот же приём, что и у catalog-page: bg image + градиентная завеса
+// слева, чтобы текст контента читался на фото.
+// Fallback-фон — --primary1 (базовый тёмный у .ss-hero-inner--dark).
+// ------------------------------
+.portfolio-page__hero .ss-hero-inner__body {
+	position: relative;
+	background-color: var(--primary1);
+	background-image: image-set(
+		url('../img/solution-hero.webp') 1x,
+		url('../img/solution-hero@2x.webp') 2x
+	);
+	background-size: cover;
+	background-position: center right;
+	background-repeat: no-repeat;
+	overflow: hidden;
+
+	// Тёмная завеса слева → прозрачность справа (фото «показывается» справа).
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg,
+			rgba(3, 29, 42, 0.92) 0%,
+			rgba(3, 29, 42, 0.75) 30%,
+			rgba(3, 29, 42, 0.35) 65%,
+			rgba(3, 29, 42, 0) 100%
+		);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+// Ряд pill-ссылок под actions в hero. Тёмный фон → белая рамка.
+.portfolio-page__hero-pills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 20px 0 0;
+	padding: 0;
+	list-style: none;
+
+	.ss-pill {
+		border-color: var(--white);
+		background: transparent;
+		color: var(--white);
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.15);
+		}
+	}
+}
