@@ -120,6 +120,40 @@ body {
 		margin: 0;
 	}
 
+	// Reset для списков. Нужен из-за legacy-стилей сайта, которые
+	// глобально применяют к `ul li` margin + list-style:none + ::before
+	// с тире (U+2014). Без этого reset'а наши компоненты c <ul><li>
+	// (filters, lists, pagination, breadcrumbs, menu, toc и др.) получают
+	// лишний отступ слева 21px и визуальное «—» перед каждым пунктом.
+	//
+	// Специфичность вилки:
+	//   · legacy `ul li` на хостинге = 0,0,2
+	//   · компонентный класс `.ss-profit-panel__item` = 0,1,0
+	// Нам нужно селектор СТРОГО между: > 0,0,2 и < 0,1,0 → цель 0,0,3.
+	// Достигаем комбинацией `body` (0,0,1) + `ul`/`li` без :where() + :where(.ss-wrapper):
+	//   body :where(.ss-wrapper) ul li  →  0,0,1 + 0 + 0,0,1 + 0,0,1 = 0,0,3.
+	// Этот селектор перебивает legacy, но его перебивает любой `.ss-*` класс.
+	@at-root {
+		body :where(.ss-wrapper) :where(ul, ol) {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		body :where(.ss-wrapper) ul li,
+		body :where(.ss-wrapper) ol li {
+			margin: 0;
+			padding: 0;
+		}
+
+		// Отключаем legacy «— » псевдоэлемент. Селектор 0,0,3 + ::before —
+		// бьёт legacy `ul li:before` (0,0,2 + ::before).
+		body :where(.ss-wrapper) ul li::before,
+		body :where(.ss-wrapper) ol li::before {
+			content: none;
+		}
+	}
+
 	:where(img) {
 		max-width: 100%;
 		height: auto;

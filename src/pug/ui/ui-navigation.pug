@@ -1,135 +1,120 @@
+//- ============================================================
+//- UI-навигация каталога компонентов.
+//- Структура: 12 логических разделов от базы (токены) к
+//- композициям (секции). Home-специфичные секции (home-roles,
+//- portfolio, stages и т.п.) из навигации убраны — они не
+//- переиспользуются. Файлы-партиалы оставлены на месте.
+//- ============================================================
 .ui-panel
 	.ui-panel-block
 		.ui-panel-block__part
 			a(href="http://localhost:3000/").back-index На Главную
-			h3 Базовые компоненты
-			ul
-				li
-					a(href="docs.html") Описание проекта
-				li
-					a(href="colors.html") Цветовая схема
-				li
-					a(href="typography.html") Типографика
-				li
-					a(href="svg-icons.html") SVG иконки
-				li
-					a(href="buttons.html") Кнопки
-				li
-					a(href="links.html") Ссылки
-				li
-					a(href="social.html") Соц сети
-				li
-					a(href="grid.html") Сетка
-				li
-					a(href="globals.html") Глобальные классы
-				li
-					a(href="section-headers.html") Заголовки секций
-				li
-					a(href="breadcrumbs.html") Хлебные крошки
-				li
-					a(href="cat-list.html") Список категорий
-				li
-					a(href="article-card.html") Карточка статьи
-				li
-					a(href="pagination.html") Пагинация
-				li
-					a(href="select.html") Select
-				li
-					a(href="pill.html") Pill (пилюля)
-				li
-					a(href="cta-card.html") CTA-плашка
-				li
-					a(href="accordion.html") Аккордеон
-				li
-					a(href="callout.html") Плашка-замечание
-				li
-					a(href="fact-card.html") Карточка с расчётом
-				li
-					a(href="simple-table.html") Таблица
-				li
-					a(href="img-text-row.html") Строка «изображение + текст»
-				li
-					a(href="cta-row.html") CTA-ряд
-				li
-					a(href="quote-card.html") Карточка цитаты автора
-				li
-					a(href="video-side.html") Видео + текст
-				li
-					a(href="figure.html") Изображение с подписью
-				li
-					a(href="gallery.html") Галерея
-				li
-					a(href="content.html") Контент из редактора админки
-				li
-					a(href="toc.html") Оглавление
-				li
-					a(href="tags.html") Tags
-				li
-					a(href="cards.html") Cards
-				li
-					a(href="lists.html") Lists
-				li
-					a(href="tabs.html") Tabs
-				li
-					a(href="partners-slider.html") Слайдеры кейсов и отзывов
-				li
-					a(href="form.html") Элементы формы
-				li
-					a(href="footer-parts.html") Компоненты футера
-		
-		.ui-panel-block__part
 
-			h3 Секции Home страницы
+		//- 📘 ОСНОВА — токены, справочные страницы, утилиты
+		.ui-panel-block__part
+			h3 📘 Основа
 			ul
-				li
-					a(href="home-roles.html") Клиенты
-				li
-					a(href="home-benefits.html") Преимущества
-				li
-					a(href="experience.html") Опыт
-				li
-					a(href="tasks.html") Задачи
-				li
-					a(href="feature.html") Комплексный подход
-				li
-					a(href="portfolio.html") Готовые решения
-				li
-					a(href="calc-docs.html") Калькуляторы и документация
-				li
-					a(href="profit.html") Экономический эффект
-				li
-					a(href="stages.html") Процесс
-				li
-					a(href="tab-catalog.html") Каталог через табы
-				li
-					a(href="cases.html") Кейсы и отзывы
-				li
-					a(href="feedback.html") Обратная связь
-				li
-					a(href="feedback-b24.html") Обратная связь (Bitrix)
-				li
-					a(href="modal-request-b24.html") Модалка «Получить КП» (Bitrix)
-				li
-					a(href="b24-form-light.html") Bitrix-форма — светлая тема
-				li
-					a(href="form-row.html") Плашка «Есть спецификация» (form-row)
-				li
-					a(href="filters.html") Сайдбар фильтров
-				li
-					a(href="catalog.html") Каталог товаров
-				li
-					a(href="usage.html") В каких системах используются
-				li
-					a(href="documents.html") Документы по конденсатоотводчикам
-				li
-					a(href="about-section.html") О разделе (с экспертом)
-				li
-					a(href="footer.html") Футер
-				li
-					a(href="header.html") Шапка
-				li
-					a(href="hero.html") Hero
-				li
-					a(href="hero-inner.html") Hero внутренних страниц
-				li
-					a(href="running-line.html") Бегущая строка
+				li: a(href="docs.html") Описание проекта
+				li: a(href="colors.html") Цветовая схема
+				li: a(href="typography.html") Типографика
+				li: a(href="svg-icons.html") SVG-иконки
+				li: a(href="grid.html") Сетка
+				li: a(href="globals.html") Глобальные классы
+
+		//- 🔗 КНОПКИ И ССЫЛКИ
+		.ui-panel-block__part
+			h3 🔗 Кнопки и ссылки
+			ul
+				li: a(href="buttons.html") Кнопки
+				li: a(href="links.html") Ссылки
+				li: a(href="pill.html") Pill (пилюля-ссылка)
+				li: a(href="social.html") Соц.сети
+
+		//- 🏷 МЕТКИ И ПЛАШКИ
+		.ui-panel-block__part
+			h3 🏷 Метки и плашки
+			ul
+				li: a(href="tags.html") Tags
+				li: a(href="callout.html") Callout (плашка-замечание)
+
+		//- 📝 ФОРМЫ — все, что связано с полями и Битрикс-формами
+		.ui-panel-block__part
+			h3 📝 Формы
+			ul
+				li: a(href="form.html") Элементы формы
+				li: a(href="select.html") Select
+				li: a(href="form-row.html") Плашка «Есть спецификация»
+				li: a(href="filters.html") Фильтры (sidebar / drawer)
+				li: a(href="b24-form-light.html") Битрикс — светлая форма
+				li: a(href="feedback-b24.html") Битрикс — feedback CTA
+				li: a(href="modal-request-b24.html") Битрикс — модалка КП
+
+		//- 🎴 КАРТОЧКИ
+		.ui-panel-block__part
+			h3 🎴 Карточки
+			ul
+				li: a(href="cards.html") Cards (общая витрина)
+				li: a(href="article-card.html") Карточка статьи
+				li: a(href="fact-card.html") Карточка с расчётом
+				li: a(href="quote-card.html") Карточка цитаты
+				li: a(href="cta-card.html") CTA-плашка
+
+		//- 📄 СПИСКИ
+		.ui-panel-block__part
+			h3 📄 Списки
+			ul
+				li: a(href="lists.html") Lists (общие)
+				li: a(href="cat-list.html") Список категорий
+
+		//- 🖼 МЕДИА И КОНТЕНТ
+		.ui-panel-block__part
+			h3 🖼 Медиа и контент
+			ul
+				li: a(href="gallery.html") Галерея
+				li: a(href="figure.html") Изображение с подписью
+				li: a(href="img-text-row.html") Строка «изображение + текст»
+				li: a(href="video-side.html") Видео + текст
+				li: a(href="content.html") Контент из редактора
+
+		//- ⚙️ ИНТЕРАКТИВ
+		.ui-panel-block__part
+			h3 ⚙️ Интерактив
+			ul
+				li: a(href="accordion.html") Аккордеон
+				li: a(href="tabs.html") Табы
+				li: a(href="partners-slider.html") Слайдер
+
+		//- 📊 ТАБЛИЦЫ
+		.ui-panel-block__part
+			h3 📊 Таблицы
+			ul
+				li: a(href="simple-table.html") Simple table
+
+		//- 🧭 НАВИГАЦИЯ И СЛУЖЕБНОЕ
+		.ui-panel-block__part
+			h3 🧭 Навигация и служебное
+			ul
+				li: a(href="section-headers.html") Заголовки секций
+				li: a(href="breadcrumbs.html") Хлебные крошки
+				li: a(href="pagination.html") Пагинация
+				li: a(href="toc.html") Оглавление (TOC)
+				li: a(href="running-line.html") Бегущая строка
+
+		//- 🧩 СЕКЦИИ — переиспользуемые между страницами
+		//- Home-only (home-roles, portfolio, stages и т.п.) в этой
+		//- навигации не показываются, хотя файлы существуют.
+		.ui-panel-block__part
+			h3 🧩 Секции
+			ul
+				li: a(href="header.html") Шапка (header)
+				li: a(href="footer.html") Футер
+				li: a(href="hero.html") Hero (главная)
+				li: a(href="hero-inner.html") Hero внутренних страниц
+				li: a(href="catalog.html") Каталог товаров
+				li: a(href="documents.html") Документы (по категории)
+				li: a(href="usage.html") Где используется
+				li: a(href="about-section.html") О разделе (с экспертом)
+				li: a(href="experience.html") Опыт (полоса логотипов)
+				li: a(href="feature.html") Комплексный подход
+				li: a(href="feedback.html") Обратная связь (общая)
+				li: a(href="cta-row.html") CTA-ряд
