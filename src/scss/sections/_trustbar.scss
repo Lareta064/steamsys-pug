@@ -1,0 +1,65 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-trustbar — светло-серая полоса с 4 ключевыми фактами
+// (type-count / срок / поставка / документация). Располагается
+// под hero на внутренних страницах («Готовые системы и решения» и т.п.).
+//
+// Разметка:
+//   section.ss-trustbar.ss-wrapper
+//     .ss-container
+//       ul.ss-trustbar__list
+//         li.ss-trustbar__item
+//           p.ss-trustbar__value 13+
+//           p.ss-trustbar__label типов готовых решений
+//
+// Desktop: 4 равных блока в ряд, выравнивание текста по центру.
+// <$md: сжимаем в 2 колонки.
+// ==============================
+.ss-trustbar {
+	background: var(--secondary3);
+	padding: 40px 0;
+
+	@include down($md) {
+		padding: 30px 0;
+	}
+}
+
+.ss-trustbar__list {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 30px 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down($md) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+.ss-trustbar__item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	row-gap: 10px;
+}
+
+.ss-trustbar__item .ss-fs-28{
+	margin: 0;
+	
+	font-weight: 700;
+	
+	line-height: 1.2;
+	color: var(--primary);
+}
+
+.ss-trustbar__label {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary);
+}

@@ -1,0 +1,9 @@
+- var trustbarItems = [{ value: '13+', label: 'типов готовых решений' }, { value: '1 день', label: 'срок расчёта системы' }, { value: 'Блочная', label: 'поставка в сборе' }, { value: 'В&nbsp;комплекте', label: 'вся документация' }]
+
+section.ss-trustbar.ss-wrapper
+	.ss-container
+		ul.ss-trustbar__list
+			each item in trustbarItems
+				li.ss-trustbar__item
+					p.ss-fs-28 !{item.value}
+					p.ss-trustbar__label= item.label
