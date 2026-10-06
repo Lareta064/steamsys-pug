@@ -137,3 +137,22 @@ block content
 				code
 					| +ssSwiperBtn('prev')
 					| +ssSwiperBtn('next')
+
+			//- Модификатор .ss-slider-nav--accent — для светлых/серых секций.
+			h4.buttons-catalog__subtitle(style="margin-top:30px;") Модификатор .ss-slider-nav--accent (для светлого/серого фона секции)
+			p.buttons-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Инвертирует обычную схему: в покое — синий фон + белая стрелка, при hover — белый фон + серая. Применяется на обёртке
+				code .ss-slider-nav
+				| , стили — там же (
+				code src/scss/blocks/_swiper-btn.scss
+				| ).
+
+			.ss-slider-nav.ss-slider-nav--accent(style="justify-content: flex-start;")
+				+ssSwiperBtn('prev')
+				+ssSwiperBtn('next')
+
+			pre.buttons-catalog__snippet(style="margin-top:16px;")
+				code
+					| .ss-slider-nav.ss-slider-nav--accent
+					|     +ssSwiperBtn('prev')
+					|     +ssSwiperBtn('next')

@@ -1,23 +1,28 @@
-extends ../layouts/layout-ui-sections.pug
+- var taskFormSteps = [{ title: 'Опишите задачу в свободной форме', desc: 'Что нужно сделать, какое оборудование, параметры пара если известны' }, { title: 'Инженер свяжется в течение 1 рабочего дня', desc: 'Уточнит детали и предложит решение с предварительным расчётом' }, { title: 'Получите КП и техническое решение', desc: 'Схема, спецификация, стоимость — без обязательств с вашей стороны' }]
 
-block variables
-	-var title = "Bitrix-форма — светлая тема";
+section.ss-section.ss-section--tinted.ss-task-form
+	.ss-container.ss-wrapper
+		.ss-task-form__grid
+			//- Левая колонка — intro + список шагов (ss-list--icon с цифрами в маркере).
+			.ss-task-form__intro
+				span.ss-kicker Индивидуальный подход
+				h2.ss-h2 Не нашли нужное решение?
+				p.ss-task-form__desc
+					| Если ваша задача не вписывается в типовые системы — опишите её. Инженер разберётся в специфике объекта и предложит оптимальный вариант: адаптацию готового решения или индивидуальное проектирование.
 
-block content
-	//- Превью светлого варианта .ss-b24-form--light.
-	//- Форма живёт на белом фоне; --b24-label-bg = --white, поэтому
-	//- подложка плавающего label корректно закрывает линию бордера.
-	//- При добавлении секции с подобной формой в проекте — оборачиваем
-	//- .b24-form в .ss-b24-form.ss-b24-form--light, и стили подтягиваются.
-	section.ss-section.ss-b24-form-preview-light
-		.ss-container.ss-wrapper
-			p.ss-kicker.ss-txt-accent1 Bitrix-форма
-			h2.ss-h2.ss-b24-form-preview-light__h2 Светлая тема (.ss-b24-form--light)
+				ul.ss-list.ss-list--icon.ss-task-form__steps
+					each step, i in taskFormSteps
+						li.ss-list__item
+							span.ss-list__marker= i + 1
+							.ss-task-form__step-body
+								p.ss-task-form__step-title= step.title
+								p.ss-task-form__step-desc= step.desc
 
-			.ss-b24-form-preview-light__box
-				p.ss-b24-form-preview-light__title Заполните форму — инженер подберёт оптимальное решение
+			//- Правая колонка — белая коробка с заголовком + Битрикс-формой (светлая тема).
+			.ss-task-form__card
+				p.ss-task-form__form-title Опишите вашу задачу
+				p.ss-task-form__form-subtitle Специалист подберёт решение и свяжется с вами
 
-				//- Мок битрикс-DOM с модификатором --light
 				.ss-b24-form.ss-b24-form--light
 					.b24-form
 						.b24-form-wrapper
@@ -41,7 +46,7 @@ block content
 									.b24-form-field.b24-form-field-email
 										.b24-form-control-container
 											.b24-form-control-label
-												span.b24-form-control-label-name Email для отправки КП
+												span.b24-form-control-label-name Email
 											input.b24-form-control.b24-form-control-string(type='email', name='EMAIL', placeholder=' ')
 
 									//- File-поле — структура под реальный битрикс-DOM. В production
@@ -56,12 +61,12 @@ block content
 											.b24-form-control.b24-form-control-file
 												label.b24-form-control-file-button
 													input.b24-form-control-file-input(type='file', name='FILE', hidden)
-													| Прикрепить ТЗ, спецификацию или опросный лист
+													| Прикрепить файлы
 
 									.b24-form-field.b24-form-field-text
 										.b24-form-control-container
 											.b24-form-control-label
-												span.b24-form-control-label-name Комментарий к файлу или краткое описание задачи
+												span.b24-form-control-label-name Опишите задачу: что нужно сделать, тип оборудования, параметры пара (если известны), объём
 											textarea.b24-form-control.b24-form-control-textarea(name='COMMENTS', placeholder=' ')
 
 									.b24-form-field.b24-form-field-agreement
@@ -77,6 +82,4 @@ block content
 							.b24-form-btn-block
 								.b24-form-btn-container
 									button.b24-form-btn.b24-form-btn-shadow(type='submit')
-										span.b24-form-btn-icon
-											+svgIcon('mail')
-										span.b24-form-btn-text Получить расчёт
+										span.b24-form-btn-text Отправить задачу инженеру
