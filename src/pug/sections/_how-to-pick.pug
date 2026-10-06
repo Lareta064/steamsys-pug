@@ -1,0 +1,25 @@
+- var howToPickSteps = [{ title: 'Параметры системы', text: 'Давление и температура пара, расход, тип потребителя, условия монтажа' }, { title: 'Расчёт инженером', text: 'Выбор типа системы, подбор оборудования, расчёт производительности — в течение 1 рабочего дня' }, { title: 'Комплект документов', text: 'Техническое задание, принципиальная схема, спецификация оборудования, КП' }, { title: 'Адаптация и поставка', text: 'Доработка под особенности объекта, блочная поставка с полным комплектом документации' }]
+
+section.ss-section.ss-how-to-pick
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Как подобрать систему
+
+		.ss-how-to-pick__grid
+			//- Левая колонка — статичная картинка-схема (placeholder из process.webp).
+			//- Заменить на реальную картинку схемы, когда дизайнер отдаст.
+			.ss-how-to-pick__media
+				picture
+					source(srcset=`${basePath}img/process.webp 1x, ${basePath}img/process@2x.webp 2x`)
+					img(src=`${basePath}img/process.webp` width='720' height='560' alt='Схема подбора системы' loading='lazy' decoding='async')
+
+			//- Правая колонка — список шагов. Плашки .ss-comp-item,
+			//- не кликабельные (div, не a), но реагируют на hover.
+			ul.ss-how-to-pick__list
+				each step, i in howToPickSteps
+					li.ss-comp-item
+						span.ss-comp-item__num= ('0' + (i + 1)).slice(-2)
+						.ss-comp-item__body
+							h3.ss-comp-item__title= step.title
+							p.ss-comp-item__text= step.text

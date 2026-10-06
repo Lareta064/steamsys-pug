@@ -6,6 +6,11 @@
 // 1 на <768. Пагинация-полоски (shared .swiper-bars).
 // ==============================
 .ss-all-solutions {
+	// Серый фон — через --secondary3. Семантически секция помечена
+	// .ss-section--tinted, чтобы правило суммирования padding'ов между
+	// соседними секциями из _section.scss считало её «цветной».
+	background: var(--secondary3);
+
 	// Заголовок — слева h2 + подзаголовок, справа ссылка «Смотреть все
 	// решения» (по нижнему краю). На mobile — колонка.
 	.ss-section-header {
@@ -14,6 +19,16 @@
 		@include down($md) {
 			align-items: flex-start;
 			row-gap: 20px;
+		}
+	}
+
+	// На сером фоне базовые .ss-swiper-btn (background --secondary3)
+	// «растворяются» — перебиваем на белую подложку.
+	.ss-swiper-btn {
+		background: var(--white);
+
+		&:hover {
+			background: var(--accent1);
 		}
 	}
 
