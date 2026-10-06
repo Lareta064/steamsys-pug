@@ -20,6 +20,10 @@
 					el: el.querySelector('.swiper-pagination'),
 					clickable: true
 				},
+				navigation: {
+					prevEl: el.querySelector('.ss-swiper-btn--prev'),
+					nextEl: el.querySelector('.ss-swiper-btn--next')
+				},
 				breakpoints: {
 					768:  { slidesPerView: 2, spaceBetween: 20 },
 					1200: { slidesPerView: 3, spaceBetween: 30 }

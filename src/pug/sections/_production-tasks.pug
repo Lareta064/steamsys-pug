@@ -8,6 +8,8 @@ section.ss-section.ss-production-tasks
 				p.ss-production-tasks__desc Не знаете название установки — выбирайте по задаче
 
 		.swiper.swiper-pb.swiper-bars.js-production-tasks-slider
+			+ssSwiperBtn('prev')
+			+ssSwiperBtn('next')
 			.swiper-wrapper
 				each t in productionTasks
 					.swiper-slide
