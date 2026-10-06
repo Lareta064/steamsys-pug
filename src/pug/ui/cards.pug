@@ -46,7 +46,8 @@ block content
 					.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
 						each item in featureItems
 							.ss-feature-card
-								+svgIcon(item.icon)
+								span.ss-feature-card__icon
+									+svgIcon(item.icon)
 								.ss-feature-card__body
 									p.ss-feature-card__title= item.title
 									p.ss-feature-card__text= item.text
@@ -55,7 +56,8 @@ block content
 				h4.cards-catalog__subtitle Одиночная (для сравнения desktop/mobile — сузь окно)
 				.cards-catalog__demo.ss-bg-gray
 					.ss-feature-card(style="max-width:280px;")
-						+svgIcon('target')
+						span.ss-feature-card__icon
+							+svgIcon('target')
 						.ss-feature-card__body
 							p.ss-feature-card__title Аудит и диагностика
 							p.ss-feature-card__text Анализируем систему, выявляем потери и точки роста эффективности
@@ -64,7 +66,8 @@ block content
 				pre.cards-catalog__snippet
 					code
 						| .ss-feature-card
-						|     +svgIcon('target')
+						|     span.ss-feature-card__icon
+						|         +svgIcon('target')
 						|     .ss-feature-card__body
 						|         p.ss-feature-card__title Заголовок
 						|         p.ss-feature-card__text Описание

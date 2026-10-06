@@ -1,9 +1,12 @@
-- var trustbarItems = [{ value: '13+', label: 'типов готовых решений' }, { value: '1 день', label: 'срок расчёта системы' }, { value: 'Блочная', label: 'поставка в сборе' }, { value: 'В&nbsp;комплекте', label: 'вся документация' }]
+- var trustbarItems = [{ value: '13+', label: 'типов готовых решений', icon: 'chart' }, { value: '1 день', label: 'срок расчёта системы', icon: 'calendar' }, { value: 'Блочная', label: 'поставка в сборе', icon: 'tool' }, { value: 'В&nbsp;комплекте', label: 'вся документация', icon: 'doc' }]
 
 section.ss-trustbar.ss-wrapper
 	.ss-container
-		ul.ss-trustbar__list
+		.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
 			each item in trustbarItems
-				li.ss-trustbar__item
-					p.ss-fs-28 !{item.value}
-					p.ss-trustbar__label= item.label
+				.ss-feature-card
+					span.ss-feature-card__icon
+						+svgIcon(item.icon)
+					.ss-feature-card__body
+						p.ss-feature-card__title !{item.value}
+						p.ss-feature-card__text= item.label
