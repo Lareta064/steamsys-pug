@@ -44,23 +44,3 @@
 		z-index: 1;
 	}
 }
-
-// Ряд pill-ссылок под actions в hero. Тёмный фон → белая рамка.
-.portfolio-page__hero-pills {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 10px;
-	margin: 20px 0 0;
-	padding: 0;
-	list-style: none;
-
-	.ss-pill {
-		border-color: var(--white);
-		background: transparent;
-		color: var(--white);
-
-		&:hover {
-			background: rgba(255, 255, 255, 0.15);
-		}
-	}
-}

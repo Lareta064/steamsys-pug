@@ -1,0 +1,41 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-all-solutions — секция «Все готовые решения».
+// Swiper .js-all-solutions-slider: 3 карточки на ≥1200, 2 на ≥768,
+// 1 на <768. Пагинация-полоски (shared .swiper-bars).
+// ==============================
+.ss-all-solutions {
+	// Заголовок — слева h2 + подзаголовок, справа ссылка «Смотреть все
+	// решения» (по нижнему краю). На mobile — колонка.
+	.ss-section-header {
+		align-items: flex-end;
+
+		@include down($md) {
+			align-items: flex-start;
+			row-gap: 20px;
+		}
+	}
+}
+
+.ss-all-solutions__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--secondary);
+	max-width: 640px;
+}
+
+// Равная высота слайдов + растягивание карточки на всю ширину слайда —
+// тот же приём, что в .js-experience-slider / .js-production-tasks-slider.
+.js-all-solutions-slider .swiper-slide {
+	height: auto;
+	min-height: 100%;
+	display: flex;
+
+	> .ss-all-solution-card {
+		width: 100%;
+	}
+}

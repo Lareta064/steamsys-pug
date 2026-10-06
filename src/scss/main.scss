@@ -28,6 +28,7 @@
 @use "blocks/_social.scss";
 @use "blocks/_feature-card";
 @use "blocks/_process-card";
+@use "blocks/_all-solution-card";
 @use "blocks/_task-card";
 @use "blocks/_category-card";
 @use "blocks/_product-card";
@@ -95,6 +96,7 @@
 @use "sections/_trustbar";
 @use "sections/_production-tasks";
 @use "sections/_process-type";
+@use "sections/_all-solutions";
 @use "blocks/_menu";
 @use "blocks/_mobile-menu";
 @use "blocks/_modal";
