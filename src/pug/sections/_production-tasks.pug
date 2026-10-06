@@ -2,14 +2,13 @@
 
 section.ss-section.ss-production-tasks
 	.ss-container.ss-wrapper
-		.ss-section-header.ss-section-header--column
+		.ss-section-header
 			.ss-section-header__title
 				h2.ss-h2 Выберите по производственной задаче
 				p.ss-production-tasks__desc Не знаете название установки — выбирайте по задаче
-
-		.ss-slider-nav
-			+ssSwiperBtn('prev')
-			+ssSwiperBtn('next')
+			.ss-slider-nav
+				+ssSwiperBtn('prev')
+				+ssSwiperBtn('next')
 
 		.swiper.swiper-pb.swiper-bars.js-production-tasks-slider
 			.swiper-wrapper

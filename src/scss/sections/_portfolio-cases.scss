@@ -1,0 +1,27 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-portfolio-cases — секция «Кейсы по готовым системам»
+// на странице portfolio-page. 2 карточки .ss-case-card--portfolio
+// в grid 1fr 1fr. На <$lg — стек.
+// ==============================
+.ss-portfolio-cases {
+	.ss-section-header {
+		margin-bottom: 40px;
+
+		@include down($md) {
+			margin-bottom: 30px;
+		}
+	}
+}
+
+.ss-portfolio-cases__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	row-gap: 30px;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+	}
+}

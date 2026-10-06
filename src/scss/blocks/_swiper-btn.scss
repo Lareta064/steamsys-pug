@@ -36,7 +36,11 @@
 	background: var(--secondary3);
 	color: var(--secondary1);
 	cursor: pointer;
-	transition: background-color .2s ease, color .2s ease;
+	// Мягкая тень — делает кнопки заметнее на светло-сером фоне
+	// (где у них фон того же тона) и не мешает на тёмном (альфа низкая,
+	// на --primary практически не видна).
+	box-shadow: 0 2px 10px rgba(3, 29, 42, 0.1);
+	transition: background-color .2s ease, color .2s ease, box-shadow .2s ease;
 
 	svg {
 		width: 24px;
@@ -46,6 +50,7 @@
 	&:hover {
 		background: var(--accent1);
 		color: var(--white);
+		box-shadow: 0 4px 14px rgba(0, 68, 187, 0.25);
 	}
 
 	&:focus-visible {
@@ -82,9 +87,10 @@
 
 
 // ==============================================================
-// .ss-slider-nav — обёртка-полоса ПЕРЕД .swiper со стрелками,
-// прибитыми к правому краю. Используется в секциях страницы
-// portfolio-page («Производственные задачи», «Все готовые решения»).
+// .ss-slider-nav — обёртка со стрелками для слайдера. Используется
+// как самостоятельная полоса ИЛИ внутри .ss-section-header
+// (правый столбец вместо ссылки/кнопки) — на страницах, где заголовок
+// и управление слайдером сидят в одном ряду.
 //
 // Внутри обнуляем абсолютное позиционирование --prev/--next и показываем
 // их на всех экранах (базовое правило скрывает на <$lg — здесь перебиваем).
@@ -93,7 +99,6 @@
 	display: flex;
 	justify-content: flex-end;
 	gap: 10px;
-	margin-bottom: 20px;
 
 	.ss-swiper-btn {
 		display: inline-flex;
@@ -106,4 +111,12 @@
 		left: auto;
 		right: auto;
 	}
+}
+
+// Когда .ss-slider-nav лежит внутри .ss-section-header (правая часть
+// заголовочной строки) — прибиваем его к НИЖНЕМУ краю, вровень с
+// низом h2. У .ss-section-header по дефолту align-items: stretch,
+// локально align-self: flex-end перебивает только для nav'а.
+.ss-section-header .ss-slider-nav {
+	align-self: flex-end;
 }

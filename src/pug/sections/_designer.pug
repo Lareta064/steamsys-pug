@@ -1,0 +1,23 @@
+- var designerItems = [{ icon: '📋', title: 'Опросные листы', cta: 'Скачать все форматы', href: '#designer-forms' }, { icon: '📐', title: 'Типовые схемы', cta: 'Смотреть схемы', href: '#designer-schemes' }, { icon: '🔧', title: 'CAD / 3D / BIM', cta: 'Скачать модели', href: '#designer-cad' }, { icon: '📄', title: 'Технические описания', cta: 'Смотреть описания', href: '#designer-descriptions' }, { icon: '✅', title: 'Паспорта и сертификаты', cta: 'Запросить документы', href: '#designer-certs' }, { icon: '👷', title: 'Консультация инженера', cta: 'Задать вопрос', href: '#designer-consult' }]
+
+section.ss-section.ss-section--tinted.ss-designer
+	.ss-container.ss-wrapper
+		.ss-designer__grid
+			.ss-designer__intro
+				span.ss-kicker Для проектировщиков
+				h2.ss-h3 Технические материалы по&nbsp;всем решениям
+				p.ss-designer__desc Вся документация по готовым системам: от опросных листов до CAD-моделей
+				.ss-designer__action
+					+ssBtn('Запросить пакет документов', { variant: 'primary', icon: 'arrow-right' })(data-modal='request-b24')
+
+			ul.ss-designer__list
+				each item in designerItems
+					li
+						a.ss-designer__item(href=item.href)
+							span.ss-designer__icon(aria-hidden='true')
+								i= item.icon
+							.ss-designer__body
+								p.ss-designer__title= item.title
+								span.ss-link.ss-link--sm
+									span= item.cta
+									+svgIcon('arrow-right')
