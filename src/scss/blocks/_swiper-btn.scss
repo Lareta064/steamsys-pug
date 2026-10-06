@@ -79,3 +79,31 @@
 
 .ss-swiper-btn--prev { left: 20px; }
 .ss-swiper-btn--next { right: 20px; }
+
+
+// ==============================================================
+// .ss-slider-nav — обёртка-полоса ПЕРЕД .swiper со стрелками,
+// прибитыми к правому краю. Используется в секциях страницы
+// portfolio-page («Производственные задачи», «Все готовые решения»).
+//
+// Внутри обнуляем абсолютное позиционирование --prev/--next и показываем
+// их на всех экранах (базовое правило скрывает на <$lg — здесь перебиваем).
+// ==============================================================
+.ss-slider-nav {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-bottom: 20px;
+
+	.ss-swiper-btn {
+		display: inline-flex;
+	}
+
+	.ss-swiper-btn--prev,
+	.ss-swiper-btn--next {
+		position: static;
+		transform: none;
+		left: auto;
+		right: auto;
+	}
+}

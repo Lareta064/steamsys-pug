@@ -8,9 +8,11 @@ section.ss-section.ss-all-solutions
 				p.ss-all-solutions__desc 13 типов систем — от стандартных узлов до комплексных установок под конкретные параметры
 			+ssLink('Смотреть все решения')
 
-		.swiper.swiper-pb.swiper-bars.js-all-solutions-slider
+		.ss-slider-nav
 			+ssSwiperBtn('prev')
 			+ssSwiperBtn('next')
+
+		.swiper.swiper-pb.swiper-bars.js-all-solutions-slider
 			.swiper-wrapper
 				each s in allSolutions
 					.swiper-slide

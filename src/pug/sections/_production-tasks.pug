@@ -7,9 +7,11 @@ section.ss-section.ss-production-tasks
 				h2.ss-h2 Выберите по производственной задаче
 				p.ss-production-tasks__desc Не знаете название установки — выбирайте по задаче
 
-		.swiper.swiper-pb.swiper-bars.js-production-tasks-slider
+		.ss-slider-nav
 			+ssSwiperBtn('prev')
 			+ssSwiperBtn('next')
+
+		.swiper.swiper-pb.swiper-bars.js-production-tasks-slider
 			.swiper-wrapper
 				each t in productionTasks
 					.swiper-slide

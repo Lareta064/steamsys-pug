@@ -16,6 +16,17 @@
 			row-gap: 20px;
 		}
 	}
+
+	// На моб — у этого слайдера показываем только стрелки, пагинацию убираем
+	// (и padding-bottom под неё). .ss-slider-nav со стрелками остаётся видимым.
+	@include down($md) {
+		.swiper.swiper-pb {
+			padding-bottom: 0;
+		}
+		.swiper-pagination {
+			display: none;
+		}
+	}
 }
 
 .ss-all-solutions__desc {
