@@ -2,8 +2,10 @@
 
 section.ss-section.ss-section--tinted.ss-portfolio-faq.ss-bg-gray
 	.ss-container.ss-wrapper
-		.ss-section-header
-			h2.ss-h2 Часто задаваемые вопросы
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				span.ss-kicker Поддержка
+				h2.ss-h2 Часто задаваемые вопросы
 		.ss-accordion(data-accordion)
 			each item, i in portfolioFaqItems
 				+ssAccordionItem(item.q, 'portfolio-faq-' + (i + 1))
