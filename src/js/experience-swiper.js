@@ -19,6 +19,12 @@
 					el: el.querySelector('.swiper-pagination'),
 					clickable: true
 				},
+				navigation: {
+					// Кнопки живут в соседнем .ss-slider-nav над слайдером
+					// (не внутри .swiper), поэтому ищем через parent.
+					prevEl: el.parentElement.querySelector('.ss-swiper-btn--prev'),
+					nextEl: el.parentElement.querySelector('.ss-swiper-btn--next')
+				},
 				breakpoints: {
 					768:  { slidesPerView: 2, spaceBetween: 20 },
 					1200: { slidesPerView: 3, spaceBetween: 30 }

@@ -35,3 +35,14 @@
 		width: 100%;
 	}
 }
+
+// Отступ полосы со стрелками: место между заголовком/ссылкой секции
+// и слайдером (base .ss-section-header уже имеет margin-bottom 60,
+// nav приклеивается чуть ниже, слайдер — ещё ниже).
+.ss-experience__nav {
+	margin: -30px 0 30px;
+
+	@include down($md) {
+		margin: -20px 0 20px;
+	}
+}
