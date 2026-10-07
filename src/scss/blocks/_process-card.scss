@@ -104,3 +104,86 @@
 	display: inline-block;
 	font-weight: 500;
 }
+
+
+// ==============================================================
+// .ss-process-card--photo — вариант карточки: тёмный фон, фото
+// оборудования в правом нижнем углу (поверх фона, частично может
+// заезжать на контент).
+//
+// Разметка:
+//   article.ss-process-card.ss-process-card--photo
+//     .ss-process-card__body
+//       p.ss-process-card__title …
+//       p.ss-process-card__text  …
+//     a.ss-process-card__cta(href='…')
+//       span.ss-process-card__cta-arrow →
+//       |  Нужна обвязка
+//     picture.ss-process-card__photo
+//       source(...)
+//       img(...)
+//
+// Иконки нет (если попадёт в разметку — скрывается).
+// ==============================================================
+.ss-process-card--photo {
+	position: relative;
+	overflow: hidden;
+	background: var(--primary1);
+	color: var(--white);
+	min-height: 240px;
+	// Отступ справа для контента, чтобы не ложился под фото.
+	padding-right: 45%;
+
+	@include down($md) {
+		padding-right: 40%;
+		min-height: 200px;
+	}
+
+	// На случай, если иконка попала в разметку по инерции.
+	.ss-process-card__icon {
+		display: none;
+	}
+
+	.ss-process-card__title {
+		color: var(--white);
+	}
+
+	.ss-process-card__text {
+		color: rgba(255, 255, 255, 0.75);
+	}
+
+	// CTA — стрелка слева, голубой accent3.
+	.ss-process-card__cta {
+		color: var(--accent3);
+
+		&:hover {
+			color: var(--white);
+		}
+	}
+}
+
+// Фото оборудования — прибито к правому-нижнему углу, абсолютное
+// позиционирование. Контент не ложится под картинку благодаря
+// padding-right у карточки.
+.ss-process-card__photo {
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 55%;
+	max-height: 100%;
+	pointer-events: none;
+
+	@include down($md) {
+		width: 50%;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: right top;
+
+	}
+}
