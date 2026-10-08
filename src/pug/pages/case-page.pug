@@ -1,0 +1,15 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Кейс — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-case-page
+
+		include ../sections/_case-hero.pug
+		include ../sections/_case-trustbar.pug
+		include ../sections/_case-roles.pug
+
+	include ../sections/_footer.pug

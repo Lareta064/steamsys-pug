@@ -1,0 +1,88 @@
+@use '../base/_var' as *;
+
+// ==============================
+// case-page — стили страницы одного кейса (build/case-page.html).
+// ==============================
+
+// ------------------------------
+// Hero-inner — bg image + градиентная завеса слева (1:1 с portfolio-page).
+// Fallback-фон — --primary1. Пока используем solution-hero.webp (как
+// у портфолио), поменяем на картинку кейса, когда она будет.
+// ------------------------------
+.case-page__hero .ss-hero-inner__body {
+	position: relative;
+	background-color: var(--primary1);
+	background-image: image-set(
+		url('../img/solution-hero.webp') 1x,
+		url('../img/solution-hero@2x.webp') 2x
+	);
+	background-size: cover;
+	background-position: center right;
+	background-repeat: no-repeat;
+	overflow: hidden;
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg,
+			rgba(3, 29, 42, 0.92) 0%,
+			rgba(3, 29, 42, 0.75) 30%,
+			rgba(3, 29, 42, 0.35) 65%,
+			rgba(3, 29, 42, 0) 100%
+		);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+// Ширина body-inner на case-page — снимаем базовый max-width 1000px,
+// иначе 3 кнопки actions не влезают в ряд на широких экранах
+// и переносятся. Читаемость сохраняем через локальные max-width
+// на h1 и lead (у lead базовый max-width 700 уже есть).
+.case-page__hero .ss-hero-inner__body-inner {
+	max-width: none;
+
+	.ss-h1 {
+		max-width: 900px;
+	}
+}
+
+// Описание под h2 в секции «Как читать страницу» — приглушённый серый,
+// как подзаголовки в других секциях страницы.
+.ss-case-roles__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--secondary);
+	max-width: 760px;
+}
+
+// Ряд pill-тегов под actions в hero. На тёмной подложке — прозрачный
+// фон, белая рамка, белый текст.
+.case-page__hero-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 20px 0 0;
+	padding: 0;
+	list-style: none;
+
+	.ss-pill {
+		border-color: var(--white);
+		background: transparent;
+		color: var(--white);
+		cursor: default;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.15);
+		}
+	}
+}

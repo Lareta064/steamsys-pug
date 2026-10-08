@@ -1,0 +1,17 @@
+//- ============================================================
+//- Trustbar страницы одного кейса. Визуально 1:1 с .ss-trustbar
+//- (grid из .ss-feature-card на светло-сером фоне). Контент —
+//- проектные метрики кейса.
+//- ============================================================
+- var caseTrustbarItems = [{ value: '250+', label: 'реализованных РОУ/БРОУ на объектах РФ', icon: 'chart' }, { value: '1 день', label: 'срок предварительного расчёта по параметрам', icon: 'calendar' }, { value: '−30%', label: 'снижение эксплуатационных рисков после внедрения', icon: 'shield' }, { value: '12 мес.', label: 'гарантия на решение', icon: 'check' }]
+
+section.ss-trustbar.ss-wrapper
+	.ss-container
+		.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+			each item in caseTrustbarItems
+				.ss-feature-card
+					span.ss-feature-card__icon
+						+svgIcon(item.icon)
+					.ss-feature-card__body
+						p.ss-feature-card__title !{item.value}
+						p.ss-feature-card__text= item.label
