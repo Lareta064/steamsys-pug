@@ -55,7 +55,8 @@
 
 // Описание под h2 в секции «Как читать страницу» — приглушённый серый,
 // как подзаголовки в других секциях страницы.
-.ss-case-roles__desc {
+.ss-case-roles__desc,
+.ss-case-problems__desc {
 	margin: 0;
 	font-family: var(--font-family);
 	font-weight: 400;
@@ -63,6 +64,16 @@
 	line-height: 1.5;
 	color: var(--secondary);
 	max-width: 760px;
+}
+
+// В секции «Какие проблемы решает…» — иконки растровые (prob1.svg…prob8.svg),
+// а не из спрайта. Базовая обёртка .ss-feature-card__icon заточена под <svg>,
+// img внутри подчиняется тем же правилам (width/height 100%, object-fit).
+// Правило 0-3-0 (page scope) перебивает базовое 0-1-0 из _feature-card.scss.
+.ss-case-problems .ss-feature-card__icon img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 // Ряд pill-тегов под actions в hero. На тёмной подложке — прозрачный
