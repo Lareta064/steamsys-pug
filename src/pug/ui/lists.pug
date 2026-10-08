@@ -23,6 +23,7 @@ block content
 				ul.lists-catalog__toc-list
 					li: a(href='#bullet') .ss-list (bullet)
 					li: a(href='#icon') .ss-list--icon
+					li: a(href='#step') .ss-list--step
 
 			//- ========== Bullet list ==========
 			section.lists-catalog__section#bullet
@@ -73,3 +74,55 @@ block content
 						|         span.ss-list__marker
 						|             +svgIcon('check')
 						|         span Текст пункта
+
+			//- ========== Step list ==========
+			section.lists-catalog__section#step
+				h3.lists-catalog__section-title .ss-list--step
+				p.lists-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Список «шагов» (title + text в item'е). Строится поверх
+					code .ss-list--icon
+					| : в маркере — цифра или иконка, справа —
+					code .ss-list__step
+					| с заголовком и описанием.
+					br
+					| Размеры title/text задаём типографика-утилитами на самих
+					code &lt;p&gt;
+					| (например
+					code .ss-semi-18
+					|  и
+					code .ss-reg-14.ss-txt-secondary
+					| ) — компонент не хардкодит шрифты.
+
+				//- Шаги с цифрами в маркере
+				h4.lists-catalog__subtitle С цифрой в маркере
+				.lists-catalog__demo.ss-bg-gray
+					- var stepItemsDigits = [{ title: 'Параметры системы', text: 'Давление и температура пара, расход, тип потребителя, условия монтажа.' }, { title: 'Расчёт инженером', text: 'Выбор типа системы, подбор оборудования, расчёт производительности — в течение 1 рабочего дня.' }, { title: 'Комплект документов', text: 'Техническое задание, принципиальная схема, спецификация оборудования, КП.' }]
+					ul.ss-list.ss-list--icon.ss-list--step
+						each step, i in stepItemsDigits
+							li.ss-list__item
+								span.ss-list__marker= i + 1
+								.ss-list__step
+									p.ss-semi-18= step.title
+									p.ss-reg-14.ss-txt-secondary= step.text
+
+				//- Шаги с svg-иконкой в маркере
+				h4.lists-catalog__subtitle С svg-иконкой в маркере
+				.lists-catalog__demo.ss-bg-gray
+					- var stepItemsSvg = [{ icon: 'check', title: 'Опросный лист', text: 'Заполняется клиентом или инженером при звонке — за 5–10 минут.' }, { icon: 'check', title: 'Расчёт за 1 рабочий день', text: 'Инженер подбирает оборудование и готовит коммерческое предложение.' }, { icon: 'check', title: 'Поставка под ключ', text: 'Монтаж, пусконаладка, обучение персонала и гарантийная поддержка.' }]
+					ul.ss-list.ss-list--icon.ss-list--step
+						each step in stepItemsSvg
+							li.ss-list__item
+								span.ss-list__marker
+									+svgIcon(step.icon)
+								.ss-list__step
+									p.ss-semi-18= step.title
+									p.ss-reg-14.ss-txt-secondary= step.text
+
+				pre.lists-catalog__snippet
+					code
+						| ul.ss-list.ss-list--icon.ss-list--step
+						|     li.ss-list__item
+						|         span.ss-list__marker 1
+						|         .ss-list__step
+						|             p.ss-semi-18 Заголовок шага
+						|             p.ss-reg-14.ss-txt-secondary Описание

@@ -69,3 +69,55 @@
 	background: var(--primary1);
 	color: var(--white);
 }
+
+
+// ==============================
+// .ss-list--step — список «шагов» (title + text в item'е, маркер
+// обычно с цифрой или иконкой слева). Строится поверх .ss-list--icon.
+//
+// Разметка:
+//   ul.ss-list.ss-list--icon.ss-list--step
+//     li.ss-list__item
+//       span.ss-list__marker 1                                       //- или +svgIcon(...)
+//       .ss-list__step
+//         p.ss-semi-18 Заголовок шага
+//         p.ss-reg-14.ss-txt-secondary Описание шага
+//
+// Размеры/цвета title и text задаются типографика-утилитами
+// (.ss-semi-18, .ss-reg-14, .ss-txt-secondary) прямо на <p>.
+// Компонент сам НИЧЕГО не хардкодит про шрифт — только layout +
+// reset margin'а у прямых детей .ss-list__step.
+// ==============================
+.ss-list--step {
+
+	// Крупный row-gap между шагами (на тонкие внутренние title/text).
+	row-gap: 24px;
+
+	.ss-list__item {
+		align-items: start;        // маркер к верху, не по центру item'а
+		column-gap: 20px;
+	}
+
+	// Внутри маркера — цифра/иконка, центрирование уже в .ss-list__marker.
+	// Шрифт для цифры в маркере по дефолту (без типографика-класса) —
+	// 14/600, чтобы цифра не падала с базового размера списка.
+	.ss-list__marker {
+		font-weight: 600;
+		font-size: 14px;
+		line-height: 1;
+	}
+}
+
+// Внутренний контейнер в item'е: title + text в столбик.
+// Прямые дети (<p>-ки с типографикой) теряют свой margin — вертикальный
+// ритм даёт row-gap контейнера.
+.ss-list__step {
+	display: flex;
+	flex-direction: column;
+	row-gap: 6px;
+	min-width: 0;
+
+	> * {
+		margin: 0;
+	}
+}

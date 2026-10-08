@@ -56,7 +56,8 @@
 // Описание под h2 в секции «Как читать страницу» — приглушённый серый,
 // как подзаголовки в других секциях страницы.
 .ss-case-roles__desc,
-.ss-case-problems__desc {
+.ss-case-problems__desc,
+.ss-case-delivery__desc {
 	margin: 0;
 	font-family: var(--font-family);
 	font-weight: 400;
@@ -74,6 +75,71 @@
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
+}
+
+// Секция «Как работает…» — 2 колонки (картинка-схема слева, список шагов
+// справа). Стилистика 1:1 с .ss-how-to-pick на portfolio-page, но справа
+// — наш типовой .ss-list--icon с цифрой в маркере.
+.ss-case-howworks__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	row-gap: 30px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ss-case-howworks__media {
+	// Та же пропорция, что у __media в .ss-how-to-pick (865 × 435).
+	aspect-ratio: 865 / 435;
+	border-radius: 10px;
+	overflow: hidden;
+	background: var(--secondary3);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+}
+
+// Секция «Что входит в решение» — 3×3 grid плашек .ss-comp-item.
+// На <$lg — 2 колонки, на <$md — 1.
+.ss-case-delivery__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+// Секция «Где устанавливается РОУ/БРОУ» — 2 карточки .ss-pills-card
+// в равных колонках на десктопе, стек на моб.
+.ss-case-usage__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	row-gap: 20px;
+	@include down($xxl) {
+		column-gap: 20px;
+	}
+	@include down($lg) {
+		grid-template-columns: 1fr;
+	}
 }
 
 // Ряд pill-тегов под actions в hero. На тёмной подложке — прозрачный
