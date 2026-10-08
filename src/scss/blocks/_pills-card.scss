@@ -20,7 +20,7 @@
 .ss-pills-card {
 	box-sizing: border-box;
 	padding: 30px;
-	background: var(--secondary3);
+	background: var(--secondary2);
 	border-radius: 10px;
 
 	@include down($md) {
@@ -36,7 +36,7 @@
 	line-height: 1.2;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
-	color: var(--secondary);
+	color: var(--primary);
 
 	@include down($md) {
 		font-size: 12px;

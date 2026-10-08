@@ -67,7 +67,8 @@
 .ss-case-problems__desc,
 .ss-case-delivery__desc,
 .ss-case-params__desc,
-.ss-case-inputs__desc {
+.ss-case-inputs__desc,
+.ss-case-effect__desc {
 	margin: 0;
 	font-family: var(--font-family);
 	font-weight: 400;
@@ -125,6 +126,111 @@
 
 	> .ss-solution-card__badge {
 		top: 6px;
+	}
+}
+
+// Доп. ссылка под основной CTA в .ss-case-designer (ниже кнопки
+// «Получить комплект документов»). Не входит в базовый .ss-designer,
+// локальный блок страницы кейса.
+.ss-case-designer__secondary {
+	margin-top: 20px;
+}
+
+// Секция «Что даёт внедрение РОУ/БРОУ» — 3×2 grid плашек со stat-value +
+// title + text. По структуре повторяет .ss-case-inputs__grid (grid 3×2
+// + шахматка акцентных карточек). У акцентных — тот же градиент
+// accent1→accent3, что у .ss-benefit-card--stat на главной.
+.ss-case-effect__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+.ss-case-effect__item {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 30px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+.ss-case-effect__item--dark {
+	background: linear-gradient(90deg, var(--accent1) 0%, var(--accent3) 100%);
+	border-color: transparent;
+	color: var(--white);
+}
+
+.ss-case-effect__item-value {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	// 32→60 fluid между $md и $xxxl (как у .ss-benefit-card--stat).
+	font-size: clamp(32px, calc(60 / 1920 * 100vw), 60px);
+	line-height: 1.2;
+	color: inherit;
+
+	@include down($md) {
+		font-size: 32px;
+	}
+}
+
+.ss-case-effect__item-title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1.4;
+	color: inherit;
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-case-effect__item-text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+// На тёмной карточке text тоже белый, но чуть приглушённый — читаемо
+// на фоне градиента, но не перебивает заголовки.
+.ss-case-effect__item--dark .ss-case-effect__item-text {
+	color: rgba(255, 255, 255, 0.75);
+}
+
+// Секция «Реализованные проекты РОУ/БРОУ» — grid 2 карточки
+// .ss-case-card--portfolio. Аналог .ss-portfolio-cases__grid.
+.ss-case-related__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	row-gap: 30px;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
 	}
 }
 
