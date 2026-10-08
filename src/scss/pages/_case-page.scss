@@ -66,7 +66,8 @@
 .ss-case-roles__desc,
 .ss-case-problems__desc,
 .ss-case-delivery__desc,
-.ss-case-params__desc {
+.ss-case-params__desc,
+.ss-case-inputs__desc {
 	margin: 0;
 	font-family: var(--font-family);
 	font-weight: 400;
@@ -124,6 +125,49 @@
 
 	> .ss-solution-card__badge {
 		top: 6px;
+	}
+}
+
+// Секция «Какие исходные данные нужны» — 3×2 grid плашек .ss-comp-item
+// (аналогично ss-benefits на главной: шахматное чередование светлых
+// и акцентных карточек). Под gridом — ряд из 2 CTA-кнопок.
+.ss-case-inputs__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	margin: 0 0 40px;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+		margin-bottom: 30px;
+	}
+}
+
+// Акцентные (активные) карточки — градиент как у .ss-benefit-card--stat
+// на главной. Перебиваем базовый сплошной --primary из .ss-comp-item--active.
+.ss-case-inputs .ss-comp-item--active {
+	background: linear-gradient(90deg, var(--accent1) 0%, var(--accent3) 100%);
+}
+
+.ss-case-inputs__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+
+	@include down($md) {
+		flex-direction: column;
+		gap: 10px;
+
+		.ss-btn {
+			width: 100%;
+		}
 	}
 }
 
