@@ -24,7 +24,7 @@ block content
 							.b24-form-content
 								.b24-form-padding-side
 
-									.b24-form-field.b24-form-field-string
+									.b24-form-field.b24-form-field-name.b24-form-field-string
 										.b24-form-control-container
 											.b24-form-control-label
 												span.b24-form-control-label-name Ваше имя
@@ -44,15 +44,19 @@ block content
 												span.b24-form-control-label-name Email для отправки КП
 											input.b24-form-control.b24-form-control-string(type='email', name='EMAIL', placeholder=' ')
 
+									//- File-поле — структура под реальный битрикс-DOM. В production
+									//- битрикс-скрипт сам инжектит button и вешает JS-открытие диалога.
+									//- В dev-моке используем <label>, оборачивающий скрытый
+									//- <input type="file">, — нативное поведение браузера открывает
+									//- диалог без JS. Скрепку рисует SCSS через ::before.
 									.b24-form-field.b24-form-field-file
 										.b24-form-control-container
-											label.b24-form-control-file
-												input.b24-form-control-file-input(type='file', name='FILE')
-												span.b24-form-control-file-icon
-													+svgIcon('clip')
-												span.b24-form-control-file-label Прикрепить ТЗ, спецификацию или опросный лист
-												button.b24-form-control-file-remove(type='button', aria-label='Удалить прикреплённый файл')
-													+svgIcon('delete')
+											.b24-form-control-label
+												span.b24-form-control-label-name Прикрепить файл
+											.b24-form-control.b24-form-control-file
+												label.b24-form-control-file-button
+													input.b24-form-control-file-input(type='file', name='FILE', hidden)
+													| Прикрепить ТЗ, спецификацию или опросный лист
 
 									.b24-form-field.b24-form-field-text
 										.b24-form-control-container

@@ -1,0 +1,89 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-comp-item — плашка-шаг с номером слева + title + text справа.
+// Не ссылка (используем <li> или <div>), но меняет вид на hover:
+// фон → --primary, текст → белый. Переходы плавные (.25s).
+//
+// Разметка:
+//   li.ss-comp-item
+//     span.ss-comp-item__num 01
+//     .ss-comp-item__body
+//       h3.ss-comp-item__title Параметры системы
+//       p.ss-comp-item__text  Описание …
+// ==============================
+.ss-comp-item {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: 24px;
+	align-items: start;
+	padding: 24px 30px;
+	border-radius: 10px;
+	background: var(--secondary3);
+	color: var(--primary);
+	cursor: default;
+	transition: background-color .25s, color .25s;
+
+	@include down($md) {
+		padding: 20px;
+		column-gap: 16px;
+	}
+}
+
+.ss-comp-item:hover {
+	background: var(--primary);
+	color: var(--white);
+}
+
+// Номер слева — крупный, приглушённый, не меняется цвет при hover
+// (сам «уходит» в фон через более светлый оттенок).
+.ss-comp-item__num {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 24px;
+	line-height: 1.2;
+	color: var(--secondary1);
+	transition: color .25s;
+
+	@include down($md) {
+		font-size: 20px;
+	}
+}
+
+.ss-comp-item:hover .ss-comp-item__num {
+	color: var(--secondary2);
+}
+
+.ss-comp-item__body {
+	display: flex;
+	flex-direction: column;
+	row-gap: 6px;
+	min-width: 0;
+}
+
+.ss-comp-item__title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1.4;
+	color: inherit;
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-comp-item__text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+	transition: color .25s;
+}
+
+.ss-comp-item:hover .ss-comp-item__text {
+	color: var(--secondary2);
+}

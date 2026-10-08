@@ -8,6 +8,10 @@ section.ss-section.ss-experience
 				h2.ss-h2 Опыт в ключевых отраслях
 			+ssLink('Смотреть все решения')
 
+		.ss-slider-nav.ss-slider-nav--accent.ss-experience__nav
+			+ssSwiperBtn('prev')
+			+ssSwiperBtn('next')
+
 		.swiper.swiper-pb.swiper-bars.js-experience-slider
 			.swiper-wrapper
 				each item in industries

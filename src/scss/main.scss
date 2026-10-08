@@ -27,6 +27,9 @@
 
 @use "blocks/_social.scss";
 @use "blocks/_feature-card";
+@use "blocks/_process-card";
+@use "blocks/_all-solution-card";
+@use "blocks/_comp-item";
 @use "blocks/_task-card";
 @use "blocks/_category-card";
 @use "blocks/_product-card";
@@ -91,6 +94,14 @@
 @use "sections/_hero-inner";
 @use "sections/_blog";
 @use "sections/_running-line";
+@use "sections/_trustbar";
+@use "sections/_production-tasks";
+@use "sections/_process-type";
+@use "sections/_all-solutions";
+@use "sections/_how-to-pick";
+@use "sections/_portfolio-cases";
+@use "sections/_designer";
+@use "sections/_task-form";
 @use "blocks/_menu";
 @use "blocks/_mobile-menu";
 @use "blocks/_modal";
@@ -99,6 +110,7 @@
 // Живут после blocks/sections, но до typography-утилит.
 @use "pages/_single-article";
 @use "pages/_catalog-page";
+@use "pages/_portfolio-page";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

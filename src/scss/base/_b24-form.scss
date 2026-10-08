@@ -145,7 +145,14 @@
 //   NAME и PHONE в первом ряду по 1fr,
 //   всё остальное (email, file, textarea, agreement) — на всю ширину.
 // ==============================================================
-.ss-b24-form form > div:has(> .b24-form-field) {
+// Селекторы:
+//   · form > div:has(> .b24-form-field) — реальный DOM битрикс-скрипта.
+//   · .b24-form-padding-side:has(> .b24-form-field) — наш мок в
+//     _portfolio-form.pug / b24-form-light.pug (используем для dev,
+//     когда битрикс-скрипт не грузится). Без этого row-gap между
+//     полями в моке = 0, поля прилипают друг к другу.
+.ss-b24-form form > div:has(> .b24-form-field),
+.ss-b24-form .b24-form-padding-side:has(> .b24-form-field) {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	column-gap: 20px;
@@ -153,7 +160,7 @@
 
 	@include down($md) {
 		grid-template-columns: 1fr;
-		row-gap: 10px;
+		row-gap: 5px;
 	}
 }
 .ss-b24-form .b24-form-content form>*+*{
@@ -363,12 +370,19 @@
 }
 
 // Текст согласия (внутри .b24-form-control-desc + .b24-form-field-agreement-link).
-.ss-b24-form .b24-form-control-desc {
+// На <$md уменьшаем до 12px — чтобы длинная строка «Нажимая кнопку…»
+// не разрастала чекбокс-строку.
+.ss-b24-form .b24-form-control-desc,
+.ss-b24-form .b24-form-control-agreement-text {
 	font-family: var(--font-family);
 	font-weight: 500;
 	font-size: 14px;
 	line-height: 1.4;
 	color: var(--b24-label);
+
+	@include down($md) {
+		font-size: 12px;
+	}
 }
 
 .ss-b24-form .b24-form-field-agreement-link {

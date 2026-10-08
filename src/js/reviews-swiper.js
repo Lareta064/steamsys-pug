@@ -18,6 +18,12 @@
 				pagination: {
 					el: el.querySelector('.swiper-pagination'),
 					clickable: true
+				},
+				navigation: {
+					// Стрелки живут на уровне .ss-cases__reviews (parentElement),
+					// не внутри .swiper — overflow: hidden у swiper обрезал бы -20px.
+					prevEl: el.parentElement.querySelector('.ss-swiper-btn--prev'),
+					nextEl: el.parentElement.querySelector('.ss-swiper-btn--next')
 				}
 			});
 		});

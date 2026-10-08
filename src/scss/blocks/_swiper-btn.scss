@@ -79,3 +79,59 @@
 
 .ss-swiper-btn--prev { left: 20px; }
 .ss-swiper-btn--next { right: 20px; }
+
+
+// ==============================================================
+// .ss-slider-nav — обёртка со стрелками для слайдера. Используется
+// как самостоятельная полоса ИЛИ внутри .ss-section-header
+// (правый столбец вместо ссылки/кнопки) — на страницах, где заголовок
+// и управление слайдером сидят в одном ряду.
+//
+// Внутри обнуляем абсолютное позиционирование --prev/--next и показываем
+// их на всех экранах (базовое правило скрывает на <$lg — здесь перебиваем).
+// ==============================================================
+.ss-slider-nav {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+
+	.ss-swiper-btn {
+		display: inline-flex;
+	}
+
+	.ss-swiper-btn--prev,
+	.ss-swiper-btn--next {
+		position: static;
+		transform: none;
+		left: auto;
+		right: auto;
+	}
+}
+
+// Когда .ss-slider-nav лежит внутри .ss-section-header (правая часть
+// заголовочной строки) — прибиваем его к НИЖНЕМУ краю, вровень с
+// низом h2. У .ss-section-header по дефолту align-items: stretch,
+// локально align-self: flex-end перебивает только для nav'а.
+.ss-section-header .ss-slider-nav {
+	align-self: flex-end;
+}
+
+
+// ==============================================================
+// .ss-slider-nav--accent — модификатор обёртки под светлые/серые
+// секции, где базовая серо-серая стрелка «растворяется» в фоне.
+// Инвертирует обычную схему .ss-swiper-btn:
+//   в покое  — синий фон (--accent1) + белая стрелка,
+//   на hover — белый фон + серая стрелка (--secondary1).
+// ==============================================================
+.ss-slider-nav--accent {
+	.ss-swiper-btn {
+		background: var(--accent1);
+		color: var(--white);
+
+		&:hover {
+			background: var(--secondary2);
+			color: var(--secondary1);
+		}
+	}
+}

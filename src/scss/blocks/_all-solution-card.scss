@@ -1,0 +1,129 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-all-solution-card — карточка в секции «Все готовые решения».
+// Повторяет стилистику .ss-experience-card (тёмный фон + bg-картинка
+// + градиент + overlay-ссылка), но с другой внутренней раскладкой:
+// kicker сверху, title + text + текст-CTA снизу (без ::ss-list и
+// без hover-«выезжающей» CTA-плашки).
+// ==============================
+.ss-all-solution-card {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	height: 480px;
+	border-radius: 10px;
+	background-color: var(--primary1);
+	color: var(--white);
+	cursor: pointer;
+
+	// Тёмный градиент снизу — читается контент на фото.
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(179.94deg,
+			rgba(3, 29, 42, 0) 35%,
+			rgba(3, 29, 42, 0.6) 65%,
+			rgba(3, 29, 42, 0.85) 100%);
+	}
+
+	@include down($md) {
+		height: 420px;
+	}
+}
+
+.ss-all-solution-card__bg {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+.ss-all-solution-card__overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+}
+
+.ss-all-solution-card__content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+	padding: 30px;
+	box-sizing: border-box;
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+// Kicker — отдельный элемент .ss-tag.ss-tag--mini-primary (синий чип),
+// прижат к верху у .ss-all-solution-card__content (space-between).
+// Выравниваем по левому краю независимо от inline-flex-поведения .ss-tag.
+.ss-all-solution-card > .ss-all-solution-card__content > .ss-tag {
+	align-self: flex-start;
+}
+
+// Нижний блок: title + text + cta, прижат к низу (у content space-between).
+.ss-all-solution-card__body {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+}
+
+.ss-all-solution-card__title {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 22px;
+	line-height: 1.3;
+	color: var(--white);
+
+	@include down($md) {
+		font-size: 18px;
+	}
+}
+
+.ss-all-solution-card__text {
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+// Текст-CTA внизу — без рамки, со стрелкой. Hover меняет цвет
+// вместе с наведением на всю карточку.
+.ss-all-solution-card__cta {
+	display: inline-flex;
+	align-items: center;
+	column-gap: 8px;
+	margin-top: 10px;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 15px;
+	line-height: 1.3;
+	color: var(--white);
+	transition: color .25s, transform .25s;
+
+	svg {
+		width: 16px;
+		height: 16px;
+		transition: transform .25s;
+	}
+}
+
+.ss-all-solution-card:hover .ss-all-solution-card__cta {
+	color: var(--accent3);
+
+	svg {
+		transform: translateX(4px);
+	}
+}

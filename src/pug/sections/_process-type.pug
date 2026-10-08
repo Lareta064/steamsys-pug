@@ -1,0 +1,21 @@
+- var processTypes = [{ title: 'Калориферы', text: 'Нагрев воздуха в вентиляционных системах и АХУ', cta: 'Нужна обвязка', href: '#process-calorifer' }, { title: 'Теплообменники', text: 'Нагрев технологических жидкостей, воды, растворов', cta: 'Нужна обвязка', href: '#process-heat-exchanger' }, { title: 'Сушилки', text: 'Барабанные и конвейерные сушилки, паровые рубашки', cta: 'Нужна обвязка + РОУ', href: '#process-dryer' }, { title: 'Реакторы', text: 'Реакционные аппараты с паровыми рубашками и змеевиками', cta: 'Нужна РОУ', href: '#process-reactor' }, { title: 'Варочные котлы', text: 'Пищевые и химические варочные аппараты с паровым обогревом', cta: 'Нужна обвязка + СВК', href: '#process-boiler' }, { title: 'Теплопункты', text: 'ИТП пар/вода для ГВС и отопления зданий и цехов', cta: 'Нужен ИТП ГВС', href: '#process-itp' }, { title: 'Производственные линии', text: 'Комплексное паровое снабжение нескольких потребителей', cta: 'Индивидуальный расчёт', href: '#process-line' }, { title: 'Не знаете тип?', text: 'Опишите задачу — инженер подберёт решение и объяснит варианты', cta: 'Написать инженеру', href: '#contact-engineer' }]
+
+section.ss-section.ss-process-type
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				span.ss-kicker По оборудованию
+				h2.ss-h2 Выберите тип оборудования или процесса
+				p.ss-process-type__desc Подберём готовую обвязку или установку под конкретный тип производственного оборудования
+
+		.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+			each p in processTypes
+				article.ss-process-card
+					span.ss-process-card__icon
+						img(src=`${basePath}img/task-icon1.webp` srcset=`${basePath}img/task-icon1.webp 1x, ${basePath}img/task-icon1@2x.webp 2x` width='24' height='24' alt='' loading='lazy' decoding='async')
+					.ss-process-card__body
+						p.ss-process-card__title= p.title
+						p.ss-process-card__text= p.text
+					a.ss-process-card__cta(href=p.href)
+						span.ss-process-card__cta-arrow(aria-hidden='true') →
+						= ' ' + p.cta

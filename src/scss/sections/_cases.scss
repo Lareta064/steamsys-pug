@@ -98,6 +98,7 @@
 
 // Белый бокс со слайдером отзывов.
 .ss-cases__reviews {
+	position: relative;
 	padding: 40px;
 	background: var(--white);
 	border-radius: 10px;
@@ -105,6 +106,22 @@
 
 	@include down($md) {
 		padding: 20px;
+	}
+
+	// Стрелки вынесены за край коробки на -20px справа и слева.
+	.ss-swiper-btn--prev { left: -20px; }
+	.ss-swiper-btn--next { right: -20px; }
+
+	// Акцентная схема (как у partners-slider / .ss-slider-nav--accent):
+	// синий фон + белая стрелка в покое, белый + серая на hover.
+	.ss-swiper-btn {
+		background: var(--accent1);
+		color: var(--white);
+
+		&:hover {
+			background: var(--white);
+			color: var(--secondary1);
+		}
 	}
 }
 .js-reviews-slider .swiper-pagination{justify-content: flex-start;}

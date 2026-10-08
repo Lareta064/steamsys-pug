@@ -31,6 +31,7 @@ block content
 					li: a(href='#benefit-card') .ss-benefit-card
 					li: a(href='#profit') .ss-profit
 					li: a(href='#metrics') .ss-metrics
+					li: a(href='#case-card') .ss-case-card
 
 			//- ========== Feature card ==========
 			section.cards-catalog__section#feature-card
@@ -46,7 +47,8 @@ block content
 					.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
 						each item in featureItems
 							.ss-feature-card
-								+svgIcon(item.icon)
+								span.ss-feature-card__icon
+									+svgIcon(item.icon)
 								.ss-feature-card__body
 									p.ss-feature-card__title= item.title
 									p.ss-feature-card__text= item.text
@@ -55,7 +57,8 @@ block content
 				h4.cards-catalog__subtitle Одиночная (для сравнения desktop/mobile — сузь окно)
 				.cards-catalog__demo.ss-bg-gray
 					.ss-feature-card(style="max-width:280px;")
-						+svgIcon('target')
+						span.ss-feature-card__icon
+							+svgIcon('target')
 						.ss-feature-card__body
 							p.ss-feature-card__title Аудит и диагностика
 							p.ss-feature-card__text Анализируем систему, выявляем потери и точки роста эффективности
@@ -64,7 +67,8 @@ block content
 				pre.cards-catalog__snippet
 					code
 						| .ss-feature-card
-						|     +svgIcon('target')
+						|     span.ss-feature-card__icon
+						|         +svgIcon('target')
 						|     .ss-feature-card__body
 						|         p.ss-feature-card__title Заголовок
 						|         p.ss-feature-card__text Описание
@@ -615,3 +619,85 @@ block content
 						|     .ss-metrics__item
 						|         p.ss-metrics__value 100%
 						|         p.ss-metrics__label надёжность системы
+
+			//- ========== Case card ==========
+			section.cards-catalog__section#case-card
+				h3.cards-catalog__section-title .ss-case-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Карточка кейса — фото объекта + тело (заголовок + описание + метрики) + футер со ссылкой «Смотреть кейс». Варианты:
+
+				//- Базовый — как на Главной, с tag поверх картинки + тёмной .ss-metrics-плашкой.
+				h4.cards-catalog__subtitle Базовый (как на Главной)
+				.cards-catalog__demo
+					article.ss-case-card(style='max-width: 865px;')
+						.ss-case-card__image
+							picture
+								source(media='(max-width: 767px)' srcset=`../img/cases-mob.webp 1x, ../img/cases-mob@2x.webp 2x`)
+								source(srcset=`../img/cases.webp 1x, ../img/cases@2x.webp 2x`)
+								img(src=`../img/cases.webp`, width=865, height=360, alt='Молочный комбинат', loading='lazy', decoding='async')
+							span.ss-tag.ss-tag--primary Пищевая промышленность
+						.ss-case-card__body
+							h3.ss-case-card__title Модернизация пароконденсатной системы на молочном комбинате
+							p.ss-case-card__text Заменили устаревшее оборудование, внедрили автоматический возврат конденсата и учёт пара.
+							.ss-metrics
+								.ss-metrics__item
+									p.ss-metrics__value -22%
+									p.ss-metrics__label потери пара
+								.ss-metrics__item
+									p.ss-metrics__value 9 мес.
+									p.ss-metrics__label окупаемость
+								.ss-metrics__item
+									p.ss-metrics__value 100%
+									p.ss-metrics__label надёжность системы
+						.ss-case-card__footer
+							+ssLink('Смотреть кейс')
+
+				//- Модификатор --portfolio: без tag, с kicker над title, светлые метрики с разделительной линией.
+				h4.cards-catalog__subtitle Модификатор .ss-case-card--portfolio (для portfolio-page)
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Нет
+					code .ss-tag
+					| поверх картинки. Над заголовком — kicker-строка
+					code .ss-case-card__kicker
+					| . Блок
+					code .ss-metrics
+					|  перекрашен в светлый (прозрачный фон, тёмный текст), прибит к телу через верхнюю разделительную линию.
+				.cards-catalog__demo
+					article.ss-case-card.ss-case-card--portfolio(style='max-width: 865px;')
+						.ss-case-card__image
+							picture
+								source(media='(max-width: 767px)' srcset=`../img/cases-mob.webp 1x, ../img/cases-mob@2x.webp 2x`)
+								source(srcset=`../img/cases.webp 1x, ../img/cases@2x.webp 2x`)
+								img(src=`../img/cases.webp`, width=865, height=360, alt='Сахарный завод', loading='lazy', decoding='async')
+						.ss-case-card__body
+							p.ss-case-card__kicker БРОУ / Пищевая промышленность
+							h3.ss-case-card__title Замена БРОУ на сахарном заводе: снижение давления с 16 до 4 бар
+							p.ss-case-card__text Устаревший узел БРОУ создавал нестабильное давление в технологических контурах. Заменили на современную установку с электронным регулятором и системой диагностики.
+							.ss-metrics
+								.ss-metrics__item
+									p.ss-metrics__value −15%
+									p.ss-metrics__label расход пара
+								.ss-metrics__item
+									p.ss-metrics__value 14 мес.
+									p.ss-metrics__label окупаемость
+						.ss-case-card__footer
+							+ssLink('Читать кейс')
+
+				pre.cards-catalog__snippet
+					code
+						| article.ss-case-card.ss-case-card--portfolio
+						|     .ss-case-card__image
+						|         picture ...
+						|     .ss-case-card__body
+						|         p.ss-case-card__kicker БРОУ / Пищевая промышленность
+						|         h3.ss-case-card__title Замена БРОУ на сахарном заводе …
+						|         p.ss-case-card__text Устаревший узел БРОУ …
+						|         .ss-metrics
+						|             .ss-metrics__item
+						|                 p.ss-metrics__value −15%
+						|                 p.ss-metrics__label расход пара
+						|             .ss-metrics__item
+						|                 p.ss-metrics__value 14 мес.
+						|                 p.ss-metrics__label окупаемость
+						|     .ss-case-card__footer
+						|         +ssLink('Читать кейс')

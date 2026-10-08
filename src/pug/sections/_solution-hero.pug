@@ -1,0 +1,43 @@
+//- ============================================================
+//- Hero-секция страницы «Готовые системы и решения».
+//- Шаблон .ss-hero-inner--dark (как catalog-page): полоса крошек +
+//- тёмный body с bg-image + 4 равных факта без иконок внизу.
+//- BG image + градиентная завеса — в src/scss/pages/_portfolio-page.scss.
+//- ============================================================
+section.ss-hero-inner.ss-hero-inner--dark.portfolio-page__hero
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='/') Главная
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Готовые системы и решения
+
+	.ss-hero-inner__body
+		.ss-container.ss-wrapper
+			.ss-hero-inner__body-inner
+				span.ss-kicker.ss-txt-accent3 Инженерный каталог
+				h1.ss-h1 Готовые системы и решения для пароконденсатных контуров
+				p.ss-hero-inner__lead
+					| Подберём систему под задачу: РОУ/БРОУ, ОУ, ИТП ГВС, СВК, обвязки калориферов, редукционные установки.
+				.ss-hero-inner__actions
+					+ssBtn('Подобрать систему', { variant: 'accent5', icon: 'arrow-right', xsFull: true })(data-modal='request-b24')
+					+ssBtn('Отправить параметры объекта', { variant: 'outline-light', xsFull: true })
+			.ss-hero-inner__facts
+				.ss-hero-inner__facts-inner
+					.ss-hero-inner__fact
+						.ss-hero-inner__fact-text
+							p.ss-hero-inner__fact-value −15–20%
+							p.ss-hero-inner__fact-label расход пара — типовой эффект оптимизации контура
+					.ss-hero-inner__fact
+						.ss-hero-inner__fact-text
+							p.ss-hero-inner__fact-value от 10 мес.
+							p.ss-hero-inner__fact-label окупаемость систем по кейсам
+					.ss-hero-inner__fact
+						.ss-hero-inner__fact-text
+							p.ss-hero-inner__fact-value 0 гидроударов
+							p.ss-hero-inner__fact-label при правильной обвязке потребителей
+					.ss-hero-inner__fact
+						.ss-hero-inner__fact-text
+							p.ss-hero-inner__fact-value Под ключ
+							p.ss-hero-inner__fact-label от расчёта и поставки до монтажа и ПНР

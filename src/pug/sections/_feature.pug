@@ -17,7 +17,8 @@ section.ss-section.ss-feature
 				.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
 					each item in featureItems
 						.ss-feature-card
-							+svgIcon(item.icon)
+							span.ss-feature-card__icon
+								+svgIcon(item.icon)
 							.ss-feature-card__body
 								p.ss-feature-card__title= item.title
 								p.ss-feature-card__text= item.text

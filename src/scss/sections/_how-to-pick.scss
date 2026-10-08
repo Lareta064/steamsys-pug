@@ -1,0 +1,57 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-how-to-pick — секция «Как подобрать систему».
+// Layout: 2 равные колонки (1fr 1fr) на ≥1024 — слева статичная
+// картинка-схема, справа список шагов (.ss-comp-item).
+// На <1024 стек: image сверху, список снизу.
+// ==============================
+.ss-how-to-pick {
+	.ss-section-header {
+		margin-bottom: 40px;
+
+		@include down($md) {
+			margin-bottom: 30px;
+		}
+	}
+}
+
+.ss-how-to-pick__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	row-gap: 30px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ss-how-to-pick__media {
+	// Пропорция по макету — 865 × 435. Делает высоту блока предсказуемой
+	// независимо от исходной картинки (вертикальная/квадратная/панорамная).
+	aspect-ratio: 865 / 435;
+	border-radius: 10px;
+	overflow: hidden;
+	background: var(--secondary3);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		// contain — картинка вписывается в коробку целиком, без обрезки.
+		// Если пропорции отличаются от 865/435, по бокам/сверху-снизу
+		// остаётся пустое пространство цвета фона коробки (--secondary3).
+		object-fit: contain;
+	}
+}
+
+.ss-how-to-pick__list {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}

@@ -123,3 +123,89 @@
 		padding: 0 20px 30px;
 	}
 }
+
+
+// ==============================================================
+// .ss-case-card--portfolio — вариант карточки для страницы
+// «Готовые системы и решения» (portfolio-page), секция «Кейсы».
+// Отличия от базовой:
+//  · нет .ss-tag поверх картинки;
+//  · над заголовком — kicker-строка (напр. «БРОУ / ПИЩЕВАЯ ПРОМЫШЛЕННОСТЬ»);
+//  · блок .ss-metrics перекрашен в светлый (прозрачный фон, тёмный текст)
+//    и прибит к телу карточки через верхнюю разделительную линию;
+//  · значений метрик обычно 2 (а не 3), размещены в ряд слева направо.
+// ==============================================================
+
+// Kicker-строка над title. UPPERCASE, приглушённо-серый, с небольшим
+// трекингом — визуально как «техническая метка кейса».
+.ss-case-card__kicker {
+	margin: 0 0 15px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 1.2;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--secondary1);
+
+	@include down($md) {
+		font-size: 12px;
+	}
+}
+
+// Светлая версия .ss-metrics внутри --portfolio карточки:
+// прозрачный фон, горизонтальная линия сверху, тёмный текст,
+// items в ряд без вертикальных разделителей.
+.ss-case-card--portfolio {
+	.ss-metrics {
+		background: transparent;
+		box-shadow: none;
+		padding: 20px 0 0;
+		border-top: 1px solid var(--secondary2);
+		justify-content: flex-start;
+		align-items: flex-start;
+		column-gap: 50px;
+	}
+
+	.ss-metrics__item {
+		padding: 0;
+		width: auto;
+		text-align: left;
+
+		&:first-child { text-align: left; padding-left: 0; }
+		&:last-child { padding-right: 0; }
+
+		// Снимаем вертикальные бордеры из базовой .ss-metrics.
+		&:not(:first-child) {
+			border-left: none;
+		}
+
+		@include down($md) {
+			display: block;
+			padding: 0;
+			&:not(:last-child) { border-bottom: none; }
+		}
+	}
+
+	.ss-metrics__value {
+		color: var(--primary);
+		font-size: 24px;
+		font-weight: 600;
+
+		@include down($md) {
+			font-size: 22px;
+		}
+	}
+
+	.ss-metrics__label {
+		margin-top: 6px;
+		color: var(--secondary);
+		font-size: 13px;
+		font-weight: 400;
+
+		@include down($md) {
+			margin-top: 4px;
+			font-size: 12px;
+		}
+	}
+}
