@@ -1,0 +1,44 @@
+//- ============================================================
+//- «Выберите подходящий вариант» — секция-слайдер на странице кейса.
+//- По стилям и поведению 1:1 с .js-production-tasks-slider:
+//- 3 слайда на ≥1280, 2 на ≥768, 1 на <768. Стрелки .ss-slider-nav--accent
+//- рядом с заголовком, пагинация-полоски.
+//- Фоновые картинки — gallery1/2/3 (те же, что в «По задаче»).
+//- ============================================================
+- var caseVariants = [{ title: 'РОУ', text: 'Редукционная установка. Снижает давление пара без охлаждения. Насыщенный или перегретый пар.', meta: 'DN 15–500 · до 100 бар · до 550°C', cta: 'Получить расчёт', bg: 'gallery1', href: '#variant-roy' }, { title: 'БРОУ', text: 'Редукционно-охладительная. Снижает и давление, и температуру. Впрыск питательной воды.', meta: 'DN 25–400 · до 60 бар · до 400°C', cta: 'Получить расчёт', bg: 'gallery2', href: '#variant-brou', popular: true }, { title: 'Редукционная установка (РУ)', text: 'Компактное исполнение для DN 15–80. Быстрая поставка из типового ряда.', meta: 'DN 15–80 · до 25 бар · до 250°C', cta: 'Получить расчёт', bg: 'gallery3', href: '#variant-ru' }, { title: 'Блочное исполнение', text: 'Всё собрано на несущей раме, прошло заводские испытания. Минимальные монтажные работы на объекте.', meta: 'Любой DN · с документацией', cta: 'Узнать подробнее', bg: 'gallery1', href: '#variant-block' }, { title: 'Индивидуальное под объект', text: 'Разрабатываем под нестандартные параметры, сложные условия эксплуатации, специальные среды.', meta: 'По ТЗ заказчика', cta: 'Обсудить задачу', bg: 'gallery2', href: '#variant-custom' }, { title: 'Модернизация действующей', text: 'Анализируем существующий узел, проектируем замену с сохранением стыковок трубопроводов.', meta: 'С выездом на объект', cta: 'Запросить аудит', bg: 'gallery3', href: '#variant-upgrade' }]
+
+section.ss-section.ss-case-variants
+	.ss-container.ss-wrapper
+		.ss-section-header
+			.ss-section-header__title
+				span.ss-kicker Варианты исполнения
+				h2.ss-h2 Выберите подходящий вариант
+			.ss-slider-nav.ss-slider-nav--accent
+				+ssSwiperBtn('prev')
+				+ssSwiperBtn('next')
+
+		.swiper.swiper-pb.swiper-bars.js-case-variants-slider
+			.swiper-wrapper
+				each v in caseVariants
+					.swiper-slide
+						//- Badge вынесен ВНЕ карточки: у .ss-solution-card
+						//- overflow: hidden (нужно для скругления bg-картинки
+						//- и градиентов), поэтому badge, подвешенный над верхним
+						//- краем карточки, иначе бы обрезался. Поднимаем его на
+						//- уровень .swiper-slide и позиционируем absolute внутри него.
+						if v.popular
+							span.ss-solution-card__badge Популярное
+						article.ss-solution-card.ss-case-variants__card
+							picture.ss-solution-card__bg
+								source(media='(max-width: 767px)' srcset=`${basePath}img/${v.bg}-mob.webp 1x, ${basePath}img/${v.bg}-mob@2x.webp 2x`)
+								source(media='(min-width: 768px)' srcset=`${basePath}img/${v.bg}.webp 1x, ${basePath}img/${v.bg}@2x.webp 2x`)
+								img(src=`${basePath}img/${v.bg}.webp` width='567' height='340' alt='' loading='lazy' decoding='async')
+							a.ss-solution-card__overlay(href=v.href aria-label=v.title)
+							.ss-solution-card__content
+								.ss-solution-card__head
+									h3.ss-solution-card__title= v.title
+									p.ss-solution-card__text= v.text
+								p.ss-solution-card__meta= v.meta
+								.ss-solution-card__footer
+									span.ss-solution-card__cta= v.cta
+			.swiper-pagination

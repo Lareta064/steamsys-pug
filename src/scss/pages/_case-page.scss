@@ -4,6 +4,14 @@
 // case-page — стили страницы одного кейса (build/case-page.html).
 // ==============================
 
+// overflow-x: clip на корне страницы, чтобы .ss-mob-bleed (у которого
+// на <$md ширина = 50% + 50vw) не вызывал горизонтальный скролл всей
+// страницы из-за включения ширины scrollbar'а в 50vw. clip (а не hidden)
+// не ломает position: sticky у вложенных элементов.
+.ss-case-page {
+	overflow-x: clip;
+}
+
 // ------------------------------
 // Hero-inner — bg image + градиентная завеса слева (1:1 с portfolio-page).
 // Fallback-фон — --primary1. Пока используем solution-hero.webp (как
@@ -57,7 +65,8 @@
 // как подзаголовки в других секциях страницы.
 .ss-case-roles__desc,
 .ss-case-problems__desc,
-.ss-case-delivery__desc {
+.ss-case-delivery__desc,
+.ss-case-params__desc {
 	margin: 0;
 	font-family: var(--font-family);
 	font-weight: 400;
@@ -75,6 +84,47 @@
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
+}
+
+// Секция «Выберите подходящий вариант» — слайдер 1:1 с
+// .js-production-tasks-slider: 3 карточки на ≥1280, 2 на ≥768, 1 на <768.
+.ss-case-variants {
+	// На моб — показываем только стрелки, пагинацию убираем
+	// (и padding-bottom под неё).
+	@include down($md) {
+		.swiper.swiper-pb {
+			padding-bottom: 0;
+		}
+		.swiper-pagination {
+			display: none;
+		}
+	}
+}
+
+// Футер карточки прижат к низу — разной длины text/meta не ломают
+// вертикальное выравнивание CTA.
+.ss-case-variants__card .ss-solution-card__footer {
+	margin-top: auto;
+	padding-top: 30px;
+}
+
+// Равная высота слайдов + резерв под badge «Популярное» (аналогично
+// .js-production-tasks-slider). padding-top: 20 оставляет 14px над
+// верхним краем карточки под badge, 14px внутри.
+.js-case-variants-slider .swiper-slide {
+	position: relative;
+	height: auto;
+	min-height: 100%;
+	display: flex;
+	padding-top: 20px;
+
+	> .ss-solution-card {
+		width: 100%;
+	}
+
+	> .ss-solution-card__badge {
+		top: 6px;
+	}
 }
 
 // Секция «Как работает…» — 2 колонки (картинка-схема слева, список шагов
