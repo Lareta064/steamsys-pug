@@ -1,10 +1,14 @@
 //- ============================================================
 //- «Где устанавливается РОУ/БРОУ» — секция на странице кейса.
-//- 2 карточки .ss-pills-card в ряд (grid 1fr 1fr), на <$md в стек.
-//- Карточка — заголовок-метка + flex-wrap из .ss-pill (статичные span).
+//- 2 большие нумерованные карточки (01 Типы оборудования + 02 Отрасли),
+//- внутри каждой — 2-колоночная сетка мини-карточек-ссылок .ss-usage-tile
+//- (миниатюра + подпись + стрелка, вся карточка кликабельна).
+//- Картинки:
+//-   · для оборудования — process-*.webp (те же, что в _process-type-photo)
+//-   · для отраслей     — ind-*.webp (нарезаны из prototype/single-case/3.png)
 //- ============================================================
-- var caseUsageEquipment = ['Теплообменники', 'Паровые калориферы', 'Реакторы', 'Варочные котлы', 'Сушильные камеры', 'Теплопункты', 'Паровые линии ГВС', 'Стерилизационные тоннели']
-- var caseUsageIndustries = ['Пищевая промышленность', 'Целлюлозно-бумажная (ЦБП)', 'Химическая', 'Деревообработка', 'Нефтепереработка', 'Энергетика', 'Фармацевтика']
+- var caseUsageEquipment = [{ title: 'Теплообменники', img: 'process-heat-exchanger', href: '#eq-heat-exchanger' }, { title: 'Паровые калориферы', img: 'process-calorifer', href: '#eq-calorifer' }, { title: 'Реакторы', img: 'process-reactor', href: '#eq-reactor' }, { title: 'Варочные котлы', img: 'process-boiler', href: '#eq-boiler' }, { title: 'Сушильные камеры', img: 'process-dryer', href: '#eq-dryer' }, { title: 'Теплопункты', img: 'process-teplopunkt', href: '#eq-teplopunkt' }, { title: 'Паровые линии ГВС', img: 'process-production-line', href: '#eq-gvs' }, { title: 'Стерилизационные тоннели', img: 'process-unknown-type', href: '#eq-sterilization' }]
+- var caseUsageIndustries = [{ title: 'Пищевая промышленность', img: 'ind-food', href: '#ind-food' }, { title: 'Целлюлозно-бумажная (ЦБП)', img: 'ind-pulp', href: '#ind-pulp' }, { title: 'Химическая', img: 'ind-chemistry', href: '#ind-chemistry' }, { title: 'Деревообработка', img: 'ind-wood', href: '#ind-wood' }, { title: 'Нефтепереработка', img: 'ind-oil', href: '#ind-oil' }, { title: 'Энергетика', img: 'ind-energy', href: '#ind-energy' }, { title: 'Фармацевтика', img: 'ind-pharma', href: '#ind-pharma' }]
 
 section.ss-section.ss-case-usage.ss-section--tinted.ss-bg-gray
 	.ss-container.ss-wrapper
@@ -14,14 +18,40 @@ section.ss-section.ss-case-usage.ss-section--tinted.ss-bg-gray
 				h2.ss-h2 Где устанавливается РОУ/БРОУ
 
 		.ss-case-usage__grid
-			.ss-pills-card
-				p.ss-pills-card__header Типы оборудования и процессов
-				ul.ss-pills-card__list
-					each item in caseUsageEquipment
-						li: span.ss-pill= item
+			//- ============== Card 01: типы оборудования ==============
+			.ss-case-usage__card
+				.ss-case-usage__card-header
+					span.ss-case-usage__card-num 01
+					.ss-case-usage__card-text
+						h3.ss-case-usage__card-title Типы оборудования и процессов
+						p.ss-case-usage__card-desc Установка РОУ/БРОУ подходит под основные теплоносительные потребители и инженерные системы
 
-			.ss-pills-card
-				p.ss-pills-card__header Отрасли промышленности
-				ul.ss-pills-card__list
+				ul.ss-case-usage__tiles
+					each item in caseUsageEquipment
+						li
+							a.ss-usage-tile(href=item.href)
+								picture.ss-usage-tile__img
+									source(srcset=`${basePath}img/${item.img}.webp`)
+									img(src=`${basePath}img/${item.img}.webp` width='76' height='76' alt='' loading='lazy' decoding='async')
+								span.ss-usage-tile__label= item.title
+								span.ss-usage-tile__arrow(aria-hidden='true')
+									+svgIcon('arrow-right')
+
+			//- ============== Card 02: отрасли ==============
+			.ss-case-usage__card
+				.ss-case-usage__card-header
+					span.ss-case-usage__card-num 02
+					.ss-case-usage__card-text
+						h3.ss-case-usage__card-title Отрасли промышленности
+						p.ss-case-usage__card-desc РОУ/БРОУ разворачивается в основных отраслях, где требуется надёжная и стабильная подача пара
+
+				ul.ss-case-usage__tiles
 					each item in caseUsageIndustries
-						li: span.ss-pill= item
+						li
+							a.ss-usage-tile(href=item.href)
+								picture.ss-usage-tile__img
+									source(srcset=`${basePath}img/${item.img}.webp`)
+									img(src=`${basePath}img/${item.img}.webp` width='76' height='76' alt='' loading='lazy' decoding='async')
+								span.ss-usage-tile__label= item.title
+								span.ss-usage-tile__arrow(aria-hidden='true')
+									+svgIcon('arrow-right')

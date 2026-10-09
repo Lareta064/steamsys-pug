@@ -330,17 +330,94 @@
 	}
 }
 
-// Секция «Где устанавливается РОУ/БРОУ» — 2 карточки .ss-pills-card
-// в равных колонках на десктопе, стек на моб.
+// Секция «Где устанавливается РОУ/БРОУ» — 2 большие нумерованные карточки
+// (01 Типы оборудования, 02 Отрасли), в каждой — grid из .ss-usage-tile.
 .ss-case-usage__grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	column-gap: 30px;
-	row-gap: 20px;
-	@include down($xxl) {
-		column-gap: 20px;
-	}
+	gap: 20px;
+
 	@include down($lg) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ss-case-usage__card {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 30px;
+	background: var(--white);
+	border-radius: 10px;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+
+	@include down($md) {
+		padding: 20px;
+		gap: 20px;
+	}
+}
+
+.ss-case-usage__card-header {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: 20px;
+	align-items: start;
+}
+
+.ss-case-usage__card-num {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 32px;
+	line-height: 1;
+	color: var(--secondary1);
+
+	@include down($md) {
+		font-size: 24px;
+	}
+}
+
+.ss-case-usage__card-text {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	min-width: 0;
+}
+
+.ss-case-usage__card-title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 22px;
+	line-height: 1.3;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 18px;
+	}
+}
+
+.ss-case-usage__card-desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+.ss-case-usage__tiles {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	// На <1440 карточки внутри блока складываются в одну колонку —
+	// иначе горизонтальный тайл (миниатюра + подпись + стрелка)
+	// слишком узкий и подпись сильно переносится.
+	@include down($xxl) {
 		grid-template-columns: 1fr;
 	}
 }

@@ -31,6 +31,7 @@
 @use "blocks/_all-solution-card";
 @use "blocks/_comp-item";
 @use "blocks/_pills-card";
+@use "blocks/_usage-tile";
 @use "blocks/_task-card";
 @use "blocks/_category-card";
 @use "blocks/_product-card";
@@ -120,5 +121,5 @@
 @use "base/_typography";
 
 // ui
-//@use "ui/_ui-navigation";
+@use "ui/_ui-navigation";
 @use "ui/_b24-form-preview";
