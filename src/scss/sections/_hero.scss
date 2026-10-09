@@ -120,7 +120,7 @@
 	max-width: 729px;
 
 	@media (min-width: 768px) and (max-width: 1799px) {
-		width: 50%;
+		width: 54%;
 		min-width: 440px;
 	}
 }
@@ -354,6 +354,7 @@
 	font-size: 50px;
 	line-height: 1.2;
 	color: var(--white);
+	white-space: nowrap;
 
 	@media (max-width: 1919px) {
 		font-size: 28px;

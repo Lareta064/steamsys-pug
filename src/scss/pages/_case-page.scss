@@ -258,7 +258,10 @@
 
 // Акцентные (активные) карточки — градиент как у .ss-benefit-card--stat
 // на главной. Перебиваем базовый сплошной --primary из .ss-comp-item--active.
-.ss-case-inputs .ss-comp-item--active {
+// Применяется и к .ss-case-inputs, и к .ss-case-delivery — карточки
+// там визуально идентичны.
+.ss-case-inputs .ss-comp-item--active,
+.ss-case-delivery .ss-comp-item--active {
 	background: linear-gradient(90deg, var(--accent1) 0%, var(--accent3) 100%);
 }
 
@@ -339,6 +342,17 @@
 	}
 	@include down($lg) {
 		grid-template-columns: 1fr;
+	}
+}
+
+// Hover у .ss-tag--mini (базовый — accent3) под кнопками в hero убираем:
+// теги статичные (span), на тёмной подложке hover-reflex не нужен.
+.case-page__hero-tags .ss-tag--mini {
+	cursor: default;
+
+	&:hover {
+		background: var(--secondary2);
+		color: var(--primary);
 	}
 }
 

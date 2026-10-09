@@ -27,7 +27,7 @@ section.ss-hero-inner.ss-hero-inner--dark.case-page__hero
 				p.ss-hero-inner__lead
 					| Снижаем давление и температуру пара до рабочих параметров. Стабилизируем подачу в технологический процесс. Защищаем оборудование от гидроударов и аварийных режимов.
 				.ss-hero-inner__actions
-					+ssBtn('Получить расчёт РОУ', { variant: 'accent5', icon: 'arrow-right', xsFull: true })(data-modal='request-b24')
+					+ssBtn('Получить расчёт РОУ', { variant: 'primary', icon: 'arrow-right', xsFull: true })(data-modal='request-b24')
 					+ssBtn('Отправить параметры', { variant: 'outline-light', icon: 'arrow-right', xsFull: true })
 					+ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-light', xsFull: true })
 				ul.case-page__hero-tags
@@ -35,21 +35,20 @@ section.ss-hero-inner.ss-hero-inner--dark.case-page__hero
 					li: span.ss-tag.ss-tag--mini Документация в комплекте
 					li: span.ss-tag.ss-tag--mini Партнёр TLV (Япония)
 
-			.ss-hero-inner__facts
-				.ss-hero-inner__facts-inner
-					.ss-hero-inner__fact
-						.ss-hero-inner__fact-text
-							p.ss-hero-inner__fact-value DN 15–500
-							p.ss-hero-inner__fact-label Диапазон диаметров
-					.ss-hero-inner__fact
-						.ss-hero-inner__fact-text
-							p.ss-hero-inner__fact-value до 100 бар
-							p.ss-hero-inner__fact-label Давление на входе
-					.ss-hero-inner__fact
-						.ss-hero-inner__fact-text
-							p.ss-hero-inner__fact-value до 550°C
-							p.ss-hero-inner__fact-label Температура пара
-					.ss-hero-inner__fact
-						.ss-hero-inner__fact-text
-							p.ss-hero-inner__fact-value 15+
-							p.ss-hero-inner__fact-label лет на рынке
+			ul.ss-hero__metriks
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value DN 15–500
+						p.ss-hero__metrik-label Диапазон диаметров
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value до 100 бар
+						p.ss-hero__metrik-label Давление на входе
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value до 550°C
+						p.ss-hero__metrik-label Температура пара
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 15+
+						p.ss-hero__metrik-label лет на рынке
