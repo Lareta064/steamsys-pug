@@ -45,7 +45,7 @@
 // Основной блок hero — 56px сверху/снизу. Цвета — по модификатору темы.
 .ss-hero-inner__body {
 	padding-block: 56px;
-
+	.ss-hero__metriks{margin-top: 30px;}
 	@include down($md) {
 		padding-block: 40px;
 	}
