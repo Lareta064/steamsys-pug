@@ -1,0 +1,27 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-usage — секция «В каких системах используются» на catalog-page.
+// Карточки типа .ss-process-card--photo (как «По оборудованию» на
+// portfolio-page): тёмный фон + фото в правом нижнем углу + title/text
+// слева + CTA со стрелкой. Grid-раскладку задаёт .ss-grid--row-*.
+// ==============================
+.ss-usage {
+	.ss-section-header {
+		margin-bottom: 40px;
+
+		@include down($md) {
+			margin-bottom: 30px;
+		}
+	}
+}
+
+// Подзаголовок под h2 — приглушённый серый.
+.ss-usage__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
