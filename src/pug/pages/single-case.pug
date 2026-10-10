@@ -1,0 +1,27 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Кейс — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-case-page
+
+		include ../sections/_case-hero.pug
+		include ../sections/_case-trustbar.pug
+		include ../sections/_case-roles.pug
+		include ../sections/_case-problems.pug
+		include ../sections/_case-usage.pug
+		include ../sections/_case-delivery.pug
+		include ../sections/_case-howworks.pug
+		include ../sections/_case-params.pug
+		include ../sections/_case-variants.pug
+		include ../sections/_case-inputs.pug
+		include ../sections/_case-designer.pug
+		include ../sections/_case-related.pug
+		include ../sections/_case-effect.pug
+		include ../sections/_case-faq.pug
+		include ../sections/_feedback-b24.pug
+
+	include ../sections/_footer.pug

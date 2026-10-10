@@ -1,0 +1,125 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-faq — единая FAQ-секция для всех страниц.
+// Раскладка (desktop): 2 колонки.
+//   · Слева  — intro: kicker, h2, описание, CTA-карточка «Задать вопрос».
+//   · Справа — .ss-accordion со списком вопросов.
+// На <$lg — стек в одну колонку. CTA-карточка скрывается
+// (визуально разрывала бы контент между h2 и аккордеоном).
+//
+// Разметка:
+//   section.ss-section.ss-section--tinted.ss-faq.ss-bg-gray
+//     .ss-container.ss-wrapper
+//       .ss-faq__grid
+//         .ss-faq__intro
+//           span.ss-kicker …
+//           h2.ss-h2 …
+//           p.ss-faq__desc …
+//           .ss-faq__contact
+//             span.ss-faq__contact-icon …
+//             .ss-faq__contact-body …
+//         .ss-faq__list
+//           .ss-accordion(data-accordion) …
+// ==============================================================
+
+.ss-faq__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+	column-gap: 60px;
+	row-gap: 40px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		column-gap: 0;
+	}
+}
+
+.ss-faq__intro {
+	display: flex;
+	flex-direction: column;
+
+	.ss-kicker {
+		margin: 0 0 20px;
+	}
+
+	.ss-h2 {
+		margin: 0;
+	}
+}
+
+.ss-faq__desc {
+	margin: 20px 0 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--secondary);
+	max-width: 420px;
+}
+
+// CTA-карточка под intro — тёмная плашка с иконкой + title + text + button.
+// На <$lg прячем: плашка оказалась бы между h2 и аккордеоном
+// и визуально разрывала бы контент.
+.ss-faq__contact {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: 20px;
+	align-items: start;
+	margin-top: 40px;
+	padding: 24px;
+	background: var(--primary);
+	color: var(--white);
+	border-radius: 10px;
+
+	@include down($lg) {
+		display: none;
+	}
+}
+
+.ss-faq__contact-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.08);
+	flex-shrink: 0;
+
+	svg {
+		width: 24px;
+		height: 24px;
+		color: var(--white);
+	}
+}
+
+.ss-faq__contact-body {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	min-width: 0;
+}
+
+.ss-faq__contact-title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1.3;
+	color: var(--white);
+}
+
+.ss-faq__contact-text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: rgba(255, 255, 255, 0.75);
+}
+
+.ss-faq__contact-action {
+	margin-top: 10px;
+}

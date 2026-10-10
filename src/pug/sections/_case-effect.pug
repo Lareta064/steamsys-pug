@@ -1,0 +1,24 @@
+//- ============================================================
+//- «Что даёт внедрение РОУ/БРОУ» — секция экономического эффекта.
+//- Структурно 1:1 с .ss-case-inputs (section-header + grid 3×2),
+//- но в карточках — не нумерованная плашка .ss-comp-item,
+//- а value + title + text. Шахматка: позиции 1 и 4 — градиент
+//- accent1→accent3 (как у .ss-benefit-card--stat на главной).
+//- ============================================================
+- var caseEffectItems = [{ value: '−25%', title: 'Эксплуатационные затраты', text: 'сокращение за счёт стабильного режима и снижения аварийности' }, { value: '−30%', title: 'Аварийность системы', text: 'снижение незапланированных остановов и внеплановых ремонтов', dark: true }, { value: '±0.1 бар', title: 'Точность регулирования', text: 'стабильные параметры пара на выходе под требования процесса' }, { value: '−40%', title: 'Время монтажа', text: 'блочная поставка сокращает монтажные работы на объекте', dark: true }, { value: '9–18 мес.', title: 'Окупаемость', text: 'типичный срок для модернизации действующего узла редуцирования' }, { value: '100%', title: 'Безопасность процесса', text: 'предохранительная арматура и автоматика исключают гидроудары и аварийные режимы подачи пара', dark: true }]
+
+section.ss-section.ss-case-effect.ss-section--tinted.ss-bg-gray
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				span.ss-kicker Экономический эффект
+				h2.ss-h2 Что даёт внедрение РОУ/БРОУ
+				p.ss-case-effect__desc
+					| Установка РОУ/БРОУ — инженерная мера с измеримым и быстрым результатом: стабильный режим, меньше аварий, безопасная подача пара в процесс.
+
+		ul.ss-case-effect__grid
+			each item in caseEffectItems
+				li(class='ss-case-effect__item' + (item.dark ? ' ss-case-effect__item--dark' : ''))
+					p.ss-case-effect__item-value= item.value
+					p.ss-case-effect__item-title= item.title
+					p.ss-case-effect__item-text= item.text

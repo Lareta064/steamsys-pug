@@ -32,6 +32,7 @@ block content
 					li: a(href='#profit') .ss-profit
 					li: a(href='#metrics') .ss-metrics
 					li: a(href='#case-card') .ss-case-card
+					li: a(href='#pills-card') .ss-pills-card
 
 			//- ========== Feature card ==========
 			section.cards-catalog__section#feature-card
@@ -701,3 +702,35 @@ block content
 						|                 p.ss-metrics__label окупаемость
 						|     .ss-case-card__footer
 						|         +ssLink('Читать кейс')
+
+			//- ========== Pills card ==========
+			section.cards-catalog__section#pills-card
+				h3.cards-catalog__section-title .ss-pills-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Карточка «заголовок-метка + ряд пилюль». Светло-серый фон, скругление, uppercase-заголовок приглушённым текстом и flex-wrap из
+					code .ss-pill
+					| . Пилюли внутри могут быть статичными (span) или кликабельными (a) — одинаково, базовое поведение
+					code .ss-pill
+					| .
+
+				.cards-catalog__demo
+					.ss-pills-card
+						p.ss-pills-card__header Типы оборудования и процессов
+						ul.ss-pills-card__list
+							li: span.ss-pill Теплообменники
+							li: span.ss-pill Паровые калориферы
+							li: span.ss-pill Реакторы
+							li: span.ss-pill Варочные котлы
+							li: span.ss-pill Сушильные камеры
+							li: span.ss-pill Теплопункты
+							li: span.ss-pill Паровые линии ГВС
+							li: span.ss-pill Стерилизационные тоннели
+
+				pre.cards-catalog__snippet
+					code
+						| .ss-pills-card
+						|     p.ss-pills-card__header Типы оборудования и процессов
+						|     ul.ss-pills-card__list
+						|         li: span.ss-pill Теплообменники
+						|         li: span.ss-pill Паровые калориферы
+						|         …

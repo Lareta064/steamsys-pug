@@ -1,0 +1,457 @@
+@use '../base/_var' as *;
+
+// ==============================
+// case-page — стили страницы одного кейса (build/case-page.html).
+// ==============================
+
+// overflow-x: clip на корне страницы, чтобы .ss-mob-bleed (у которого
+// на <$md ширина = 50% + 50vw) не вызывал горизонтальный скролл всей
+// страницы из-за включения ширины scrollbar'а в 50vw. clip (а не hidden)
+// не ломает position: sticky у вложенных элементов.
+.ss-case-page {
+	overflow-x: clip;
+}
+
+// ------------------------------
+// Hero-inner — bg image + градиентная завеса слева (1:1 с portfolio-page).
+// Fallback-фон — --primary1. Пока используем solution-hero.webp (как
+// у портфолио), поменяем на картинку кейса, когда она будет.
+// ------------------------------
+.case-page__hero .ss-hero-inner__body {
+	position: relative;
+	background-color: var(--primary1);
+	background-image: image-set(
+		url('../img/solution-hero.webp') 1x,
+		url('../img/solution-hero@2x.webp') 2x
+	);
+	background-size: cover;
+	background-position: center right;
+	background-repeat: no-repeat;
+	overflow: hidden;
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg,
+			rgba(3, 29, 42, 0.92) 0%,
+			rgba(3, 29, 42, 0.75) 30%,
+			rgba(3, 29, 42, 0.35) 65%,
+			rgba(3, 29, 42, 0) 100%
+		);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	> * {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+// Ширина body-inner на case-page — снимаем базовый max-width 1000px,
+// иначе 3 кнопки actions не влезают в ряд на широких экранах
+// и переносятся. Читаемость сохраняем через локальные max-width
+// на h1 и lead (у lead базовый max-width 700 уже есть).
+.case-page__hero .ss-hero-inner__body-inner {
+	max-width: none;
+
+	.ss-h1 {
+		max-width: 900px;
+	}
+}
+
+// Описание под h2 в секции «Как читать страницу» — приглушённый серый,
+// как подзаголовки в других секциях страницы.
+.ss-case-roles__desc,
+.ss-case-problems__desc,
+.ss-case-delivery__desc,
+.ss-case-params__desc,
+.ss-case-inputs__desc,
+.ss-case-effect__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--secondary);
+	max-width: 760px;
+}
+
+// В секции «Какие проблемы решает…» — иконки растровые (prob1.svg…prob8.svg),
+// а не из спрайта. Базовая обёртка .ss-feature-card__icon заточена под <svg>,
+// img внутри подчиняется тем же правилам (width/height 100%, object-fit).
+// Правило 0-3-0 (page scope) перебивает базовое 0-1-0 из _feature-card.scss.
+.ss-case-problems .ss-feature-card__icon img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+// Секция «Выберите подходящий вариант» — слайдер 1:1 с
+// .js-production-tasks-slider: 3 карточки на ≥1280, 2 на ≥768, 1 на <768.
+.ss-case-variants {
+	// На моб — показываем только стрелки, пагинацию убираем
+	// (и padding-bottom под неё).
+	@include down($md) {
+		.swiper.swiper-pb {
+			padding-bottom: 0;
+		}
+		.swiper-pagination {
+			display: none;
+		}
+	}
+}
+
+// Футер карточки прижат к низу — разной длины text/meta не ломают
+// вертикальное выравнивание CTA.
+.ss-case-variants__card .ss-solution-card__footer {
+	margin-top: auto;
+	padding-top: 30px;
+}
+
+// Равная высота слайдов + резерв под badge «Популярное» (аналогично
+// .js-production-tasks-slider). padding-top: 20 оставляет 14px над
+// верхним краем карточки под badge, 14px внутри.
+.js-case-variants-slider .swiper-slide {
+	position: relative;
+	height: auto;
+	min-height: 100%;
+	display: flex;
+	padding-top: 20px;
+
+	> .ss-solution-card {
+		width: 100%;
+	}
+
+	> .ss-solution-card__badge {
+		top: 6px;
+	}
+}
+
+// Доп. ссылка под основной CTA в .ss-case-designer (ниже кнопки
+// «Получить комплект документов»). Не входит в базовый .ss-designer,
+// локальный блок страницы кейса.
+.ss-case-designer__secondary {
+	margin-top: 20px;
+}
+
+// Секция «Что даёт внедрение РОУ/БРОУ» — 3×2 grid плашек со stat-value +
+// title + text. По структуре повторяет .ss-case-inputs__grid (grid 3×2
+// + шахматка акцентных карточек). У акцентных — тот же градиент
+// accent1→accent3, что у .ss-benefit-card--stat на главной.
+.ss-case-effect__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+.ss-case-effect__item {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 30px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+.ss-case-effect__item--dark {
+	background: linear-gradient(90deg, var(--accent1) 0%, var(--accent3) 100%);
+	border-color: transparent;
+	color: var(--white);
+}
+
+.ss-case-effect__item-value {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	// 32→60 fluid между $md и $xxxl (как у .ss-benefit-card--stat).
+	font-size: clamp(32px, calc(60 / 1920 * 100vw), 60px);
+	line-height: 1.2;
+	color: inherit;
+
+	@include down($md) {
+		font-size: 32px;
+	}
+}
+
+.ss-case-effect__item-title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 1.4;
+	color: inherit;
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-case-effect__item-text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+// На тёмной карточке text тоже белый, но чуть приглушённый — читаемо
+// на фоне градиента, но не перебивает заголовки.
+.ss-case-effect__item--dark .ss-case-effect__item-text {
+	color: rgba(255, 255, 255, 0.75);
+}
+
+// Секция «Реализованные проекты РОУ/БРОУ» — grid 2 карточки
+// .ss-case-card--portfolio. Аналог .ss-portfolio-cases__grid.
+.ss-case-related__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	row-gap: 30px;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+	}
+}
+
+// Секция «Какие исходные данные нужны» — 3×2 grid плашек .ss-comp-item
+// (аналогично ss-benefits на главной: шахматное чередование светлых
+// и акцентных карточек). Под gridом — ряд из 2 CTA-кнопок.
+.ss-case-inputs__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	margin: 0 0 40px;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+		margin-bottom: 30px;
+	}
+}
+
+// Акцентные (активные) карточки — градиент как у .ss-benefit-card--stat
+// на главной. Перебиваем базовый сплошной --primary из .ss-comp-item--active.
+// Применяется и к .ss-case-inputs, и к .ss-case-delivery — карточки
+// там визуально идентичны.
+.ss-case-inputs .ss-comp-item--active,
+.ss-case-delivery .ss-comp-item--active {
+	background: linear-gradient(90deg, var(--accent1) 0%, var(--accent3) 100%);
+}
+
+.ss-case-inputs__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+
+	@include down($md) {
+		flex-direction: column;
+		gap: 10px;
+
+		.ss-btn {
+			width: 100%;
+		}
+	}
+}
+
+// Секция «Как работает…» — 2 колонки (картинка-схема слева, список шагов
+// справа). Стилистика 1:1 с .ss-how-to-pick на portfolio-page, но справа
+// — наш типовой .ss-list--icon с цифрой в маркере.
+.ss-case-howworks__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 30px;
+	row-gap: 30px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ss-case-howworks__media {
+	// Та же пропорция, что у __media в .ss-how-to-pick (865 × 435).
+	aspect-ratio: 865 / 435;
+	border-radius: 10px;
+	overflow: hidden;
+	background: var(--secondary3);
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+}
+
+// Секция «Что входит в решение» — 3×3 grid плашек .ss-comp-item.
+// На <$lg — 2 колонки, на <$md — 1.
+.ss-case-delivery__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+// Секция «Где устанавливается РОУ/БРОУ» — 2 большие нумерованные карточки
+// (01 Типы оборудования, 02 Отрасли), в каждой — grid из .ss-usage-tile.
+.ss-case-usage__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ss-case-usage__card {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+	padding: 30px;
+	background: var(--white);
+	border-radius: 10px;
+	box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+
+	@include down($md) {
+		padding: 20px;
+		gap: 20px;
+	}
+}
+
+.ss-case-usage__card-header {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	column-gap: 20px;
+	align-items: start;
+}
+
+.ss-case-usage__card-num {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 32px;
+	line-height: 1;
+	color: var(--secondary1);
+
+	@include down($md) {
+		font-size: 24px;
+	}
+}
+
+.ss-case-usage__card-text {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	min-width: 0;
+}
+
+.ss-case-usage__card-title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 22px;
+	line-height: 1.3;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 18px;
+	}
+}
+
+.ss-case-usage__card-desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+.ss-case-usage__tiles {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	// На <1440 карточки внутри блока складываются в одну колонку —
+	// иначе горизонтальный тайл (миниатюра + подпись + стрелка)
+	// слишком узкий и подпись сильно переносится.
+	@include down($xxl) {
+		grid-template-columns: 1fr;
+	}
+}
+
+
+// Hover у .ss-tag--mini (базовый — accent3) под кнопками в hero убираем:
+// теги статичные (span), на тёмной подложке hover-reflex не нужен.
+.case-page__hero-tags .ss-tag--mini {
+	cursor: default;
+
+	&:hover {
+		background: var(--secondary2);
+		color: var(--primary);
+	}
+}
+
+// Ряд pill-тегов под actions в hero. На тёмной подложке — прозрачный
+// фон, белая рамка, белый текст.
+.case-page__hero-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 20px 0 0;
+	padding: 0;
+	list-style: none;
+
+	.ss-pill {
+		border-color: var(--white);
+		background: transparent;
+		color: var(--white);
+		cursor: default;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.15);
+		}
+	}
+}

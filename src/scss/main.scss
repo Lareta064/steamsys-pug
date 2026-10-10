@@ -30,6 +30,8 @@
 @use "blocks/_process-card";
 @use "blocks/_all-solution-card";
 @use "blocks/_comp-item";
+@use "blocks/_pills-card";
+@use "blocks/_usage-tile";
 @use "blocks/_task-card";
 @use "blocks/_category-card";
 @use "blocks/_product-card";
@@ -102,6 +104,7 @@
 @use "sections/_portfolio-cases";
 @use "sections/_designer";
 @use "sections/_task-form";
+@use "sections/_faq";
 @use "blocks/_menu";
 @use "blocks/_mobile-menu";
 @use "blocks/_modal";
@@ -111,6 +114,7 @@
 @use "pages/_single-article";
 @use "pages/_catalog-page";
 @use "pages/_portfolio-page";
+@use "pages/_case-page";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

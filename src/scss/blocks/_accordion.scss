@@ -57,28 +57,19 @@
 		color: var(--accent1);
 	}
 
+	// Открытый item — заголовок акцентным цветом (как hover).
+	&[aria-expanded="true"] {
+		color: var(--accent1);
+	}
+
 	&:focus-visible {
 		outline: 2px solid var(--accent1);
 		outline-offset: 2px;
 	}
 }
 
-// Bullet перед текстом вопроса — маркер списка (•).
 .ss-accordion__title {
 	flex: 1 1 auto;
-	position: relative;
-	padding-left: 20px;
-
-	&::before {
-		content: '';
-		position: absolute;
-		top: 10px;
-		left: 4px;
-		width: 5px;
-		height: 5px;
-		border-radius: 50%;
-		background: currentColor;
-	}
 }
 
 // ---------- Icon +/− ----------
@@ -154,7 +145,7 @@
 }
 
 .ss-accordion__body-content {
-	padding: 0 0 20px 20px;
+	padding: 0 0 20px 0;
 	color: var(--primary);
 	font-family: var(--font-family);
 	font-weight: 400;

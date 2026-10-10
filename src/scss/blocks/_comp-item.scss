@@ -30,7 +30,11 @@
 	}
 }
 
-.ss-comp-item:hover {
+// Hover-эффект — только там, где плашки задуманы как «шаги подбора»
+// с интерактивным откликом (секция «Как подобрать систему» на
+// portfolio-page). На странице кейса (ss-case-delivery) hover не нужен —
+// там плашки информационные, и часть из них уже помечена --active.
+.ss-how-to-pick .ss-comp-item:hover {
 	background: var(--primary);
 	color: var(--white);
 }
@@ -50,7 +54,7 @@
 	}
 }
 
-.ss-comp-item:hover .ss-comp-item__num {
+.ss-how-to-pick .ss-comp-item:hover .ss-comp-item__num {
 	color: var(--secondary2);
 }
 
@@ -84,6 +88,27 @@
 	transition: color .25s;
 }
 
-.ss-comp-item:hover .ss-comp-item__text {
+.ss-how-to-pick .ss-comp-item:hover .ss-comp-item__text {
 	color: var(--secondary2);
+}
+
+
+// ==============================================================
+// .ss-comp-item--active — модификатор «активной» плашки.
+// Выглядит так же, как hover (тёмный фон + белый текст, приглушённый
+// номер и описание). Используется, когда элемент помечен как
+// «входит в это решение / выбран». Hover у active-плашки отключён:
+// визуально ничего не меняется, cursor остаётся default.
+// ==============================================================
+.ss-comp-item--active {
+	background: var(--primary);
+	color: var(--white);
+
+	.ss-comp-item__num {
+		color: var(--secondary2);
+	}
+
+	.ss-comp-item__text {
+		color: var(--secondary2);
+	}
 }

@@ -1,4 +1,4 @@
-- var metriks = [{ icon: 'chart', value: '18%', label: 'снижение потерь пара' }, { icon: 'calendar', value: '9 мес.', label: 'срок окупаемости' }, { icon: 'droplets', value: '90%', label: 'возврат конденсата' }, { icon: 'shield', value: '24/7', label: 'стабильность процессов' }]
+- var metriks = [{ img: 'tizer0', value: '18%', label: 'снижение потерь пара' }, { img: 'tizer1', value: '9 мес.', label: 'срок окупаемости' }, { img: 'tizer2', value: '90%', label: 'возврат конденсата' }, { img: 'tizer3', value: '24/7', label: 'стабильность процессов' }]
 
 section.ss-hero.ss-wrapper
 	//- Фоновая картинка (только десктоп)
@@ -27,7 +27,7 @@ section.ss-hero.ss-wrapper
 			each m in metriks
 				li.ss-hero__metrik
 					.ss-hero__metrik-icon
-						+svgIcon(m.icon)
+						img(src=`${basePath}img/${m.img}.webp` width='52' height='52' alt='' loading='lazy' decoding='async')
 					.ss-hero__metrik-body
 						p.ss-hero__metrik-value= m.value
 						p.ss-hero__metrik-label= m.label

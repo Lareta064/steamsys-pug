@@ -1,0 +1,32 @@
+//- ============================================================
+//- «Техническая документация по РОУ/БРОУ» — секция на странице кейса.
+//- Точная копия структуры .ss-designer на portfolio-page: 2 колонки
+//- (слева intro + CTA, справа grid 2×3 плашек). Контент — case-специфичный.
+//- Используем базовые классы .ss-designer*, добавляем доп. класс
+//- .ss-case-designer для секционных правок (доп. ссылка под CTA).
+//- ============================================================
+- var caseDesignerItems = [{ icon: '📋', title: 'Опросный лист РОУ/БРОУ', cta: 'Заполнить онлайн', href: '#case-doc-form' }, { icon: '📐', title: 'Типовая принципиальная схема', cta: 'Скачать / запросить схему', href: '#case-doc-scheme' }, { icon: '📦', title: 'CAD / 3D / BIM модели', cta: 'Запросить по email', href: '#case-doc-cad' }, { icon: '📄', title: 'Техническое описание', cta: 'Скачать / запросить описание', href: '#case-doc-tech' }, { icon: '✅', title: 'Паспорт и сертификаты', cta: 'Запросить', href: '#case-doc-certs' }, { icon: '📞', title: 'Консультация инженера', cta: 'Написать инженеру', href: '#case-doc-consult' }]
+
+section.ss-section.ss-section--tinted.ss-designer.ss-case-designer
+	.ss-container.ss-wrapper
+		.ss-designer__grid
+			.ss-designer__intro
+				span.ss-kicker Для проектировщика
+				h2.ss-h3 Техническая документация по&nbsp;РОУ/БРОУ
+				p.ss-designer__desc Все материалы для включения решения в проект. Доступны сразу или по запросу.
+				.ss-designer__action
+					+ssBtn('Получить комплект документов', { variant: 'primary', icon: 'arrow-right' })(data-modal='request-b24')
+				.ss-case-designer__secondary
+					+ssLink('Вся документация по РОУ/БРОУ в Библиотеке', { variant: 'dark', underline: true })(href='#case-doc-library')
+
+			ul.ss-designer__list
+				each item in caseDesignerItems
+					li
+						a.ss-designer__item(href=item.href)
+							span.ss-designer__icon(aria-hidden='true')
+								i= item.icon
+							.ss-designer__body
+								p.ss-designer__title= item.title
+								span.ss-link.ss-link--sm
+									span= item.cta
+									+svgIcon('arrow-right')

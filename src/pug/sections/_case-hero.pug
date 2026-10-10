@@ -1,0 +1,53 @@
+//- ============================================================
+//- Hero-секция страницы одного кейса (case-page).
+//- Шаблон .ss-hero-inner--dark (как portfolio-page): полоса крошек +
+//- тёмный body с bg-image + 4 равных факта внизу. Внутри body
+//- дополнительно — ряд pill-тегов под actions.
+//- BG image + градиентная завеса — в src/scss/pages/_case-page.scss
+//- (пока используем solution-hero.webp от portfolio-page).
+//- ============================================================
+section.ss-hero-inner.ss-hero-inner--dark.case-page__hero
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='/') Главная
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='#solutions') Решения
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='#branches') Отрасли
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') РОУ и БРОУ
+
+	.ss-hero-inner__body
+		.ss-container.ss-wrapper
+			.ss-hero-inner__body-inner
+				span.ss-kicker.ss-txt-accent3 Готовые инженерные решения
+				h1.ss-h1 Редукционно-охладительные установки РОУ и&nbsp;БРОУ
+				p.ss-hero-inner__lead
+					| Снижаем давление и температуру пара до рабочих параметров. Стабилизируем подачу в технологический процесс. Защищаем оборудование от гидроударов и аварийных режимов.
+				.ss-hero-inner__actions
+					+ssBtn('Получить расчёт РОУ', { variant: 'primary', icon: 'arrow-right', xsFull: true })(data-modal='request-b24')
+					+ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-light', xsFull: true })
+				ul.case-page__hero-tags
+					li: span.ss-tag.ss-tag--mini Производство под проект
+					li: span.ss-tag.ss-tag--mini Документация в комплекте
+					li: span.ss-tag.ss-tag--mini Партнёр TLV (Япония)
+
+			ul.ss-hero__metriks
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value DN 15–500
+						p.ss-hero__metrik-label Диапазон диаметров
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value до 100 бар
+						p.ss-hero__metrik-label Давление на входе
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value до 550°C
+						p.ss-hero__metrik-label Температура пара
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 15+
+						p.ss-hero__metrik-label лет на рынке

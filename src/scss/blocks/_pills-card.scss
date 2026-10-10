@@ -1,0 +1,54 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-pills-card — карточка «заголовок-метка + ряд пилюль».
+// Используется для группировки категорированных значений
+// (типы оборудования, отрасли, теги и т.п.).
+//
+// Разметка:
+//   .ss-pills-card
+//     p.ss-pills-card__header Типы оборудования и процессов
+//     ul.ss-pills-card__list
+//       li: span.ss-pill Теплообменники
+//       li: span.ss-pill Паровые калориферы
+//       …
+//
+// Внутренние пилюли — существующий компонент .ss-pill (span или a).
+// Если нужны кликабельные — ставим <a href>, базовый hover у .ss-pill
+// уже есть; если статичные (как labels) — <span>.
+// ==============================================================
+.ss-pills-card {
+	box-sizing: border-box;
+	padding: 30px;
+	background: var(--secondary2);
+	border-radius: 10px;
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+.ss-pills-card__header {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.2;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 12px;
+		margin-bottom: 15px;
+	}
+}
+
+.ss-pills-card__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}

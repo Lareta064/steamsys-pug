@@ -1,0 +1,36 @@
+//- ============================================================
+//- «Реализованные проекты РОУ/БРОУ» — секция на странице кейса.
+//- Структурно 1:1 с .ss-portfolio-cases на portfolio-page: grid 2 карточки
+//- .ss-case-card.ss-case-card--portfolio (без tag, с kicker,
+//- светлые .ss-metrics с разделительной линией сверху).
+//- В заголовке — kicker + h2 слева, ссылка «Все кейсы» справа.
+//- ============================================================
+- var caseRelatedItems = [{ kicker: 'Пищевая промышленность · Московская область', title: 'Сдвоенная паровая РОУ 8→3 бар для пароснабжения технологических процессов', text: 'Нестабильное давление срывало технологический регламент. Поставили сдвоенную установку с автоматическим резервированием — режим 24/7 без остановов.', metrics: [{ value: '18 мес.', label: 'без аварийных остановов' }, { value: '±0.1 бар', label: 'точность регулирования' }, { value: '−22%', label: 'эксплуатационные затраты' }], bg: 'gallery1', alt: 'Пищевой комбинат — РОУ', href: '#case-related-1' }, { kicker: 'ЦБП · Архангельская область', title: 'БРОУ 40→12 бар / 380→220°C для сушильной части бумагоделательной машины', text: 'Требовалось охлаждение пара для сушки без перегрева полотна. Реализована БРОУ с впрыском питательной воды и автоматическим контролем температуры.', metrics: [{ value: '−18%', label: 'расход пара' }, { value: '−30%', label: 'брак полотна' }, { value: '9 мес.', label: 'окупаемость проекта' }], bg: 'gallery2', alt: 'ЦБП — БРОУ', href: '#case-related-2' }]
+
+section.ss-section.ss-case-related
+	.ss-container.ss-wrapper
+		.ss-section-header
+			.ss-section-header__title
+				span.ss-kicker Примеры внедрения
+				h2.ss-h2 Реализованные проекты РОУ/БРОУ
+			+ssLink('Все кейсы')(href='#cases-all')
+
+		.ss-case-related__grid
+			each c in caseRelatedItems
+				article.ss-case-card.ss-case-card--portfolio
+					.ss-case-card__image
+						picture
+							source(media='(max-width: 767px)' srcset=`${basePath}img/${c.bg}-mob.webp 1x, ${basePath}img/${c.bg}-mob@2x.webp 2x`)
+							source(srcset=`${basePath}img/${c.bg}.webp 1x, ${basePath}img/${c.bg}@2x.webp 2x`)
+							img(src=`${basePath}img/${c.bg}.webp` width='865' height='360' alt=c.alt loading='lazy' decoding='async')
+					.ss-case-card__body
+						p.ss-case-card__kicker= c.kicker
+						h3.ss-case-card__title= c.title
+						p.ss-case-card__text= c.text
+						.ss-metrics
+							each m in c.metrics
+								.ss-metrics__item
+									p.ss-metrics__value= m.value
+									p.ss-metrics__label= m.label
+					.ss-case-card__footer
+						+ssLink('Читать кейс')(href=c.href)
