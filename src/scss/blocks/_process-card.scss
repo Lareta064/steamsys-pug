@@ -29,6 +29,14 @@
 	@include down($md) {
 		padding: 20px;
 		row-gap: 15px;
+		.ss-process-card__body{
+			flex-grow:1;
+			max-width: 70%;
+		}
+		.ss-process-card__photo{
+			
+			max-width: 30%;
+		}
 	}
 }
 
