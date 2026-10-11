@@ -39,17 +39,17 @@
 	grid-template-columns: repeat(5, 1fr);
 	gap: 20px;
 
-	@media (max-width: 1599px) {
-		grid-template-columns: repeat(4, 1fr);
-	}
-
-	@include down($xl) {
-		grid-template-columns: repeat(3, 1fr);
-	}
-
-	@include down($lg) {
+	@media (max-width: 1439px) {
 		grid-template-columns: repeat(2, 1fr);
 	}
+
+	// @include down($xl) {
+	// 	grid-template-columns: repeat(3, 1fr);
+	// }
+
+	// @include down($lg) {
+	// 	grid-template-columns: repeat(2, 1fr);
+	// }
 
 	@include down($md) {
 		grid-template-columns: 1fr;

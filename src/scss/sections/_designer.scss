@@ -32,8 +32,15 @@
 		margin: 0 0 20px;
 	}
 
-	.ss-h2 {
+	// Общие правила для h2/h3 заголовка intro.
+	// Длинные слова («конденсатоотводчики» и т.п.) переносим ТОЛЬКО
+	// по русскому словарю (hyphens: auto), т.к. lang="ru" на layout.
+	// Без overflow-wrap: anywhere — иначе браузер режет на отдельные буквы.
+	.ss-h2,
+	.ss-h3 {
 		margin: 0;
+		-webkit-hyphens: auto;
+		hyphens: auto;
 	}
 }
 
@@ -91,7 +98,7 @@
 	.ss-link{transition: .2s; }
 	&:hover {
 		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-		background-color: var(--accent1);
+		background-color: var(--accent3);
 		.ss-designer__title, .ss-link, .ss-link svg{color:  var(--white);}
 		
 	}

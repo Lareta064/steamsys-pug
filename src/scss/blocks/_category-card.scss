@@ -45,6 +45,20 @@
 		font-size: clamp(18px, 0.34vw + 15.47px, 22px);
 		overflow-wrap: break-word;
 		hyphens: auto;
+		
+	}
+	@include down($xxl){
+		flex-direction: row;
+		gap:10px;
+		.ss-category-card__img{
+			max-height: 100px;
+		}
+	}
+	@include down($md){
+		padding: 16px;
+		.ss-category-card__img{
+			max-height: 80px;
+		}
 	}
 }
 
@@ -56,10 +70,11 @@
 // в контейнере шире её max-width 300; выше картинка не растянется.
 .ss-category-card__img {
 	display: block;             // <picture> по дефолту inline — форсим block
-	aspect-ratio: 235 / 210;
-	max-height: 235px;
+	aspect-ratio: 370 / 400;
+	max-height: 160px;
 	flex-shrink: 0;
 	overflow: hidden;
+	
 }
 
 // Текстовая часть — растягивается на всю оставшуюся высоту, чтобы
@@ -81,7 +96,7 @@
 	color: var(--accent1);
 	opacity: 0;
 	transition: opacity .2s;
-
+    @include down($xl){opacity: 1;font-size: 16px;}
 	svg {
 		width: 20px;
 		height: 20px;
