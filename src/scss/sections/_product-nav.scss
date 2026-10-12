@@ -1,0 +1,61 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-product-nav — якорное меню страницы товара. По скроллу
+// прилипает под фикс-шапкой через position: sticky; top: --header-height.
+// Активный таб подсвечивается через .is-active (ставит JS по ScrollSpy).
+// ==============================
+.ss-product-nav {
+	position: sticky;
+	top: var(--header-height, 100px);
+	z-index: 10;
+	background: var(--white);
+	border-top: 1px solid var(--secondary2);
+	border-bottom: 1px solid var(--secondary2);
+}
+
+.ss-product-nav__list {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 10px 30px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	// При большом числе табов на моб. — горизонтальный скролл свайпом,
+	// scrollbar прячем (на моб. он только шумит).
+	overflow-x: auto;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+.ss-product-nav__item {
+	flex-shrink: 0;
+}
+
+.ss-product-nav__link {
+	display: inline-flex;
+	align-items: center;
+	padding: 18px 0;
+	border-bottom: 2px solid transparent;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--secondary);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: color .2s ease, border-color .2s ease;
+
+	&:hover {
+		color: var(--primary);
+	}
+
+	&.is-active {
+		color: var(--primary);
+		font-weight: 600;
+		border-bottom-color: var(--primary);
+	}
+}

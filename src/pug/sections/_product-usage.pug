@@ -1,0 +1,56 @@
+//- ============================================================
+//- «Где применяется JX4S» — секция на странице карточки товара.
+//- Внешне 1-в-1 секция .ss-case-usage на single-case.html:
+//- 2 большие нумерованные карточки (01 Процессы + 02 Отрасли),
+//- внутри каждой — 2-колоночная сетка .ss-usage-tile (миниатюра +
+//- подпись + стрелка). Переиспользуем правила .ss-case-usage__*
+//- и класс .ss-usage-tile без копирования стилей.
+//- Якорь #product-usage — цель таба «Применение» в .ss-product-nav.
+//- ============================================================
+- var productUsageProcesses = [{ title: 'Нагрев воздуха в калориферах', img: 'process-calorifer', href: '#use-calorifer' }, { title: 'Нагрев жидкостей в теплообменниках', img: 'process-heat-exchanger', href: '#use-heat-exchanger' }, { title: 'Сушка', img: 'process-dryer', href: '#use-dryer' }, { title: 'Стерилизация', img: 'process-unknown-type', href: '#use-sterilization' }, { title: 'Варка', img: 'process-boiler', href: '#use-boiler' }]
+- var productUsageIndustries = [{ title: 'Пищевая', img: 'ind-food', href: '#use-food' }, { title: 'Фармацевтика', img: 'ind-pharma', href: '#use-pharma' }, { title: 'Химическая', img: 'ind-chemistry', href: '#use-chemistry' }, { title: 'ЦБП', img: 'ind-pulp', href: '#use-pulp' }]
+
+section.ss-section.ss-case-usage.ss-section--tinted.ss-bg-gray(id='product-usage')
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Где применяется JX4S
+
+		.ss-case-usage__grid
+			//- ============== Card 01: процессы ==============
+			.ss-case-usage__card
+				.ss-case-usage__card-header
+					span.ss-case-usage__card-num 01
+					.ss-case-usage__card-text
+						h3.ss-case-usage__card-title Процессы
+						p.ss-case-usage__card-desc Поплавковый КО JX4S используется в основных процессах с паровым обогревом и прямым дренажём конденсата
+
+				ul.ss-case-usage__tiles
+					each item in productUsageProcesses
+						li
+							a.ss-usage-tile(href=item.href)
+								picture.ss-usage-tile__img
+									source(srcset=`${basePath}img/${item.img}.webp`)
+									img(src=`${basePath}img/${item.img}.webp` width='76' height='76' alt='' loading='lazy' decoding='async')
+								span.ss-usage-tile__label= item.title
+								span.ss-usage-tile__arrow(aria-hidden='true')
+									+svgIcon('arrow-right')
+
+			//- ============== Card 02: отрасли ==============
+			.ss-case-usage__card
+				.ss-case-usage__card-header
+					span.ss-case-usage__card-num 02
+					.ss-case-usage__card-text
+						h3.ss-case-usage__card-title Отрасли
+						p.ss-case-usage__card-desc Отрасли, где JX4S закрывает задачи отвода конденсата из паровых систем
+
+				ul.ss-case-usage__tiles
+					each item in productUsageIndustries
+						li
+							a.ss-usage-tile(href=item.href)
+								picture.ss-usage-tile__img
+									source(srcset=`${basePath}img/${item.img}.webp`)
+									img(src=`${basePath}img/${item.img}.webp` width='76' height='76' alt='' loading='lazy' decoding='async')
+								span.ss-usage-tile__label= item.title
+								span.ss-usage-tile__arrow(aria-hidden='true')
+									+svgIcon('arrow-right')

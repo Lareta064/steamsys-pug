@@ -1,0 +1,27 @@
+//- ============================================================
+//- «Технические характеристики» — секция с таблицей на карточке
+//- товара. Разметка .ss-simple-table (голые <table>/<thead>/<tbody>
+//- внутри). Якорь #product-specs — цель таба «Характеристики»
+//- в .ss-product-nav.
+//- ============================================================
+- var productSpecs = [{ param: 'DN (диаметр прохода)', value: 'DN15, DN20, DN25, DN32, DN40, DN50', note: 'Фланцевое или муфтовое' }, { param: 'PN (давление условное)', value: 'PN25', note: '—' }, { param: 'Рабочее давление', value: 'до 21 бар', note: 'Дифференциальное' }, { param: 'Максимальная температура', value: '220°C', note: '—' }, { param: 'Расход конденсата', value: 'до 10 кг/ч (DN15) … до 1400 кг/ч (DN50)', note: '—' }, { param: 'Материал корпуса', value: 'Нержавеющая сталь SCS13', note: '—' }, { param: 'Материал поплавка', value: 'Нержавеющая сталь', note: '—' }, { param: 'Присоединение', value: 'Резьбовое, фланцевое', note: 'По запросу' }, { param: 'Масса', value: 'от 0.5 кг (DN15)', note: '—' }]
+
+section.ss-section.ss-product-specs(id='product-specs')
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Технические характеристики
+
+		.ss-simple-table
+			table
+				thead
+					tr
+						th Параметр
+						th Значение
+						th Примечание
+				tbody
+					each row in productSpecs
+						tr
+							th(scope='row')= row.param
+							td= row.value
+							td= row.note
