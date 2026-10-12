@@ -10,4 +10,5 @@
 // ==============================
 .ss-single-product {
 	padding-top: var(--header-height, 100px);
+	overflow-x: clip; // нужен для .ss-mob-bleed внутри секций
 }
