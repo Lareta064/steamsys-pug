@@ -1,0 +1,80 @@
+- var productFormBenefits = ['Ответ инженера в течение 1 рабочего дня', 'Подбор с учётом параметров пара и конденсатопровода', 'КП с ценой, схемой обвязки и сроком поставки']
+
+section.ss-section.ss-section--tinted.ss-product-form
+	.ss-container.ss-wrapper
+		.ss-product-form__grid
+
+			//- Левая колонка — kicker + h2 + desc + список преимуществ.
+			.ss-product-form__intro
+				span.ss-kicker Запросить предложение
+				h2.ss-h2 Получите расчёт на&nbsp;JX4S под вашу задачу
+				p.ss-product-form__desc
+					| Заполните форму — инженер уточнит параметры системы, подберёт диаметр и тип конденсатоотводчика и&nbsp;выдаст КП с&nbsp;ценой и&nbsp;сроком поставки.
+
+				ul.ss-list.ss-list--icon.ss-list--step.ss-product-form__benefits
+					each item, i in productFormBenefits
+						li.ss-list__item
+							span.ss-list__marker= i + 1
+							.ss-list__step
+								p.ss-medi-16= item
+
+			//- Правая колонка — белая коробка с Битрикс-формой (светлая тема).
+			.ss-product-form__card
+				p.ss-product-form__form-title Запросить КП на JX4S
+				p.ss-product-form__form-subtitle Инженер подберёт комплектацию под ваш объект
+
+				.ss-b24-form.ss-b24-form--light
+					.b24-form
+						.b24-form-wrapper
+							.b24-form-content
+								.b24-form-padding-side
+
+									.b24-form-field.b24-form-field-name.b24-form-field-string
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Ваше имя
+												span.b24-form-control-label-required *
+											input.b24-form-control.b24-form-control-string(type='text', name='NAME', placeholder=' ')
+
+									.b24-form-field.b24-form-field-phone
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Телефон
+												span.b24-form-control-label-required *
+											input.b24-form-control.b24-form-control-string(type='tel', name='PHONE', placeholder=' ')
+
+									.b24-form-field.b24-form-field-email
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Email
+											input.b24-form-control.b24-form-control-string(type='email', name='EMAIL', placeholder=' ')
+
+									.b24-form-field.b24-form-field-file
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Прикрепить файл
+											.b24-form-control.b24-form-control-file
+												label.b24-form-control-file-button
+													input.b24-form-control-file-input(type='file', name='FILE', hidden)
+													| Прикрепить ТЗ или спецификацию
+
+									.b24-form-field.b24-form-field-text
+										.b24-form-control-container
+											.b24-form-control-label
+												span.b24-form-control-label-name Параметры пара, DN, количество точек
+											textarea.b24-form-control.b24-form-control-textarea(name='COMMENTS', placeholder=' ')
+
+									.b24-form-field.b24-form-field-agreement
+										label.b24-form-field-agreement-label
+											.b24-form-control-agreement
+												.b24-form-control-agreement-checkbox
+													input.b24-form-control-agreement-checkbox-input(type='checkbox', name='AGREEMENT')
+													span.b24-form-control-agreement-checkbox-square
+												.b24-form-control-agreement-text
+													| Нажимая кнопку, вы соглашаетесь с
+													a(href='#') политикой конфиденциальности
+
+							.b24-form-btn-block
+								.b24-form-btn-container
+									button.b24-form-btn.b24-form-btn-shadow(type='submit')
+										span.b24-form-btn-text Получить расчёт

@@ -1,0 +1,71 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-product-related — секция «Совместимое оборудование» на карточке
+// товара. Паттерн 1-в-1 с .ss-case-inputs: grid 3×2 из .ss-comp-item,
+// часть --active с градиентным фоном accent1→accent3.
+//
+// Градиент для --active дублируем здесь (а не в _comp-item.scss),
+// чтобы совпасть со стилистикой _case-inputs / _case-delivery и
+// не влиять на другие использования .ss-comp-item--active в проекте.
+// ==============================
+.ss-product-related {
+	.ss-section-header {
+		margin-bottom: 30px;
+
+		@include down($md) {
+			margin-bottom: 20px;
+		}
+	}
+}
+
+// Подзаголовок под h2.
+.ss-product-related__desc {
+	margin: 10px 0 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+// Grid 3×2 → 2 (<$lg) → 1 (<$md).
+.ss-product-related__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	margin: 0 0 40px;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+		margin-bottom: 30px;
+	}
+}
+
+// Активные (тёмные) карточки — градиент accent1→accent3.
+// Перебиваем базовый --primary из .ss-comp-item--active.
+.ss-product-related .ss-comp-item--active {
+	background: linear-gradient(90deg, var(--accent1) 0%, var(--accent3) 100%);
+}
+
+.ss-product-related__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+
+	@include down($md) {
+		flex-direction: column;
+		gap: 10px;
+
+		.ss-btn {
+			width: 100%;
+		}
+	}
+}

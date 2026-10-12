@@ -1,0 +1,17 @@
+- var productSimilarItems = [{ img: 'product-placeholder-1', title: 'JX6S', specs: 'DN15–80 · PN40', href: '#' }, { img: 'product-placeholder-2', title: 'JX7S', specs: 'DN25–100 · PN16', href: '#' }, { img: 'product-placeholder-3', title: 'A3N', specs: 'DN15–50 · PN40', href: '#' }, { img: 'product-placeholder-4', title: 'L21S', specs: 'DN15–50 · PN16', href: '#' }]
+
+section.ss-section.ss-product-similar
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Похожие товары
+
+		.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+			each item in productSimilarItems
+				article.ss-product-card
+					.ss-product-card__img
+						img.ss-img-contain(src=`./img/${item.img}.svg` width='235' height='160' alt=item.title loading='lazy' decoding='async')
+					h3.ss-semi-20
+						a(href=item.href)= item.title
+					p.ss-reg-14.ss-txt-secondary= item.specs
+					+ssBtn('Запросить КП', { variant: 'outline-dark', full: true })

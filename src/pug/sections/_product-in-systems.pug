@@ -1,0 +1,25 @@
+//- ============================================================
+//- «В составе каких готовых систем» — секция на карточке товара.
+//- Переиспользуем компонент .ss-comp-item (нумерованная плашка —
+//- номер слева + title/text справа). Карточки — ссылки (<a>), вся
+//- плашка кликабельна. hover меняет фон на accent1 (общие правила
+//- в _comp-item.scss с контекстом .ss-product-in-systems).
+//- Якорь #product-in-systems — цель таба «В системах» в nav.
+//- ============================================================
+- var productInSystems = [{ title: 'Обвязка паровых калориферов', text: 'Непрерывный дренаж конденсата', href: '#sys-calorifer' }, { title: 'Обвязка теплообменников', text: 'Отвод конденсата без потерь пара', href: '#sys-heat-exchanger' }, { title: 'Станции возврата конденсата', text: 'Ключевой узел СВК', href: '#sys-svk' }, { title: 'ИТП ГВС', text: 'Системы горячего водоснабжения', href: '#sys-itp' }, { title: 'РОУ/БРОУ (дренаж)', text: 'Дренаж паропровода', href: '#sys-roy' }]
+
+section.ss-section.ss-product-in-systems(id='product-in-systems')
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 В составе каких готовых систем
+				p.ss-product-in-systems__desc JX4S входит в состав инженерных систем как основной элемент отвода конденсата
+
+		ul.ss-product-in-systems__list
+			each item, i in productInSystems
+				li
+					a.ss-comp-item(href=item.href)
+						span.ss-comp-item__num= ('0' + (i + 1)).slice(-2)
+						.ss-comp-item__body
+							h3.ss-comp-item__title= item.title
+							p.ss-comp-item__text= item.text

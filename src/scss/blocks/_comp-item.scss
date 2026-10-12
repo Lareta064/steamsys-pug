@@ -30,12 +30,17 @@
 	}
 }
 
-// Hover-эффект — только там, где плашки задуманы как «шаги подбора»
-// с интерактивным откликом (секция «Как подобрать систему» на
-// portfolio-page). На странице кейса (ss-case-delivery) hover не нужен —
-// там плашки информационные, и часть из них уже помечена --active.
-.ss-how-to-pick .ss-comp-item:hover {
-	background: var(--primary);
+// Hover-эффект — там, где плашки задуманы как «шаги подбора» или
+// кликабельные карточки с интерактивным откликом:
+//   · .ss-how-to-pick (portfolio) — div-плашки, hover для feedback'а;
+//   · .ss-product-in-systems (single-product) — a.ss-comp-item, вся
+//     плашка — ссылка, hover по умолчанию у <a>.
+// На странице кейса (ss-case-delivery) hover не нужен — там плашки
+// информационные, и часть помечена --active.
+// Цвет фона — accent1 (ранее был --primary).
+.ss-how-to-pick .ss-comp-item:hover,
+.ss-product-in-systems .ss-comp-item:hover {
+	background: var(--accent1);
 	color: var(--white);
 }
 
@@ -54,7 +59,8 @@
 	}
 }
 
-.ss-how-to-pick .ss-comp-item:hover .ss-comp-item__num {
+.ss-how-to-pick .ss-comp-item:hover .ss-comp-item__num,
+.ss-product-in-systems .ss-comp-item:hover .ss-comp-item__num {
 	color: var(--secondary2);
 }
 
@@ -88,7 +94,8 @@
 	transition: color .25s;
 }
 
-.ss-how-to-pick .ss-comp-item:hover .ss-comp-item__text {
+.ss-how-to-pick .ss-comp-item:hover .ss-comp-item__text,
+.ss-product-in-systems .ss-comp-item:hover .ss-comp-item__text {
 	color: var(--secondary2);
 }
 
