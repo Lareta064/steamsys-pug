@@ -1,0 +1,13 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-single-product — страница карточки товара.
+// Эталон wireframe:
+// https://kogit.ru/steamsys/wireframes/wireframe_08_kartochka_tovara.html
+//
+// Пока пусто — секции подключаются по мере готовности.
+// Padding-top под fixed-шапку, если первая секция её не компенсирует.
+// ==============================
+.ss-single-product {
+	padding-top: var(--header-height, 100px);
+}

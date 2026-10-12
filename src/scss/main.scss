@@ -106,6 +106,7 @@
 @use "sections/_designer";
 @use "sections/_task-form";
 @use "sections/_faq";
+@use "blocks/_product-gallery";
 @use "blocks/_menu";
 @use "blocks/_mobile-menu";
 @use "blocks/_modal";
@@ -116,6 +117,7 @@
 @use "pages/_catalog-page";
 @use "pages/_portfolio-page";
 @use "pages/_case-page";
+@use "pages/_single-product";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту
