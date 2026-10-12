@@ -8,7 +8,7 @@
 
 nav.ss-product-nav(aria-label='Навигация по товару')
 	.ss-container.ss-wrapper
-		ul.ss-product-nav__list
+		ul.ss-product-nav__list.ss-mob-bleed
 			each item, i in productNavItems
 				li.ss-product-nav__item
 					a.ss-product-nav__link(href=item.href, class=(i === 0 ? 'is-active' : null))= item.title

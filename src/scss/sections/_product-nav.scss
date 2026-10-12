@@ -29,6 +29,10 @@
 	&::-webkit-scrollbar {
 		display: none;
 	}
+
+	@include down($md) {
+		padding-inline-end: 20px;
+	}
 }
 
 .ss-product-nav__item {

@@ -1,18 +1,18 @@
-@use '../base/_var' as *;
+﻿@use '../base/_var' as *;
 
 // ==============================
-// .ss-strip — горизонтальная полоса с N равных блоков (flex: 1).
-// Каждый блок: title (bold) + desc (muted).
-// Количество блоков произвольное — делятся равномерно.
-// Gap между блоками 16px. Между блоками — subtle вертикальный разделитель.
+// .ss-strip вЂ” РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ РїРѕР»РѕСЃР° СЃ N СЂР°РІРЅС‹С… Р±Р»РѕРєРѕРІ (flex: 1).
+// РљР°Р¶РґС‹Р№ Р±Р»РѕРє: title (bold) + desc (muted).
+// РљРѕР»РёС‡РµСЃС‚РІРѕ Р±Р»РѕРєРѕРІ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРµ вЂ” РґРµР»СЏС‚СЃСЏ СЂР°РІРЅРѕРјРµСЂРЅРѕ.
+// Gap РјРµР¶РґСѓ Р±Р»РѕРєР°РјРё 16px. РњРµР¶РґСѓ Р±Р»РѕРєР°РјРё вЂ” subtle РІРµСЂС‚РёРєР°Р»СЊРЅС‹Р№ СЂР°Р·РґРµР»РёС‚РµР»СЊ.
 //
-// Разметка:
+// Р Р°Р·РјРµС‚РєР°:
 //   section.ss-section.ss-strip
 //     .ss-container.ss-wrapper
 //       ul.ss-strip__list
 //         li.ss-strip__item
-//           p.ss-strip__title Поставка 2–4 нед.
-//           p.ss-strip__desc со склада или под заказ
+//           p.ss-strip__title РџРѕСЃС‚Р°РІРєР° 2вЂ“4 РЅРµРґ.
+//           p.ss-strip__desc СЃРѕ СЃРєР»Р°РґР° РёР»Рё РїРѕРґ Р·Р°РєР°Р·
 // ==============================
 
 .ss-strip {
@@ -23,7 +23,7 @@
 .ss-strip__list {
 	display: flex;
 	gap: 16px;
-	align-items: center;
+	// align-items: center;
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -45,8 +45,15 @@
 		flex: 0 0 calc(50% - 8px);
 	}
 
-	@include down($xs) {
+	@include down(540px) {
 		flex: 0 0 100%;
+		padding-bottom: 16px;
+		border-bottom: 1px solid var(--secondary1);
+
+		&:last-child {
+			padding-bottom: 0;
+			border-bottom: none;
+		}
 	}
 }
 
