@@ -1,0 +1,9 @@
+- var productStripItems = [{ title: 'Поставка 2–4 нед.', desc: 'со склада или под заказ' }, { title: 'Оплата по счёту', desc: 'безналичный расчёт, НДС' }, { title: 'Гарантия 12 мес.', desc: 'на всё оборудование TLV' }, { title: 'Тех. поддержка', desc: 'инженер на связи' }]
+
+section.ss-strip
+	.ss-container.ss-wrapper
+		ul.ss-strip__list
+			each item in productStripItems
+				li.ss-strip__item
+					p.ss-strip__title= item.title
+					p.ss-strip__desc= item.desc

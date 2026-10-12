@@ -1,0 +1,69 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-strip — горизонтальная полоса с N равных блоков (flex: 1).
+// Каждый блок: title (bold) + desc (muted).
+// Количество блоков произвольное — делятся равномерно.
+// Gap между блоками 16px. Между блоками — subtle вертикальный разделитель.
+//
+// Разметка:
+//   section.ss-section.ss-strip
+//     .ss-container.ss-wrapper
+//       ul.ss-strip__list
+//         li.ss-strip__item
+//           p.ss-strip__title Поставка 2–4 нед.
+//           p.ss-strip__desc со склада или под заказ
+// ==============================
+
+.ss-strip {
+	background: var(--primary1);
+	padding: 24px 0;
+}
+
+.ss-strip__list {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	@include down($md) {
+		flex-wrap: wrap;
+	}
+}
+
+.ss-strip__item {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	row-gap: 4px;
+	position: relative;
+
+	@include down($md) {
+		flex: 0 0 calc(50% - 8px);
+	}
+
+	@include down($xs) {
+		flex: 0 0 100%;
+	}
+}
+
+.ss-strip__title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--white);
+}
+
+.ss-strip__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary1);
+}

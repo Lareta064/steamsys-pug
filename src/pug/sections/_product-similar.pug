@@ -1,4 +1,4 @@
-- var productSimilarItems = [{ img: 'product-placeholder-1', title: 'JX6S', specs: 'DN15–80 · PN40', href: '#' }, { img: 'product-placeholder-2', title: 'JX7S', specs: 'DN25–100 · PN16', href: '#' }, { img: 'product-placeholder-3', title: 'A3N', specs: 'DN15–50 · PN40', href: '#' }, { img: 'product-placeholder-4', title: 'L21S', specs: 'DN15–50 · PN16', href: '#' }]
+- var productSimilarItems = [{ img: 'tool1', title: 'JX6S', specs: 'DN15–80 · PN40', href: '#' }, { img: 'tool2', title: 'JX7S', specs: 'DN25–100 · PN16', href: '#' }, { img: 'tool3', title: 'A3N', specs: 'DN15–50 · PN40', href: '#' }, { img: 'tool1', title: 'L21S', specs: 'DN15–50 · PN16', href: '#' }]
 
 section.ss-section.ss-product-similar
 	.ss-container.ss-wrapper
@@ -10,8 +10,10 @@ section.ss-section.ss-product-similar
 			each item in productSimilarItems
 				article.ss-product-card
 					.ss-product-card__img
-						img.ss-img-contain(src=`./img/${item.img}.svg` width='235' height='160' alt=item.title loading='lazy' decoding='async')
+						picture
+							source(srcset=`./img/${item.img}.webp 1x, ./img/${item.img}@2x.webp 2x`)
+							img.ss-img-contain(src=`./img/${item.img}.webp` width='235' height='160' alt=item.title loading='lazy' decoding='async')
 					h3.ss-semi-20
 						a(href=item.href)= item.title
 					p.ss-reg-14.ss-txt-secondary= item.specs
-					+ssBtn('Запросить КП', { variant: 'outline-dark', full: true })
+					+ssBtn('Запросить КП', { variant: 'dark', full: true })

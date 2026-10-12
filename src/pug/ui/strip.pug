@@ -1,0 +1,32 @@
+extends ../layouts/layout-ui-sections.pug
+
+block variables
+	-var title = "ss-strip — горизонтальная полоса фактов";
+
+block content
+
+	p(style="padding:16px 40px 4px;font:700 11px/1 sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#999;") 4 блока (продуктовая страница)
+
+	include ../sections/_product-strip.pug
+
+	p(style="padding:32px 40px 4px;font:700 11px/1 sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#999;") 3 блока (произвольный контент)
+
+	- var strip3Items = [{ title: 'Опыт 15 лет', desc: 'в паровых системах' }, { title: '300+ объектов', desc: 'введено в эксплуатацию' }, { title: 'Сервис 24/7', desc: 'выезд инженера' }]
+	section.ss-strip
+		.ss-container.ss-wrapper
+			ul.ss-strip__list
+				each item in strip3Items
+					li.ss-strip__item
+						p.ss-strip__title= item.title
+						p.ss-strip__desc= item.desc
+
+	p(style="padding:32px 40px 4px;font:700 11px/1 sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#999;") 6 блоков
+
+	- var strip6Items = [{ title: 'Поставка 2–4 нед.', desc: 'со склада или под заказ' }, { title: 'Оплата по счёту', desc: 'безналичный расчёт, НДС' }, { title: 'Гарантия 12 мес.', desc: 'на всё оборудование TLV' }, { title: 'Тех. поддержка', desc: 'инженер на связи' }, { title: 'Монтаж под ключ', desc: 'пусконаладочные работы' }, { title: 'Документация', desc: 'паспорт, сертификаты' }]
+	section.ss-strip
+		.ss-container.ss-wrapper
+			ul.ss-strip__list
+				each item in strip6Items
+					li.ss-strip__item
+						p.ss-strip__title= item.title
+						p.ss-strip__desc= item.desc
