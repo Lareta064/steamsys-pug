@@ -22,14 +22,42 @@
 	}
 }
 
-// Head: ссылка «Как выбрать тип?» прижата к правому краю.
+// Head: слева title (kicker + h2), справа ссылка «Как выбрать тип?».
+// align-items: flex-end — ссылка «пристёгнута» к baseline h2
+// (визуально не висит в воздухе над заголовком).
+// На <$md стек: title сверху, ссылка под ним.
 .ss-catalog-nav__head {
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 20px;
 	margin-bottom: 30px;
 
 	@include down($md) {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 15px;
 		margin-bottom: 20px;
+	}
+}
+
+.ss-catalog-nav__title {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+
+	.ss-kicker {
+		margin: 0 0 15px;
+	}
+
+	// «Конденсатоотводчики» и подобные длинные слова на узких экранах
+	// вылезают за правый край — переносим по русскому словарю
+	// (lang="ru" задан в layout). Без overflow-wrap: anywhere —
+	// чтобы браузер делил по слогам, а не на отдельные буквы.
+	.ss-h2 {
+		margin: 0;
+		-webkit-hyphens: auto;
+		hyphens: auto;
 	}
 }
 
@@ -39,17 +67,17 @@
 	grid-template-columns: repeat(5, 1fr);
 	gap: 20px;
 
-	@media (max-width: 1599px) {
-		grid-template-columns: repeat(4, 1fr);
-	}
-
-	@include down($xl) {
-		grid-template-columns: repeat(3, 1fr);
-	}
-
-	@include down($lg) {
+	@media (max-width: 1439px) {
 		grid-template-columns: repeat(2, 1fr);
 	}
+
+	// @include down($xl) {
+	// 	grid-template-columns: repeat(3, 1fr);
+	// }
+
+	// @include down($lg) {
+	// 	grid-template-columns: repeat(2, 1fr);
+	// }
 
 	@include down($md) {
 		grid-template-columns: 1fr;

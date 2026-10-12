@@ -25,10 +25,17 @@
 	padding: 30px 20px;
 	background: var(--secondary3);
 	border-radius: 10px;
-
 	@include down($md) {
 		padding: 20px;
 		row-gap: 15px;
+		.ss-process-card__body{
+			flex-grow:1;
+			max-width: 70%;
+		}
+		.ss-process-card__photo{
+			
+			max-width: 30%;
+		}
 	}
 }
 
