@@ -1,0 +1,81 @@
+//- ============================================================
+//- Первый экран карточки товара: слева галерея, справа инфо-блок.
+//-
+//- Структура правой колонки — 4 логических блока (сверху вниз):
+//-   1. head       : бренд-тег + h1 + описание + ряд спек-пилюль (tizer1)
+//-   2. actions    : большая CTA-кнопка + 2 ссылки (паспорт, аналог)
+//-   3. meta-tags  : ряд пилюль-фактов (цена, срок КП, поставка — tizer2)
+//-   4. callout    : плашка «Для закупщика» на сером фоне
+//-
+//- Галерея — уже готовый компонент .ss-product-gallery (демо в /ui/).
+//- Переиспользуемых блоков эта правая колонка не содержит —
+//- всё собрано из уже существующих .ss-tag*, .ss-btn*, .ss-link*,
+//- .ss-callout. Отдельной UI-страницы не нужно.
+//- ============================================================
+- var productGallery = ['product-placeholder-1', 'product-placeholder-2', 'product-placeholder-3', 'product-placeholder-4']
+
+section.ss-section.ss-product-intro
+	.ss-container.ss-wrapper
+		nav.ss-breadcrumbs.ss-product-intro__crumbs(aria-label='Хлебные крошки')
+			ol.ss-breadcrumbs__list
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='/') Главная
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='/catalog-page.html') Оборудование
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='/catalog-page.html') Конденсатоотводчики
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='/catalog-page.html') Поплавковые
+				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') JX4S
+
+		.ss-product-intro__grid
+
+			//- ============== Левая колонка: галерея ==============
+			.ss-product-intro__gallery
+				.ss-product-gallery.js-product-gallery
+					.swiper.ss-product-gallery__main
+						.swiper-wrapper
+							each img in productGallery
+								.swiper-slide
+									picture
+										img(src=`${basePath}img/${img}.svg` width='800' height='600' alt='' loading='lazy' decoding='async')
+					.swiper.ss-product-gallery__thumbs
+						.swiper-wrapper
+							each img in productGallery
+								.swiper-slide
+									picture
+										img(src=`${basePath}img/${img}.svg` width='80' height='60' alt='' loading='lazy' decoding='async')
+
+			//- ============== Правая колонка: инфо ==============
+			.ss-product-intro__body
+
+				//- Блок 1: head (бренд + h1 + описание + tizer1)
+				header.ss-product-intro__head
+					span.ss-tag.ss-tag--primary TLV
+					h1.ss-h3.ss-product-intro__title Конденсатоотводчик TLV JX4S
+					p.ss-product-intro__desc
+						| Поплавковый конденсатоотводчик с встроенным воздухоотводчиком. Непрерывный отвод конденсата без потерь пара.
+					ul.ss-tag-group.ss-product-intro__specs
+						li: span.ss-tag.ss-tag--mini DN 15–50
+						li: span.ss-tag.ss-tag--mini PN 25
+						li: span.ss-tag.ss-tag--mini до 220°C
+						li: span.ss-tag.ss-tag--mini до 21 бар
+
+				//- Блок 2: actions (большая CTA + 2 ссылки)
+				.ss-product-intro__actions
+					+ssBtn('Запросить КП на JX4S', { variant: 'dark', icon: null, full: true })(data-modal='request-b24')
+					.ss-product-intro__links
+						+ssLink('Скачать паспорт', { size: 'md' })
+						+ssLink('Подобрать аналог', { size: 'md', variant: 'dark' })
+
+				//- Блок 3: tizer2 (пилюли-факты)
+				ul.ss-tag-group.ss-product-intro__facts
+					li: span.ss-tag.ss-tag--mini Цена по запросу
+					li: span.ss-tag.ss-tag--mini КП подготовим за 4 часа
+					li: span.ss-tag.ss-tag--mini Поставка 2–4 недели
+
+				//- Блок 4: callout «Для закупщика»
+				.ss-callout
+					p.ss-callout__kicker Для закупщика:
+					.ss-callout__body
+						p в КП указываем цену, срок поставки, реквизиты, сертификаты и подходящие аналоги, если исходная марка недоступна.

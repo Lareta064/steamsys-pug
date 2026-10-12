@@ -69,6 +69,7 @@
 		overflow: hidden;
 		cursor: pointer;
 		opacity: .6;
+		border:1px solid var(--secondary3);	
 		transition: opacity .2s ease, outline-color .2s ease;
 		outline: 2px solid transparent;
 		outline-offset: 0;
@@ -83,6 +84,6 @@
 
 	.swiper-slide-thumb-active {
 		opacity: 1;
-		outline-color: var(--accent1);
+		border:1px solid var(--accent1);	
 	}
 }
