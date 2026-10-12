@@ -59,7 +59,8 @@
 
 	&.is-active {
 		color: var(--primary);
+		color: var(--accent1);
 		font-weight: 600;
-		border-bottom-color: var(--primary);
+		border-bottom-color: var(--accent1);
 	}
 }
