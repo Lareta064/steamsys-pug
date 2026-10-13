@@ -1,0 +1,142 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Слайдер со стрелками (.ss-slider-nav)";
+
+block content
+	- var demoSlides = ['Слайд 1', 'Слайд 2', 'Слайд 3', 'Слайд 4', 'Слайд 5']
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Слайдер со стрелками (.ss-slider-nav)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Паттерн «стрелки над слайдером» — блок
+				code .ss-slider-nav
+				|  с двумя
+				code +ssSwiperBtn()
+				|  размещается выше
+				code .swiper
+				|  как сосед в одном родителе. JS находит кнопки через
+				code el.parentElement.querySelector(...)
+				| , поэтому оба элемента обязаны быть дочерними одного контейнера. Стрелки всегда видны (в отличие от позиционируемых
+				code .ss-swiper-btn--prev/next
+				| , которые скрываются на
+				code &lt;$lg
+				| ).
+
+			//- ===== Вариант 1: base (серые кнопки) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title 1. Базовый — серые кнопки (.ss-slider-nav)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Серые кнопки
+					code --secondary3
+					|  → hover синий. Подходит для белого / тёмного фона. Триггер JS —
+					code .js-experience-slider
+					| .
+
+				.breadcrumbs-catalog__demo
+					.ss-slider-nav
+						+ssSwiperBtn('prev')
+						+ssSwiperBtn('next')
+					.swiper.swiper-pb.swiper-bars.js-experience-slider
+						.swiper-wrapper
+							each s in demoSlides
+								.swiper-slide
+									.ss-slider-nav-demo-card= s
+						.swiper-pagination
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| //- Родитель содержит оба элемента — JS ищет кнопки через parentElement
+						| .wrapper
+						|     .ss-slider-nav
+						|         +ssSwiperBtn('prev')
+						|         +ssSwiperBtn('next')
+						|     .swiper.js-experience-slider
+						|         .swiper-wrapper
+						|             .swiper-slide …
+						|         .swiper-pagination
+
+			//- ===== Вариант 2: accent (синие кнопки) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title 2. Accent — синие кнопки (.ss-slider-nav--accent)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Синий фон + белая стрелка → hover светло-серый. Применяется в секциях на светло-сером фоне
+					code --secondary3
+					| , где базовые серые кнопки «растворяются» (например, секция «Опыт»).
+
+				.breadcrumbs-catalog__demo
+					.ss-slider-nav.ss-slider-nav--accent
+						+ssSwiperBtn('prev')
+						+ssSwiperBtn('next')
+					.swiper.swiper-pb.swiper-bars.js-experience-slider
+						.swiper-wrapper
+							each s in demoSlides
+								.swiper-slide
+									.ss-slider-nav-demo-card= s
+						.swiper-pagination
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-slider-nav.ss-slider-nav--accent
+						|     +ssSwiperBtn('prev')
+						|     +ssSwiperBtn('next')
+						| .swiper.js-experience-slider
+						|     …
+
+			//- ===== Вариант 3: nav внутри section-header =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title 3. Стрелки в заголовочной строке (.ss-section-header)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Когда заголовок секции и стрелки должны стоять в одной строке —
+					code .ss-slider-nav
+					|  кладём прямо в
+					code .ss-section-header
+					|  вместо ссылки. Выравнивается по низу h2 через
+					code align-self: flex-end
+					|  (задано в
+					code _swiper-btn.scss
+					| ). Слайдер идёт следующим соседом.
+
+				.breadcrumbs-catalog__demo
+					.ss-section-header
+						.ss-section-header__title
+							span.ss-kicker Раздел
+							h2.ss-h2 Заголовок секции
+						.ss-slider-nav.ss-slider-nav--accent
+							+ssSwiperBtn('prev')
+							+ssSwiperBtn('next')
+					.swiper.swiper-pb.swiper-bars.js-experience-slider
+						.swiper-wrapper
+							each s in demoSlides
+								.swiper-slide
+									.ss-slider-nav-demo-card= s
+						.swiper-pagination
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-section-header
+						|     .ss-section-header__title
+						|         span.ss-kicker Раздел
+						|         h2.ss-h2 Заголовок секции
+						|     .ss-slider-nav.ss-slider-nav--accent
+						|         +ssSwiperBtn('prev')
+						|         +ssSwiperBtn('next')
+						| .swiper.js-experience-slider
+						|     …
+
+	//- Стили только для демо-карточек на этой странице
+	style.
+		.ss-slider-nav-demo-card {
+			height: 160px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: var(--secondary3);
+			border-radius: 10px;
+			font-size: 18px;
+			font-weight: 600;
+			color: var(--secondary);
+		}
