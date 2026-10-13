@@ -22,6 +22,11 @@
 	background: var(--secondary3);
 	color: var(--primary);
 	cursor: default;
+
+	&:is(a) {
+		cursor: pointer;
+		text-decoration: none;
+	}
 	transition: background-color .25s, color .25s;
 
 	@include down($md) {

@@ -45,9 +45,13 @@
 		gap: 10px;
 	}
 
-	// Карточка — ссылка. Внешне идентична div-варианту; убираем
-	// подчёркивание и наследуем цвет (hover-переход покрыт в _comp-item).
+	li {
+		display: flex;
+	}
+
+	// Карточка — ссылка, растягивается на всю высоту li.
 	a.ss-comp-item {
+		flex: 1;
 		text-decoration: none;
 		color: inherit;
 	}

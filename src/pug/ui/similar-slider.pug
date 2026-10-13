@@ -1,0 +1,94 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Слайдер товаров (.ss-products-slider)";
+
+block content
+	- var demoItems = [{ img: 'tool1', brand: 'TLV', type: 'Поплавковый', title: 'JX6S', subtitle: 'Поплавковый конденсатоотводчик', specs: [{ k: 'DN', v: '15–80' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 220 °C' }], href: '#' }, { img: 'tool2', brand: 'Spirax Sarco', type: 'Термодинамич.', title: 'JX7S', subtitle: 'Термодинамический конденсатоотводчик', specs: [{ k: 'DN', v: '25–100' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }, { img: 'tool3', brand: 'Gestra', type: 'Термостатич.', title: 'A3N', subtitle: 'Термостатический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 250 °C' }], href: '#' }, { img: 'tool1', brand: 'ADCA', type: 'Биметаллич.', title: 'L21S', subtitle: 'Биметаллический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }, { img: 'tool2', brand: 'TLV', type: 'Поплавковый', title: 'FT14', subtitle: 'Поплавковый конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '25 бар' }, { k: 'Температура', v: 'до 220 °C' }], href: '#' }]
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Слайдер товаров (.ss-products-slider)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Слайдер похожих товаров для страницы карточки. Полная карточка
+				code .ss-product-card
+				|  (теги, заголовок, подзаголовок, спецификации, кнопка). Стрелки над слайдером — паттерн
+				code .ss-slider-nav.ss-slider-nav--accent
+				| . Стили —
+				code src/scss/sections/_product-similar.scss
+				| , JS —
+				code src/js/similar-swiper.js
+				| .
+				br
+				| Брейкпойнты: &lt;768 — auto, gap 10px · 768–1439 — auto, gap 20px · 1440–1599 — 4 слайда, gap 20px · ≥1600 — 4 слайда, gap 30px.
+				| Ширина слайда в auto-режиме — 330px (CSS). Пагинация скрыта на &lt;1024px.
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример слайдера
+
+				.breadcrumbs-catalog__demo
+					.ss-products-slider
+						.ss-section-header
+							.ss-section-header__title
+								h2.ss-h2 Похожие товары
+							.ss-slider-nav.ss-slider-nav--accent
+								+ssSwiperBtn('prev')
+								+ssSwiperBtn('next')
+
+						.swiper.swiper-pb.swiper-bars.js-similar-slider
+							.swiper-wrapper
+								each item in demoItems
+									.swiper-slide
+										article.ss-product-card
+											.ss-product-card__img
+												picture
+													source(srcset=`${basePath}img/${item.img}.webp 1x, ${basePath}img/${item.img}@2x.webp 2x`)
+													img.ss-img-contain(src=`${basePath}img/${item.img}.webp` width='235' height='160' alt=item.title loading='lazy' decoding='async')
+												.ss-tag-group
+													span.ss-tag.ss-tag--dark= item.brand
+													span.ss-tag.ss-tag--gray= item.type
+												h3.ss-semi-20
+													a(href=item.href)= item.title
+												if item.subtitle
+													p.ss-reg-14.ss-txt-secondary= item.subtitle
+												dl.ss-product-card__specs
+													each s in item.specs
+														.ss-product-card__specs-row
+															dt= s.k
+															dd= s.v
+												+ssBtn('Запросить КП', { variant: 'dark', full: true })
+							.swiper-pagination
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Сниппет
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-products-slider
+						|     .ss-section-header
+						|         .ss-section-header__title
+						|             h2.ss-h2 Похожие товары
+						|         .ss-slider-nav.ss-slider-nav--accent
+						|             +ssSwiperBtn('prev')
+						|             +ssSwiperBtn('next')
+						|     .swiper.swiper-pb.swiper-bars.js-similar-slider
+						|         .swiper-wrapper
+						|             .swiper-slide
+						|                 article.ss-product-card
+						|                     .ss-product-card__img
+						|                         picture
+						|                             img(src='...', alt='', loading='lazy', decoding='async')
+						|                     .ss-tag-group
+						|                         span.ss-tag.ss-tag--dark Бренд
+						|                         span.ss-tag.ss-tag--gray Тип
+						|                     h3.ss-semi-20
+						|                         a(href='#') Название
+						|                     p.ss-reg-14.ss-txt-secondary Подзаголовок
+						|                     dl.ss-product-card__specs
+						|                         .ss-product-card__specs-row
+						|                             dt Параметр
+						|                             dd Значение
+						|                     +ssBtn('Запросить КП', { variant: 'dark', full: true })
+						|         .swiper-pagination
