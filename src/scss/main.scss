@@ -127,6 +127,7 @@
 @use "pages/_catalog-page";
 @use "pages/_portfolio-page";
 @use "pages/_case-page";
+@use "pages/_cases-page";
 @use "pages/_single-product";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.

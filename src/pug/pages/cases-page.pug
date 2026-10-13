@@ -1,0 +1,13 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Реализованные проекты — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-cases-page
+
+		include ../sections/_cases-hero.pug
+
+	include ../sections/_footer.pug
