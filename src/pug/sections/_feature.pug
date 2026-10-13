@@ -1,4 +1,4 @@
-- var featureItems = [{ icon: 'target', title: 'Аудит и диагностика', text: 'Анализируем систему, выявляем потери и точки роста эффективности' }, { icon: 'doc', title: 'Проектирование', text: 'Проектируем надёжные системы под задачи вашего производства' }, { icon: 'tool', title: 'Внедрение', text: 'Поставляем оборудование, выполняем монтаж и пусконаладочные работы' }, { icon: 'headset', title: 'Сервис и поддержка', text: 'Обслуживаем системы и обеспечиваем стабильную работу 24/7' }]
+- var featureItems = [{ icon: 'target-icon', title: 'Аудит и диагностика', text: 'Анализируем систему, выявляем потери и точки роста эффективности' }, { icon: 'doc-icon', title: 'Проектирование', text: 'Проектируем надёжные системы под задачи вашего производства' }, { icon: 'tool-icon', title: 'Внедрение', text: 'Поставляем оборудование, выполняем монтаж и пусконаладочные работы' }, { icon: 'headset-icon', title: 'Сервис и поддержка', text: 'Обслуживаем системы и обеспечиваем стабильную работу 24/7' }]
 
 section.ss-section.ss-feature
 	.ss-container.ss-wrapper
@@ -17,8 +17,8 @@ section.ss-section.ss-feature
 				.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
 					each item in featureItems
 						.ss-feature-card
-							span.ss-feature-card__icon
-								+svgIcon(item.icon)
+							span.ss-feature-card__icon(aria-hidden='true')
+								img(src=`${basePath}img/${item.icon}.webp` width='48' height='48' alt='' loading='lazy' decoding='async')
 							.ss-feature-card__body
 								p.ss-feature-card__title= item.title
 								p.ss-feature-card__text= item.text

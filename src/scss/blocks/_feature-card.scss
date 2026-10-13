@@ -46,6 +46,13 @@
 		color: inherit;
 	}
 
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
 	@include down($md) {
 		width: 32px;
 		height: 32px;
