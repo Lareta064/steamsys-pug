@@ -1,0 +1,65 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-filter-bar — горизонтальная панель фильтров с select-дропдаунами.
+// Используется на страницах портфолио, кейсов и каталога.
+// Структура: две строки полей label + .ss-select,
+// вторая строка заканчивается кнопкой «Найти».
+// ==============================
+
+.ss-filter-bar {
+	background: var(--secondary3);
+	padding: 24px 0;
+}
+
+.ss-filter-bar__form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ss-filter-bar__row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 16px 24px;
+}
+
+.ss-filter-bar__field {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex: 1;
+	min-width: 220px;
+
+	.ss-select {
+		flex: 1;
+		min-width: 0;
+	}
+
+	@include down($md) {
+		flex: 0 0 100%;
+		min-width: 0;
+	}
+}
+
+.ss-filter-bar__label {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+	white-space: nowrap;
+}
+
+@include down($md) {
+	.ss-filter-bar__row {
+		gap: 12px;
+	}
+
+	// Кнопка «Найти» на мобильном — на всю ширину
+	.ss-filter-bar__form .ss-btn {
+		width: 100%;
+		justify-content: center;
+	}
+}

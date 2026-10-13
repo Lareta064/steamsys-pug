@@ -1,0 +1,31 @@
+- var filterBarRow1 = [{ id: 'fb-industry', label: 'Отрасль', placeholder: 'Все', options: ['Все', 'Нефтехимия', 'Энергетика', 'Пищевая промышленность', 'Фармацевтика'] }, { id: 'fb-solution-type', label: 'Тип решения', placeholder: 'Все', options: ['Все', 'Готовые системы', 'Отдельные компоненты'] }, { id: 'fb-task', label: 'Задача', placeholder: 'Все', options: ['Все', 'Дренаж конденсата', 'Теплообмен', 'Редуцирование пара'] }, { id: 'fb-region', label: 'Регион', placeholder: 'Все регионы', options: ['Все регионы', 'Москва', 'Санкт-Петербург', 'Регионы России'] }]
+- var filterBarRow2 = [{ id: 'fb-effect', label: 'Бизнес-эффект', placeholder: 'Все', options: ['Все', 'Снижение потерь', 'Экономия энергии', 'Повышение безопасности'] }]
+
+.ss-filter-bar
+	.ss-container
+		form.ss-filter-bar__form(action='#' method='get')
+			.ss-filter-bar__row
+				each field in filterBarRow1
+					.ss-filter-bar__field
+						span.ss-filter-bar__label= field.label + ':'
+						.ss-select.ss-select--sm(data-select)
+							button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
+								span.ss-select__value.ss-select__value--placeholder= field.placeholder
+								span.ss-select__chevron
+									+svgIcon('chevron-down')
+							ul.ss-select__list(role='listbox' hidden)
+								each opt in field.options
+									li.ss-select__option(role='option' aria-selected=opt === field.placeholder ? 'true' : 'false' tabindex='-1' data-value=opt)= opt
+			.ss-filter-bar__row
+				each field in filterBarRow2
+					.ss-filter-bar__field
+						span.ss-filter-bar__label= field.label + ':'
+						.ss-select.ss-select--sm(data-select)
+							button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
+								span.ss-select__value.ss-select__value--placeholder= field.placeholder
+								span.ss-select__chevron
+									+svgIcon('chevron-down')
+							ul.ss-select__list(role='listbox' hidden)
+								each opt in field.options
+									li.ss-select__option(role='option' aria-selected=opt === field.placeholder ? 'true' : 'false' tabindex='-1' data-value=opt)= opt
+				button.ss-btn.ss-btn--dark(type='submit') Найти кейсы
