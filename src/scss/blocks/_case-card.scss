@@ -63,30 +63,27 @@
 // ------------------------------
 .ss-case-card__body {
 	padding: 0 40px;
-	
-	@include down($xxl) {
+	.ss-metrics{padding: 20px;}
+	@media(max-width:1439px) {
 		padding: 0 16px;
 		.ss-metrics{
 			 padding: 10px 0;
 			 row-gap: 8px;
-		}
-		
-	}
-	
+		}		
+	}		
 	@media(max-width:1364px){
 		.ss-metrics{
 			flex-direction: column;
 			align-items: stretch;
-		    padding: 20px;
+		   
 		}
 		.ss-metrics__item{
 			display: flex;
 			align-items: baseline;
 			column-gap: 10px;
-			padding: 10px 0;
+			padding: 5px 0;
 			text-align: left;
 			width: 100%;
-
 			&:first-child { text-align: left; }
 			&:not(:first-child) { border-left: none; }
 			&:not(:last-child) { border-bottom: 1px solid var(--secondary2); }
@@ -201,9 +198,11 @@
 		color: var(--primary);
 		font-size: 24px;
 		font-weight: 600;
-
-		@include down($md) {
+		@include down($xxl) {
 			font-size: 22px;
+		}
+		@include down($md) {
+			font-size: 18px;
 		}
 	}
 
