@@ -2,22 +2,63 @@
 
 // ==============================================================
 // .ss-doc-layout — универсальная раскладка «документной» страницы:
-// одна длинная статья/кейс/описание системы со sticky-sidebar справа.
-// Используется single-article, single-case, single-system и т.п.
+// одна длинная статья / кейс / описание системы со sticky-sidebar справа.
+// Используется single-article, single-case, single-system и подобными.
 //
+// --------------------------------------------------------------
 // Скелет:
 //   section.ss-doc-layout__crumbs — светло-серая полоса с breadcrumbs.
 //   section.ss-doc-layout — основной блок с двухколоночным grid'ом.
 //     .ss-doc-layout__grid (grid-template-areas)
 //       .ss-doc-layout__header         (area: header, слот — без оформления)
-//       .ss-doc-layout__main           (area: content, обычно содержит .ss-content)
+//       .ss-doc-layout__main           (area: content, обычно .ss-content)
 //       .ss-sticky-side.ss-doc-layout__aside (area: sidebar, sticky)
 //       .ss-doc-layout__mobile-extras  (пустой placeholder, JS переносит сюда [data-doc-extra])
 //
-// На < $lg переставляем в одну колонку: sidebar → header → content → extras.
-// TOC остаётся сверху как первый ребёнок sticky-side (у него свой toggle).
-// help-карточки и прочие extras переезжают под контент через JS
-// (src/js/doc-layout.js) по атрибутам data-doc-extra / data-doc-mobile-extras.
+// --------------------------------------------------------------
+// ДВА РЕЖИМА, выбираются модификатором на корневом .ss-doc-layout:
+//
+// 1. БЕЗ TOC (дефолт — single-case, single-system и т.п.)
+//    Пример: section.ss-doc-layout.ss-single-case
+//
+//    Содержимое sidebar — только блоки с data-doc-extra (детали проекта,
+//    связанные решения, CTA-карточка). На < $lg JS (doc-layout.js) переносит
+//    их в __mobile-extras, aside становится пустым.
+//
+//    Поведение на < $lg:
+//      · aside скрыт целиком (display: none через _sticky-side.scss)
+//      · grid-template-areas без ряда 'sidebar':
+//           'header'
+//           'content'
+//           'extras'
+//      · линии-разделители sticky-side не рисуются (aside не отображается)
+//
+// 2. С TOC (модификатор .ss-doc-layout--with-toc — single-article)
+//    Пример: section.ss-doc-layout.ss-doc-layout--with-toc.ss-single-article
+//
+//    Содержимое sidebar: сверху .ss-toc (без data-doc-extra, остаётся
+//    в aside) + блоки с data-doc-extra ниже (на < $lg уезжают в mobile-extras).
+//
+//    Поведение на < $lg:
+//      · aside виден, в нём остаётся только TOC (у TOC свой collapsible-toggle)
+//      · grid-template-areas с рядом 'sidebar' НАВЕРХУ:
+//           'sidebar'
+//           'header'
+//           'content'
+//           'extras'
+//      · линии-разделители sticky-side визуально обрамляют TOC
+//
+// --------------------------------------------------------------
+// JS: единый reflow — src/js/doc-layout.js, по атрибутам
+//     data-doc-extra / data-doc-mobile-extras. Срабатывает на обоих режимах.
+//
+// Чеклист при создании новой страницы на .ss-doc-layout:
+//   · Решить — есть ли TOC? Если да — добавить класс .ss-doc-layout--with-toc
+//     на корневой section и nav.ss-toc.js-toc в aside.
+//   · Все sidebar-блоки, которые должны переехать на мобиле, помечать
+//     атрибутом data-doc-extra.
+//   · В main-колонке закрывающий .ss-doc-layout__mobile-extras(data-doc-mobile-extras)
+//     должен присутствовать всегда — JS ищет его как таргет переноса.
 // ==============================================================
 
 
@@ -52,14 +93,30 @@
 		'extras  sidebar';
 	align-items: start;
 
+	// Дефолт на < $lg: aside скрыт (см. _sticky-side.scss ниже), в сетке
+	// нет ряда 'sidebar'. Подходит страницам без TOC (single-case и т.п.),
+	// где все sidebar-блоки имеют data-doc-extra и переезжают в mobile-extras.
 	@include down($lg) {
 		grid-template-columns: 1fr;
+		grid-template-areas:
+			'header'
+			'content'
+			'extras';
+		row-gap: 30px;
+	}
+}
+
+// Модификатор --with-toc: страница содержит TOC-навигацию в sidebar.
+// На < $lg aside остаётся сверху (TOC виден, он не переносится),
+// под ним — header → content → extras. Применяется в разметке:
+// `section.ss-doc-layout.ss-doc-layout--with-toc`.
+.ss-doc-layout--with-toc .ss-doc-layout__grid {
+	@include down($lg) {
 		grid-template-areas:
 			'sidebar'
 			'header'
 			'content'
 			'extras';
-		row-gap: 30px;
 	}
 }
 

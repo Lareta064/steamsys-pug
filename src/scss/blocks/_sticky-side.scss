@@ -74,3 +74,14 @@
 		margin-top: 16px;
 	}
 }
+
+// Внутри .ss-doc-layout без модификатора --with-toc aside на < $lg
+// становится пустым: все [data-doc-extra] блоки переехали в mobile-extras
+// под контент. Пустой sticky-контейнер висит с z-index: 20 над контентом
+// и даёт лишний отступ в grid. Скрываем aside целиком — на страницах с TOC
+// (single-article) aside остаётся виден, т.к. корень несёт --with-toc.
+.ss-doc-layout:not(.ss-doc-layout--with-toc) .ss-sticky-side {
+	@include down($lg) {
+		display: none;
+	}
+}

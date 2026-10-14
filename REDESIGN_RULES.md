@@ -934,3 +934,64 @@ new Swiper(el, {
     }
 });
 ```
+
+## Doc-layout — раскладка «документной» страницы
+
+Универсальная двухколоночная раскладка для длинного контента (статья, кейс, описание системы). Левая колонка — основной `<main>` с секциями `.ss-content`, правая — sticky-sidebar с TOC/метаданными/CTA. На `<$lg` переходит в один стек.
+
+Используется в `single-article`, `single-case`, задумана для `single-system` и подобных. Собрана в блок `blocks/_doc-layout.scss` + `blocks/_sticky-side.scss`, JS mobile-reflow — `src/js/doc-layout.js`.
+
+### Разметочный скелет
+
+```pug
+section.ss-doc-layout__crumbs            //- полоса крошек с paddings под fixed-шапку
+  .ss-container.ss-container--narrow.ss-wrapper
+    nav.ss-breadcrumbs ...
+
+section.ss-doc-layout.ss-single-<page>   //- + модификатор --with-toc, если нужен TOC
+  .ss-container.ss-container--narrow.ss-wrapper
+    .ss-doc-layout__grid
+      header.ss-doc-layout__header       //- заголовок страницы (h1, теги, метрики)
+      .ss-doc-layout__main
+        .ss-content                      //- основной текст: h2 + p + ul + таблицы
+      aside.ss-sticky-side.ss-doc-layout__aside
+        //- для --with-toc сверху — nav.ss-toc.js-toc (остаётся виден на мобиле)
+        //- остальные блоки — .ss-help-card / .ss-case-details / .ss-solutions-list
+        //- все с атрибутом data-doc-extra → переносятся на мобиле вниз
+      .ss-doc-layout__mobile-extras(data-doc-mobile-extras)  //- целевой контейнер переноса
+```
+
+### Два режима — выбор модификатором на корне
+
+**1. Без TOC (дефолт)** — `section.ss-doc-layout` без модификатора. Пример — `single-case`.
+
+Все sidebar-блоки помечены `data-doc-extra`. На `<$lg` JS переносит их в `.ss-doc-layout__mobile-extras` под контент; `aside` остаётся пустым и **скрывается** (`display: none`). Grid-template-areas на мобиле — без ряда `sidebar`:
+```
+'header'
+'content'
+'extras'
+```
+
+**2. С TOC** — `section.ss-doc-layout.ss-doc-layout--with-toc`. Пример — `single-article`.
+
+В `aside` сверху — `nav.ss-toc.js-toc` **без** `data-doc-extra` (остаётся в sidebar). Остальные блоки с `data-doc-extra` переезжают вниз, но aside **не скрывается** — он содержит TOC. Grid-template-areas на мобиле — с рядом `sidebar` сверху:
+```
+'sidebar'   //- TOC с collapsible-toggle
+'header'
+'content'
+'extras'
+```
+
+Линии-разделители у `.ss-sticky-side` на `<$lg` рисуются автоматически — обрамляют TOC-блок сверху/снизу.
+
+### JS
+
+Единый inliner — `src/js/doc-layout.js`. Ищет все `[data-doc-extra]` и переносит их в `[data-doc-mobile-extras]` на `<$lg`, возвращает обратно на resize ≥$lg. Матчит оба режима.
+
+### Чеклист для новой страницы на `.ss-doc-layout`
+
+1. Решить, нужен ли TOC. Если да → добавить `.ss-doc-layout--with-toc` на корневой `<section>` + `nav.ss-toc.js-toc` в aside.
+2. Все sidebar-блоки, которые должны переехать на мобилу → пометить `data-doc-extra`.
+3. В `main`-колонке обязательно оставить `.ss-doc-layout__mobile-extras(data-doc-mobile-extras)` — целевой контейнер.
+4. `.ss-content` рассчитан на HTML из WYSIWYG админки: h2/h3/p/ul/ol/strong/em/blockquote/table стилизуются по тегу (`blocks/_content.scss`). Для спец-блоков использовать BEM-примитивы: `.ss-callout`, `.ss-fact-card`, `.ss-simple-table`, `.ss-metrics--light`, `.ss-cta-row`, `.ss-info-pair`.
+5. Для `.ss-section-header` внутри `.ss-doc-layout__main` margin-bottom автоматически укорачивается до 20px (узкая колонка).
