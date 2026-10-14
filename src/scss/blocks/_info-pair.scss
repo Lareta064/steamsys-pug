@@ -1,0 +1,17 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-info-pair — две мини-карточки в ряд (2 → 1 колонка на моб).
+// Используется внутри .ss-content для пары .ss-fact-card:
+//   «Когда риск максимальный» / «Что проверить первым» и т.п.
+// Универсальный helper — применим в single-article, single-case, single-system.
+// ==============================
+.ss-info-pair {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 20px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+	}
+}

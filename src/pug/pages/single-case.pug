@@ -1,11 +1,15 @@
 extends ../layouts/layout.pug
 
 block variables
-	-var title = "Кейс — STEAMSYS";
+	-var title = "Диагностика и замена конденсатоотводчиков на молочном комбинате — STEAMSYS";
 	-var bodyCl = "ss-wrapper";
 
 block content
 	include ../sections/_header.pug
-	main.ss-main-inner.ss-single-case
-
+	main.ss-main-inner
+		include ../sections/_case.pug
+		include ../sections/_feedback-b24-inner.pug
 	include ../sections/_footer.pug
+
+	//- Модалки страницы (скрыты по умолчанию, открываются JS по data-modal="<id>")
+	include ../sections/_modal-request-b24.pug

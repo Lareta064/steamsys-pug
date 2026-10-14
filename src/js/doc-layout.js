@@ -1,17 +1,19 @@
 // ==============================================================
-// Страница одной статьи (single-article) — мобильная адаптация сайдбара.
+// .ss-doc-layout — мобильная адаптация sticky-sidebar.
 //
-// Reflow help-card + solutions-list. На < 1024 блоки с [data-article-extra]
-// переносятся из .ss-sticky-side в [data-article-mobile-extras] — placeholder
-// под контентом статьи. TOC остаётся в сайдбаре (свой mobile-toggle встроен).
-// Возвращаются в исходный aside при resize обратно на десктоп.
-// Тот же паттерн, что в blog.js для data-blog-extra.
+// Используется single-article, single-case, single-system и любыми
+// другими документными страницами с двухколоночной раскладкой.
+//
+// Reflow: на < 1024px блоки с [data-doc-extra] переносятся
+// из .ss-sticky-side в [data-doc-mobile-extras] — placeholder под
+// основным контентом. TOC остаётся в сайдбаре (у него свой toggle).
+// На resize обратно на desktop возвращаются в исходный aside.
 // ==============================================================
 (function () {
 	'use strict';
 
-	var mobileExtras = document.querySelector('[data-article-mobile-extras]');
-	var extras = document.querySelectorAll('[data-article-extra]');
+	var mobileExtras = document.querySelector('[data-doc-mobile-extras]');
+	var extras = document.querySelectorAll('[data-doc-extra]');
 	if (!mobileExtras || !extras.length) return;
 
 	// Запоминаем исходного родителя (aside) — вернём туда при resize на десктоп.

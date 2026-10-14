@@ -1,0 +1,121 @@
+//- ============================================================
+//- Секция одного кейса (используется в pages/single-case.pug).
+//- Строится на универсальной раскладке .ss-doc-layout
+//- (blocks/_doc-layout.scss) — та же, что в single-article:
+//-   полоса крошек + двухколоночный grid со sticky-sidebar справа.
+//-
+//- Специфика кейса:
+//-   header — теги + h1 + 3 метрики результатов (стили в
+//-            pages/_single-case.scss, классы .ss-single-case__*)
+//-   sidebar — TOC + .ss-case-details (детали проекта) +
+//-             .ss-solutions-list (связанные решения) +
+//-             .ss-help-card (CTA на калькулятор)
+//-   mobile reflow: data-doc-extra / data-doc-mobile-extras
+//-                  (JS — src/js/doc-layout.js)
+//-
+//- Контент внутри .ss-content (ситуация, объект, таблицы,
+//- результат, цитата, что повторить, похожие кейсы) добавляется
+//- по мере вёрстки — универсальные примитивы из UI-каталога.
+//- ============================================================
+
+//- ==================== Полоса хлебных крошек ====================
+section.ss-doc-layout__crumbs
+	.ss-container.ss-container--narrow.ss-wrapper
+		nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+			ol.ss-breadcrumbs__list
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='./') Главная
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='./cases-page.html') Кейсы
+				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Диагностика и замена КО на молочном комбинате
+
+//- ==================== Основная секция ====================
+section.ss-doc-layout.ss-single-case
+	.ss-container.ss-container--narrow.ss-wrapper
+		.ss-doc-layout__grid
+
+			//- -------------------- Header (теги + h1 + 3 метрики) --------------------
+			header.ss-doc-layout__header.ss-single-case__header
+				ul.ss-single-case__tags
+					li: span.ss-tag.ss-tag--mini Молочная промышленность
+					li: span.ss-tag.ss-tag--mini Диагностика
+					li: span.ss-tag.ss-tag--mini Конденсатоотводчики TLV
+
+				h1.ss-h3.ss-single-case__title Диагностика и замена конденсатоотводчиков на молочном комбинате — снижение потерь пара на&nbsp;15%
+
+				ul.ss-single-case__metrics
+					li.ss-single-case__metric
+						p.ss-single-case__metric-value −15%
+						p.ss-single-case__metric-label расход пара
+					li.ss-single-case__metric
+						p.ss-single-case__metric-value 12 КО
+						p.ss-single-case__metric-label выявлено нерабочих
+					li.ss-single-case__metric
+						p.ss-single-case__metric-value 6 мес.
+						p.ss-single-case__metric-label окупаемость
+
+			//- -------------------- Main content (левая колонка) --------------------
+			.ss-doc-layout__main
+				.ss-content
+					//- Секции кейса добавляются сюда по мере вёрстки:
+					//- ситуация, объект, входные параметры (таблица),
+					//- предложенное решение, состав оборудования (таблица),
+					//- результат (fact-card с 3 метриками + текст), цитата,
+					//- «что повторить» (text + cta-row).
+					p Контент кейса будет добавлен в следующих задачах.
+
+			//- -------------------- Sticky sidebar --------------------
+			//- Идёт в DOM после main-контента, чтобы natural reading-order
+			//- левой колонки (header → content) не рвался элементом правой.
+			//- Grid-areas ставит aside визуально в правую колонку.
+			aside.ss-sticky-side.ss-doc-layout__aside
+
+				//- Верхняя CTA — «Запросить похожее решение» + сноска о сроках ответа.
+				//- data-doc-extra: на < $lg уедет в mobile-extras под контентом.
+				.ss-help-card(data-doc-extra)
+					+ssBtn('Запросить похожее решение', { variant: 'dark', full: true })(data-modal='request-b24')
+					p.ss-help-card__footnote Ответим в течение 4 часов в рабочее время
+
+				//- Детали проекта — 6 пар key/value, две колонки внутри строки.
+				.ss-case-details(data-doc-extra)
+					p.ss-case-details__title Детали проекта
+					ul.ss-case-details__list
+						li.ss-case-details__item
+							span.ss-case-details__key Клиент
+							span.ss-case-details__value МК «Вкусный»
+						li.ss-case-details__item
+							span.ss-case-details__key Отрасль
+							span.ss-case-details__value Молочная промышленность
+						li.ss-case-details__item
+							span.ss-case-details__key Регион
+							span.ss-case-details__value Краснодарский край
+						li.ss-case-details__item
+							span.ss-case-details__key Тип решения
+							span.ss-case-details__value Диагностика и замена КО
+						li.ss-case-details__item
+							span.ss-case-details__key Оборудование
+							span.ss-case-details__value TLV J3S, A3, SG10
+						li.ss-case-details__item
+							span.ss-case-details__key Год
+							span.ss-case-details__value 2023
+
+				//- Связанные решения — ссылки со стрелкой слева и разделителями.
+				.ss-solutions-list(data-doc-extra)
+					p.ss-solutions-list__title Связанные решения
+					ul.ss-solutions-list__list
+						li.ss-solutions-list__item
+							+ssLink('Станция возврата конденсата (СВК)', { size: 'md', iconSide: 'left' })
+						li.ss-solutions-list__item
+							+ssLink('Конденсатоотводчики TLV', { size: 'md', iconSide: 'left' })
+
+				//- Калькулятор — CTA на онлайн-инструмент.
+				//- Серый фон (--tinted), без границы, с описательным текстом и ссылкой-CTA.
+				.ss-help-card.ss-help-card--tinted(data-doc-extra)
+					p.ss-help-card__title Хотите узнать состояние своей системы?
+					p.ss-help-card__text Диагностика конденсатоотводчиков выявляет реальные потери и позволяет обосновать бюджет на замену цифрами.
+					+ssLink('Рассчитать потери онлайн', { variant: 'dark', size: 'md', href: '#' })
+
+			//- -------------------- Мобильный контейнер для extras --------------------
+			//- Пуст на десктопе. На < $lg JS (src/js/doc-layout.js) переносит сюда
+			//- блоки [data-doc-extra] из sticky-side (details + solutions + help-card).
+			.ss-doc-layout__mobile-extras(data-doc-mobile-extras)

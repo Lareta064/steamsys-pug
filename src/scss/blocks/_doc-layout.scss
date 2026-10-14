@@ -1,0 +1,84 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-doc-layout — универсальная раскладка «документной» страницы:
+// одна длинная статья/кейс/описание системы со sticky-sidebar справа.
+// Используется single-article, single-case, single-system и т.п.
+//
+// Скелет:
+//   section.ss-doc-layout__crumbs — светло-серая полоса с breadcrumbs.
+//   section.ss-doc-layout — основной блок с двухколоночным grid'ом.
+//     .ss-doc-layout__grid (grid-template-areas)
+//       .ss-doc-layout__header         (area: header, слот — без оформления)
+//       .ss-doc-layout__main           (area: content, обычно содержит .ss-content)
+//       .ss-sticky-side.ss-doc-layout__aside (area: sidebar, sticky)
+//       .ss-doc-layout__mobile-extras  (пустой placeholder, JS переносит сюда [data-doc-extra])
+//
+// На < $lg переставляем в одну колонку: sidebar → header → content → extras.
+// TOC остаётся сверху как первый ребёнок sticky-side (у него свой toggle).
+// help-карточки и прочие extras переезжают под контент через JS
+// (src/js/doc-layout.js) по атрибутам data-doc-extra / data-doc-mobile-extras.
+// ==============================================================
+
+
+// ---------- Полоса хлебных крошек ----------
+.ss-doc-layout__crumbs {
+	background: var(--secondary3);
+	padding: calc(14px + var(--header-height, 60px)) 0 14px;
+}
+
+
+// ---------- Основная секция ----------
+.ss-doc-layout {
+	padding-block: 40px 80px;
+
+	@include down($md) {
+		padding-block: 30px 60px;
+	}
+}
+
+
+// ---------- Grid ----------
+// Три grid-area на десктопе: header/content слева, sidebar справа (span 2).
+// mobile-extras — placeholder, всегда занимает свою ячейку (row 3, col main).
+// На < $lg — стек в одну колонку с изменённым порядком.
+.ss-doc-layout__grid {
+	display: grid;
+	grid-template-columns: 1fr 320px;
+	column-gap: 40px;
+	grid-template-areas:
+		'header  sidebar'
+		'content sidebar'
+		'extras  sidebar';
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			'sidebar'
+			'header'
+			'content'
+			'extras';
+		row-gap: 30px;
+	}
+}
+
+.ss-doc-layout__header        { grid-area: header; }
+.ss-doc-layout__aside         { grid-area: sidebar; }
+.ss-doc-layout__main          { grid-area: content; min-width: 0; }
+.ss-doc-layout__mobile-extras { grid-area: extras; }
+
+
+// ---------- Mobile extras placeholder ----------
+// Пуст на десктопе. На мобилке JS (doc-layout.js) переносит сюда [data-doc-extra] блоки.
+.ss-doc-layout__mobile-extras {
+	@include up($lg) {
+		display: none;
+	}
+
+	@include down($lg) {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+	}
+}
