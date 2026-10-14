@@ -113,3 +113,31 @@
 	color: var(--primary);
 	font-weight: 600;
 }
+
+
+// ---------- Мини-поля в секции «Объект» (внутри .ss-content) ----------
+// Паттерн: uppercase серый label сверху + значение обычным текстом снизу.
+// Используется как лёгкая замена .ss-fact-card, когда нужно показать
+// несколько метаданных без визуальной «карточки». Вертикальный стек
+// внутри section, между полями — просвет через margin.
+.ss-single-case__field {
+	margin: 0 0 20px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+// Uppercase мелкий серый label. Специфичность 0-1-0, перебивает стили
+// .ss-content p (0-0-2 → :where lowered to 0-0-1), поэтому класс
+// применяется напрямую — font/color/letter-spacing правильно наследуются.
+.ss-single-case__field-label {
+	margin: 0 0 6px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 12px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: var(--secondary);
+	text-transform: uppercase;
+}
