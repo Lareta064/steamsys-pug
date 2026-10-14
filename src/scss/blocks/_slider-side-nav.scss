@@ -1,0 +1,77 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-slider-side-nav — обёртка слайдера с ghost-стрелками по бокам.
+//
+// Desktop: flex-строка — [←] [swiper] [→], стрелки физически снаружи
+// swiper-элемента. Swiper: flex:1, стрелки: flex-shrink:0.
+//
+// Mobile (<$lg): flex-wrap — swiper уходит на 100% вверх (order:-1),
+// обе кнопки переносятся на следующую строку и центрируются.
+//
+// Разметка:
+//   .ss-slider-side-nav
+//     button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--prev(aria-label='Предыдущий')
+//       +svgIcon('chevron-left')
+//     .swiper.js-*
+//       .swiper-wrapper
+//         .swiper-slide ...
+//     button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--next(aria-label='Следующий')
+//       +svgIcon('chevron-right')
+// ==============================
+
+.ss-slider-side-nav {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+
+	.swiper {
+		flex: 1;
+		min-width: 0;
+	}
+
+	// Сброс абсолютного позиционирования из _swiper-btn.scss.
+	.ss-swiper-btn--prev,
+	.ss-swiper-btn--next {
+		position: static;
+		transform: none;
+		left: auto;
+		right: auto;
+	}
+
+	// Всегда видимы (базовый display:none на <$lg перебиваем).
+	// Размер на desktop — 50×50, иконка 50×50.
+	.ss-swiper-btn {
+		display: inline-flex;
+		flex-shrink: 0;
+		width: 50px;
+		height: 50px;
+
+		svg {
+			width: 50px;
+			height: 50px;
+		}
+	}
+
+	// Mobile: слайдер сверху на 100%, кнопки по центру снизу.
+	@include down($lg) {
+		flex-wrap: wrap;
+		justify-content: center;
+		row-gap: 20px;
+
+		.swiper {
+			flex: 0 0 100%;
+			order: -1;
+		}
+
+		.ss-swiper-btn {
+			width: 44px;
+			height: 44px;
+
+			svg {
+				width: 30px;
+				height: 30px;
+			}
+		}
+	}
+}

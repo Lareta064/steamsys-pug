@@ -11,19 +11,21 @@
 	whenSwiperReady(function () {
 		els.forEach(function (el) {
 			new Swiper(el, {
-				slidesPerView: 2,
+				slidesPerView: 1,
 				spaceBetween: 10,
-				speed: 500,
+				speed: 1200,
 				loop: true,
+				autoplay: {
+					delay: 3000,
+					disableOnInteraction: false,
+					pauseOnMouseEnter: true
+				},
 				navigation: {
 					prevEl: el.parentElement.querySelector('.ss-swiper-btn--prev'),
 					nextEl: el.parentElement.querySelector('.ss-swiper-btn--next')
 				},
-				pagination: {
-					el: el.querySelector('.swiper-pagination'),
-					clickable: true
-				},
 				breakpoints: {
+					425:  { slidesPerView: 2, spaceBetween: 10 },
 					768:  { slidesPerView: 3, spaceBetween: 20 },
 					1024: { slidesPerView: 4, spaceBetween: 20 },
 					1280: { slidesPerView: 5, spaceBetween: 20 },
@@ -60,8 +62,8 @@
 					clickable: true
 				},
 				breakpoints: {
-					768:  { slidesPerView: 1, spaceBetween: 20 },
-					1024: { slidesPerView: 2, spaceBetween: 30 }
+					600:  { slidesPerView: 2, spaceBetween: 20 },
+					// 1024: { slidesPerView: 2, spaceBetween: 30 }
 				}
 			});
 		});

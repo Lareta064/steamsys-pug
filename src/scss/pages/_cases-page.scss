@@ -38,6 +38,33 @@
 	}
 }
 
+// Серый фон секции партнёров.
+.ss-cases-partners {
+	background: var(--secondary3);
+}
+
+// Слайдер — равная высота слайдов (карточки разной высоты из-за текста).
+.js-cases-slider .swiper-slide {
+	height: auto;
+	min-height: 100%;
+	display: flex;
+
+	.ss-case-card {
+		flex: 1;
+	}
+}
+
+// На мобильном убираем пагинацию — достаточно стрелок.
+@include down($md) {
+	.ss-cases-catalog .swiper.swiper-pb {
+		padding-bottom: 0;
+	}
+	.ss-cases-catalog .swiper-pagination {
+		display: none;
+	}
+}
+
+
 // Теги под кнопками в hero — белая рамка на тёмном фоне (1:1 с case-page).
 .cases-page__hero-tags {
 	display: flex;
