@@ -69,12 +69,13 @@
 		.ss-metrics{
 			 padding: 10px 0;
 			 row-gap: 8px;
+			 flex-direction: row;
 		}		
 	}		
 	@media(max-width:1364px){
 		.ss-metrics{
-			flex-direction: column;
-			align-items: stretch;
+			// flex-direction: column;
+			// align-items: stretch;
 		   
 		}
 		.ss-metrics__item{
@@ -112,6 +113,10 @@
 	font-size: 18px;
 	line-height: 1.4;
 	color: var(--primary);
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
 
 	@include down($md) {
 		font-size: 14px;

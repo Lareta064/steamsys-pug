@@ -5,38 +5,6 @@
 // (build/cases-page.html).
 // ==============================
 
-// Hero — bg image + градиентная завеса слева (1:1 с case-page и portfolio-page).
-.cases-page__hero .ss-hero-inner__body {
-	position: relative;
-	background-color: var(--primary1);
-	background-image: image-set(
-		url('../img/cases.webp') 1x,
-		url('../img/cases@2x.webp') 2x
-	);
-	background-size: cover;
-	background-position: center right;
-	background-repeat: no-repeat;
-	overflow: hidden;
-
-	&::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(90deg,
-			rgba(3, 29, 42, 0.92) 0%,
-			rgba(3, 29, 42, 0.75) 30%,
-			rgba(3, 29, 42, 0.35) 65%,
-			rgba(3, 29, 42, 0) 100%
-		);
-		pointer-events: none;
-		z-index: 0;
-	}
-
-	> * {
-		position: relative;
-		z-index: 1;
-	}
-}
 
 // Серый фон секции партнёров.
 .ss-cases-partners {
@@ -72,7 +40,7 @@
 }
 
 
-// Теги под кнопками в hero — белая рамка на тёмном фоне (1:1 с case-page).
+// Ряд тегов под кнопками в hero. Цвета — из общего правила в _hero-inner.scss.
 .cases-page__hero-tags {
 	display: flex;
 	flex-wrap: wrap;
@@ -80,11 +48,4 @@
 	margin: 20px 0 0;
 	padding: 0;
 	list-style: none;
-
-	.ss-tag--mini {
-		border: 1px solid rgba(255, 255, 255, 0.4);
-		background: transparent;
-		color: var(--white);
-		cursor: default;
-	}
 }

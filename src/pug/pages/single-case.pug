@@ -3,6 +3,7 @@ extends ../layouts/layout.pug
 block variables
 	-var title = "Кейс — STEAMSYS";
 	-var bodyCl = "ss-wrapper";
+	-var customStyle = `.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/solution-hero.webp')}@media(min-width:1024px){.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/solution-hero@2x.webp')}}`
 
 block content
 	include ../sections/_header.pug

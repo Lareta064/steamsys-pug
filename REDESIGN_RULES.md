@@ -30,6 +30,23 @@
 
 4. **Ссылка на стартовой** — добавить `a(href="./<name>.html") <Название>` в `src/pug/pages/index.pug`.
 
+5. **Если у страницы есть hero с фоновой картинкой** (`.ss-hero-inner--dark`) — задать картинку через CSS custom properties в `<style>` в `<head>`. Градиент и позиционирование уже прописаны в `_hero-inner.scss`, страничный CSS их не дублирует.
+
+   В `block variables` файла страницы добавить однострочный `customStyle` с прямым `background-image` и media-query (важно — однострочно, без переносов):
+   ```pug
+   -var customStyle = `.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/<mobile>.webp')}@media(min-width:1024px){.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/<desktop>.webp')}}`
+   ```
+
+   **Почему прямой `background-image`, а не CSS custom property.**  
+   Браузеры резолвят `url()` внутри `var()` относительно `main.css` (а не HTML-документа), поэтому путь `./img/` ведёт в несуществующую папку `css/img/`. При прямом `background-image` в `<style>` внутри `<head>` путь резолвится относительно HTML-документа — надёжно и кроссбраузерно. Градиент, `background-size`, `position` — по-прежнему в `_hero-inner.scss`.
+
+   `${basePath}img/<mobile>.webp` — мобильная картинка (до 1024px).  
+   `${basePath}img/<desktop>.webp` — десктопная (от 1024px). Если нет отдельной мобильной — одно и то же имя в обоих местах.
+
+   Файлы изображений в проекте: `solution-hero.webp` / `solution-hero@2x.webp` (портфолио, single-case), `cases-mob.webp` / `cases.webp` (страница кейсов).
+
+   На Битриксе шаблон страницы выводит этот `<style>` в `<head>` с абсолютными URL из медиабиблиотеки (`/upload/...`). Breakpoint (1024px) прописан прямо в шаблоне — он стабилен и не меняется без перевёрстки.
+
 После этого ждём от пользователя задач по секциям страницы.
 
 ## Что верстаем: компоненты, а не секции

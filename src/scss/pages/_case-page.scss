@@ -12,42 +12,6 @@
 	overflow-x: clip;
 }
 
-// ------------------------------
-// Hero-inner — bg image + градиентная завеса слева (1:1 с portfolio-page).
-// Fallback-фон — --primary1. Пока используем solution-hero.webp (как
-// у портфолио), поменяем на картинку кейса, когда она будет.
-// ------------------------------
-.case-page__hero .ss-hero-inner__body {
-	position: relative;
-	background-color: var(--primary1);
-	background-image: image-set(
-		url('../img/solution-hero.webp') 1x,
-		url('../img/solution-hero@2x.webp') 2x
-	);
-	background-size: cover;
-	background-position: center right;
-	background-repeat: no-repeat;
-	overflow: hidden;
-
-	&::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(90deg,
-			rgba(3, 29, 42, 0.92) 0%,
-			rgba(3, 29, 42, 0.75) 30%,
-			rgba(3, 29, 42, 0.35) 65%,
-			rgba(3, 29, 42, 0) 100%
-		);
-		pointer-events: none;
-		z-index: 0;
-	}
-
-	> * {
-		position: relative;
-		z-index: 1;
-	}
-}
 
 // Ширина body-inner на case-page — снимаем базовый max-width 1000px,
 // иначе 3 кнопки actions не влезают в ряд на широких экранах
@@ -423,16 +387,6 @@
 }
 
 
-// Hover у .ss-tag--mini (базовый — accent3) под кнопками в hero убираем:
-// теги статичные (span), на тёмной подложке hover-reflex не нужен.
-.case-page__hero-tags .ss-tag--mini {
-	cursor: default;
-
-	&:hover {
-		background: var(--secondary2);
-		color: var(--primary);
-	}
-}
 
 // Ряд pill-тегов под actions в hero. На тёмной подложке — прозрачный
 // фон, белая рамка, белый текст.

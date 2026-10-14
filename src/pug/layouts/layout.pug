@@ -43,8 +43,8 @@ html(lang="ru")
 		//========= custom styles ========
 		link(rel="stylesheet" href=`${basePath}css/main.css`)
 		title !{title}
-		style.
-			!{customStyle}
+		if customStyle
+			style !{customStyle}
 	
 	body(class=(bodyCl !=="" ? bodyCl : ''))
 
