@@ -78,3 +78,84 @@
 		font-size: 14px;
 	}
 }
+
+
+// ==============================
+// Модификатор --light — светлая версия блока метрик без тёмной плашки.
+// Используется, когда метрики должны «встать в поток» контента —
+// в hero-header'е страницы кейса и в секции «Результат» внутри статьи.
+// Разметка та же: .ss-metrics > .ss-metrics__item > __value + __label.
+//
+// Отличия:
+//   · без фона, radius'а, тени и внутреннего padding'а
+//   · value — чёрный --primary (вместо accent3)
+//   · label — --secondary (вместо secondary2 на тёмной подложке)
+//   · items выравниваются по левому краю, без вертикальных разделителей
+//   · gap между items — 10 50 (крупный горизонтальный, компактный на wrap)
+// ==============================
+.ss-metrics--light {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	gap: 10px 50px;
+	padding: 0;
+	background: transparent;
+	border-radius: 0;
+	box-shadow: none;
+
+	@include down($md) {
+		flex-direction: column;
+		gap: 15px;
+		padding: 0;
+	}
+
+	.ss-metrics__item {
+		padding: 0;
+		text-align: left;
+		width: auto;
+
+		&:first-child,
+		&:last-child {
+			padding: 0;
+			text-align: left;
+		}
+
+		// Убираем вертикальные разделители базового варианта.
+		&:not(:first-child) {
+			border-left: none;
+		}
+
+		@include down($md) {
+			display: flex;
+			align-items: baseline;
+			column-gap: 10px;
+			padding: 0;
+			text-align: left;
+
+			&:not(:last-child) {
+				border-bottom: none;
+			}
+		}
+	}
+
+	.ss-metrics__value {
+		font-weight: 700;
+		font-size: clamp(26px, 1.02vw + 18.4px, 36px);
+		line-height: 1.1;
+		color: var(--primary);
+
+		@include down($md) {
+			font-size: 24px;
+		}
+	}
+
+	.ss-metrics__label {
+		margin: 4px 0 0;
+		font-weight: 400;
+		color: var(--secondary);
+
+		@include down($md) {
+			margin: 0;
+		}
+	}
+}

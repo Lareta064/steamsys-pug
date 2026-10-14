@@ -43,18 +43,19 @@ section.ss-doc-layout.ss-single-case
 					li: span.ss-tag.ss-tag--mini Диагностика
 					li: span.ss-tag.ss-tag--mini Конденсатоотводчики TLV
 
-				h1.ss-h2.ss-single-case__title Диагностика и замена конденсатоотводчиков на молочном комбинате — снижение потерь пара на&nbsp;15%
+				h1.ss-h3.ss-single-case__title Диагностика и замена конденсатоотводчиков на молочном комбинате — снижение потерь пара на&nbsp;15%
 
-				ul.ss-single-case__metrics
-					li.ss-single-case__metric
-						p.ss-single-case__metric-value −15%
-						p.ss-single-case__metric-label расход пара
-					li.ss-single-case__metric
-						p.ss-single-case__metric-value 12 КО
-						p.ss-single-case__metric-label выявлено нерабочих
-					li.ss-single-case__metric
-						p.ss-single-case__metric-value 6 мес.
-						p.ss-single-case__metric-label окупаемость
+				//- Метрики — универсальный .ss-metrics.--light (blocks/_metrics.scss).
+				.ss-metrics.ss-metrics--light
+					.ss-metrics__item
+						p.ss-metrics__value −15%
+						p.ss-metrics__label расход пара
+					.ss-metrics__item
+						p.ss-metrics__value 12 КО
+						p.ss-metrics__label выявлено нерабочих
+					.ss-metrics__item
+						p.ss-metrics__value 6 мес.
+						p.ss-metrics__label окупаемость
 
 				//- Мета-строка «Отрасль / Регион / Год» — key/value пары в ряд.
 				dl.ss-single-case__meta
@@ -147,9 +148,10 @@ section.ss-doc-layout.ss-single-case
 							li Сетчатые фильтры Y-типа — 12 шт.
 
 					//- ===== Результат (3 метрики + текст) =====
+					//- Метрики — тот же универсальный .ss-metrics.--light, что в header'е.
 					section#sec-result
 						h2 Результат
-						.ss-metrics
+						.ss-metrics.ss-metrics--light
 							.ss-metrics__item
 								p.ss-metrics__value −15%
 								p.ss-metrics__label снижение расхода пара
@@ -163,11 +165,11 @@ section.ss-doc-layout.ss-single-case
 						p Замена второй очереди (8 «закрытых» КО) запланирована на следующий плановый останов. По расчётам, суммарный эффект после завершения полной замены составит до 22% экономии пара.
 
 					//- ===== Цитата (без TOC-ссылки) =====
-					.ss-quote-card
-						.ss-quote-card__body
-							blockquote.ss-quote-card__text.ss-fs-22 Мы ожидали найти проблемы, но не ожидали, что 12 конденсатоотводчиков работают в открытом режиме. После замены котельная сразу показала снижение нагрузки — это было видно по приборам учёта. Расчёт окупаемости, который предоставили специалисты, оказался точным.
-							p.ss-quote-card__author-name Главный энергетик
-							p.ss-quote-card__author-role молочный комбинат «Вкусный»
+					//- Нативный <blockquote> внутри .ss-content — стили из _content.scss:
+					//- серый фон, accent2 левая полоса, p курсивом, <cite> мелким серым.
+					blockquote
+						p «Мы ожидали найти проблемы, но не ожидали, что 12 конденсатоотводчиков работают в открытом режиме. После замены котельная сразу показала снижение нагрузки — это было видно по приборам учёта. Расчёт окупаемости, который предоставили специалисты, оказался точным.»
+						cite — Главный энергетик, молочный комбинат «Вкусный»
 
 					//- ===== Что можно повторить (текст + CTA-ряд) =====
 					section#sec-repeat

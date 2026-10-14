@@ -33,46 +33,11 @@
 	color: var(--primary);
 }
 
-// Ряд из 3 метрик результатов (−15% / 12 КО / 6 мес.) под h1.
-// На десктопе — 3 колонки по контенту с крупным gap. Без разделителей —
-// значения сами достаточно акцентные (крупный bold).
-// На моб — стек в одну колонку.
-.ss-single-case__metrics {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 10px 50px;
+// Метрики в header'е (−15% / 12 КО / 6 мес.) — переиспользуют
+// универсальный блок .ss-metrics.ss-metrics--light (blocks/_metrics.scss).
+// Здесь оставляем только внешний margin — задаём визуальный ритм секции.
+.ss-single-case__header .ss-metrics--light {
 	margin: 0 0 20px;
-	padding: 0;
-	list-style: none;
-
-	@include down($md) {
-		flex-direction: column;
-		gap: 15px;
-	}
-}
-
-.ss-single-case__metric {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-}
-
-.ss-single-case__metric-value {
-	margin: 0;
-	font-family: var(--font-family);
-	font-weight: 700;
-	font-size: clamp(26px, 1.02vw + 18.4px, 36px);
-	line-height: 1.1;
-	color: var(--primary);
-}
-
-.ss-single-case__metric-label {
-	margin: 0;
-	font-family: var(--font-family);
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 1.4;
-	color: var(--secondary);
 }
 
 
