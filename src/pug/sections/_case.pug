@@ -1,21 +1,23 @@
 //- ============================================================
 //- Секция одного кейса (используется в pages/single-case.pug).
 //- Строится на универсальной раскладке .ss-doc-layout
-//- (blocks/_doc-layout.scss) — та же, что в single-article:
-//-   полоса крошек + двухколоночный grid со sticky-sidebar справа.
+//- (blocks/_doc-layout.scss): полоса крошек + двухколоночный grid
+//- со sticky-sidebar справа.
 //-
 //- Специфика кейса:
 //-   header — теги + h1 + 3 метрики результатов (стили в
 //-            pages/_single-case.scss, классы .ss-single-case__*)
-//-   sidebar — TOC + .ss-case-details (детали проекта) +
-//-             .ss-solutions-list (связанные решения) +
-//-             .ss-help-card (CTA на калькулятор)
+//-   main   — .ss-content с секциями кейса (объект → ситуация →
+//-            входные параметры → решение → состав оборудования →
+//-            результат → цитата → «что повторить»). Разметка внутри
+//-            `.ss-content` — семантические теги (h2, p, ul, strong),
+//-            стили авто-наследуются (рассчитано на HTML из админки).
+//-   sidebar — TOC + CTA «Запросить» + .ss-case-details + solutions +
+//-             .ss-help-card--tinted (CTA на калькулятор).
 //-   mobile reflow: data-doc-extra / data-doc-mobile-extras
 //-                  (JS — src/js/doc-layout.js)
 //-
-//- Контент внутри .ss-content (ситуация, объект, таблицы,
-//- результат, цитата, что повторить, похожие кейсы) добавляется
-//- по мере вёрстки — универсальные примитивы из UI-каталога.
+//- Под основной секцией — .ss-case-related с 2 карточками похожих кейсов.
 //- ============================================================
 
 //- ==================== Полоса хлебных крошек ====================
@@ -41,7 +43,7 @@ section.ss-doc-layout.ss-single-case
 					li: span.ss-tag.ss-tag--mini Диагностика
 					li: span.ss-tag.ss-tag--mini Конденсатоотводчики TLV
 
-				h1.ss-h3.ss-single-case__title Диагностика и замена конденсатоотводчиков на молочном комбинате — снижение потерь пара на&nbsp;15%
+				h1.ss-h2.ss-single-case__title Диагностика и замена конденсатоотводчиков на молочном комбинате — снижение потерь пара на&nbsp;15%
 
 				ul.ss-single-case__metrics
 					li.ss-single-case__metric
@@ -54,20 +56,148 @@ section.ss-doc-layout.ss-single-case
 						p.ss-single-case__metric-value 6 мес.
 						p.ss-single-case__metric-label окупаемость
 
+				//- Мета-строка «Отрасль / Регион / Год» — key/value пары в ряд.
+				dl.ss-single-case__meta
+					.ss-single-case__meta-item
+						dt.ss-single-case__meta-key Отрасль:
+						dd.ss-single-case__meta-value Молочная промышленность
+					.ss-single-case__meta-item
+						dt.ss-single-case__meta-key Регион:
+						dd.ss-single-case__meta-value Краснодарский край
+					.ss-single-case__meta-item
+						dt.ss-single-case__meta-key Год:
+						dd.ss-single-case__meta-value 2023
+
 			//- -------------------- Main content (левая колонка) --------------------
+			//- Внутри .ss-content — семантические теги. Стили заголовков,
+			//- параграфов, списков, strong, цитат наследуются от _content.scss.
+			//- Структурные блоки (fact-card, simple-table, metrics, quote-card,
+			//- cta-row) — свои BEM-классы, живут между типографскими блоками.
 			.ss-doc-layout__main
 				.ss-content
-					//- Секции кейса добавляются сюда по мере вёрстки:
-					//- ситуация, объект, входные параметры (таблица),
-					//- предложенное решение, состав оборудования (таблица),
-					//- результат (fact-card с 3 метриками + текст), цитата,
-					//- «что повторить» (text + cta-row).
-					p Контент кейса будет добавлен в следующих задачах.
+
+					//- ===== Объект (карточка 4 параметра) =====
+					section#sec-object
+						h2 Объект
+						.ss-fact-card
+							.ss-fact-card__row
+								.ss-fact-card__key Отрасль
+								.ss-fact-card__value Молочная промышленность
+							.ss-fact-card__row
+								.ss-fact-card__key Регион
+								.ss-fact-card__value Краснодарский край
+							.ss-fact-card__row
+								.ss-fact-card__key Год
+								.ss-fact-card__value 2023
+							.ss-fact-card__row
+								.ss-fact-card__key Описание
+								.ss-fact-card__value Диагностика и замена конденсатоотводчиков на молочном комбинате — снижение потерь пара на 15%
+
+					//- ===== Ситуация =====
+					section#sec-situation
+						h2 Ситуация
+						p На молочном комбинате «Вкусный» (Краснодарский край) эксплуатировалась пароконденсатная система с 48 конденсатоотводчиками различных типов. По данным энергетика предприятия, потери конденсата составляли около 35% от общего расхода пара. Часть оборудования не обслуживалась более 5 лет. Ни разу не проводилась инструментальная диагностика состояния КО. Руководство предприятия хотело понять реальный масштаб потерь и обосновать бюджет на замену.
+
+					//- ===== Входные параметры (таблица) =====
+					section#sec-input
+						h2 Входные параметры
+						.ss-simple-table.ss-mob-bleed
+							table
+								thead
+									tr
+										th Параметр
+										th Значение
+								tbody
+									tr
+										th(scope='row') Рабочее давление пара
+										td 6 бар
+									tr
+										th(scope='row') Количество конденсатоотводчиков
+										td 48 шт.
+									tr
+										th(scope='row') Оценочные потери конденсата
+										td 35% от расхода
+									tr
+										th(scope='row') Типы КО
+										td Смешанные: поплавковые и термодинамические
+									tr
+										th(scope='row') Время эксплуатации без обслуживания
+										td Более 5 лет
+									tr
+										th(scope='row') Расход пара предприятия
+										td ~4,5 т/час
+
+					//- ===== Предложенное решение =====
+					section#sec-solution
+						h2 Предложенное решение
+						p Мы предложили провести инструментальную диагностику всех 48 конденсатоотводчиков с помощью ультразвукового оборудования и термографии. По итогам диагностики — составить карту состояния КО с рекомендациями по очерёдности замены.
+						p Диагностика выявила 12 конденсатоотводчиков в режиме «открыт» (непрерывный пропуск пара) и 8 — в режиме «закрыт» (накопление конденсата, гидроудары). Итого 20 из 48 КО работали некорректно.
+						p Приоритетом первой очереди стала замена 12 «открытых» КО — именно они давали основной объём прямых потерь пара. Для замены подобраны поплавковые конденсатоотводчики TLV серии J3S с учётом рабочего давления и расхода конденсата на каждой точке, а также арматура и смотровые стёкла для контроля работы системы.
+
+					//- ===== Состав оборудования =====
+					section#sec-equipment
+						h2 Состав оборудования
+						ul
+							li
+								| Конденсатоотводчик поплавковый&nbsp;
+								strong TLV J3S
+								|  — 12 шт.
+							li
+								| Фильтр-сепаратор&nbsp;
+								strong TLV A3
+								|  — 4 шт.
+							li
+								| Смотровые стёкла&nbsp;
+								strong TLV SG10
+								|  — 16 шт.
+							li Сетчатые фильтры Y-типа — 12 шт.
+
+					//- ===== Результат (3 метрики + текст) =====
+					section#sec-result
+						h2 Результат
+						.ss-metrics
+							.ss-metrics__item
+								p.ss-metrics__value −15%
+								p.ss-metrics__label снижение расхода пара
+							.ss-metrics__item
+								p.ss-metrics__value 12
+								p.ss-metrics__label КО заменено в&nbsp;первой очереди
+							.ss-metrics__item
+								p.ss-metrics__value 6 мес.
+								p.ss-metrics__label окупаемость замены
+						p После замены 12 конденсатоотводчиков первой очереди расход пара снизился на 15% — что полностью совпало с прогнозом, сделанным по итогам диагностики. Предприятие получило экономию порядка 1,8 млн руб. в год при стоимости замены около 900 тыс. руб.
+						p Замена второй очереди (8 «закрытых» КО) запланирована на следующий плановый останов. По расчётам, суммарный эффект после завершения полной замены составит до 22% экономии пара.
+
+					//- ===== Цитата (без TOC-ссылки) =====
+					.ss-quote-card
+						.ss-quote-card__body
+							blockquote.ss-quote-card__text.ss-fs-22 Мы ожидали найти проблемы, но не ожидали, что 12 конденсатоотводчиков работают в открытом режиме. После замены котельная сразу показала снижение нагрузки — это было видно по приборам учёта. Расчёт окупаемости, который предоставили специалисты, оказался точным.
+							p.ss-quote-card__author-name Главный энергетик
+							p.ss-quote-card__author-role молочный комбинат «Вкусный»
+
+					//- ===== Что можно повторить (текст + CTA-ряд) =====
+					section#sec-repeat
+						h2 Что можно повторить на вашем объекте
+						p Аналогичный подход применим для паровых систем с конденсатоотводчиками: диагностика — расчёт эффекта — замена в плановый останов. Инженер оценит систему по параметрам и предложит оптимальный объём работ.
+
+						.ss-cta-row
+							.ss-cta-row__buttons
+								+ssBtn('Запросить похожее решение', { variant: 'dark', size: 'small' })(data-modal='request-b24')
+								+ssBtn('Отправить параметры системы', { variant: 'outline-dark', size: 'small' })
+								+ssBtn('Схемы и документы', { variant: 'outline-dark', size: 'small', icon: 'arrow-right' })
 
 			//- -------------------- Sticky sidebar --------------------
 			//- Идёт в DOM после main-контента, чтобы natural reading-order
 			//- левой колонки (header → content) не рвался элементом правой.
 			//- Grid-areas ставит aside визуально в правую колонку.
+			//-
+			//- Порядок карточек по прототипу (prototype/screens/case-right-sidebar.png):
+			//-   1. CTA «Запросить похожее решение»
+			//-   2. Детали проекта
+			//-   3. Связанные решения
+			//-   4. Калькулятор (--tinted)
+			//- TOC-блок «Содержание» в прототипе кейса не используется —
+			//- оглавление поддерживается только на статьях.
 			aside.ss-sticky-side.ss-doc-layout__aside
 
 				//- Верхняя CTA — «Запросить похожее решение» + сноска о сроках ответа.
@@ -119,3 +249,38 @@ section.ss-doc-layout.ss-single-case
 			//- Пуст на десктопе. На < $lg JS (src/js/doc-layout.js) переносит сюда
 			//- блоки [data-doc-extra] из sticky-side (details + solutions + help-card).
 			.ss-doc-layout__mobile-extras(data-doc-mobile-extras)
+
+
+//- ==================== Похожие кейсы ====================
+//- Full-width секция под основной: 2 карточки .ss-case-card--portfolio
+//- (kicker + title + text + метрики + «Читать кейс»). Данные локальные —
+//- отдельная секция случайно совпадает по разметке с _case-related.pug
+//- (используется в single-system), но здесь свой контент.
+- var singleCaseRelated = [{ kicker: 'Деревообработка · Вологда', title: 'Обвязка 24 паровых калориферов в сушильных камерах', text: 'Диагностика и замена КО в сушильных камерах. Устранение гидроударов и потерь тепла.', metrics: [{ value: '0', label: 'замерзаний за 3 зимы' }, { value: '−15%', label: 'брак' }], bg: 'gallery1', alt: 'Кейс: деревообработка', href: '#' }, { kicker: 'Химическое производство · Тула', title: 'СВК для возврата конденсата от теплообменников производства лаков', text: 'Организация замкнутого контура возврата конденсата. Снижение затрат на водоподготовку.', metrics: [{ value: '95%', label: 'возврат конденсата' }, { value: '11 мес.', label: 'окупаемость' }], bg: 'gallery2', alt: 'Кейс: химпроизводство', href: '#' }]
+
+section.ss-section.ss-case-related
+	.ss-container.ss-container--narrow.ss-wrapper
+		.ss-section-header
+			.ss-section-header__title
+				h2.ss-h2 Похожие кейсы
+			+ssLink('Все кейсы')(href='./cases-page.html')
+
+		.ss-case-related__grid
+			each c in singleCaseRelated
+				article.ss-case-card.ss-case-card--portfolio
+					.ss-case-card__image
+						picture
+							source(media='(max-width: 767px)' srcset=`${basePath}img/${c.bg}-mob.webp 1x, ${basePath}img/${c.bg}-mob@2x.webp 2x`)
+							source(srcset=`${basePath}img/${c.bg}.webp 1x, ${basePath}img/${c.bg}@2x.webp 2x`)
+							img(src=`${basePath}img/${c.bg}.webp` width='865' height='360' alt=c.alt loading='lazy' decoding='async')
+					.ss-case-card__body
+						p.ss-case-card__kicker= c.kicker
+						h3.ss-case-card__title= c.title
+						p.ss-case-card__text= c.text
+						.ss-metrics
+							each m in c.metrics
+								.ss-metrics__item
+									p.ss-metrics__value= m.value
+									p.ss-metrics__label= m.label
+					.ss-case-card__footer
+						+ssLink('Читать кейс')(href=c.href)
