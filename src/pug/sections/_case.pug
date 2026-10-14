@@ -296,29 +296,3 @@ section.ss-doc-layout.ss-single-case
 //- (используется в single-system), но здесь свой контент.
 - var singleCaseRelated = [{ kicker: 'Деревообработка · Вологда', title: 'Обвязка 24 паровых калориферов в сушильных камерах', text: 'Диагностика и замена КО в сушильных камерах. Устранение гидроударов и потерь тепла.', metrics: [{ value: '0', label: 'замерзаний за 3 зимы' }, { value: '−15%', label: 'брак' }], bg: 'gallery1', alt: 'Кейс: деревообработка', href: '#' }, { kicker: 'Химическое производство · Тула', title: 'СВК для возврата конденсата от теплообменников производства лаков', text: 'Организация замкнутого контура возврата конденсата. Снижение затрат на водоподготовку.', metrics: [{ value: '95%', label: 'возврат конденсата' }, { value: '11 мес.', label: 'окупаемость' }], bg: 'gallery2', alt: 'Кейс: химпроизводство', href: '#' }]
 
-section.ss-section.ss-case-related
-	.ss-container.ss-container--narrow.ss-wrapper
-		.ss-section-header
-			.ss-section-header__title
-				h2.ss-h2 Похожие кейсы
-			+ssLink('Все кейсы')(href='./cases-page.html')
-
-		.ss-case-related__grid
-			each c in singleCaseRelated
-				article.ss-case-card.ss-case-card--portfolio
-					.ss-case-card__image
-						picture
-							source(media='(max-width: 767px)' srcset=`${basePath}img/${c.bg}-mob.webp 1x, ${basePath}img/${c.bg}-mob@2x.webp 2x`)
-							source(srcset=`${basePath}img/${c.bg}.webp 1x, ${basePath}img/${c.bg}@2x.webp 2x`)
-							img(src=`${basePath}img/${c.bg}.webp` width='865' height='360' alt=c.alt loading='lazy' decoding='async')
-					.ss-case-card__body
-						p.ss-case-card__kicker= c.kicker
-						h3.ss-case-card__title= c.title
-						p.ss-case-card__text= c.text
-						.ss-metrics
-							each m in c.metrics
-								.ss-metrics__item
-									p.ss-metrics__value= m.value
-									p.ss-metrics__label= m.label
-					.ss-case-card__footer
-						+ssLink('Читать кейс')(href=c.href)
