@@ -26,12 +26,6 @@
 	.ss-product-card {
 		flex: 1;
 		min-height: 0;
-
-		h3,
-		.ss-reg-14 {
-			hyphens: auto;
-			overflow-wrap: break-word;
-		}
 	}
 
 	// Пагинация нужна только на мобильных — на desktop достаточно стрелок.

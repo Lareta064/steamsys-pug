@@ -45,6 +45,23 @@
 .ss-txt-error      { color: var(--error) !important; }
 
 
+// ==== A11y ====
+// .ss-visually-hidden — визуально скрытый контент, доступный скрин-ридерам.
+// Для label'ов полей, у которых визуальной подписи нет (иконки-кнопки,
+// поиск внутри фильтра и т.п.).
+.ss-visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+
 // ==== Обрезка ====
 .ss-txt-truncate {
 	overflow: hidden;

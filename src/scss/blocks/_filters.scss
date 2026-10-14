@@ -77,8 +77,10 @@
 }
 
 // Компактнее шапка группы (у базового .ss-accordion__header — padding 20 0).
+// Внутри фильтров заголовки группы — font-weight 500 (не 700 как в базе).
 .ss-filters .ss-accordion__header {
 	padding: 10px 0;
+	font-weight: 500;
 }
 
 // Chevron-down справа. Ротация 180° при раскрытии. Цвет inherit — идёт
@@ -132,10 +134,198 @@
 }
 
 // ------------------------------
-// Footer — «Применить фильтры»
+// Footer — «Применить фильтры» + «Сбросить» (стек в колонку, 10 между).
 // ------------------------------
 .ss-filters__footer {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
 	padding-top: 20px;
+}
+
+
+// ==============================
+// Поиск внутри списка опций группы (для «Тип», «Бренд» и т.п., где опций много).
+// Разметка:
+//   label.ss-filters__search(data-filter-search='<ul-id>')
+//     span.ss-filters__search-icon(aria-hidden='true')  — CSS-лупа
+//     span.ss-visually-hidden Поиск по бренду
+//     input(type='search', placeholder='Найти бренд...')
+//   ul.ss-filters__list#<ul-id> ...
+//
+// JS — src/js/accordion.js: ловит input, скрывает <li>, не содержащие
+// подстроку (регистронезависимо). Пустой запрос показывает всё.
+// ==============================
+.ss-filters__search {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	height: 40px;
+	margin: 0 0 12px;
+	padding: 0 12px;
+	border: 1px solid var(--secondary2);
+	border-radius: 8px;
+	background: var(--secondary3);
+
+	&:focus-within {
+		border-color: var(--accent1);
+		outline: 2px solid var(--accent3);
+		outline-offset: 2px;
+	}
+}
+
+// CSS-лупа: круг с «хвостиком» (псевдоэлемент под 45°).
+.ss-filters__search-icon {
+	position: relative;
+	flex: 0 0 14px;
+	width: 14px;
+	height: 14px;
+	border: 1.5px solid var(--secondary);
+	border-radius: 50%;
+
+	&::after {
+		content: '';
+		position: absolute;
+		right: -4px;
+		bottom: -3px;
+		width: 6px;
+		height: 1.5px;
+		background: var(--secondary);
+		transform: rotate(45deg);
+		transform-origin: left center;
+	}
+}
+
+.ss-filters__search input {
+	width: 100%;
+	min-width: 0;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.4;
+
+	&::placeholder {
+		color: var(--primary);
+	}
+}
+
+
+// ==============================
+// Счётчик рядом с опцией (число моделей в категории).
+// Разметка:
+//   ul.ss-filters__list
+//     li
+//       label.ss-checkbox ...
+//       span.ss-filters__count 24
+//
+// На li ставим flex row с justify-space-between — счётчик всегда прижат к правому краю.
+// ==============================
+.ss-filters__list > li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	min-height: 34px;
+}
+
+.ss-filters__list .ss-checkbox,
+.ss-filters__list .ss-radio {
+	// min-width: 0 — чтобы длинный label корректно укорачивался (overflow)
+	// и счётчик не улетал за правый край контейнера.
+	min-width: 0;
+}
+
+.ss-filters__count {
+	flex: 0 0 auto;
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.4;
+}
+
+
+// ==============================
+// Range-поля (от / до) — для числовых фильтров (DN, PN, температура и т.п.).
+// Разметка:
+//   .ss-filters__range-labels(aria-hidden='true')
+//     span От
+//     span До
+//   .ss-filters__range-fields
+//     input(type='number', value='15', aria-label='DN от')
+//     span.ss-filters__range-separator(aria-hidden='true') –
+//     input(type='number', value='50', aria-label='DN до')
+//
+// Grid 1fr 14px 1fr — два поля равной ширины, посередине короткое тире.
+// ==============================
+.ss-filters__range-labels,
+.ss-filters__range-fields {
+	display: grid;
+	grid-template-columns: 1fr 14px 1fr;
+	gap: 8px;
+	align-items: end;
+}
+
+.ss-filters__range-labels {
+	margin-bottom: 4px;
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 1.4;
+
+	// «До» идёт в правую колонку (минуя середину с тире).
+	span:last-child {
+		grid-column: 3;
+	}
+}
+
+.ss-filters__range-separator {
+	padding-bottom: 10px;
+	color: var(--primary);
+	text-align: center;
+}
+
+.ss-filters__range-fields input {
+	box-sizing: border-box;
+	width: 100%;
+	height: 40px;
+	padding: 0 10px;
+	border: 1px solid var(--secondary2);
+	border-radius: 8px;
+	background: var(--white);
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.4;
+
+	&:focus-visible {
+		outline: 2px solid var(--accent3);
+		outline-offset: 2px;
+		border-color: var(--accent1);
+	}
+}
+
+
+// ==============================
+// Параметры-метка над группами фильтров — визуальный разделитель от
+// .ss-category-nav. Генерируется через ::before у .ss-filters__groups.
+// ==============================
+.ss-filters__groups::before {
+	content: 'Параметры';
+	display: block;
+	margin-bottom: 8px;
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 1.4;
+	text-transform: uppercase;
 }
 
 

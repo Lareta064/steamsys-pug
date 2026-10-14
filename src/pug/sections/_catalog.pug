@@ -1,21 +1,16 @@
-- var catalogProducts = [{ img: 'tool1', brand: 'TLV', type: 'Поплавковый', title: 'JX45', subtitle: 'Поплавковый конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '25 бар' }, { k: 'Температура', v: 'до 220 °C' }] }, { img: 'tool2', brand: 'Spirax Sarco', type: 'Термодинамич.', title: 'FT14', subtitle: 'Термодинамический конденсатоотводчик', specs: [{ k: 'DN', v: '15–25' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 400 °C' }] }, { img: 'tool3', brand: 'Gestra', type: 'Термостатич.', title: 'UNA 45', subtitle: 'Термостатический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 250 °C' }] }, { img: 'tool1', brand: 'ADCA', type: 'Биметаллич.', title: 'IB12', subtitle: 'Биметаллический конденсатоотводчик', specs: [{ k: 'DN', v: '15–25' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 300 °C' }] }]
+- var catalogProducts = [{ img: 'tool1', brand: 'TLV', title: 'JX45', alt: 'Конденсатоотводчик TLV JX45', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '25 бар' }, { k: 'Температура', v: 'до 220 °C' }] }, { img: 'tool2', brand: 'Spirax Sarco', title: 'FT14', alt: 'Конденсатоотводчик Spirax Sarco FT14', specs: [{ k: 'DN', v: '15–25' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 400 °C' }] }, { img: 'tool3', brand: 'Gestra', title: 'UNA 45', alt: 'Конденсатоотводчик Gestra UNA 45', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 250 °C' }] }, { img: 'tool1', brand: 'ADCA', title: 'IB12', alt: 'Конденсатоотводчик ADCA IB12', specs: [{ k: 'DN', v: '15–25' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 300 °C' }] }]
 
-section.ss-section.ss-catalog
+section.ss-section.ss-section--tinted.ss-catalog
 	.ss-container.ss-wrapper
-		.ss-section-header
-			h1.ss-h1 Каталог товаров
 		.ss-catalog__layout
 			aside.ss-catalog__sidebar
 				include _filters.pug
 			.ss-catalog__main
-				//- Top toolbar. На десктопе: [Найдено] ... [Сортировка + Switch].
-				//- На <1200 (адаптив в _catalog.scss) — реорганизуется в 2 строки:
-				//- [Фильтры (trigger)] ... [Сортировка + Switch] / [Найдено — full width]
+				//- Top toolbar: [Фильтры (trigger)] ... [Сортировка]
 				.ss-catalog__toolbar
 					button.ss-filters-trigger.js-filters-trigger(type='button' aria-controls='filters-drawer' aria-expanded='false')
 						+svgIcon('sliders')
 						span Фильтры
-					p.ss-medi-16 Найдено 120 моделей
 					.ss-catalog__toolbar-right
 						.ss-select-labeled
 							span.ss-select-labeled__label Сортировка:
@@ -28,54 +23,69 @@ section.ss-section.ss-catalog
 									li.ss-select__option(role='option', aria-selected='true',  tabindex='-1', data-value='dn')   По DN
 									li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='pn')   По PN
 									li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='temp') По температуре
-						.ss-switch
-							label.ss-switch__option
-								input.ss-switch__input(type='radio' name='catalog-view' value='grid' checked)
-								span.ss-switch__label Плитка
-							label.ss-switch__option
-								input.ss-switch__input(type='radio' name='catalog-view' value='list')
-								span.ss-switch__label Список
 
-				//- Products grid — 4 in a row on desktop
+				//- Чипы применённых фильтров — кликабельна только иконка «×»
+				//- (кнопка снимает соответствующий фильтр). Сам чип — обычный span.
+				//- Исключение: «Сбросить всё» — самостоятельная button (модификатор --reset).
+				.ss-catalog__toolbar-meta(aria-label='Применённые фильтры')
+					span.ss-filter-chip
+						span.ss-filter-chip__label Тип:
+						span.ss-filter-chip__value Конденсатоотводчик
+						button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: тип, конденсатоотводчик')
+							+svgIcon('cross')
+					span.ss-filter-chip
+						span.ss-filter-chip__label Подбор:
+						span.ss-filter-chip__value По параметрам
+						button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: подбор по параметрам')
+							+svgIcon('cross')
+					button.ss-filter-chip.ss-filter-chip--reset(type='button') Сбросить всё
+
+				//- Products grid — 4 в ряд на десктопе. Карточка .ss-product-card:
+				//- media + brand + title + specs. Equal-height в ряду обеспечивает height:100%.
 				.ss-grid.ss-grid--row-4.ss-grid--xl-row-3.ss-grid--lg-row-2.ss-grid--md-row-1
 					each item in catalogProducts
 						article.ss-product-card
-							.ss-product-card__img
+							a.ss-product-card__media(href='#' aria-label=`Открыть карточку товара ${item.title}`)
 								picture
 									source(srcset=`${basePath}img/${item.img}.webp 1x, ${basePath}img/${item.img}@2x.webp 2x`)
-									img.ss-img-contain(src=`${basePath}img/${item.img}.webp` width='235' height='160' alt=item.title loading='lazy' decoding='async')
-							.ss-tag-group
-								span.ss-tag.ss-tag--dark= item.brand
-								span.ss-tag.ss-tag--gray= item.type
-							h3.ss-semi-20
+									img(src=`${basePath}img/${item.img}.webp` width='235' height='160' alt=item.alt loading='lazy' decoding='async')
+							p.ss-product-card__brand= item.brand
+							h3.ss-product-card__title
 								a(href='#')= item.title
-							if item.subtitle
-								p.ss-reg-14.ss-txt-secondary= item.subtitle
 							dl.ss-product-card__specs
 								each s in item.specs
 									.ss-product-card__specs-row
 										dt= s.k
 										dd= s.v
-							+ssBtn('Запросить КП', { variant: 'dark', full: true })
 
-				//- Bottom toolbar: pagination / items-per-page
-				.ss-catalog__toolbar
+				//- Bottom toolbar: белая карточка с summary слева и .ss-pagination справа.
+				//- Квадратные стрелки prev/next, radius 8 кнопкам, nowrap-ряд.
+				.ss-pagination-toolbar
+					p.ss-pagination-toolbar__summary
+						| Показано&nbsp;
+						strong 24
+						|  из&nbsp;
+						strong 126
+						span.ss-pagination-toolbar__summary-models  моделей
 					nav.ss-pagination(aria-label='Страницы каталога')
 						ol.ss-pagination__list
 							li.ss-pagination__item
-								a.ss-pagination__link(href='#', aria-current='page') 1
+								span.ss-pagination__link.ss-pagination__link--nav.ss-pagination__arrow--prev(aria-disabled='true' aria-label='Предыдущая страница')
+									+svgIcon('arrow-right')
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#' aria-current='page') 1
 							li.ss-pagination__item
 								a.ss-pagination__link(href='#') 2
 							li.ss-pagination__item
 								a.ss-pagination__link(href='#') 3
-					.ss-select-labeled
-						span.ss-select-labeled__label Показывать:
-						.ss-select.ss-catalog__per-page(data-select)
-							button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
-								span.ss-select__value 8
-								span.ss-select__chevron
-									+svgIcon('chevron-down')
-							ul.ss-select__list(role='listbox', hidden)
-								li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='4')  4
-								li.ss-select__option(role='option', aria-selected='true',  tabindex='-1', data-value='8')  8
-								li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='16') 16
+							li.ss-pagination__item.ss-pagination-toolbar__item--compact-hidden
+								a.ss-pagination__link(href='#') 4
+							li.ss-pagination__item.ss-pagination-toolbar__item--compact-hidden
+								a.ss-pagination__link(href='#') 5
+							li.ss-pagination__item
+								span.ss-pagination__dots(aria-hidden='true') …
+							li.ss-pagination__item
+								a.ss-pagination__link(href='#') 11
+							li.ss-pagination__item
+								a.ss-pagination__link.ss-pagination__link--nav(href='#' aria-label='Следующая страница')
+									+svgIcon('arrow-right')

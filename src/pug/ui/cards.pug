@@ -177,59 +177,51 @@ block content
 						|             +svgIcon('arrow-right')
 
 			//- ========== Product card ==========
-			- var productItems = [{ img: 'tool1', brand: 'TLV', type: 'Поплавковый', title: 'JX45', subtitle: 'Поплавковый конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '25 бар' }, { k: 'Температура', v: 'до 220 °C' }], avail: 'Под заказ' }, { img: 'tool2', brand: 'Spirax', type: 'Термодинамич.', title: 'TD52L', subtitle: 'Термодинамический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 300 °C' }], avail: 'Под заказ' }, { img: 'tool3', brand: 'TLV', type: 'Термостатич.', title: 'L21S', subtitle: 'Термостатический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 250 °C' }], avail: 'Под заказ' }]
+			- var productItems = [{ img: 'tool1', brand: 'TLV', title: 'JX45', alt: 'Конденсатоотводчик TLV JX45', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '25 бар' }, { k: 'Температура', v: 'до 220 °C' }] }, { img: 'tool2', brand: 'Spirax Sarco', title: 'TD52L', alt: 'Конденсатоотводчик Spirax Sarco TD52L', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 300 °C' }] }, { img: 'tool3', brand: 'TLV', title: 'L21S', alt: 'Конденсатоотводчик TLV L21S', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 250 °C' }] }]
 
 			section.cards-catalog__section#product-card
 				h3.cards-catalog__section-title .ss-product-card
 				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
-					| Карточка товара из отфильтрованного списка каталога. Внутри: фото (
-					code height 160
-					| ,
-					code object-fit: contain
-					| ), теги (reuse
-					code .ss-tag--dark
-					|  бренд +
-					code .ss-tag--gray
-					|  тип), заголовок-артикул, subtitle-название, dl-список характеристик (ключ слева / значение справа) и submit-кнопка (
-					code .ss-btn--outline-dark.ss-btn--full
-					| ). Кнопка прижата к низу через
+					| Карточка товара — единый компонент для каталога и слайдера похожих. Внутри:
+					code .ss-product-card__media
+					|  (картинка с подчёркиванием снизу),
+					code .ss-product-card__brand
+					|  (бренд серым),
+					code .ss-product-card__title
+					|  (артикул),
+					code .ss-product-card__specs
+					|  (dl, ключ слева / значение справа). Карточка —
+					code flex-column
+					|  с
+					code height: 100%
+					|  — в ряду выравнивается по высоте самой высокой.
 					code margin-top: auto
-					|  — в ряду карточки одной высоты, кнопки на одной линии.
+					|  на specs прижимает блок к низу.
 
 				h4.cards-catalog__subtitle 3 в ряд (.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1)
 				.cards-catalog__demo.ss-bg-gray
 					.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1
 						each item in productItems
 							article.ss-product-card
-								.ss-product-card__img
-									img.ss-img-contain(src=`${basePath}img/${item.img}.webp` width='235' height='160' alt=item.title loading='lazy' decoding='async')
-								.ss-tag-group
-									span.ss-tag.ss-tag--dark= item.brand
-									span.ss-tag.ss-tag--gray= item.type
-								h3.ss-semi-20
+								a.ss-product-card__media(href='#' aria-label=`Открыть карточку товара ${item.title}`)
+									img(src=`${basePath}img/${item.img}.webp` width='235' height='160' alt=item.alt loading='lazy' decoding='async')
+								p.ss-product-card__brand= item.brand
+								h3.ss-product-card__title
 									a(href='#')= item.title
-								if item.subtitle
-									p.ss-reg-14.ss-txt-secondary= item.subtitle
 								dl.ss-product-card__specs
 									each s in item.specs
 										.ss-product-card__specs-row
 											dt= s.k
 											dd= s.v
-								if item.avail
-									p.ss-reg-14.ss-txt-secondary= item.avail
-								+ssBtn('Запросить КП', { variant: 'dark', full: true })
 
 				pre.cards-catalog__snippet
 					code
 						| article.ss-product-card
-						|     .ss-product-card__img
-						|         img.ss-img-contain(src='/img/name.webp' width='235' height='160' alt='...' loading='lazy' decoding='async')
-						|     .ss-tag-group
-						|         span.ss-tag.ss-tag--dark TLV
-						|         span.ss-tag.ss-tag--gray Поплавковый
-						|     h3.ss-semi-20
+						|     a.ss-product-card__media(href='/catalog/jx45')
+						|         img(src='/img/name.webp' width='235' height='160' alt='...' loading='lazy' decoding='async')
+						|     p.ss-product-card__brand TLV
+						|     h3.ss-product-card__title
 						|         a(href='/catalog/jx45') JX45
-						|     p.ss-reg-14.ss-txt-secondary Поплавковый конденсатоотводчик
 						|     dl.ss-product-card__specs
 						|         .ss-product-card__specs-row
 						|             dt DN
@@ -240,8 +232,6 @@ block content
 						|         .ss-product-card__specs-row
 						|             dt Температура
 						|             dd до 220 °C
-						|     p.ss-reg-14.ss-txt-secondary Под заказ
-						|     +ssBtn('Запросить КП', { variant: 'dark', full: true })
 
 			//- ========== Info card ==========
 			- var infoItems = [{ title: 'Станции возврата конденсата (СВК)', desc: 'Поплавковые и насосные КО обеспечивают непрерывный дренаж конденсата из сборного бака в систему возврата.', linkText: 'Подробнее о СВК' }, { title: 'Обвязка паровых калориферов', desc: 'Термодинамические и поплавковые КО защищают калорифер от замерзания и обеспечивают полный дренаж при остановке.', linkText: 'Подробнее об обвязке' }, { title: 'Обвязка теплообменников', desc: 'Поплавковые КО с непрерывным дренажем — основной вид для кожухотрубных и пластинчатых ТО.', linkText: 'Подробнее' }]

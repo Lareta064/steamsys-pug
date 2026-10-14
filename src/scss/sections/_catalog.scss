@@ -22,7 +22,8 @@
 // ==============================
 
 .ss-catalog {
-	// Внешние padding-block — от .ss-section (140/120/100).
+	// Серый фон секции (marker .ss-section--tinted отвечает за padding-логику).
+	background: var(--secondary3);
 
 	// Заголовок каталога — вправо на ≥$md. У .ss-section-header по дефолту
 	// flex + justify-content: space-between; с одним ребёнком это оставляет
@@ -65,15 +66,15 @@
 // ------------------------------
 .ss-catalog__sidebar {
 	width: 300px;
-	padding: 20px;
-	background: var(--secondary3);
-	border-radius: 10px;
+	padding: 24px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 16px;
 	position: sticky;
 	top: calc(var(--header-height, 0px) + 20px);
 
 	// .ss-filters по умолчанию рисует белый фон (для standalone-использования).
-	// Внутри sidebar с secondary3 бэком нужно прозрачное — иначе получим
-	// «карточка в карточке» с белым пятном.
+	// Прозрачный — чтобы не было двойной подложки под сайдбаром.
 	.ss-filters {
 		background: transparent;
 	}
@@ -147,35 +148,6 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 20px;
-
-	@include down($xl) {
-		&:has(.ss-filters-trigger) {
-			display: grid;
-			grid-template-columns: auto 1fr;
-			grid-template-areas:
-				"trigger tools"
-				"count   count";
-			row-gap: 15px;
-			align-items: center;
-
-			.ss-filters-trigger { grid-area: trigger; }
-			.ss-catalog__toolbar-right { grid-area: tools; justify-self: end; }
-			p { grid-area: count; }
-		}
-	}
-
-	// Нижний toolbar (без .ss-filters-trigger): пагинация + «Показывать».
-	// На <$md пагинация может стать длинной и не влезть в один ряд рядом
-	// с per-page select. Складываем в колонку: сверху «Показывать»,
-	// снизу пагинация (в DOM пагинация идёт первой — column-reverse
-	// разворачивает порядок визуально без правки разметки).
-	@include down($md) {
-		&:not(:has(.ss-filters-trigger)) {
-			flex-direction: column-reverse;
-			align-items: flex-start;
-			gap: 20px;
-		}
-	}
 }
 
 .ss-catalog__toolbar-right {
@@ -183,12 +155,9 @@
 	align-items: center;
 	gap: 20px;
 
-	// <$md — Switch «Плитка / Список» прячем: на узких экранах grid-режим
-	// единственный полезный, list-режим здесь избыточен. Плюс скрываем
-	// подпись «Сортировка:» — на моб. остаётся только сам select-контрол
-	// (внутри него виден текущий выбор, подпись избыточна).
+	// <$md — скрываем подпись «Сортировка:». В select-контроле виден
+	// текущий выбор, отдельная подпись избыточна.
 	@include down($md) {
-		.ss-switch,
 		.ss-select-labeled__label {
 			display: none;
 		}
@@ -200,4 +169,18 @@
 .ss-select.ss-catalog__per-page {
 	width: 100px;
 	min-width:100px;
+}
+
+
+// ------------------------------
+// Toolbar-meta — ряд чипов применённых фильтров, под top toolbar.
+// Разметка: .ss-catalog__toolbar-meta > .ss-filter-chip*
+// Чипы кликабельны (убирают фильтр). Последний — .ss-filter-chip--reset.
+// На <$xl не стекается: wrap даёт перенос на несколько строк, если чипов много.
+// ------------------------------
+.ss-catalog__toolbar-meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: -8px;   // лёгкое сближение с toolbar выше (чипы — продолжение toolbar'а)
 }
