@@ -1,0 +1,51 @@
+@use '../base/_var' as *;
+
+// ==============================
+// cases-page — стили страницы «Реализованные проекты»
+// (build/cases-page.html).
+// ==============================
+
+
+// Серый фон секции партнёров.
+.ss-cases-partners {
+	background: var(--secondary3);
+}
+
+// Слайдер — равная высота слайдов (карточки разной высоты из-за текста).
+// padding: 5px — чтобы box-shadow карточки не обрезался swiper overflow.
+.js-cases-slider .swiper-slide {
+	height: auto;
+	min-height: 100%;
+	display: flex;
+	padding: 5px;
+
+	.ss-case-card {
+		flex: 1;
+	}
+}
+
+// padding: 5px — чтобы box-shadow партнёрской карточки не обрезался swiper overflow.
+.js-cases-partners-slider .swiper-slide {
+	padding: 5px;
+}
+
+// На мобильном убираем пагинацию — достаточно стрелок.
+@include down($md) {
+	.ss-cases-catalog .swiper.swiper-pb {
+		padding-bottom: 0;
+	}
+	.ss-cases-catalog .swiper-pagination {
+		display: none;
+	}
+}
+
+
+// Ряд тегов под кнопками в hero. Цвета — из общего правила в _hero-inner.scss.
+.cases-page__hero-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 20px 0 0;
+	padding: 0;
+	list-style: none;
+}

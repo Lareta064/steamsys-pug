@@ -1,0 +1,76 @@
+﻿@use '../base/_var' as *;
+
+// ==============================
+// .ss-strip вЂ” РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ РїРѕР»РѕСЃР° СЃ N СЂР°РІРЅС‹С… Р±Р»РѕРєРѕРІ (flex: 1).
+// РљР°Р¶РґС‹Р№ Р±Р»РѕРє: title (bold) + desc (muted).
+// РљРѕР»РёС‡РµСЃС‚РІРѕ Р±Р»РѕРєРѕРІ РїСЂРѕРёР·РІРѕР»СЊРЅРѕРµ вЂ” РґРµР»СЏС‚СЃСЏ СЂР°РІРЅРѕРјРµСЂРЅРѕ.
+// Gap РјРµР¶РґСѓ Р±Р»РѕРєР°РјРё 16px. РњРµР¶РґСѓ Р±Р»РѕРєР°РјРё вЂ” subtle РІРµСЂС‚РёРєР°Р»СЊРЅС‹Р№ СЂР°Р·РґРµР»РёС‚РµР»СЊ.
+//
+// Р Р°Р·РјРµС‚РєР°:
+//   section.ss-section.ss-strip
+//     .ss-container.ss-wrapper
+//       ul.ss-strip__list
+//         li.ss-strip__item
+//           p.ss-strip__title РџРѕСЃС‚Р°РІРєР° 2вЂ“4 РЅРµРґ.
+//           p.ss-strip__desc СЃРѕ СЃРєР»Р°РґР° РёР»Рё РїРѕРґ Р·Р°РєР°Р·
+// ==============================
+
+.ss-strip {
+	background: var(--primary1);
+	padding: 24px 0;
+}
+
+.ss-strip__list {
+	display: flex;
+	gap: 16px;
+	// align-items: center;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	@include down($md) {
+		flex-wrap: wrap;
+	}
+}
+
+.ss-strip__item {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	row-gap: 4px;
+	position: relative;
+
+	@include down($md) {
+		flex: 0 0 calc(50% - 8px);
+	}
+
+	@include down(540px) {
+		flex: 0 0 100%;
+		padding-bottom: 16px;
+		border-bottom: 1px solid var(--secondary1);
+
+		&:last-child {
+			padding-bottom: 0;
+			border-bottom: none;
+		}
+	}
+}
+
+.ss-strip__title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--white);
+}
+
+.ss-strip__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary1);
+}

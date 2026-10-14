@@ -67,6 +67,51 @@ block content
 						|                 td …
 						|                 td …
 
+			//- ===== Striped =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Зебра (.ss-simple-table--striped)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Чётные строки — светло-серые, нечётные — белые. Без L-каркаса.
+					code min-width: 640px
+					|  зафиксирована жёстко — горизонтальный свайп на &lt;768px.
+
+				.breadcrumbs-catalog__demo
+					.ss-simple-table.ss-simple-table--striped
+						table
+							thead
+								tr
+									th Параметр
+									th Значение
+									th Примечание
+							tbody
+								tr
+									th(scope='row') DN (диаметр прохода)
+									td DN15, DN20, DN25, DN32, DN40, DN50
+									td Фланцевое или муфтовое
+								tr
+									th(scope='row') PN (давление условное)
+									td PN25
+									td —
+								tr
+									th(scope='row') Рабочее давление
+									td до 21 бар
+									td Дифференциальное
+								tr
+									th(scope='row') Максимальная температура
+									td 220°C
+									td —
+								tr
+									th(scope='row') Расход конденсата
+									td до 10 кг/ч (DN15) … до 1400 кг/ч (DN50)
+									td —
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-simple-table.ss-simple-table--striped
+						|     table
+						|         thead …
+						|         tbody …
+
 			//- ===== With mob-bleed =====
 			section.breadcrumbs-catalog__section
 				h3.breadcrumbs-catalog__section-title С расширением на моб (+ .ss-mob-bleed)

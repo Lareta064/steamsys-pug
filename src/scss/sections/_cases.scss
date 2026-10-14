@@ -128,3 +128,8 @@
 .ss-partners-slider .swiper.swiper-pb{
 	@media(min-width:768px){padding-bottom: 0;}
 }
+
+// padding: 5px — чтобы box-shadow партнёрской карточки не обрезался swiper overflow.
+.ss-partners-slider .swiper-slide {
+	padding: 5px;
+}

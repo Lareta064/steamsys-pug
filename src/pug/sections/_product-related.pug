@@ -1,0 +1,30 @@
+//- ============================================================
+//- «Совместимое оборудование» — секция на карточке товара.
+//- Внешне 1-в-1 секция .ss-case-inputs на single-case.html:
+//- grid 3×2 из .ss-comp-item, часть помечены --active (темный
+//- градиентный фон accent1→accent3). Под карточками — CTA-кнопка.
+//- Градиентный паттерн задаётся правилом .ss-product-related
+//- .ss-comp-item--active в _case-page.scss (переиспользуем).
+//- Якорь #product-related — цель таба «Совместимое» в nav.
+//- ============================================================
+//- Шахматный паттерн — активные через одну (чётный индекс = active),
+//- даёт 01/03/05 в тёмном градиенте, 02/04/06 — в светлом фоне.
+- var productRelatedItems = [{ title: 'Сетчатые фильтры', text: 'Устанавливаются перед КО. Защита от окалины и механических загрязнений. Y-типа, DN 15–50' }, { title: 'Обратные клапаны', text: 'Предотвращают возврат конденсата и пара из коллектора при изменении давлений в системе' }, { title: 'Регулирующие клапаны', text: 'Управление подачей пара: электрические или пневматические, под сигнал датчика температуры' }, { title: 'Предохранительные клапаны', text: 'Защита системы от превышения давления на паровой магистрали и конденсатопроводе' }, { title: 'Датчики и автоматика', text: 'Манометры, термопары, RTD-датчики для контроля параметров пара и конденсата' }, { title: 'Комплектующие для монтажа', text: 'Ответные фланцы, прокладки, крепёж, шаровые краны обслуживания — для быстрого монтажа' }]
+
+section.ss-section.ss-product-related(id='product-related')
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Совместимое оборудование
+				p.ss-product-related__desc Компоненты, которые обычно устанавливаются вместе с JX4S в одной системе.
+
+		ul.ss-product-related__grid
+			each item, i in productRelatedItems
+				li(class='ss-comp-item' + (i % 2 === 0 ? ' ss-comp-item--active' : ''))
+					span.ss-comp-item__num= ('0' + (i + 1)).slice(-2)
+					.ss-comp-item__body
+						h3.ss-comp-item__title= item.title
+						p.ss-comp-item__text= item.text
+
+		.ss-product-related__actions
+			+ssBtn('Запросить КП на комплект', { variant: 'dark', icon: 'arrow-right' })(data-modal='request-b24')

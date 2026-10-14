@@ -109,8 +109,12 @@
 	}
 }
 
-// Emoji-иконка — просто крупный символ, без лишнего бокса.
-.ss-designer__icon {	
+// Иконка-контейнер: базовый серый квадрат 36×36.
+// Три варианта содержимого:
+//   · <i> emoji          — font-size 22px, не italic
+//   · <img>              — 30×30, object-fit contain
+//   · --label + <i> text — аббревиатура (PDF, MNT …), 11px bold uppercase
+.ss-designer__icon {
 	flex-shrink: 0;
 	width: 36px;
 	height: 36px;
@@ -119,12 +123,30 @@
 	align-items: center;
 	background-color: var(--secondary3);
 	border-radius: 4px;
-	i{
+
+	i {
 		font-style: normal;
 		font-size: 22px;
-		transition: .2s; 
+		transition: .2s;
 	}
-	
+}
+
+// Вариант img 30×30.
+.ss-designer__icon img {
+	width: 30px;
+	height: 30px;
+	object-fit: contain;
+	display: block;
+}
+
+// Вариант текстового лейбла: .ss-designer__icon--label + <i>PDF</i>.
+.ss-designer__icon--label i {
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--secondary1);
+	line-height: 1;
 }
 
 .ss-designer__body {

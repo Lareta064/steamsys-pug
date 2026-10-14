@@ -1,0 +1,25 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Системы и решения";
+	-var bodyCl = "ss-wrapper";
+	-var customStyle = `.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/solution-hero.webp')}@media(min-width:1024px){.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/solution-hero@2x.webp')}}`
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner
+
+		include ../sections/_solution-hero.pug
+		include ../sections/_trustbar.pug
+		include ../sections/_production-tasks.pug
+		//include ../sections/_process-type.pug
+		include ../sections/_process-type-photo.pug
+		include ../sections/_all-solutions.pug
+		include ../sections/_how-to-pick.pug
+		include ../sections/_designer.pug
+		include ../sections/_portfolio-cases.pug
+		include ../sections/_portfolio-faq.pug
+		//- include ../sections/_task-form.pug
+
+		include ../sections/_feedback-b24.pug
+	include ../sections/_footer.pug

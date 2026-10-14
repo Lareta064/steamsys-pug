@@ -2,7 +2,7 @@ extends ../layouts/layout-ui.pug
 
 block content
 	//- Все варианты кнопок из макета.
-	- var variants = [{ code: 'primary', label: 'Primary' }, { code: 'secondary', label: 'Secondary' }, { code: 'outline', label: 'Outline' }, { code: 'outline-dark', label: 'Outline dark' }, { code: 'dark', label: 'Dark' }, { code: 'light', label: 'Light' }, { code: 'outline-light', label: 'Outline light' }, { code: 'white', label: 'White' }]
+	- var variants = [{ code: 'primary', label: 'Primary' }, { code: 'secondary', label: 'Secondary' }, { code: 'outline', label: 'Outline' }, { code: 'outline-dark', label: 'Outline dark' }, { code: 'dark', label: 'Dark' }, { code: 'light', label: 'Light' }, { code: 'outline-light', label: 'Outline light' }, { code: 'white', label: 'White' }, { code: 'outline-white', label: 'Outline white' }]
 
 	.container-dashboard.ss-wrapper
 		h2.db-h2 Кнопки
@@ -156,3 +156,22 @@ block content
 					| .ss-slider-nav.ss-slider-nav--accent
 					|     +ssSwiperBtn('prev')
 					|     +ssSwiperBtn('next')
+
+			//- ===== Outline white — на тёмном фоне =====
+			section.breadcrumbs-catalog__section
+				h3.buttons-catalog__section-title Outline white (.ss-btn--outline-white) — для тёмного hero
+				p.buttons-catalog__intro.ss-reg-14.ss-txt-secondary
+					| Вариант для
+					code .ss-hero-inner--dark
+					| : белая рамка + белый текст, hover → accent2 (синяя заливка). Заменяет
+					code outline-light
+					|  на всех внутренних страницах с тёмным hero.
+
+				.breadcrumbs-catalog__demo(style="background: var(--primary1); padding: 30px; border-radius: 10px;")
+					.buttons-catalog__row
+						+ssBtn('Заполнить опросный лист', { variant: 'outline-white', icon: 'arrow-right' })
+						+ssBtn('Получить кейс по отрасли', { variant: 'outline-white' })
+						+ssBtn('Disabled', { variant: 'outline-white', disabled: true })
+
+				pre.buttons-catalog__snippet(style="margin-top:16px;")
+					code +ssBtn('Текст', { variant: 'outline-white' })

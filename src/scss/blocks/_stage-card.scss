@@ -60,13 +60,10 @@
 	background: var(--accent1);
 	color: var(--white);
 
-	// Иконка внутри квадрата всегда 24×24 и белая. Правило нужно, потому что
-	// tool и headset уже описаны в _svg-icons.scss как сервисные 48×48 с accent1 —
-	// здесь они идут в другом контексте.
-	svg {
+	img {
+		display: block;
 		width: 24px;
 		height: 24px;
-		color: inherit;
 	}
 }
 

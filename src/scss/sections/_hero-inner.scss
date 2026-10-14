@@ -225,13 +225,62 @@
 
 
 // --------------------------------------------------------------
+// Теги (.ss-tag--mini) внутри любого .ss-hero-inner — статичные spans,
+// hover убираем (accent3 на тёмном фоне выглядит странно), фон серый (дефолт).
+// --------------------------------------------------------------
+.ss-hero-inner .ss-tag--mini {
+	cursor: default;
+
+	&:hover {
+		background: var(--secondary2);
+		color: var(--primary);
+	}
+}
+
+// --------------------------------------------------------------
 // Модификатор --dark. Body с тёмным фоном + белый текст.
 // h1 переопределяем на белый (базовый .ss-h1 приходит с --primary).
+//
+// Фоновая картинка задаётся через background-image в <style> в <head>
+// каждой конкретной страницы (см. REDESIGN_RULES.md «Старт новой страницы»).
+// Здесь намеренно нет background-image — он всегда приходит из инлайн-стиля
+// страницы, чтобы путь к файлу резолвился относительно HTML-документа,
+// а не CSS-файла (браузеры по-разному обрабатывают url() в var()).
+// Если инлайн-стиль не задан — фон остаётся --primary1.
+//
+// Градиент: завеса слева 92% → 0% (прозрачный справа), гарантирует
+// читаемость текстового контента шириной до 1000px на любом фото.
 // --------------------------------------------------------------
 .ss-hero-inner--dark {
 	.ss-hero-inner__body {
-		background: var(--primary1);
+		background-color: var(--primary1);
+		background-size: cover;
+		background-position: center right;
+		background-repeat: no-repeat;
 		color: var(--white);
+		position: relative;
+		overflow: hidden;
+
+		// Тёмная завеса слева — прозрачность справа.
+		// Текст (max-width: 1000px) остаётся читаемым на любом фоновом фото.
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(90deg,
+				rgba(3, 29, 42, 0.92) 0%,
+				rgba(3, 29, 42, 0.75) 30%,
+				rgba(3, 29, 42, 0.35) 65%,
+				rgba(3, 29, 42, 0) 100%
+			);
+			pointer-events: none;
+			z-index: 0;
+		}
+
+		> * {
+			position: relative;
+			z-index: 1;
+		}
 
 		.ss-h1 {
 			color: var(--white);

@@ -1,0 +1,20 @@
+- var productDocsItems = [{ label: 'PDF', title: 'Паспорт JX4S (PDF)', cta: 'Скачать', href: '#' }, { label: '✓', title: 'Сертификат TLV', cta: 'Скачать', href: '#' }, { label: 'MNT', title: 'Инструкция по монтажу', cta: 'Скачать', href: '#' }, { label: 'CAT', title: 'PDF-каталог', cta: 'Скачать', href: '#' }, { label: 'GA', title: 'Чертёж общего вида (GA)', cta: 'Скачать', href: '#' }, { label: 'CAD', title: 'CAD/3D/BIM по запросу', cta: 'Запросить', href: '#' }]
+
+section.ss-section.ss-section--tinted.ss-designer(id='product-docs')
+	.ss-container.ss-wrapper
+		.ss-designer__grid
+			.ss-designer__intro
+				h2.ss-h3 Документация на&nbsp;JX4S
+				p.ss-designer__desc Паспорт, сертификаты, инструкции и технические чертежи
+
+			ul.ss-designer__list
+				each item in productDocsItems
+					li
+						a.ss-designer__item(href=item.href)
+							span.ss-designer__icon.ss-designer__icon--label(aria-hidden='true')
+								i= item.label
+							.ss-designer__body
+								p.ss-designer__title= item.title
+								span.ss-link.ss-link--sm
+									span= item.cta
+									+svgIcon('arrow-right')

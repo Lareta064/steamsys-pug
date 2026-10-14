@@ -1,0 +1,24 @@
+section.ss-section.ss-product-analogs(id='product-analogs')
+	.ss-container.ss-wrapper
+		.ss-product-analogs__grid
+
+			.ss-product-analogs__intro
+				h2.ss-h2 Нужен аналог?
+				p.ss-product-analogs__desc
+					| Укажите параметры вашего текущего конденсатоотводчика — подберём совместимую замену
+
+			.ss-product-analogs__card
+				.ss-product-analogs__fields
+					.ss-product-analogs__field
+						label.ss-product-analogs__label(for='pa-dn') DN и PN
+						input.ss-product-analogs__input#pa-dn(type='text', placeholder='DN25, PN16')
+					.ss-product-analogs__field
+						label.ss-product-analogs__label(for='pa-pressure') Давление рабочее
+						input.ss-product-analogs__input#pa-pressure(type='text', placeholder='бар')
+					.ss-product-analogs__field
+						label.ss-product-analogs__label(for='pa-flow') Расход конденсата
+						input.ss-product-analogs__input#pa-flow(type='text', placeholder='кг/ч')
+					.ss-product-analogs__field
+						label.ss-product-analogs__label(for='pa-analog') Текущий аналог (марка/артикул)
+						input.ss-product-analogs__input#pa-analog(type='text', placeholder='Производитель, артикул')
+				+ssBtn('Подобрать аналог', { variant: 'dark', full: true })(type='submit')

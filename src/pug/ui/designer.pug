@@ -1,4 +1,79 @@
 extends ../layouts/layout-ui-sections.pug
 
+block variables
+	-var title = "ss-designer — три варианта иконки";
+
 block content
-	include ../sections/_designer.pug
+
+	//- ── Вариант 1: emoji ──────────────────────────────────────────────────
+	p(style="padding:16px 40px 4px;font:700 11px/1 sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#999;") Вариант 1 — emoji · &lt;i&gt;emoji&lt;/i&gt;
+
+	- var designerItemsEmoji = [{ icon: '📋', title: 'Опросные листы', cta: 'Скачать все форматы', href: '#' }, { icon: '📐', title: 'Типовые схемы', cta: 'Смотреть схемы', href: '#' }, { icon: '🔧', title: 'CAD / 3D / BIM', cta: 'Скачать модели', href: '#' }, { icon: '📄', title: 'Технические описания', cta: 'Смотреть описания', href: '#' }, { icon: '✅', title: 'Паспорта и сертификаты', cta: 'Запросить документы', href: '#' }, { icon: '👷', title: 'Консультация инженера', cta: 'Задать вопрос', href: '#' }]
+
+	section.ss-section.ss-section--tinted.ss-designer
+		.ss-container.ss-wrapper
+			.ss-designer__grid
+				.ss-designer__intro
+					span.ss-kicker Для проектировщиков
+					h2.ss-h3 Технические материалы по&nbsp;всем решениям
+					p.ss-designer__desc Вся документация по готовым системам: от опросных листов до CAD-моделей
+					.ss-designer__action
+						+ssBtn('Запросить пакет документов', { variant: 'primary', icon: 'arrow-right' })(data-modal='request-b24')
+				ul.ss-designer__list
+					each item in designerItemsEmoji
+						li
+							a.ss-designer__item(href=item.href)
+								span.ss-designer__icon(aria-hidden='true')
+									i= item.icon
+								.ss-designer__body
+									p.ss-designer__title= item.title
+									span.ss-link.ss-link--sm
+										span= item.cta
+										+svgIcon('arrow-right')
+
+	//- ── Вариант 2: img 30×30 ─────────────────────────────────────────────
+	p(style="padding:16px 40px 4px;font:700 11px/1 sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#999;") Вариант 2 — img 30×30 · &lt;img src="…" width="30" height="30"&gt;
+
+	- var designerItemsImg = [{ img: '../img/prob1.svg', title: 'Сетчатые фильтры', cta: 'Смотреть документы', href: '#' }, { img: '../img/prob2.svg', title: 'Регулирующие клапаны', cta: 'Смотреть документы', href: '#' }, { img: '../img/prob3.svg', title: 'Датчики и автоматика', cta: 'Запросить', href: '#' }, { img: '../img/prob4.svg', title: 'Комплектующие', cta: 'Смотреть схемы', href: '#' }, { img: '../img/prob5.svg', title: 'Обратные клапаны', cta: 'Смотреть документы', href: '#' }, { img: '../img/prob6.svg', title: 'Предохранительные клапаны', cta: 'Запросить документы', href: '#' }]
+
+	section.ss-section.ss-designer
+		.ss-container.ss-wrapper
+			.ss-designer__grid
+				.ss-designer__intro
+					span.ss-kicker Документация
+					h2.ss-h3 Вариант с img-иконкой
+					p.ss-designer__desc Иконка через &lt;img&gt;, размер 30×30 px, object-fit: contain
+				ul.ss-designer__list
+					each item in designerItemsImg
+						li
+							a.ss-designer__item(href=item.href)
+								span.ss-designer__icon(aria-hidden='true')
+									img(src=item.img width='30' height='30' alt='' loading='lazy' decoding='async')
+								.ss-designer__body
+									p.ss-designer__title= item.title
+									span.ss-link.ss-link--sm
+										span= item.cta
+										+svgIcon('arrow-right')
+
+	//- ── Вариант 3: текстовый лейбл (PDF, MNT, GA …) ─────────────────────
+	p(style="padding:16px 40px 4px;font:700 11px/1 sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#999;") Вариант 3 — текстовый лейбл · .ss-designer__icon--label + &lt;i&gt;PDF&lt;/i&gt;
+
+	- var designerItemsLabel = [{ label: 'PDF', title: 'Паспорт JX4S (PDF)', cta: 'Скачать', href: '#' }, { label: '✓', title: 'Сертификат TLV', cta: 'Скачать', href: '#' }, { label: 'MNT', title: 'Инструкция по монтажу', cta: 'Скачать', href: '#' }, { label: 'CAT', title: 'PDF-каталог', cta: 'Скачать', href: '#' }, { label: 'GA', title: 'Чертёж общего вида (GA)', cta: 'Скачать', href: '#' }, { label: 'CAD', title: 'CAD/3D/BIM по запросу', cta: 'Запросить', href: '#' }]
+
+	section.ss-section.ss-section--tinted.ss-designer
+		.ss-container.ss-wrapper
+			.ss-designer__grid
+				.ss-designer__intro
+					h2.ss-h3 Документация на&nbsp;JX4S
+					p.ss-designer__desc Паспорт, сертификаты, инструкции и технические чертежи
+				ul.ss-designer__list
+					each item in designerItemsLabel
+						li
+							a.ss-designer__item(href=item.href)
+								span.ss-designer__icon.ss-designer__icon--label(aria-hidden='true')
+									i= item.label
+								.ss-designer__body
+									p.ss-designer__title= item.title
+									span.ss-link.ss-link--sm
+										span= item.cta
+										+svgIcon('arrow-right')

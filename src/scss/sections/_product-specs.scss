@@ -1,0 +1,16 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-product-specs — секция «Технические характеристики». Таблица —
+// .ss-simple-table. Собственных стилей секции минимум.
+// Якорь #product-specs используется в .ss-product-nav.
+// ==============================
+.ss-product-specs {
+	.ss-section-header {
+		margin-bottom: 30px;
+
+		@include down($md) {
+			margin-bottom: 20px;
+		}
+	}
+}

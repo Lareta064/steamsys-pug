@@ -1,0 +1,62 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Галерея товара (.ss-product-gallery)";
+
+block content
+	//- Тестовые изображения — 4 серых SVG-плейсхолдера (src/img/product-placeholder-1..4.svg).
+	- var gallery = ['product-placeholder-1', 'product-placeholder-2', 'product-placeholder-3', 'product-placeholder-4']
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Галерея товара (.ss-product-gallery)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Галерея на основе паттерна Swiper Thumbs (главный слайдер + ряд превью снизу, синхронизированные). Используется на странице карточки товара. Стили —
+				code src/scss/blocks/_product-gallery.scss
+				| , JS —
+				code src/js/product-gallery.js
+				| .
+				br
+				| Размеры: основной слайд — высота
+				code 400px
+				| , превью —
+				code 80×60
+				| , просветы между слайдами и между main/thumbs — по
+				code 10px
+				| . Активная превью подсвечена рамкой
+				code outline
+				|  (accent1).
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример галереи
+
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Клик по превью переключает главный слайд. Главный слайдер — обычный
+					code slidesPerView: 1
+					| , просвет
+					code spaceBetween: 10
+					| . Thumbs-слайдер —
+					code slidesPerView: 'auto'
+					|  с
+					code freeMode: true
+					| , просвет
+					code spaceBetween: 10
+					| .
+
+				.breadcrumbs-catalog__demo
+					.ss-product-gallery.js-product-gallery
+						.swiper.ss-product-gallery__main
+							.swiper-wrapper
+								each img in gallery
+									.swiper-slide
+										picture
+											img(src=`${basePath}img/${img}.svg` width='800' height='600' alt='' loading='lazy' decoding='async')
+
+						.swiper.ss-product-gallery__thumbs
+							.swiper-wrapper
+								each img in gallery
+									.swiper-slide
+										picture
+											img(src=`${basePath}img/${img}.svg` width='80' height='60' alt='' loading='lazy' decoding='async')

@@ -30,6 +30,23 @@
 
 4. **Ссылка на стартовой** — добавить `a(href="./<name>.html") <Название>` в `src/pug/pages/index.pug`.
 
+5. **Если у страницы есть hero с фоновой картинкой** (`.ss-hero-inner--dark`) — задать картинку через CSS custom properties в `<style>` в `<head>`. Градиент и позиционирование уже прописаны в `_hero-inner.scss`, страничный CSS их не дублирует.
+
+   В `block variables` файла страницы добавить однострочный `customStyle` с прямым `background-image` и media-query (важно — однострочно, без переносов):
+   ```pug
+   -var customStyle = `.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/<mobile>.webp')}@media(min-width:1024px){.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/<desktop>.webp')}}`
+   ```
+
+   **Почему прямой `background-image`, а не CSS custom property.**  
+   Браузеры резолвят `url()` внутри `var()` относительно `main.css` (а не HTML-документа), поэтому путь `./img/` ведёт в несуществующую папку `css/img/`. При прямом `background-image` в `<style>` внутри `<head>` путь резолвится относительно HTML-документа — надёжно и кроссбраузерно. Градиент, `background-size`, `position` — по-прежнему в `_hero-inner.scss`.
+
+   `${basePath}img/<mobile>.webp` — мобильная картинка (до 1024px).  
+   `${basePath}img/<desktop>.webp` — десктопная (от 1024px). Если нет отдельной мобильной — одно и то же имя в обоих местах.
+
+   Файлы изображений в проекте: `solution-hero.webp` / `solution-hero@2x.webp` (портфолио, single-case), `cases-mob.webp` / `cases.webp` (страница кейсов).
+
+   На Битриксе шаблон страницы выводит этот `<style>` в `<head>` с абсолютными URL из медиабиблиотеки (`/upload/...`). Breakpoint (1024px) прописан прямо в шаблоне — он стабилен и не меняется без перевёрстки.
+
 После этого ждём от пользователя задач по секциям страницы.
 
 ## Что верстаем: компоненты, а не секции
@@ -792,3 +809,128 @@ Swiper.js (~140 КБ) — самая тяжёлая внешняя зависи�
    ```
 2. Инициализаторы (`src/js/*-swiper.js`) переписывать не нужно — при eager-загрузке `Swiper` определён к моменту вызова `whenSwiperReady()`, и колбэки выполняются сразу.
 3. Файл `src/js/00-swiper-loader.js` можно удалить или оставить: при eager-загрузке он сам себя выключает (видит определённый `Swiper` и сразу выходит, не создавая observer).
+
+## Swiper — CSS и разметка (правила верстки слайдеров)
+
+### Чеклист нового слайдера
+
+При добавлении каждого нового слайдера ответить на 4 вопроса:
+
+1. **Карточка с тенью?** → добавить `padding: 5px` на `.swiper-slide` (см. «Тень карточки»)
+2. **Карточки разной высоты?** → добавить equal-height стили (см. «Равная высота»)
+3. **Какая навигация?** → выбрать один из 3 паттернов (см. «Навигация»)
+4. **Есть пагинация?** → добавить `.swiper-pb` на `.swiper`; скрыть её на breakpoints, где достаточно стрелок
+
+### Тень карточки — padding на слайд
+
+Swiper по умолчанию ставит `overflow: hidden` на контейнер — `box-shadow` карточки обрезается по краю слайда.
+
+**Фикс:** задать `padding` на `.swiper-slide` равный «разлёту» тени. Для теней вида `0 2px 15px 0 rgba(0,0,0,0.03)` достаточно `padding: 5px`.
+
+Правило пишется в SCSS обёртки слайдера (не в файл карточки):
+
+```scss
+.js-my-slider .swiper-slide {
+    padding: 5px;
+}
+```
+
+Карточки с тенью в проекте (требуют padding):
+
+| Карточка | box-shadow | padding нужен |
+|---|---|---|
+| `.ss-case-card` | `0 2px 15px 0 rgba(0,0,0,0.03)` | да |
+| `.ss-partner-card` | `0 2px 15px 0 rgba(0,0,0,0.03)` | да |
+| `.ss-product-card` | нет | нет |
+
+> Если тень крайних слайдов (первого/последнего) всё равно обрезается — дополнительно поставить `overflow: visible` на `.swiper` и скомпенсировать ширину отрицательными отступами у родителя.
+
+### Равная высота слайдов
+
+Когда текст в карточках разной длины, Swiper ставит `height: 100%` каждому слайду — все слайды по высоте самого высокого. Но сама карточка не растягивается на всю высоту слайда.
+
+```scss
+.my-section .swiper-slide {
+    height: unset;     // снимает height: 100% от Swiper
+    min-height: 100%;  // слайд не меньше высоты самого высокого
+    display: flex;
+}
+
+.my-section .ss-some-card {
+    flex: 1;
+    min-height: 0;
+}
+```
+
+Применять, если карточки содержат переменный текст (заголовок, аннотация). Не нужно для слайдеров с фиксированным контентом (картинки, логотипы).
+
+### Навигация — 3 паттерна
+
+**1. Стрелки над слайдером** — паттерн по умолчанию  
+Обёртка `.ss-slider-nav` (+ `.ss-slider-nav--accent` для акцентного цвета кнопок) в блоке `.ss-section-header`. Стрелки позиционируются абсолютно относительно header.
+
+```pug
+.ss-section-header
+    .ss-section-header__title
+        h2.ss-h2 Заголовок
+    .ss-slider-nav.ss-slider-nav--accent
+        button.ss-swiper-btn.ss-swiper-btn--prev(type='button' aria-label='Предыдущий')
+            +svgIcon('chevron-left')
+        button.ss-swiper-btn.ss-swiper-btn--next(type='button' aria-label='Следующий')
+            +svgIcon('chevron-right')
+.swiper.js-my-slider
+    .swiper-wrapper
+        .swiper-slide ...
+```
+
+**2. Стрелки по бокам слайдера** — `.ss-slider-side-nav`  
+Ghost-стрелки снаружи `.swiper` как flex-siblings. На `< $lg`: слайдер 100% вверх, кнопки центрируются строкой ниже. Стрелки всегда видимы (не скрываются на мобильном в отличие от паттерна 1).
+
+```pug
+.ss-slider-side-nav
+    button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--prev(type='button' aria-label='Предыдущий')
+        +svgIcon('chevron-left')
+    .swiper.js-my-slider
+        .swiper-wrapper
+            .swiper-slide ...
+    button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--next(type='button' aria-label='Следующий')
+        +svgIcon('chevron-right')
+```
+
+**3. Только пагинация, без стрелок**  
+Добавить `.swiper-bars` (полоска-пагинация) и `.swiper-pb` (нижний отступ под пагинацию) на `.swiper`, внутри — `.swiper-pagination`.
+
+```pug
+.swiper.swiper-bars.swiper-pb.js-my-slider
+    .swiper-wrapper
+        .swiper-slide ...
+    .swiper-pagination
+```
+
+### Пагинация и отступ `.swiper-pb`
+
+`.swiper-pb` задаёт `padding-bottom` под пагинацию. Когда на определённом breakpoint пагинация скрыта (например, на desktop достаточно стрелок) — там же обнуляем padding:
+
+```scss
+@include down($md) {
+    .my-section .swiper.swiper-pb {
+        padding-bottom: 0;
+    }
+    .my-section .swiper-pagination {
+        display: none;
+    }
+}
+```
+
+### Стрелки — передача в Swiper config
+
+Стрелки всегда передаём через `el.parentElement.querySelector()` — не через глобальный CSS-класс. Это позволяет использовать несколько слайдеров одного типа на одной странице без конфликтов:
+
+```js
+new Swiper(el, {
+    navigation: {
+        prevEl: el.parentElement.querySelector('.ss-swiper-btn--prev'),
+        nextEl: el.parentElement.querySelector('.ss-swiper-btn--next'),
+    }
+});
+```

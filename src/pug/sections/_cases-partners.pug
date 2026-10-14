@@ -1,0 +1,21 @@
+- var casesPartners = [{ name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }, { name: 'partner3', alt: 'Партнёр 3' }, { name: 'partner4', alt: 'Партнёр 4' }, { name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }, { name: 'partner3', alt: 'Партнёр 3' }, { name: 'partner4', alt: 'Партнёр 4' }]
+
+section.ss-section.ss-section--tinted.ss-cases-partners
+	.ss-container.ss-wrapper
+		.ss-section-header
+			.ss-section-header__title
+				h2.ss-h2 Предприятия, с&nbsp;которыми мы&nbsp;работаем
+
+		.ss-slider-side-nav
+			button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--prev(type='button' aria-label='Предыдущий')
+				+svgIcon('chevron-left')
+			.swiper.js-cases-partners-slider
+				.swiper-wrapper
+					each p in casesPartners
+						.swiper-slide
+							.ss-partner-card
+								picture
+									source(srcset=`${basePath}img/${p.name}.webp 1x, ${basePath}img/${p.name}@2x.webp 2x`)
+									img(src=`${basePath}img/${p.name}.webp` width='200' height='90' alt=p.alt loading='lazy' decoding='async')
+			button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--next(type='button' aria-label='Следующий')
+				+svgIcon('chevron-right')

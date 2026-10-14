@@ -39,6 +39,7 @@
 @use "blocks/_expert-card";
 @use "blocks/_form-row";
 @use "blocks/_filters";
+@use "blocks/_filter-bar";
 @use "blocks/_solution-card";
 @use "blocks/_experience-card";
 @use "blocks/_stage-card";
@@ -67,6 +68,7 @@
 @use "blocks/_figure";
 @use "blocks/_gallery";
 @use "blocks/_swiper-btn";
+@use "blocks/_slider-side-nav";
 @use "blocks/_content";
 @use "blocks/_toc";
 @use "blocks/_footer-contacts";
@@ -106,6 +108,16 @@
 @use "sections/_designer";
 @use "sections/_task-form";
 @use "sections/_faq";
+@use "sections/_product-intro";
+@use "sections/_product-nav";
+@use "sections/_product-specs";
+@use "sections/_product-in-systems";
+@use "sections/_strip";
+@use "sections/_product-related";
+@use "sections/_product-analogs";
+@use "sections/_product-similar";
+@use "sections/_product-form";
+@use "blocks/_product-gallery";
 @use "blocks/_menu";
 @use "blocks/_mobile-menu";
 @use "blocks/_modal";
@@ -116,6 +128,9 @@
 @use "pages/_catalog-page";
 @use "pages/_portfolio-page";
 @use "pages/_case-page";
+@use "pages/_cases-page";
+@use "pages/_single-product";
+@use "pages/_single-case";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

@@ -1,0 +1,53 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Панель фильтров (.ss-filter-bar)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Панель фильтров (.ss-filter-bar)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Горизонтальная панель фильтров с select-дропдаунами — для страниц портфолио, кейсов, каталога.
+				| Два ряда полей «метка + select» (.ss-filter-bar__field), второй ряд заканчивается кнопкой «Найти».
+				| Поля в первом ряду делят ширину поровну (flex: 1). На &lt;768px каждое поле — полная ширина строки, кнопка тоже на 100%.
+				br
+				| Стили —
+				code src/scss/blocks/_filter-bar.scss
+				| . Select-логика — существующий
+				code .ss-select
+				|  (data-select → src/js/select.js).
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример
+
+				.breadcrumbs-catalog__demo
+					include ../sections/_filter-bar.pug
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Сниппет
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-section.ss-section--tinted.ss-filter-bar
+						|     .ss-container
+						|         form.ss-filter-bar__form(action='#' method='get')
+						|             .ss-filter-bar__row
+						|                 .ss-filter-bar__field
+						|                     span.ss-filter-bar__label Отрасль:
+						|                     .ss-select.ss-select--sm(data-select)
+						|                         button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
+						|                             span.ss-select__value.ss-select__value--placeholder Все
+						|                             span.ss-select__chevron
+						|                                 +svgIcon('chevron-down')
+						|                         ul.ss-select__list(role='listbox' hidden)
+						|                             li.ss-select__option(role='option' aria-selected='true' tabindex='-1' data-value='all') Все
+						|                             li.ss-select__option(role='option' aria-selected='false' tabindex='-1' data-value='oil') Нефтехимия
+						|                 //- ... остальные поля первого ряда
+						|             .ss-filter-bar__row
+						|                 .ss-filter-bar__field
+						|                     span.ss-filter-bar__label Бизнес-эффект:
+						|                     .ss-select.ss-select--sm(data-select) ...
+						|                 button.ss-btn.ss-btn--dark(type='submit') Найти кейсы

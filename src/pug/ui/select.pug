@@ -178,6 +178,77 @@ block content
 						|             li.ss-select__option(role='option', aria-selected='true',  tabindex='-1', data-value='date-desc') По дате — новые
 						|             li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='popular') По популярности
 
+			//- ===== .ss-select--sm =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Компактный (.ss-select--sm)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Модификатор на корневом
+					code .ss-select
+					| . Control — 44px, паддинги опций — 6px 16px, шрифт — 14px.
+					| Для панелей фильтров и toolbar'ов. Комбинируется с
+					code .ss-select--auto
+					| .
+
+				.breadcrumbs-catalog__demo(style='max-width: 400px; padding-bottom: 200px;')
+					.ss-select.ss-select--sm(data-select)
+						button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+							span.ss-select__value.ss-select__value--placeholder Все
+							span.ss-select__chevron
+								+svgIcon('chevron-down')
+						ul.ss-select__list(role='listbox', hidden)
+							li.ss-select__option(role='option', aria-selected='true',  tabindex='-1', data-value='all') Все
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='1') Нефтехимия
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='2') Энергетика
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='3') Пищевая промышленность
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-select.ss-select--sm(data-select)
+						|     button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+						|         span.ss-select__value.ss-select__value--placeholder Все
+						|         span.ss-select__chevron
+						|             +svgIcon('chevron-down')
+						|     ul.ss-select__list(role='listbox', hidden)
+						|         li.ss-select__option(role='option', aria-selected='true',  tabindex='-1', data-value='all') Все
+						|         li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='1') Нефтехимия
+
+			//- ===== .ss-select--auto =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Фиксированная ширина (.ss-select--auto)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Модификатор
+					code .ss-select--auto
+					|  отключает
+					code width: 100%
+					|  базы и ставит
+					code min-width: 200px
+					| . Для standalone-селектов вне flex-контекста (например, одиночная сортировка).
+					| Комбинируй с
+					code .ss-select--sm
+					|  для компактного варианта.
+
+				.breadcrumbs-catalog__demo(style='padding-bottom: 200px;')
+					.ss-select.ss-select--sm.ss-select--auto(data-select)
+						button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+							span.ss-select__value.ss-select__value--placeholder Сортировать
+							span.ss-select__chevron
+								+svgIcon('chevron-down')
+						ul.ss-select__list(role='listbox', hidden)
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='date-desc') По дате — новые
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='date-asc') По дате — старые
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='popular') По популярности
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| //- Standalone: компактный + фиксированная ширина
+						| .ss-select.ss-select--sm.ss-select--auto(data-select)
+						|     ...
+						|
+						| //- В flex-контексте (панель фильтров): только --sm,
+						| //- ширину регулирует flex: 1 на родителе
+						| .ss-select.ss-select--sm(data-select)
+						|     ...
+
 			//- ===== Про элементы =====
 			section.breadcrumbs-catalog__section
 				h3.breadcrumbs-catalog__section-title Про элементы

@@ -1,0 +1,23 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Карточка товара — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-single-product
+		include ../sections/_product-intro.pug
+		include ../sections/_product-nav.pug
+		include ../sections/_product-specs.pug
+		include ../sections/_product-usage.pug
+		include ../sections/_product-in-systems.pug
+		include ../sections/_product-related.pug
+		include ../sections/_product-docs.pug
+		include ../sections/_product-analogs.pug
+		include ../sections/_product-strip.pug
+		include ../sections/_product-similar.pug
+		include ../sections/_product-faq.pug
+		include ../sections/_product-feedback.pug
+		
+	include ../sections/_footer.pug

@@ -1,0 +1,58 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-product-in-systems — секция «В составе каких готовых систем»
+// на карточке товара. Плашки — .ss-comp-item (hover-правила — в
+// _comp-item.scss, фон → accent1 на hover).
+// Якорь #product-in-systems используется в .ss-product-nav.
+// ==============================
+.ss-product-in-systems {
+	.ss-section-header {
+		margin-bottom: 30px;
+
+		@include down($md) {
+			margin-bottom: 20px;
+		}
+	}
+}
+
+// Подзаголовок под h2 — приглушённый серый.
+.ss-product-in-systems__desc {
+	margin: 10px 0 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+// Grid 3 колонки на desktop → 2 на <$xl → 1 на <$md.
+// Сброс ul-стилей — margin/padding/list-style.
+.ss-product-in-systems__list {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down($xl) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+
+	li {
+		display: flex;
+	}
+
+	// Карточка — ссылка, растягивается на всю высоту li.
+	a.ss-comp-item {
+		flex: 1;
+		text-decoration: none;
+		color: inherit;
+	}
+}

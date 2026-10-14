@@ -1,0 +1,85 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-product-intro — первый экран карточки товара: галерея слева,
+// информационный блок справа (бренд-тег, h1, описание, спеки,
+// CTA, ссылки, факты, callout).
+// На <$lg (<1024) — стек: сначала галерея, под ней инфо.
+// ==============================
+// Хлебные крошки — тонкая полоса сверху секции (над grid'ом).
+.ss-product-intro__crumbs {
+	margin-bottom: 30px;
+
+	@include down($md) {
+		margin-bottom: 20px;
+	}
+}
+
+.ss-product-intro__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	column-gap: 60px;
+	row-gap: 40px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		column-gap: 0;
+	}
+}
+
+.ss-product-intro__gallery {
+	min-width: 0;
+}
+
+.ss-product-intro__body {
+	display: flex;
+	flex-direction: column;
+	row-gap: 30px;
+	min-width: 0;
+}
+
+// -------- Блок 1: head --------
+.ss-product-intro__head {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+	// У .ss-tag--primary (inline-flex) ширина = по контенту; чтобы в flex-column
+	// не растягивалась на всю ширину — align-items: flex-start.
+	align-items: flex-start;
+}
+
+.ss-product-intro__title {
+	margin: 0;
+}
+
+.ss-product-intro__desc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--secondary);
+	max-width: 540px;
+}
+
+// Ряд спек-пилюль — обнуляем ul-стили поверх базовых .ss-tag-group.
+.ss-product-intro__specs,
+.ss-product-intro__facts {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+// -------- Блок 2: actions --------
+.ss-product-intro__actions {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.ss-product-intro__links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px 30px;
+}

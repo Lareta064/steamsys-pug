@@ -1,0 +1,109 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-product-gallery — галерея товара: главный Swiper + Thumbs
+// (ряд превью снизу). Два Swiper'а, связанных через модуль Thumbs
+// (встроен в Swiper 8).
+//
+// Размеры:
+//   · основной слайд  — max-height: 400px (фото object-fit: cover)
+//   · превью          — 80×60 (fixed)
+//   · просветы        — 10px (между слайдами и между main/thumbs)
+//
+// Разметка:
+//   .ss-product-gallery.js-product-gallery
+//     .swiper.ss-product-gallery__main
+//       .swiper-wrapper
+//         .swiper-slide: picture > source + img …
+//     .swiper.ss-product-gallery__thumbs
+//       .swiper-wrapper
+//         .swiper-slide: picture > source + img …
+//
+// Инициализация — src/js/product-gallery.js.
+// ==============================================================
+.ss-product-gallery {
+	display: flex;
+	flex-direction: column;
+	row-gap: 10px;
+	max-width: 800px;
+}
+
+// -------- Главный слайд --------
+.ss-product-gallery__main {
+	width: 100%;
+
+	.swiper-slide {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 4 / 3;
+		max-height: 400px;
+		background: var(--secondary3);
+		border-radius: 10px;
+		overflow: hidden;
+	}
+
+	// picture должен быть блочным и заполнять слайд — иначе img { height: 100% }
+	// упирается в высоту самого picture, а не слайда.
+	picture {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
+
+// -------- Превью снизу --------
+// slidesPerView: 'auto' + width по CSS → фиксированные 80×60.
+// Активная превью подсвечивается рамкой через .swiper-slide-thumb-active
+// (стандартный класс модуля Thumbs).
+.ss-product-gallery__thumbs {
+	// У стандартного .swiper из коробки — margin-inline: auto (центрирует
+	// сам контейнер). Для ряда превью это даёт визуальный сдвиг от левого
+	// края. Снимаем margin, чтобы контейнер прижимался к левому краю.
+	margin-left: 0;
+
+	.swiper-slide {
+		width: 80px;
+		height: 60px;
+		box-sizing: border-box;
+		background: var(--secondary3);
+		border-radius: 6px;
+		overflow: hidden;
+		cursor: pointer;
+		opacity: .6;
+		border: 1px solid var(--secondary3);
+		transition: opacity .2s ease, outline-color .2s ease;
+		outline: 2px solid transparent;
+		outline-offset: 0;
+
+		@include down($md) {
+			width: 60px;
+			height: 45px;
+		}
+	}
+
+	picture {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.swiper-slide-thumb-active {
+		opacity: 1;
+		border:1px solid var(--accent1);	
+	}
+}

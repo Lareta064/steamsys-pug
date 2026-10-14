@@ -1,0 +1,14 @@
+//- ============================================================
+//- Якорное меню страницы товара. По скроллу прилипает под фикс-
+//- шапкой через sticky; top = --header-height. Активный таб
+//- подсвечивается нижней линией. JS — src/js/product-nav.js
+//- (smooth-scroll с offset'ом + ScrollSpy через IO).
+//- ============================================================
+- var productNavItems = [{ title: 'Характеристики', href: '#product-specs' }, { title: 'Применение', href: '#product-usage' }, { title: 'Документы', href: '#product-docs' }, { title: 'В системах', href: '#product-in-systems' }, { title: 'Совместимое', href: '#product-related' }, { title: 'Аналоги', href: '#product-analogs' }]
+
+nav.ss-product-nav(aria-label='Навигация по товару')
+	.ss-container.ss-wrapper
+		ul.ss-product-nav__list.ss-mob-bleed
+			each item, i in productNavItems
+				li.ss-product-nav__item
+					a.ss-product-nav__link(href=item.href, class=(i === 0 ? 'is-active' : null))= item.title

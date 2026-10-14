@@ -1,0 +1,78 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Слайдер со стрелками по бокам (.ss-slider-side-nav)";
+
+block content
+	- var demoPartners = [{ name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }, { name: 'partner3', alt: 'Партнёр 3' }, { name: 'partner4', alt: 'Партнёр 4' }, { name: 'partner1', alt: 'Балтика' }, { name: 'partner2', alt: 'Партнёр 2' }, { name: 'partner3', alt: 'Партнёр 3' }, { name: 'partner4', alt: 'Партнёр 4' }]
+
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Слайдер со стрелками по бокам (.ss-slider-side-nav)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Обёртка слайдера с ghost-стрелками (
+				code .ss-swiper-btn--ghost
+				| ) по бокам. На desktop стрелки — flex-siblings слайдера снаружи. На &lt;1024px слайдер занимает 100% ширины, кнопки переносятся строкой ниже и центрируются.
+				br
+				| Стили —
+				code src/scss/blocks/_slider-side-nav.scss
+				| . Кнопки на desktop: 50×50, svg 50×50. На мобильном: 44×44, svg 30×30.
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример (слайдер партнёров)
+
+				.breadcrumbs-catalog__demo
+					.ss-slider-side-nav
+						button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--prev(type='button' aria-label='Предыдущий')
+							+svgIcon('chevron-left')
+						.swiper.swiper-bars.js-side-nav-demo
+							.swiper-wrapper
+								each p in demoPartners
+									.swiper-slide
+										.ss-partner-card
+											picture
+												source(srcset=`${basePath}img/${p.name}.webp 1x, ${basePath}img/${p.name}@2x.webp 2x`)
+												img(src=`${basePath}img/${p.name}.webp` width='200' height='90' alt=p.alt loading='lazy' decoding='async')
+						button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--next(type='button' aria-label='Следующий')
+							+svgIcon('chevron-right')
+
+				style.
+					.js-side-nav-demo-init { }
+
+				script.
+					document.addEventListener('DOMContentLoaded', function () {
+						whenSwiperReady(function () {
+							new Swiper('.js-side-nav-demo', {
+								slidesPerView: 2,
+								spaceBetween: 10,
+								loop: true,
+								speed: 1200,
+								autoplay: { delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true },
+								navigation: {
+									prevEl: document.querySelector('.js-side-nav-demo').parentElement.querySelector('.ss-swiper-btn--prev'),
+									nextEl: document.querySelector('.js-side-nav-demo').parentElement.querySelector('.ss-swiper-btn--next')
+								},
+								breakpoints: {
+									768:  { slidesPerView: 3, spaceBetween: 20 },
+									1024: { slidesPerView: 4, spaceBetween: 20 },
+									1280: { slidesPerView: 5, spaceBetween: 20 }
+								}
+							});
+						});
+					});
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Сниппет
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-slider-side-nav
+						|     button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--prev(type='button' aria-label='Предыдущий')
+						|         +svgIcon('chevron-left')
+						|     .swiper.js-*
+						|         .swiper-wrapper
+						|             .swiper-slide ...
+						|     button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--next(type='button' aria-label='Следующий')
+						|         +svgIcon('chevron-right')

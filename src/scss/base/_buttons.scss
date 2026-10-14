@@ -248,3 +248,18 @@
 	}
 	&:focus-visible { outline-color: var(--secondary); }
 }
+
+// btn 8 — Outline white (для тёмных фонов: белая рамка + белый текст → hover accent2)
+// Используется в .ss-hero-inner--dark вместо outline-light.
+.ss-btn--outline-white {
+	background: transparent;
+	color: var(--white);
+	border-color: var(--white);
+
+	&:hover {
+		background: var(--accent2);
+		color: var(--white);
+		border-color: var(--accent2);
+	}
+	&:focus-visible { outline-color: var(--white); }
+}

@@ -9,8 +9,8 @@ section.ss-section.ss-section--tinted.ss-roles.ss-bg-gray
 		.ss-role-card-group
 			each item in roleItems
 				.ss-role-card
-					.ss-role-card__badge
-						+svgIcon('user')
+					.ss-role-card__badge(aria-hidden='true')
+						img(src=`${basePath}img/user-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 					p.ss-role-card__title= item.title
 					.ss-role-card__box
 						.ss-role-card__body

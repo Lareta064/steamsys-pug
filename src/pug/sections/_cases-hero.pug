@@ -1,0 +1,43 @@
+section.ss-hero-inner.ss-hero-inner--dark.cases-page__hero
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='/') Главная
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='#') Компания
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Кейсы и отзывы
+
+	.ss-hero-inner__body
+		.ss-container.ss-wrapper
+			.ss-hero-inner__body-inner
+				span.ss-kicker.ss-txt-accent3 Примеры внедрения
+				h1.ss-h1 Реализованные проекты паровых систем
+				p.ss-hero-inner__lead
+					| Инженерные кейсы по РОУ/БРОУ, СВК, обвязкам калориферов и теплообменников, ИТП. С цифрами, параметрами и реальными результатами.
+				.ss-hero-inner__actions
+					+ssBtn('Запросить похожее решение', { variant: 'primary', icon: 'arrow-right', xsFull: true })(data-modal='request-b24')
+					+ssBtn('Получить кейс по отрасли', { variant: 'outline-white', xsFull: true })
+				ul.cases-page__hero-tags
+					li: span.ss-tag.ss-tag--mini 50+ реализованных проектов
+					li: span.ss-tag.ss-tag--mini Цифры и параметры
+					li: span.ss-tag.ss-tag--mini Отраслевые кейсы
+
+			ul.ss-hero__metriks
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 50+
+						p.ss-hero__metrik-label проектов в портфолио
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 15+
+						p.ss-hero__metrik-label отраслей
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value С 2008
+						p.ss-hero__metrik-label года на рынке
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value Вся
+						p.ss-hero__metrik-label Россия
