@@ -69,3 +69,39 @@
 		});
 	});
 })();
+
+// ==============================
+// Swiper компактного «встраиваемого» слайдера кейсов.
+// Используется в single-case (внутри main-колонки документа) и в любом
+// другом месте, где слайдер должен уживаться с ограниченной шириной
+// контейнера. Триггер — .js-cases-slider-inline.
+// 2 слайда на ≥600, фиксированный просвет 15px на всех ширинах.
+// ==============================
+(function () {
+	'use strict';
+
+	var els = document.querySelectorAll('.js-cases-slider-inline');
+	if (!els.length) return;
+
+	whenSwiperReady(function () {
+		els.forEach(function (el) {
+			new Swiper(el, {
+				slidesPerView: 1,
+				spaceBetween: 15,
+				speed: 600,
+				navigation: {
+					prevEl: el.parentElement.querySelector('.ss-swiper-btn--prev'),
+					nextEl: el.parentElement.querySelector('.ss-swiper-btn--next')
+				},
+				pagination: {
+					el: el.querySelector('.swiper-pagination'),
+					clickable: true
+				},
+				breakpoints: {
+					600:  { slidesPerView: 2, spaceBetween: 15 },
+					1024: { slidesPerView: 2, spaceBetween: 15 }
+				}
+			});
+		});
+	});
+})();

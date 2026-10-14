@@ -74,6 +74,10 @@ section.ss-doc-layout.ss-single-case
 			//- параграфов, списков, strong, цитат наследуются от _content.scss.
 			//- Структурные блоки (fact-card, simple-table, metrics, quote-card,
 			//- cta-row) — свои BEM-классы, живут между типографскими блоками.
+			//-
+			//- После .ss-content — слайдер «Похожие кейсы» (аналог cases-page):
+			//- .ss-single-case__related-slider > .ss-case-card--portfolio
+			//- Триггер .js-cases-slider подхватывается общим JS (cases-slider.js).
 			.ss-doc-layout__main
 				.ss-content
 
@@ -181,6 +185,44 @@ section.ss-doc-layout.ss-single-case
 								+ssBtn('Запросить похожее решение', { variant: 'dark', size: 'small' })(data-modal='request-b24')
 								+ssBtn('Отправить параметры системы', { variant: 'outline-dark', size: 'small' })
 								+ssBtn('Схемы и документы', { variant: 'outline-dark', size: 'small', icon: 'arrow-right' })
+
+				//- -------------------- Слайдер «Похожие кейсы» (внутри main-колонки) --------------------
+				//- Серый фон, карточки .ss-case-card--portfolio, навигация стрелками сверху
+				//- (.ss-slider-nav--accent) + пагинация-полоски. Инициализация — общая
+				//- (js-cases-slider из src/js/cases-slider.js), конфиг тот же,
+				//- что в .ss-cases-catalog на cases-page.
+				- var caseSliderItems = [{ kicker: 'Деревообработка · Вологда', title: 'Обвязка 24 паровых калориферов в сушильных камерах', text: 'Диагностика и замена КО в сушильных камерах. Устранение гидроударов и потерь тепла.', metrics: [{ value: '0', label: 'замерзаний за 3 зимы' }, { value: '−15%', label: 'брак' }], bg: 'gallery1', alt: 'Кейс: деревообработка', href: '#' }, { kicker: 'Химическое производство · Тула', title: 'СВК для возврата конденсата от теплообменников производства лаков', text: 'Организация замкнутого контура возврата конденсата. Снижение затрат на водоподготовку.', metrics: [{ value: '95%', label: 'возврат конденсата' }, { value: '11 мес.', label: 'окупаемость' }], bg: 'gallery2', alt: 'Кейс: химпроизводство', href: '#' }, { kicker: 'ЦБП · Архангельская область', title: 'БРОУ 40→12 бар для сушильной части бумагоделательной машины', text: 'Охлаждение пара для сушки без перегрева полотна. Автоматический контроль температуры.', metrics: [{ value: '−18%', label: 'расход пара' }, { value: '9 мес.', label: 'окупаемость' }], bg: 'gallery3', alt: 'Кейс: ЦБП', href: '#' }]
+
+				.ss-single-case__related-slider
+					.ss-section-header
+						.ss-section-header__title
+							h2 Похожие кейсы
+						.ss-slider-nav.ss-slider-nav--accent
+							+ssSwiperBtn('prev')
+							+ssSwiperBtn('next')
+
+					.swiper.swiper-pb.swiper-bars.js-cases-slider-inline
+						.swiper-wrapper
+							each c in caseSliderItems
+								.swiper-slide
+									article.ss-case-card.ss-case-card--portfolio.ss-case-card--compact
+										.ss-case-card__image
+											picture
+												source(media='(max-width: 767px)' srcset=`${basePath}img/${c.bg}-mob.webp 1x, ${basePath}img/${c.bg}-mob@2x.webp 2x`)
+												source(srcset=`${basePath}img/${c.bg}.webp 1x, ${basePath}img/${c.bg}@2x.webp 2x`)
+												img(src=`${basePath}img/${c.bg}.webp` width='865' height='360' alt=c.alt loading='lazy' decoding='async')
+										.ss-case-card__body
+											p.ss-case-card__kicker= c.kicker
+											h3.ss-case-card__title= c.title
+											p.ss-case-card__text= c.text
+											.ss-metrics
+												each m in c.metrics
+													.ss-metrics__item
+														p.ss-metrics__value= m.value
+														p.ss-metrics__label= m.label
+										.ss-case-card__footer
+											+ssLink('Читать кейс')(href=c.href)
+						.swiper-pagination
 
 			//- -------------------- Sticky sidebar --------------------
 			//- Идёт в DOM после main-контента, чтобы natural reading-order

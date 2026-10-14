@@ -68,6 +68,14 @@
 .ss-doc-layout__main          { grid-area: content; min-width: 0; }
 .ss-doc-layout__mobile-extras { grid-area: extras; }
 
+// Узкая main-колонка не допускает «просторных» секционных отступов. У базового
+// .ss-section-header margin-bottom бывает крупным (30-40 на других страницах);
+// внутри .ss-doc-layout__main подрезаем до 20 — чтобы заголовок слайдеров /
+// внутренних секций не отрывался от своего контента.
+.ss-doc-layout__main .ss-section-header {
+	margin-bottom: 20px;
+}
+
 
 // ---------- Mobile extras placeholder ----------
 // Пуст на десктопе. На мобилке JS (doc-layout.js) переносит сюда [data-doc-extra] блоки.

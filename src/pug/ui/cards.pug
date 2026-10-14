@@ -693,6 +693,53 @@ block content
 						|     .ss-case-card__footer
 						|         +ssLink('Читать кейс')
 
+				//- Модификатор --compact: сжимает карточку для узких колонок.
+				h4.cards-catalog__subtitle Модификатор .ss-case-card--compact (для узких колонок)
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Сочетается с базовой или
+					code --portfolio
+					| . Уменьшает горизонтальные паддинги
+					code __body
+					| /
+					code __footer
+					|  с 40 до 20, сжимает title (22→18), text (18→15), значение метрик (24→20) и column-gap (50→30). Нужно, когда карточка живёт в контейнере уже самой страницы — например, 2 карточки в main-колонке
+					code .ss-doc-layout
+					|  рядом со sticky-sidebar (как в single-case). Media query по ширине окна здесь не поможет: окно десктопное, узкая только колонка. Модификатор делает карточку самодостаточной — она несёт свой стиль, не зависит от окружения.
+
+				.cards-catalog__demo(style='max-width: 420px;')
+					article.ss-case-card.ss-case-card--portfolio.ss-case-card--compact
+						.ss-case-card__image
+							picture
+								source(media='(max-width: 767px)' srcset=`../img/cases-mob.webp 1x, ../img/cases-mob@2x.webp 2x`)
+								source(srcset=`../img/cases.webp 1x, ../img/cases@2x.webp 2x`)
+								img(src=`../img/cases.webp`, width=865, height=360, alt='Деревообработка', loading='lazy', decoding='async')
+						.ss-case-card__body
+							p.ss-case-card__kicker Деревообработка · Вологда
+							h3.ss-case-card__title Обвязка 24 паровых калориферов в сушильных камерах
+							p.ss-case-card__text Диагностика и замена КО в сушильных камерах. Устранение гидроударов и потерь тепла.
+							.ss-metrics
+								.ss-metrics__item
+									p.ss-metrics__value 0
+									p.ss-metrics__label замерзаний за 3 зимы
+								.ss-metrics__item
+									p.ss-metrics__value −15%
+									p.ss-metrics__label брак
+						.ss-case-card__footer
+							+ssLink('Читать кейс')
+
+				pre.cards-catalog__snippet
+					code
+						| article.ss-case-card.ss-case-card--portfolio.ss-case-card--compact
+						|     .ss-case-card__image
+						|         picture ...
+						|     .ss-case-card__body
+						|         p.ss-case-card__kicker Деревообработка · Вологда
+						|         h3.ss-case-card__title Обвязка 24 паровых калориферов …
+						|         p.ss-case-card__text Диагностика и замена КО …
+						|         .ss-metrics ...
+						|     .ss-case-card__footer
+						|         +ssLink('Читать кейс')
+
 			//- ========== Pills card ==========
 			section.cards-catalog__section#pills-card
 				h3.cards-catalog__section-title .ss-pills-card
