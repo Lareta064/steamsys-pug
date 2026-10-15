@@ -1,0 +1,45 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-solutions-list — карточка-список «Решения по теме» в sticky-sidebar
+// документных страниц (single-article, single-case, single-system).
+// Внутри — <li> с +ssLink({ size: 'md', icon: null, underline: true }).
+// ==============================
+.ss-solutions-list {
+	box-sizing: border-box;
+	padding: 20px;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	background: var(--white);
+}
+
+.ss-solutions-list__title {
+	margin: 0 0 15px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+.ss-solutions-list__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+// Внутри — +ssLink. Между элементами — горизонтальная линия-разделитель
+// (кроме последнего), чтобы ссылки визуально отделялись друг от друга.
+.ss-solutions-list__item {
+	padding: 10px 0;
+	border-bottom: 1px solid var(--secondary2);
+
+	&:first-child {
+		padding-top: 0;
+	}
+
+	&:last-child {
+		padding-bottom: 0;
+		border-bottom: none;
+	}
+}

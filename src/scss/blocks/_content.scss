@@ -104,6 +104,14 @@
 
 
 // ---------- Blockquote ----------
+// Разметка:
+//   blockquote
+//     p «Текст цитаты…»           ← курсив, 15–16px, --primary
+//     cite — Имя автора, должность ← обычный, 14px, --secondary
+//
+// Автор семантически — <cite>. На проде из админки — редактор пишет
+// просто <blockquote><p>…</p><p>— Автор</p></blockquote>, тогда последний
+// <p> ловит стили автора через :last-child-правило ниже.
 :where(.ss-content) blockquote {
 	margin: 20px 0;
 	padding: 15px 20px;
@@ -111,7 +119,32 @@
 	border-left: 4px solid var(--accent2);
 	border-radius: 4px;
 
+	p {
+		font-style: italic;
+	}
+
 	p:last-child { margin-bottom: 0; }
+}
+
+// Автор цитаты. <cite> — семантически правильный тег. Сброс курсива,
+// мельче и бледнее основного текста. На отдельной строке.
+:where(.ss-content) blockquote cite {
+	display: block;
+	margin-top: 10px;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+// Фолбэк: если автор пришёл из WYSIWYG как обычный <p> (а не <cite>),
+// опознаём его по :last-child — у него другая роль, перебиваем курсив.
+:where(.ss-content) blockquote p:last-child:not(:only-child) {
+	margin-top: 10px;
+	font-style: normal;
+	font-size: 14px;
+	color: var(--secondary);
 }
 
 

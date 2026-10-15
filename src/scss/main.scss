@@ -40,6 +40,9 @@
 @use "blocks/_form-row";
 @use "blocks/_filters";
 @use "blocks/_filter-bar";
+@use "blocks/_category-nav";
+@use "blocks/_filter-chip";
+@use "blocks/_pagination-toolbar";
 @use "blocks/_solution-card";
 @use "blocks/_experience-card";
 @use "blocks/_stage-card";
@@ -69,6 +72,11 @@
 @use "blocks/_gallery";
 @use "blocks/_swiper-btn";
 @use "blocks/_slider-side-nav";
+@use "blocks/_doc-layout";
+@use "blocks/_info-pair";
+@use "blocks/_help-card";
+@use "blocks/_solutions-list";
+@use "blocks/_case-details";
 @use "blocks/_content";
 @use "blocks/_toc";
 @use "blocks/_footer-contacts";

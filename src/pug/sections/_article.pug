@@ -1,19 +1,18 @@
 //- ============================================================
 //- Секция одной статьи (используется в pages/single-article.pug).
-//- Полоса с хлебными крошками + двухколоночная раскладка:
-//-   левая: article header (h1 + meta + author) + .ss-content (тело статьи)
-//-   правая (sticky): один .ss-sticky-side со всеми блоками сайдбара
-//-     (TOC, help-card, solutions-list).
-//- Grid переставляет колонки на < $lg через grid-template-areas:
-//-   sidebar → header → content. На мобилке help-card + solutions
-//-   через data-article-extra уезжают под контент (JS — src/js/article.js),
-//-   TOC остаётся сверху (sticky-toggle встроен в компонент .ss-toc).
-//- Все компоненты внутри — универсальные примитивы из UI-каталога.
-//- Стили — src/scss/pages/_single-article.scss.
+//- Строится на универсальной раскладке .ss-doc-layout (blocks/_doc-layout.scss):
+//-   полоса крошек + двухколоночный grid со sticky-sidebar справа.
+//-   Та же раскладка используется в single-case / single-system.
+//-
+//- Внутренняя разметка (header + sidebar-блоки) — специфика статьи:
+//-   header: h1 + meta + author (стили — pages/_single-article.scss)
+//-   sidebar: TOC + .ss-help-card + .ss-solutions-list
+//-   mobile reflow: data-doc-extra / data-doc-mobile-extras + src/js/doc-layout.js
+//- Контент внутри .ss-content — универсальные примитивы из UI-каталога.
 //- ============================================================
 
 //- ==================== Полоса хлебных крошек ====================
-section.ss-single-article__crumbs
+section.ss-doc-layout__crumbs
 	.ss-container.ss-container--narrow.ss-wrapper
 		nav.ss-breadcrumbs(aria-label='Хлебные крошки')
 			ol.ss-breadcrumbs__list
@@ -26,12 +25,12 @@ section.ss-single-article__crumbs
 				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Диагностика
 
 //- ==================== Основная секция ====================
-section.ss-single-article
+section.ss-doc-layout.ss-doc-layout--with-toc.ss-single-article
 	.ss-container.ss-container--narrow.ss-wrapper
-		.ss-single-article__grid
+		.ss-doc-layout__grid
 
 			//- -------------------- Header (h1 + meta + author) --------------------
-			header.ss-single-article__header
+			header.ss-doc-layout__header.ss-single-article__header
 				h1.ss-h3.ss-single-article__title Почему замерзает паровой калорифер и как это предотвратить
 
 				p.ss-single-article__meta
@@ -47,7 +46,7 @@ section.ss-single-article
 					a.ss-single-article__author-link(href='#') Профиль →
 
 			//- -------------------- Main content (левая колонка) --------------------
-			.ss-single-article__main
+			.ss-doc-layout__main
 				.ss-content
 
 					//- Лид-абзац статьи. Стоит вне секций TOC — относится ко всей статье.
@@ -297,7 +296,7 @@ section.ss-single-article
 			//- левой колонки (header → content) не рвался элементом правой.
 			//- Grid-areas ставит aside визуально в правую колонку с span всех
 			//- строк — DOM-порядок на раскладку не влияет.
-			aside.ss-sticky-side.ss-single-article__aside
+			aside.ss-sticky-side.ss-doc-layout__aside
 				//- TOC-карточка (бордер, радиус, паддинг — см. _toc.scss desktop-card)
 				nav.ss-toc.js-toc(aria-label='Оглавление')
 					button.ss-toc__toggle(type='button', aria-expanded='false', aria-controls='ss-article-toc-body')
@@ -316,15 +315,15 @@ section.ss-single-article
 							li.ss-toc__item: a.ss-toc__link(href='#sec-faq') Частые вопросы
 					p.ss-toc__meta 7 минут · 15.03.2025
 
-				//- data-article-extra — крючок JS: на < $lg блок уезжает под контент.
-				.ss-help-card(data-article-extra)
+				//- data-doc-extra — крючок JS: на < $lg блок уезжает под контент.
+				.ss-help-card(data-doc-extra)
 					p.ss-help-card__title Нужна помощь?
 					+ssBtn('Обсудить с инженером', { variant: 'primary', full: true})(data-modal='request-b24')
 					//- +ssBtn('Заполнить опросный лист онлайн', { variant: 'outline-dark', size: 'small', full: true, wrap: true })
 					//- .ss-help-card__link
 					//- 	+ssLink('Обсудить с инженером', { variant: 'dark', size: 'md', icon: null })
 
-				//- .ss-solutions-list(data-article-extra)
+				//- .ss-solutions-list(data-doc-extra)
 				//- 	p.ss-solutions-list__title Решения по теме
 				//- 	ul.ss-solutions-list__list
 				//- 		li.ss-solutions-list__item
@@ -335,9 +334,9 @@ section.ss-single-article
 				//- 			+ssLink('Обвязка теплообменников', { size: 'md', icon: null })
 
 			//- -------------------- Мобильный контейнер для extras --------------------
-			//- Пуст на десктопе. На < $lg JS (src/js/article.js) переносит сюда
-			//- блоки [data-article-extra] из sticky-side (help + solutions).
-			.ss-single-article__mobile-extras(data-article-mobile-extras)
+			//- Пуст на десктопе. На < $lg JS (src/js/doc-layout.js) переносит сюда
+			//- блоки [data-doc-extra] из sticky-side (help + solutions).
+			.ss-doc-layout__mobile-extras(data-doc-mobile-extras)
 
 
 //- ==================== Похожие статьи ====================

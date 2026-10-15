@@ -4,7 +4,7 @@ block variables
 	-var title = "Слайдер товаров (.ss-products-slider)";
 
 block content
-	- var demoItems = [{ img: 'tool1', brand: 'TLV', type: 'Поплавковый', title: 'JX6S', subtitle: 'Поплавковый конденсатоотводчик', specs: [{ k: 'DN', v: '15–80' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 220 °C' }], href: '#' }, { img: 'tool2', brand: 'Spirax Sarco', type: 'Термодинамич.', title: 'JX7S', subtitle: 'Термодинамический конденсатоотводчик', specs: [{ k: 'DN', v: '25–100' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }, { img: 'tool3', brand: 'Gestra', type: 'Термостатич.', title: 'A3N', subtitle: 'Термостатический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 250 °C' }], href: '#' }, { img: 'tool1', brand: 'ADCA', type: 'Биметаллич.', title: 'L21S', subtitle: 'Биметаллический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }, { img: 'tool2', brand: 'TLV', type: 'Поплавковый', title: 'FT14', subtitle: 'Поплавковый конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '25 бар' }, { k: 'Температура', v: 'до 220 °C' }], href: '#' }]
+	- var demoItems = [{ img: 'tool1', brand: 'TLV', title: 'JX6S', alt: 'Поплавковый конденсатоотводчик TLV JX6S', specs: [{ k: 'DN', v: '15–80' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 220 °C' }], href: '#' }, { img: 'tool2', brand: 'Spirax Sarco', title: 'JX7S', alt: 'Термодинамический конденсатоотводчик Spirax JX7S', specs: [{ k: 'DN', v: '25–100' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }, { img: 'tool3', brand: 'Gestra', title: 'A3N', alt: 'Термостатический конденсатоотводчик Gestra A3N', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 250 °C' }], href: '#' }, { img: 'tool1', brand: 'ADCA', title: 'L21S', alt: 'Биметаллический конденсатоотводчик ADCA L21S', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }, { img: 'tool2', brand: 'TLV', title: 'FT14', alt: 'Поплавковый конденсатоотводчик TLV FT14', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '25 бар' }, { k: 'Температура', v: 'до 220 °C' }], href: '#' }]
 
 	.container-dashboard.ss-wrapper
 		h2.db-h2 Слайдер товаров (.ss-products-slider)
@@ -12,13 +12,19 @@ block content
 		.container-dashboard__content
 
 			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
-				| Слайдер похожих товаров для страницы карточки. Полная карточка
+				| Слайдер похожих товаров для страницы карточки. Используется та же карточка
 				code .ss-product-card
-				|  (теги, заголовок, подзаголовок, спецификации, кнопка). Стрелки над слайдером — паттерн
+				| , что в каталоге. Равная высота слайдов — в
+				code _product-similar.scss
+				| :
+				code height:unset + min-height:100% + display:flex
+				|  на
+				code .swiper-slide
+				| ,
+				code flex:1
+				|  на карточке. Стрелки над слайдером —
 				code .ss-slider-nav.ss-slider-nav--accent
-				| . Стили —
-				code src/scss/sections/_product-similar.scss
-				| , JS —
+				| . JS —
 				code src/js/similar-swiper.js
 				| .
 				br
@@ -42,23 +48,18 @@ block content
 								each item in demoItems
 									.swiper-slide
 										article.ss-product-card
-											.ss-product-card__img
+											a.ss-product-card__media(href=item.href aria-label=`Открыть карточку товара ${item.title}`)
 												picture
 													source(srcset=`${basePath}img/${item.img}.webp 1x, ${basePath}img/${item.img}@2x.webp 2x`)
-													img.ss-img-contain(src=`${basePath}img/${item.img}.webp` width='235' height='160' alt=item.title loading='lazy' decoding='async')
-												.ss-tag-group
-													span.ss-tag.ss-tag--dark= item.brand
-													span.ss-tag.ss-tag--gray= item.type
-												h3.ss-semi-20
-													a(href=item.href)= item.title
-												if item.subtitle
-													p.ss-reg-14.ss-txt-secondary= item.subtitle
-												dl.ss-product-card__specs
-													each s in item.specs
-														.ss-product-card__specs-row
-															dt= s.k
-															dd= s.v
-												+ssBtn('Запросить КП', { variant: 'dark', full: true })
+													img(src=`${basePath}img/${item.img}.webp` width='235' height='160' alt=item.alt loading='lazy' decoding='async')
+											p.ss-product-card__brand= item.brand
+											h3.ss-product-card__title
+												a(href=item.href)= item.title
+											dl.ss-product-card__specs
+												each s in item.specs
+													.ss-product-card__specs-row
+														dt= s.k
+														dd= s.v
 							.swiper-pagination
 
 			section.breadcrumbs-catalog__section
@@ -77,18 +78,13 @@ block content
 						|         .swiper-wrapper
 						|             .swiper-slide
 						|                 article.ss-product-card
-						|                     .ss-product-card__img
-						|                         picture
-						|                             img(src='...', alt='', loading='lazy', decoding='async')
-						|                     .ss-tag-group
-						|                         span.ss-tag.ss-tag--dark Бренд
-						|                         span.ss-tag.ss-tag--gray Тип
-						|                     h3.ss-semi-20
-						|                         a(href='#') Название
-						|                     p.ss-reg-14.ss-txt-secondary Подзаголовок
+						|                     a.ss-product-card__media(href='#')
+						|                         img(src='...', alt='', loading='lazy', decoding='async')
+						|                     p.ss-product-card__brand TLV
+						|                     h3.ss-product-card__title
+						|                         a(href='#') JX45
 						|                     dl.ss-product-card__specs
 						|                         .ss-product-card__specs-row
-						|                             dt Параметр
-						|                             dd Значение
-						|                     +ssBtn('Запросить КП', { variant: 'dark', full: true })
+						|                             dt DN
+						|                             dd 15–50
 						|         .swiper-pagination

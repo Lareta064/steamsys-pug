@@ -1,0 +1,100 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Filter chip (.ss-filter-chip)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Filter chip (.ss-filter-chip)
+
+		.container-dashboard__content
+
+			p.tags-catalog__intro.ss-reg-14.ss-txt-secondary
+				| Плашка применённого фильтра — используется в toolbar каталога под строкой с сортировкой. Семантика: сам чип — некликабельный
+				code span
+				| , интерактивна только иконка «×» (отдельный
+				code button
+				| ) — она снимает соответствующий фильтр. Стили —
+				code src/scss/blocks/_filter-chip.scss
+				| .
+
+			//- ===== Варианты =====
+			h3.tags-catalog__section-title Варианты
+
+			h4.tags-catalog__subtitle Стандартный чип (label + value + кнопка «×»)
+			.tags-catalog__demo(style="gap:8px; flex-wrap: wrap;")
+				span.ss-filter-chip
+					span.ss-filter-chip__label Тип:
+					span.ss-filter-chip__value Конденсатоотводчик
+					button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: тип, конденсатоотводчик')
+						+svgIcon('cross')
+				span.ss-filter-chip
+					span.ss-filter-chip__label Бренд:
+					span.ss-filter-chip__value TLV
+					button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: бренд, TLV')
+						+svgIcon('cross')
+				span.ss-filter-chip
+					span.ss-filter-chip__label Подбор:
+					span.ss-filter-chip__value По параметрам
+					button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: подбор по параметрам')
+						+svgIcon('cross')
+
+			p.tags-catalog__hint.ss-reg-14.ss-txt-secondary(style="margin-top:16px;")
+				| При наведении на чип иконка подсвечивается белым фоном (визуальный намёк «нажми, чтобы удалить»). Прямой hover на иконку — заливка
+				code --accent1
+				| с белым крестиком.
+
+			h4.tags-catalog__subtitle Модификатор .ss-filter-chip--reset (самостоятельная кнопка «Сбросить всё»)
+			p.tags-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Без иконки, кликабельна целиком. Hover —
+				code --accent1
+				|  (рамка и текст). Обычно последним элементом ряда.
+			.tags-catalog__demo(style="gap:8px;")
+				button.ss-filter-chip.ss-filter-chip--reset(type='button') Сбросить всё
+
+			//- ===== Полный ряд (как в toolbar каталога) =====
+			h3.tags-catalog__section-title Полный ряд (как в toolbar каталога)
+			p.tags-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Обёртка — flex row с
+				code gap: 8
+				|  и
+				code flex-wrap: wrap
+				| . В каталоге используется класс
+				code .ss-catalog__toolbar-meta
+				| , но тот же эффект даёт любой flex-ряд.
+
+			.tags-catalog__demo
+				.ss-catalog__toolbar-meta(aria-label='Применённые фильтры')
+					span.ss-filter-chip
+						span.ss-filter-chip__label Тип:
+						span.ss-filter-chip__value Конденсатоотводчик
+						button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: тип')
+							+svgIcon('cross')
+					span.ss-filter-chip
+						span.ss-filter-chip__label Бренд:
+						span.ss-filter-chip__value TLV
+						button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: бренд')
+							+svgIcon('cross')
+					span.ss-filter-chip
+						span.ss-filter-chip__label DN:
+						span.ss-filter-chip__value 15–50 мм
+						button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: DN')
+							+svgIcon('cross')
+					button.ss-filter-chip.ss-filter-chip--reset(type='button') Сбросить всё
+
+			//- ===== Сниппет =====
+			h3.tags-catalog__section-title Сниппеты
+
+			h4.tags-catalog__subtitle Один чип
+			pre.tags-catalog__snippet
+				code
+					| span.ss-filter-chip
+					|     span.ss-filter-chip__label Тип:
+					|     span.ss-filter-chip__value Конденсатоотводчик
+					|     button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: тип')
+					|         +svgIcon('cross')
+
+			h4.tags-catalog__subtitle «Сбросить всё»
+			pre.tags-catalog__snippet
+				code
+					| button.ss-filter-chip.ss-filter-chip--reset(type='button') Сбросить всё

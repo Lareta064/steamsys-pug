@@ -1,0 +1,129 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-filter-chip — plашка применённого фильтра в toolbar каталога.
+// Сам чип — некликабельная обёртка (span). Интерактивна только иконка «×»
+// (кнопка `.ss-filter-chip__icon`), которая снимает соответствующий фильтр.
+//
+// Разметка:
+//   span.ss-filter-chip
+//     span.ss-filter-chip__label Тип:
+//     span.ss-filter-chip__value Конденсатоотводчик
+//     button.ss-filter-chip__icon(type='button' aria-label='Убрать фильтр: ...')
+//       +svgIcon('cross')
+//
+// Модификатор:
+//   --reset — самостоятельная кнопка «Сбросить всё», без иконки.
+//             Применяется к `button.ss-filter-chip.ss-filter-chip--reset`.
+// ==============================
+
+.ss-filter-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	min-height: 32px;
+	padding: 5px 6px 5px 12px;
+	border: 1px solid var(--secondary2);
+	border: 1px solid var(--accent1);
+	border-radius: 18px;
+	background: var(--white);
+	background: var(--accent1);
+	color: var(--primary);
+	color: var(--white);
+	font-family: var(--font-family);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.4;
+}
+
+.ss-filter-chip__label,
+.ss-filter-chip__value {
+	color: inherit;
+}
+
+.ss-filter-chip__value {
+	font-weight: 500;
+}
+
+// Круглая кнопка-иконка «×» — единственный интерактивный элемент чипа.
+.ss-filter-chip__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: var(--secondary3);
+	color: inherit;
+	cursor: pointer;
+	transition: background-color .16s ease, color .16s ease;
+
+	svg {
+		width: 8px;
+		height: 8px;
+	}
+
+	&:hover {
+		background: var(--accent1);
+		color: var(--white);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent3);
+		outline-offset: 2px;
+	}
+}
+
+// При наведении на родительский чип — иконка подсвечивается белым фоном
+// (визуальный намёк, что иконку сейчас можно нажать).
+.ss-filter-chip:hover .ss-filter-chip__icon {
+	background: var(--white);
+}
+
+// Модификатор «Сбросить всё» — самостоятельная кнопка, визуально отделена
+// от чипов. Стиль «акцентная текст-ссылка»: без фона и рамки, подчёркнутый
+// текст акцентного цвета. Слева — вертикальная линия-разделитель, отделяет
+// от последнего чипа в ряду.
+.ss-filter-chip--reset {
+	position: relative;
+	padding: 5px 10px 5px 24px;
+	border: none;
+	background: transparent;
+	color: var(--accent1);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+	cursor: pointer;
+	transition: color .16s ease;
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: 8px;
+		top: 50%;
+		width: 1px;
+		height: 16px;
+		background: var(--secondary2);
+		transform: translateY(-50%);
+	}
+
+	&:hover {
+		color: var(--primary);
+		text-decoration-color: var(--primary);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent3);
+		outline-offset: 2px;
+		border-radius: 4px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ss-filter-chip__icon,
+	.ss-filter-chip--reset {
+		transition: none;
+	}
+}

@@ -45,6 +45,34 @@
 .ss-txt-error      { color: var(--error) !important; }
 
 
+// ==== Отступы (spacing utilities) ====
+// Утилиты обнуления паддингов. !important — чтобы перебить базовые
+// padding-block у .ss-section (70/60/50).
+//
+// Пример: .ss-section.ss-pt-0 — секция без верхнего паддинга. Полезно,
+// когда фон секции совпадает с фоном шапки/предыдущего блока и штатный
+// padding-top визуально выглядит как лишний просвет.
+.ss-pt-0 { padding-top: 0 !important; }
+.ss-pb-0 { padding-bottom: 0 !important; }
+
+
+// ==== A11y ====
+// .ss-visually-hidden — визуально скрытый контент, доступный скрин-ридерам.
+// Для label'ов полей, у которых визуальной подписи нет (иконки-кнопки,
+// поиск внутри фильтра и т.п.).
+.ss-visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+
 // ==== Обрезка ====
 .ss-txt-truncate {
 	overflow: hidden;

@@ -1,0 +1,56 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-case-details — карточка «Детали проекта» в sticky-sidebar
+// страницы кейса (single-case). Список пар «ключ: значение» —
+// клиент, отрасль, регион, тип решения, оборудование, год.
+//
+// Та же визуальная логика, что .ss-help-card / .ss-solutions-list
+// (белая карточка, граница --secondary2, радиус 10, паддинг 20).
+// ==============================
+.ss-case-details {
+	box-sizing: border-box;
+	padding: 20px;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	background: var(--white);
+}
+
+.ss-case-details__title {
+	margin: 0 0 15px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+.ss-case-details__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+// Каждая строка — две колонки: key (серый) слева, value (чёрный) справа.
+// grid-template-columns auto 1fr: key занимает ширину по контенту,
+// value — остаток. Все value выравниваются по одной вертикали.
+.ss-case-details__item {
+	display: grid;
+	grid-template-columns: 110px 1fr;
+	column-gap: 15px;
+	font-family: var(--font-family);
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.ss-case-details__key {
+	color: var(--secondary);
+}
+
+.ss-case-details__value {
+	color: var(--primary);
+	font-weight: 600;
+}

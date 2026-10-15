@@ -1,0 +1,73 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-help-card — мини-карточка в sticky-sidebar: кнопка/ссылка + опциональная
+// надпись-сноска. Используется в документных страницах (single-article,
+// single-case, single-system).
+//
+// Структура:
+//   .ss-help-card
+//     p.ss-help-card__title                — опциональный заголовок
+//     p.ss-help-card__text                 — опциональный текст-описание
+//     [+ssBtn / +ssLink]                   — одна или несколько CTA
+//     p.ss-help-card__footnote             — опциональная сноска под CTA
+//
+// Модификаторы:
+//   --tinted — серый фон (--secondary3), без границы. Используется, когда
+//              карточка играет роль «акцентного» блока в sidebar (например,
+//              CTA на калькулятор на странице кейса).
+// ==============================
+.ss-help-card {
+	box-sizing: border-box;
+	padding: 20px;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	background: var(--white);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	.ss-btn{font-size: 14px;}
+}
+
+.ss-help-card--tinted {
+	background: var(--secondary3);
+	border-color: transparent;
+}
+
+.ss-help-card__title {
+	margin: 0 0 5px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+// Описательный текст внутри карточки (обычно между title и CTA).
+.ss-help-card__text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+// Мелкая сноска под CTA (например, «Ответим в течение 4 часов в рабочее время»).
+// Центрирована, серый текст, отступ сверху — визуальная подложка под кнопкой.
+.ss-help-card__footnote {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary);
+	text-align: center;
+}
+
+// Обёртка над +ssLink — держит layout (центрирование в flex-колонке карточки).
+// Сама ссылка стилизуется .ss-link (см. base/_ss-link.scss).
+.ss-help-card__link {
+	align-self: center;
+	margin-top: 5px;
+}

@@ -1,0 +1,106 @@
+@use '../base/_var' as *;
+
+// ==============================
+// .ss-pagination-toolbar — обёртка под нижним toolbar каталога:
+// белая карточка с summary слева и .ss-pagination справа.
+//
+// Разметка:
+//   .ss-pagination-toolbar
+//     p.ss-pagination-toolbar__summary
+//       | Показано <strong>24</strong> из <strong>126</strong>
+//       span.ss-pagination-toolbar__summary-models  моделей
+//     nav.ss-pagination(aria-label='Страницы каталога')
+//       ol.ss-pagination__list
+//         li.ss-pagination__item ... prev / page / next
+//
+// Переопределяет геометрию .ss-pagination:
+//   · nowrap-ряд (не стекается на мобиле — сжимается gap'ом)
+//   · квадратные кнопки с radius 8 (вместо 6 базовых)
+//   · .ss-pagination__link--nav становится квадратной 40×40 с рамкой
+//     (в базе — текстовая ссылка «Следующая →» без рамки)
+//   · .ss-pagination__arrow--prev — модификатор для rotation 180°
+//
+// Compact-hidden утилита — скрыть ненужные `<li>` на <$md,
+// чтобы ряд пагинации помещался на узких экранах.
+// ==============================
+
+.ss-pagination-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	width: 100%;
+	min-height: 56px;
+	margin-top: 28px;
+	padding: 8px 20px;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	background: var(--white);
+}
+
+.ss-pagination-toolbar__summary {
+	margin: 0;
+	font-size: 16px;
+	white-space: nowrap;
+}
+
+// Переопределения .ss-pagination в scope toolbar'а.
+.ss-pagination-toolbar .ss-pagination__list {
+	flex-wrap: nowrap;
+	gap: 12px;
+}
+
+.ss-pagination-toolbar .ss-pagination__link {
+	border-radius: 8px;
+}
+
+// Квадратная стрелка-навигация 40×40 (в базе — текстовая ссылка).
+.ss-pagination-toolbar .ss-pagination__link--nav {
+	width: 40px;
+	padding: 0;
+	border: 1px solid var(--secondary2);
+	background: var(--white);
+	color: var(--primary);
+
+	&:hover {
+		background: var(--secondary3);
+		color: var(--primary);
+	}
+}
+
+// Prev-стрелка — та же иконка arrow-right с поворотом 180°.
+.ss-pagination__arrow--prev svg {
+	transform: rotate(180deg);
+}
+
+// Отключённое состояние (например, prev на первой странице).
+.ss-pagination-toolbar .ss-pagination__link[aria-disabled="true"] {
+	color: var(--secondary2);
+	cursor: default;
+	pointer-events: none;
+}
+
+@include down($md) {
+	// На узких экранах стекуем в колонку, снимаем рамку/padding/margin —
+	// иначе компактная пагинация + summary вызывают горизонтальный скролл.
+	.ss-pagination-toolbar {
+		flex-direction: column;
+		align-items: flex-start;
+		min-height: 0;
+		margin-top: 0;
+		padding: 0;
+		border: none;
+		background: transparent;
+	}
+
+	// Скрываем слово «моделей» и помеченные compact-hidden элементы
+	// пагинации (напр. промежуточные цифры).
+	.ss-pagination-toolbar__summary-models,
+	.ss-pagination-toolbar__item--compact-hidden {
+		display: none;
+	}
+
+	.ss-pagination-toolbar .ss-pagination__list {
+		gap: 6px;
+	}
+}

@@ -1,4 +1,4 @@
-- var productSimilarItems = [{ img: 'tool1', brand: 'TLV', type: 'Поплавковый', title: 'JX6S', subtitle: 'Поплавковый конденсатоотводчик', specs: [{ k: 'DN', v: '15–80' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 220 °C' }], href: '#' }, { img: 'tool2', brand: 'Spirax Sarco', type: 'Термодинамич.', title: 'JX7S', subtitle: 'Термодинамический конденсатоотводчик', specs: [{ k: 'DN', v: '25–100' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }, { img: 'tool3', brand: 'Gestra', type: 'Термостатич.', title: 'A3N', subtitle: 'Термостатический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 250 °C' }], href: '#' }, { img: 'tool1', brand: 'ADCA', type: 'Биметаллич.', title: 'L21S', subtitle: 'Биметаллический конденсатоотводчик', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }]
+- var productSimilarItems = [{ img: 'tool1', brand: 'TLV', title: 'JX6S', alt: 'Поплавковый конденсатоотводчик TLV JX6S', specs: [{ k: 'DN', v: '15–80' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 220 °C' }], href: '#' }, { img: 'tool2', brand: 'Spirax Sarco', title: 'JX7S', alt: 'Термодинамический конденсатоотводчик Spirax JX7S', specs: [{ k: 'DN', v: '25–100' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }, { img: 'tool3', brand: 'Gestra', title: 'A3N', alt: 'Термостатический конденсатоотводчик Gestra A3N', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '40 бар' }, { k: 'Температура', v: 'до 250 °C' }], href: '#' }, { img: 'tool1', brand: 'ADCA', title: 'L21S', alt: 'Биметаллический конденсатоотводчик ADCA L21S', specs: [{ k: 'DN', v: '15–50' }, { k: 'PN', v: '16 бар' }, { k: 'Температура', v: 'до 300 °C' }], href: '#' }]
 
 section.ss-section.ss-products-slider
 	.ss-container.ss-wrapper
@@ -14,21 +14,16 @@ section.ss-section.ss-products-slider
 				each item in productSimilarItems
 					.swiper-slide
 						article.ss-product-card
-							.ss-product-card__img
+							a.ss-product-card__media(href=item.href aria-label=`Открыть карточку товара ${item.title}`)
 								picture
 									source(srcset=`./img/${item.img}.webp 1x, ./img/${item.img}@2x.webp 2x`)
-									img.ss-img-contain(src=`./img/${item.img}.webp` width='235' height='160' alt=item.title loading='lazy' decoding='async')
-							.ss-tag-group
-								span.ss-tag.ss-tag--dark= item.brand
-								span.ss-tag.ss-tag--gray= item.type
-							h3.ss-semi-20
+									img(src=`./img/${item.img}.webp` width='235' height='160' alt=item.alt loading='lazy' decoding='async')
+							p.ss-product-card__brand= item.brand
+							h3.ss-product-card__title
 								a(href=item.href)= item.title
-							if item.subtitle
-								p.ss-reg-14.ss-txt-secondary= item.subtitle
 							dl.ss-product-card__specs
 								each s in item.specs
 									.ss-product-card__specs-row
 										dt= s.k
 										dd= s.v
-							+ssBtn('Запросить КП', { variant: 'dark', full: true })
 			.swiper-pagination

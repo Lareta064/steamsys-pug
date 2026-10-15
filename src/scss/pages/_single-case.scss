@@ -1,10 +1,159 @@
 @use '../base/_var' as *;
 
-// ==============================
-// single-case — стили страницы одного кейса (build/single-case.html).
-// Заготовка; стили секций добавляются по мере вёрстки.
-// ==============================
+// ==============================================================
+// single-case — страница одного кейса (build/single-case.html).
+// Специфика страницы: header (теги + h1 + метрики результатов).
+//
+// Общая раскладка (crumbs + grid + sticky-sidebar + mobile-extras) —
+// в универсальном блоке .ss-doc-layout (blocks/_doc-layout.scss).
+// Боковая карточка «Детали проекта» — .ss-case-details (blocks/_case-details.scss).
+// ==============================================================
 
-.ss-single-case {
-	padding-top: var(--header-height, 100px);
+
+// ---------- Header кейса (теги + h1 + метрики) ----------
+.ss-single-case__header {
+	margin-bottom: 30px;
+
+	@include down($md) {
+		margin-bottom: 20px;
+	}
+}
+
+.ss-single-case__tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0 0 20px;
+	padding: 0;
+	list-style: none;
+}
+
+.ss-single-case__title {
+	margin: 0 0 30px;
+	color: var(--primary);
+}
+
+// Метрики в header'е (−15% / 12 КО / 6 мес.) — переиспользуют
+// универсальный блок .ss-metrics.ss-metrics--light (blocks/_metrics.scss).
+// Здесь оставляем только внешний margin — задаём визуальный ритм секции.
+.ss-single-case__header .ss-metrics--light {
+	margin: 0 0 20px;
+}
+
+
+// ---------- Мета-строка под метриками (Отрасль / Регион / Год) ----------
+// Паттерн key/value, как в .ss-case-card__meta: ключ серый с «:»,
+// значение жирное тёмное. На десктопе — flex-ряд с горизонтальным gap'ом,
+// пары не разрываются (внутри dt+dd — nowrap). На моб — стек в колонку.
+.ss-single-case__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 24px;
+	margin: 0;
+	padding: 0;
+	font-family: var(--font-family);
+	font-size: 14px;
+	line-height: 1.4;
+
+	@include down($md) {
+		flex-direction: column;
+		gap: 6px;
+	}
+}
+
+.ss-single-case__meta-item {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 6px;
+}
+
+.ss-single-case__meta-key {
+	margin: 0;
+	color: var(--secondary);
+	font-weight: 400;
+}
+
+.ss-single-case__meta-value {
+	margin: 0;
+	color: var(--primary);
+	font-weight: 600;
+}
+
+
+// ---------- Мини-поля в секции «Объект» (внутри .ss-content) ----------
+// Паттерн: uppercase серый label сверху + значение обычным текстом снизу.
+// Используется как лёгкая замена .ss-fact-card, когда нужно показать
+// несколько метаданных без визуальной «карточки». Вертикальный стек
+// внутри section, между полями — просвет через margin.
+.ss-single-case__field {
+	margin: 0 0 20px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+// Uppercase мелкий серый label. Специфичность 0-1-0, перебивает стили
+// .ss-content p (0-0-2 → :where lowered to 0-0-1), поэтому класс
+// применяется напрямую — font/color/letter-spacing правильно наследуются.
+.ss-single-case__field-label {
+	margin: 0 0 6px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 12px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: var(--secondary);
+	text-transform: uppercase;
+}
+
+
+// ---------- Слайдер «Похожие кейсы» внутри main-колонки ----------
+// Компактный слайдер под .ss-content: без собственного фона / паддинга /
+// radius (встаёт «в поток» колонки). Внутри — Swiper с триггером
+// .js-cases-slider-inline (конфиг — src/js/cases-slider.js, второй блок):
+// 1 слайд на моб, 2 слайда ≥600, фикс. gap 15px, пагинация-полоски.
+.ss-single-case__related-slider {
+	margin-top: 40px;
+
+	@include down($md) {
+		margin-top: 30px;
+	}
+
+	// Заголовок секции — размер как у h2 внутри .ss-content (clamp 22↔28),
+	// чтобы «Похожие кейсы» визуально встал в один ряд с заголовками секций
+	// выше (Ситуация, Результат и т. п.). .ss-section-header использует h2
+	// без .ss-h2-утилиты — безопасно задаём размер напрямую.
+	.ss-section-header h2 {
+		font-size: clamp(22px, 0.51vw + 18.20px, 28px);
+		font-weight: 700;
+		line-height: 1.3;
+		margin: 0;
+	}
+
+	// Equal-height карточек в ряду. Пустой padding у слайда даёт воздух
+	// под box-shadow карточки (чтобы тень не обрезалась краями swiper'а).
+	.js-cases-slider-inline .swiper-slide {
+		height: auto;
+		min-height: 100%;
+		display: flex;
+		padding: 5px;
+
+		.ss-case-card {
+			flex: 1;
+		}
+	}
+
+	// На моб пагинация-полоски под слайдером избыточна — доступен свайп,
+	// индикация прогресса не критична в узкой колонке. Убираем её вместе
+	// с нижним padding'ом swiper'а, который резервировался под неё.
+	@include down($md) {
+		.swiper.swiper-pb {
+			padding-bottom: 0;
+		}
+
+		.swiper-pagination {
+			display: none;
+		}
+	}
 }
