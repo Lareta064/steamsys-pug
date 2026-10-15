@@ -1,11 +1,11 @@
 @use '../base/_var' as *;
 
 // ==============================================================
-// .ss-toc — «Содержание» статьи. Список ссылок на секции (h2/h3).
+// .ss-toc — «Содержание» (список ссылок на секции h2/h3 на странице).
 // Active-ссылка получает aria-current="location" по мере скролла
 // (JS — src/js/toc.js, IntersectionObserver-based).
 //
-// Разметка:
+// Разметка (простой вариант — single-article):
 //   nav.ss-toc.js-toc(aria-label='Оглавление')
 //     button.ss-toc__toggle(...)        ← только на < $lg (мобильный аккордеон)
 //       span Содержание
@@ -15,7 +15,15 @@
 //       ul.ss-toc__list
 //         li.ss-toc__item
 //           a.ss-toc__link(href='#section-id') Название секции
-//         ...
+//
+// Разметка со счётчиком в конце строки (хаб калькуляторов):
+//           a.ss-toc__link(href='#section-id')
+//             span.ss-toc__label Пар
+//             span.ss-toc__count 8
+//
+// __link сам по себе flex row — без обёртки __label просто текст-child
+// работает как flex-item. С обёрткой __label можно рядом разместить __count
+// (pill-плашка справа) — компонентное расширение.
 //
 // Behavior:
 //   - Desktop (≥ $lg): нав всегда развёрнут, sticky-контекст задаёт
@@ -168,7 +176,12 @@
 }
 
 .ss-toc__link {
-	display: block;
+	// Flex row: по умолчанию работает с текстом-child как flex-item.
+	// При расширенной разметке (span.__label + span.__count) label занимает
+	// всё свободное место, count прижимается к правому краю.
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	padding: 8px 12px;
 	font-family: var(--font-family);
 	font-weight: 400;
@@ -192,4 +205,31 @@
 		background: var(--secondary3);
 		border-left:3px solid var(--accent3);
 	}
+}
+
+// Label — забирает всё свободное место слева от count. min-width: 0
+// позволяет длинному заголовку корректно переноситься.
+.ss-toc__label {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+// Pill-счётчик справа. Мягкий фон --secondary2, сохраняется во всех
+// состояниях (hover / active) — визуально «висит» на подкрашенном фоне
+// пункта (тот же паттерн, что у .ss-cat-list__count).
+.ss-toc__count {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 24px;
+	height: 20px;
+	padding: 0 6px;
+	border-radius: 4px;
+	background: var(--secondary2);
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1;
 }

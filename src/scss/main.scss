@@ -77,6 +77,7 @@
 @use "blocks/_help-card";
 @use "blocks/_solutions-list";
 @use "blocks/_case-details";
+@use "blocks/_calc-card";
 @use "blocks/_content";
 @use "blocks/_toc";
 @use "blocks/_footer-contacts";
@@ -139,6 +140,7 @@
 @use "pages/_cases-page";
 @use "pages/_single-product";
 @use "pages/_single-case";
+@use "pages/_calculators";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

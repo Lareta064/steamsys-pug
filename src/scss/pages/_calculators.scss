@@ -1,0 +1,111 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// calculators — страница-хаб всех инженерных калькуляторов
+// (build/calculators.html).
+//
+// Структура (сверху вниз):
+//   · header
+//   · hero тёмный с фоновой картинкой (calc-hero) и 3 бейджами
+//   · 3 feature-карточки входа (энергетика / трубопроводы / точный расчёт)
+//   · основная секция: якорная навигация слева (sticky, TOC) +
+//     справа 6 категорий с grid'ом .ss-calc-card
+//     — переиспользует .ss-doc-layout.ss-doc-layout--with-toc
+//   · CTA «Нужна точность?» — .ss-cta-card
+//   · 3 шага методологии — .ss-feature-card с цифрой-номером
+//   · форма точного расчёта — _feedback-b24-inner
+//   · footer
+// ==============================================================
+
+.ss-calculators {
+	// padding-top компенсирует fixed-шапку только если первая секция
+	// не берёт это на себя. Hero-inner__crumbs уже имеет
+	// padding-top: calc(14px + var(--header-height)) — поэтому padding-top
+	// здесь не нужен, оставляем ноль.
+}
+
+
+// ---------- Ряд бейджей в hero (3 pill-тега под lead'ом) ----------
+// Цвета/геометрия тегов — из общего правила .ss-hero-inner .ss-tag--mini
+// (см. _hero-inner.scss). Здесь — только layout-ряд.
+.calc-page__hero-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 20px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+
+// ==============================================================
+// .ss-calc-catalog — основная секция хаба со sticky якорной навигацией.
+// Переиспользует раскладку .ss-doc-layout.--with-toc (см. _doc-layout.scss),
+// но ПЕРЕКЛАДЫВАЕТ sidebar В ЛЕВУЮ колонку (page-specific). Если паттерн
+// понадобится ещё где — вынесем в модификатор .ss-doc-layout--aside-left.
+// ==============================================================
+
+// Sidebar слева + без header-ряда (главный заголовок страницы живёт
+// в предыдущей секции _calc-intro, grid-area header тут не нужна).
+// На < $lg — тоже без header-ряда: sidebar сверху → content → extras.
+.ss-calc-catalog .ss-doc-layout__grid {
+	grid-template-columns: 320px 1fr;
+	grid-template-areas:
+		'sidebar content'
+		'sidebar extras';
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			'sidebar'
+			'content'
+			'extras';
+	}
+}
+
+// Группа одной категории. Между соседними — просвет и разделительная линия
+// сверху (кроме первой). Заголовок категории — h2.ss-h5 (reuse типографики
+// из _typography.scss, не плодим свой класс с тем же размером). Ритм секции
+// — margin под заголовком — задаём scoped-правилом через родительский класс.
+.ss-calc-catalog__group {
+	.ss-grid { row-gap: 10px; }
+
+	// margin-bottom у заголовка категории — специфика секции-реализатора.
+	// Селектор по классу через родителя (не по тегу — см. REDESIGN_RULES.md
+	// «Селекторы: по классам, а не по тегам»).
+	> .ss-h5 {
+		margin: 0 0 20px;
+	}
+
+	& + & {
+		margin-top: 50px;
+		padding-top: 50px;
+		border-top: 1px solid var(--secondary2);
+
+		@include down($md) {
+			margin-top: 40px;
+			padding-top: 40px;
+		}
+	}
+}
+
+
+
+// ==============================================================
+// .ss-calc-howto — секция «3 шага работы с калькуляторами».
+// Reuse .ss-feature-card: цифра-номер шага подаётся в .__icon
+// как <span>, перебиваем визуал — большое число акцентного цвета
+// вместо картинки-иконки.
+// ==============================================================
+.ss-calc-howto__num {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 32px;
+	line-height: 1;
+	color: var(--accent1);
+}
