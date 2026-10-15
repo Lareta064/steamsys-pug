@@ -27,14 +27,15 @@
 	background: var(--white);
 	border: 1px solid var(--secondary2);
 	border-left: 3px solid var(--secondary2);
+	border-left: 3px solid var(--accent1);
 	border-radius: 10px;
 	transition: border-color .2s ease;
 
 	&:hover,
 	&:focus-within {
-		border: 1px solid transparent;
+		border: 1px solid var(--accent1);
 		border-left: 3px solid var(--accent1);
-		background-color: var(--secondary3);
+		
 	}
 
 	@include down($md) {
