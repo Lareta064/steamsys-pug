@@ -18,6 +18,108 @@ All meaningful project context lives in the repo (files above + git history). An
 
 Local Claude memory files at `~/.claude/projects/…/memory/` are **not** synced via git and do **not** need to be. The repo is the single source of truth. On a fresh machine, start by reading `REDESIGN_RULES.md` and `TASKS.md`, then run `git log --oneline -30` — that's all it takes.
 
+## Отношение к production-репо (`steamsys/local/`)
+
+Этот проект (`steamsys-pug/`) — **upstream-источник UI Framework** для production-репо Битрикса `../steamsys/local/`. После верстки Лорета вручную копирует собранный `build/` в два места:
+
+- `build/ui/` + `build/css/` + `build/js/` → `../steamsys/local/steam-systems-ui/ui-framework/` (эталонный UI Framework)
+- Собранные страницы → `../steamsys/local/verstka/` (production implementations)
+
+**Внешние правила проекта** лежат в production-репо и действуют и для нас, т.к. мы — источник всего, что туда попадает:
+
+- `../steamsys/local/AGENTS.md` — базовый роутер и Git-правила для командной работы
+- `../steamsys/local/UI_GUIDE.md` — обязательный роутер для UI/frontend-задач, Source of Truth, классы изменений A–D, DESIGN SYSTEM GAP, Review gate (Лоретта)
+
+**Mapping понятий** (production → upstream):
+| production (`steamsys/local/…`) | upstream (`steamsys-pug/…`) |
+| --- | --- |
+| `steam-systems-ui/ui-framework/ui/` | `src/pug/ui/` + `src/scss/blocks/` + `src/scss/base/` |
+| `steam-systems-ui/ui-framework/css/main.css` | `build/css/main.css` (из `src/scss/`) |
+| `steam-systems-ui/ui-framework/js/main.js` | `build/js/main.js` (concat из `src/js/`) |
+| `steam-systems-ui/ui-framework/ui/docs.html` (section index) | `src/pug/ui/ui-navigation.pug` |
+| `verstka/` (page implementations) | `src/pug/pages/*.pug` |
+| `wireframes/` | внешние: ссылки `kogit.ru/steamsys/wireframes/…` даёт Лорета |
+| `specifications/` | в их репо; читаем как source of truth, не меняем |
+
+**Никогда не пиши в `../steamsys/local/`** — это рабочая директория Битрикса, синхронизация идёт только через копирование `build/` руками Лореты.
+
+## Workflow для UI-задач: SEARCH → UNDERSTAND → REUSE → EXTEND → CREATE
+
+Перед версткой любого нового блока (на странице или компоненте):
+
+1. **SEARCH** — `Grep` по `src/scss/blocks/`, `src/scss/base/`, `src/pug/ui/`, `REDESIGN_RULES.md`. Поиск нельзя ограничивать текущей страницей или папкой задачи.
+2. **UNDERSTAND** — прочитать найденный компонент: его variants, зависимости, где уже используется (`Grep` по `src/pug/`).
+3. **REUSE** — если подходит, использовать как есть.
+4. **EXTEND** — если нужен вариант, добавить модификатор (`--compact`, `--light`, `--tinted`…) в существующий блок. Не создавать параллельный блок.
+5. **CREATE** — только если шаги A–C не покрывают задачу.
+
+Создавать параллельную реализацию без этой проверки нельзя. Отсутствие компонента в текущей папке ≠ его отсутствие в проекте.
+
+### Классы изменений (явно называть в коммуникации)
+
+| Класс | Когда применяется |
+| --- | --- |
+| **A — REUSE AS IS** | Компонент подходит без изменений |
+| **B — REUSE WITH VARIANT** | Нужен модификатор (`--compact`, `--light`, `--tinted`…) к существующему блоку |
+| **C — ADAPT** | Системное расширение базового компонента (с обновлением документации и states) |
+| **D — NEW COMPONENT** | Только если A–C не покрывают задачу |
+
+### DESIGN SYSTEM GAP
+
+Если по ходу работы на странице обнаружен reusable pattern, которого нет в UI Framework — явно зафиксировать блок в ответе Лорете:
+
+```
+DESIGN SYSTEM GAP: <чего не хватало>
+CLASSIFICATION:    B / C / D
+RESOLUTION:        <как закрыть>
+DOCUMENTED AT:     <путь в проекте>
+```
+
+Нельзя закрывать gap одноразовым CSS в `src/scss/pages/` без согласования.
+
+## Review gate — Лоретта (UI Framework)
+
+Любое изменение **общего UI Framework** требует явного одобрения Лореты. UI Framework в этом проекте — это:
+
+- `src/pug/ui/**` (витрины компонентов)
+- `src/pug/ui/ui-navigation.pug` (section index)
+- `src/scss/blocks/**` (reusable UI-блоки)
+- `src/scss/base/**` (tokens, utilities, типографика, кнопки, формы, иконки)
+- `src/js/**` (reusable interactive patterns)
+- `REDESIGN_RULES.md` (документация системы)
+
+**Правила самостоятельности:**
+
+- На задачах уровня страницы — `src/pug/pages/**`, `src/pug/sections/**`, `src/scss/pages/**`, `src/scss/sections/**` — действую самостоятельно.
+- При обнаружении кандидата в UI Framework — сначала сверстать локально на странице, затем явно спросить Лорету «вынести в блок?» и дождаться ОК. Не менять UI Framework в той же задаче без её согласия.
+- `TASKS.md` и `temps/` — обновляю по ходу работы, Лорета ревьюит по тексту задачи.
+
+## Cross-page impact при изменении UI Framework
+
+Перед правкой чего-либо в `src/scss/blocks/` или `src/scss/base/`:
+
+- `Grep` по всему `src/pug/` на предмет использования класса/селектора — выяснить, какие страницы его потребляют.
+- Если потребителей несколько — явно упомянуть их в ответе и подтвердить, что правка не ломает ни одну.
+- Если правка нужна только одной странице — предпочитать новый variant/modifier, а не менять базовое правило.
+
+## Чеклист закрытия UI-задачи
+
+Перед «готово» — явно отметить в ответе:
+
+```
+CHECKS
+  GIT_STATE_CHECKED            = YES/NO
+  CROSS_PAGE_IMPACT_CHECKED    = YES/NO/N/A
+  DESIGN_SYSTEM_GAP_FOUND      = YES/NO
+
+REQUIRED CHANGES
+  UI_FRAMEWORK_CHANGED         = YES/NO   (src/pug/ui + src/scss/blocks + src/scss/base + src/js)
+  LOCAL_DOCS_UPDATE_REQUIRED   = YES/NO   (REDESIGN_RULES.md)
+  SECTION_INDEX_UPDATE_REQUIRED = YES/NO  (src/pug/ui/ui-navigation.pug)
+```
+
+Все `*_UPDATE_REQUIRED = YES` должны быть **выполнены** в этой же задаче — не просто помечены.
+
 ## Commands
 
 - `npm start` — clean, build, launch BrowserSync (serves `./build`, auto-opens browser) and watch every source type.

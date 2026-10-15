@@ -11,6 +11,61 @@
 
 Перед переиспользованием существующих глобальных классов, reset-стилей или общих селекторов необходимо оценить риск конфликтов с действующим сайтом.
 
+## Проверка перед изменением UI Framework
+
+Этот проект — upstream-источник UI Framework для production-репо `../steamsys/local/`. Общие правила workflow (SEARCH → REUSE → EXTEND → CREATE, классы A–D, DESIGN SYSTEM GAP, Review gate Лоретты, cross-page impact) — в `CLAUDE.md`, разделы «Workflow для UI-задач», «Review gate», «Cross-page impact». Здесь — только practical index, куда смотреть при SEARCH.
+
+### Что считается UI Framework в этом проекте
+
+| Папка / файл | Назначение |
+| --- | --- |
+| `src/pug/ui/**/*.pug` | Витрины и примеры компонентов (генерируют `build/ui/*.html`) |
+| `src/pug/ui/ui-navigation.pug` | Section index UI-kit (sidebar в `build/ui/*.html`) |
+| `src/pug/mixins/**/*.pug` | Pug-миксины компонентов (`+ssBtn`, `+ssLink`, `+svgIcon`, `+ssSwiperBtn`) |
+| `src/scss/blocks/**/*.scss` | Reusable UI-блоки (карточки, слайдеры, фильтры, таблицы, навигация) |
+| `src/scss/base/**/*.scss` | Tokens, типографика, utilities, кнопки, формы, сетка, иконки, селекты |
+| `src/scss/sections/**/*.scss` | Reusable секции (hero, footer, feedback, cases и т.п.) |
+| `src/js/**/*.js` | Reusable interactive patterns (аккордеон, модалки, слайдеры, select) |
+| `REDESIGN_RULES.md` | Документация системы |
+
+**Не UI Framework** (page-level, можно менять без согласования):
+
+- `src/pug/pages/**` — pug-страницы (consumers)
+- `src/scss/pages/**` — page-specific стили
+- `src/pug/sections/_<page-specific>.pug` — секции конкретной страницы (не reusable)
+
+### Где искать существующее решение (SEARCH-пути)
+
+| Что ищу | Куда смотреть |
+| --- | --- |
+| H1–H6, текст, шрифт | `src/scss/base/_typography.scss`, `src/pug/ui/typography.pug` |
+| Цвет, utility | `src/scss/base/_var.scss` (переменные), `src/scss/base/_global.scss` (utilities), `src/pug/ui/colors.pug` |
+| Spacing, container, grid | `src/scss/base/_container.scss`, `_grid.scss`, `src/pug/ui/grid.pug` |
+| Button, link, pill | `src/scss/base/_buttons.scss`, `_ss-link.scss`, `_pill.scss`, `src/pug/mixins/_ss-button.pug`, `_ss-link.pug` |
+| Form, input, checkbox, radio, select | `src/scss/base/_form.scss`, `_select.scss`, `_b24-form.scss`, `src/pug/ui/form.pug`, `select.pug` |
+| Tags, badges, metrics | `src/scss/base/_tag.scss`, `src/scss/blocks/_metrics.scss`, `src/pug/ui/tags.pug` |
+| Card (любая) | `src/pug/ui/cards.pug`, спец-карточки в `src/scss/blocks/_*-card.scss` |
+| Filter / drawer / chip | `src/scss/blocks/_filters.scss`, `_filter-bar.scss`, `_filter-chip.scss`, `_category-nav.scss` |
+| Pagination | `src/scss/base/_pagination.scss`, `src/scss/blocks/_pagination-toolbar.scss` |
+| Table | `src/scss/blocks/_simple-table.scss` |
+| Accordion / tabs | `src/scss/base/_tabs.scss`, `src/scss/blocks/_accordion.scss` |
+| Slider (Swiper) | `src/scss/blocks/_swiper-btn.scss`, `_slider-side-nav.scss`, `src/js/*-swiper.js`, см. раздел «Swiper — CSS и разметка» ниже |
+| Breadcrumbs / TOC | `src/scss/base/_breadcrumbs.scss`, `src/scss/blocks/_toc.scss` |
+| Hero / inner-hero | `src/scss/sections/_hero.scss`, `_hero-inner.scss` |
+| Doc-layout (статья/кейс/система) | `src/scss/blocks/_doc-layout.scss`, `_sticky-side.scss`, `_help-card.scss`, `_solutions-list.scss`, `_info-pair.scss` |
+| Header / footer | `src/scss/sections/_header.scss`, `_footer.scss` |
+| Gallery / figure / video | `src/scss/blocks/_gallery.scss`, `_figure.scss`, `_video-side.scss`, `_product-gallery.scss` |
+| Modal | `src/scss/blocks/_modal.scss`, `src/js/modal.js` |
+
+### Mini-workflow перед правкой компонента
+
+1. **SEARCH** — `Grep` по `src/scss/blocks/` и `src/scss/base/` на предмет имени класса / похожего паттерна.
+2. **UNDERSTAND** — прочитать блок целиком + найти всех потребителей через `Grep <класс>` по `src/pug/`.
+3. **CROSS-PAGE IMPACT** — если потребителей >1, явно учесть каждого при правке.
+4. **REUSE / EXTEND / CREATE** — выбрать класс A/B/C/D (см. CLAUDE.md).
+5. **ATOMIC CHANGE** — SCSS + ui-pug (витрина) + `src/pug/ui/ui-navigation.pug` (ссылка на витрину) + REDESIGN_RULES.md (запись правила) — одной задачей.
+6. **CHECKS** в конце — согласно чеклисту в CLAUDE.md.
+
 ## Старт новой страницы — чек-лист
 
 Когда начинается работа над новой страницей (например, `/kakaya-to-stranica.html`), по умолчанию делаем это так — **никаких уточняющих вопросов не нужно**, просто выполнить все 4 шага:
