@@ -1,10 +1,18 @@
 //- ============================================================
-//- CTA «Нужна точность?» на хабе калькуляторов. Reuse .ss-cta-card
-//- (универсальная плашка с заголовком + описанием + кнопкой).
+//- CTA «Нужна точность?» на хабе калькуляторов.
+//- Reuse .ss-cta-card с модификатором --promo:
+//-   · горизонтальная раскладка (content | action)
+//-   · серый фон (--secondary3), крупные паддинги
+//-   · kicker, title, text слева + button + footnote справа
+//- Фон секции — белый (не --tinted), т.к. серый живёт на самой карточке.
 //- ============================================================
-section.ss-section.ss-section--tinted.ss-calc-cta
-	.ss-container.ss-wrapper
-		.ss-cta-card
-			p.ss-cta-card__title Нужна точность выше ±30%?
-			p.ss-cta-card__text Пришлите спецификацию или опросный лист — инженер подготовит точный расчёт за 1 рабочий день с подбором конкретного оборудования под параметры объекта.
-			+ssBtn('Заказать точный расчёт', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#calc-form' })
+section.ss-section.ss-calc-cta
+	.ss-container.ss-container--narrow.ss-wrapper
+		.ss-cta-card.ss-cta-card--promo
+			.ss-cta-card__content
+				p.ss-cta-card__kicker Нужна точность?
+				p.ss-cta-card__title Точный расчёт от инженера — за 24 часа, бесплатно
+				p.ss-cta-card__text Калькуляторы дают оценку ±30%. Для обоснования перед руководством нужен точный расчёт с учётом реальных параметров вашей системы. Инженер подготовит расчёт в формате A4 — с цифрами, рекомендациями и сроком окупаемости.
+			.ss-cta-card__action
+				+ssBtn('Получить точный расчёт', { variant: 'dark', tag: 'a', href: '#calc-form' })
+				p.ss-cta-card__footnote Ответ в течение 24 часов
