@@ -46,8 +46,7 @@ block content
 						.ss-calc-menu__group.ss-calc-menu__group--level-1.is-open
 							button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
 								span Пар
-								span.ss-calc-menu__icon
-									+svgIcon('chevron-down')
+								span.ss-calc-menu__count 23
 							.ss-calc-menu__body
 								.ss-calc-menu__body-inner
 									//- Level-2 раскрытая «Проектирование трубопроводов»
@@ -78,8 +77,7 @@ block content
 						.ss-calc-menu__group.ss-calc-menu__group--level-1
 							button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
 								span Возврат конденсата
-								span.ss-calc-menu__icon
-									+svgIcon('chevron-down')
+								span.ss-calc-menu__count 9
 							.ss-calc-menu__body
 								.ss-calc-menu__body-inner
 									a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Образование выпара
@@ -88,8 +86,7 @@ block content
 						.ss-calc-menu__group.ss-calc-menu__group--level-1
 							button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
 								span Паровые таблицы
-								span.ss-calc-menu__icon
-									+svgIcon('chevron-down')
+								span.ss-calc-menu__count 3
 							.ss-calc-menu__body
 								.ss-calc-menu__body-inner
 									a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Насыщенный пар — по давлению
@@ -132,7 +129,16 @@ block content
 						| .
 					li
 						code .ss-calc-menu__head--level-1
-						|  — крупнее (16/600), chevron справа.
+						|  — крупнее (16/600). Справа — счётчик
+						code .ss-calc-menu__count
+						|  вместо chevron'а. При
+						code .is-open
+						|  на родителе: серый фон +
+						code --accent3
+						|  вертикальная полоса слева.
+					li
+						code .ss-calc-menu__count
+						|  — pill с цифрой количества калькуляторов (программист подставляет актуальное число из БД).
 					li
 						code .ss-calc-menu__head--level-2
 						|  — средний (14/500), chevron слева от текста, отступ слева 20px.
@@ -174,8 +180,7 @@ block content
 						|     .ss-calc-menu__group.ss-calc-menu__group--level-1.is-open
 						|         button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
 						|             span Пар
-						|             span.ss-calc-menu__icon
-						|                 +svgIcon('chevron-down')
+						|             span.ss-calc-menu__count 23
 						|         .ss-calc-menu__body
 						|             .ss-calc-menu__body-inner
 						|                 .ss-calc-menu__group.ss-calc-menu__group--level-2
