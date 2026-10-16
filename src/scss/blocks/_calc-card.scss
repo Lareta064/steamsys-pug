@@ -4,6 +4,14 @@
 // .ss-calc-card — карточка одного калькулятора в grid'е хаба инструментов
 // (страница calculators.html).
 //
+// Вся карточка — одна ссылка (stretched-link паттерн): CTA-кнопка
+// «Рассчитать» внутри .__action — реальный <a>, а её ::after растянут
+// на всю карточку через position: absolute; inset: 0. Click по любому
+// месту карточки идёт на эту ссылку. Текст заголовка/описания
+// визуально остаётся «под» слоем ссылки — поэтому выделение текста
+// внутри карточки отключено (стандартный trade-off для кликабельных
+// карточек, типичный для product/case/calc-листингов).
+//
 // Структура — 2 колонки: слева заголовок + описание, справа CTA «Рассчитать».
 // На < $md перестраивается в стек: body → action с кнопкой на всю ширину.
 //
@@ -13,12 +21,13 @@
 //       h3.ss-calc-card__title Расчёт диаметра паропровода по потерям давления
 //       p.ss-calc-card__text Подбор DN по расходу, давлению, длине и допустимому падению давления.
 //     .ss-calc-card__action
-//       +ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })
+//       +ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')
 //
 // Hover — подсветка рамки --accent1 (как у .ss-product-card).
 // ==============================================================
 
 .ss-calc-card {
+	position: relative;      // scope для stretched-link ::after
 	display: grid;
 	grid-template-columns: 1fr auto;
 	align-items: center;
@@ -35,7 +44,7 @@
 	&:focus-within {
 		border: 1px solid var(--secondary1);
 		border-left: 3px solid var(--accent1);
-		
+
 	}
 
 	@include down($md) {
@@ -43,6 +52,17 @@
 		gap: 15px;
 		padding: 20px;
 	}
+}
+
+// Stretched-link: ::after на CTA-ссылке покрывает всю карточку.
+// z-index: 1 — поверх текста/body карточки. Сама кнопка визуально
+// остаётся на своём месте, но клик по любому пикселю карточки
+// попадает на эту ссылку (ближайший position:relative = .ss-calc-card).
+.ss-calc-card__link::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 1;
 }
 
 // min-width: 0 — важно для title/text с длинными словами (hyphens работает,

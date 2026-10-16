@@ -29,7 +29,7 @@ section.ss-doc-layout.ss-calc-catalog
 										h3.ss-calc-card__title= c.title
 										p.ss-calc-card__text= c.text
 									.ss-calc-card__action
-										+ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })
+										+ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')
 
 			aside.ss-sticky-side.ss-doc-layout__aside
 				//- Многоуровневое меню (.ss-calc-menu, blocks/_calc-menu.scss).
