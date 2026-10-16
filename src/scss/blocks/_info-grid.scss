@@ -1,0 +1,89 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-info-grid — универсальная сетка информационных элементов
+// «иконка + label + значение». Используется для «паспорта проекта»,
+// характеристик, статистики компании и любых похожих blockов, где
+// нужно показать N полей в сетке.
+//
+// Независима от контекста — секция-потребитель кладёт её внутрь
+// своей обёртки с заголовком. Не привязана к семантике «паспорта»
+// или «характеристик» — одинаково пригодна под любой список
+// «мета-полей с иконкой».
+//
+// Разметка:
+//   ul.ss-info-grid
+//     li.ss-info-grid__item
+//       span.ss-info-grid__icon(aria-hidden='true')
+//         +svgIcon('user')
+//       .ss-info-grid__body
+//         p.ss-info-grid__label Клиент
+//         p.ss-info-grid__value Молочный комбинат «Вкусмол»
+//     li.ss-info-grid__item ...
+//
+// Grid-adaptive: 3 колонки десктоп / 2 на < $lg / 1 на < $md.
+// grid-auto-flow: row (ряд за рядом) — элементы идут слева направо
+// по строкам, как в естественном DOM-порядке.
+// ==============================================================
+
+.ss-info-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px 40px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 20px 30px;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+}
+
+.ss-info-grid__item {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+}
+
+.ss-info-grid__icon {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	color: var(--accent1);
+
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.ss-info-grid__body {
+	min-width: 0;
+}
+
+.ss-info-grid__label {
+	margin: 0 0 4px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+.ss-info-grid__value {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 15px;
+	line-height: 1.3;
+	color: var(--primary);
+}

@@ -2,16 +2,21 @@
 
 // ==============================================================
 // single-case — страница одного кейса (build/single-case.html).
-// Специфика страницы: header (теги + h1 + метрики результатов).
+// Специфика страницы: hero (h1 + опциональная картинка),
+// Паспорт проекта (обёртка-section с .ss-info-grid внутри),
+// слайдер «Похожие кейсы» в main-колонке.
 //
 // Общая раскладка (crumbs + grid + sticky-sidebar + mobile-extras) —
 // в универсальном блоке .ss-doc-layout (blocks/_doc-layout.scss).
-// Боковая карточка «Детали проекта» — .ss-case-details (blocks/_case-details.scss).
+// Боковой sidebar — reuse .ss-sticky-side + .ss-toc (навигация).
 // ==============================================================
 
 
-// ---------- Header кейса (теги + h1 + метрики) ----------
-.ss-single-case__header {
+// ---------- Hero страницы (h1 + опциональная <figure> с картинкой) ----------
+// По макету fix-case.png / fix-case2.png — крупный заголовок + картинка
+// с подписью под ним. Картинка опциональна: если <figure> нет — h1 просто
+// имеет margin-bottom через header-слот .ss-doc-layout__header.
+.ss-single-case__hero {
 	margin-bottom: 30px;
 
 	@include down($md) {
@@ -19,92 +24,65 @@
 	}
 }
 
-.ss-single-case__tags {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin: 0 0 20px;
-	padding: 0;
-	list-style: none;
-}
-
-.ss-single-case__title {
-	margin: 0 0 30px;
+.ss-single-case__hero-title {
+	margin: 0 0 24px;
 	color: var(--primary);
-}
-
-// Метрики в header'е (−15% / 12 КО / 6 мес.) — переиспользуют
-// универсальный блок .ss-metrics.ss-metrics--light (blocks/_metrics.scss).
-// Здесь оставляем только внешний margin — задаём визуальный ритм секции.
-.ss-single-case__header .ss-metrics--light {
-	margin: 0 0 20px;
-}
-
-
-// ---------- Мета-строка под метриками (Отрасль / Регион / Год) ----------
-// Паттерн key/value, как в .ss-case-card__meta: ключ серый с «:»,
-// значение жирное тёмное. На десктопе — flex-ряд с горизонтальным gap'ом,
-// пары не разрываются (внутри dt+dd — nowrap). На моб — стек в колонку.
-.ss-single-case__meta {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px 24px;
-	margin: 0;
-	padding: 0;
-	font-family: var(--font-family);
-	font-size: 14px;
-	line-height: 1.4;
 
 	@include down($md) {
-		flex-direction: column;
-		gap: 6px;
+		margin-bottom: 20px;
 	}
 }
 
-.ss-single-case__meta-item {
-	display: inline-flex;
-	align-items: baseline;
-	gap: 6px;
-}
-
-.ss-single-case__meta-key {
+// Картинка в <figure>. Фиксированная высота 400px + object-fit: cover —
+// картинка кадрируется по центру независимо от исходных пропорций.
+// На < $md высота уменьшается, чтобы hero не доминировал экран.
+.ss-single-case__hero-image {
 	margin: 0;
-	color: var(--secondary);
-	font-weight: 400;
-}
+	border-radius: 10px;
+	overflow: hidden;
 
-.ss-single-case__meta-value {
-	margin: 0;
-	color: var(--primary);
-	font-weight: 600;
-}
+	img {
+		display: block;
+		width: 100%;
+		height: 400px;
+		object-fit: cover;
 
-
-// ---------- Мини-поля в секции «Объект» (внутри .ss-content) ----------
-// Паттерн: uppercase серый label сверху + значение обычным текстом снизу.
-// Используется как лёгкая замена .ss-fact-card, когда нужно показать
-// несколько метаданных без визуальной «карточки». Вертикальный стек
-// внутри section, между полями — просвет через margin.
-.ss-single-case__field {
-	margin: 0 0 20px;
-
-	&:last-child {
-		margin-bottom: 0;
+		@include down($md) {
+			height: 260px;
+		}
 	}
 }
 
-// Uppercase мелкий серый label. Специфичность 0-1-0, перебивает стили
-// .ss-content p (0-0-2 → :where lowered to 0-0-1), поэтому класс
-// применяется напрямую — font/color/letter-spacing правильно наследуются.
-.ss-single-case__field-label {
-	margin: 0 0 6px;
+// Подпись под картинкой — мелкий серый текст.
+.ss-single-case__hero-caption {
+	margin: 10px 0 0;
+	padding: 0;
 	font-family: var(--font-family);
-	font-weight: 700;
-	font-size: 12px;
+	font-weight: 400;
+	font-size: 13px;
 	line-height: 1.4;
-	letter-spacing: 0.08em;
 	color: var(--secondary);
-	text-transform: uppercase;
+}
+
+
+// ---------- Паспорт проекта (section-обёртка над .ss-info-grid) ----------
+// Серая плашка с внутренним паддингом (fix-case3.png / общий вид на fix-case.png).
+// Все элементы «иконка + label + value» живут в универсальном
+// .ss-info-grid (blocks/_info-grid.scss).
+.ss-single-case__passport {
+	padding: 30px;
+	background: var(--secondary3);
+	border-radius: 10px;
+
+	@include down($md) {
+		padding: 20px;
+	}
+
+	// h2 внутри .ss-content имеет свой верхний margin (40). Внутри тонированной
+	// плашки верхний margin лишний — заголовок прижат к границам паддинга.
+	> h2 {
+		margin-top: 0;
+	}
 }
 
 

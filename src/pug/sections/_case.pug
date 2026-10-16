@@ -32,42 +32,21 @@ section.ss-doc-layout__crumbs
 				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Диагностика и замена КО на молочном комбинате
 
 //- ==================== Основная секция ====================
-section.ss-doc-layout.ss-single-case
-	.ss-container.ss-container--narrow.ss-wrapper
+section.ss-doc-layout.ss-doc-layout--with-toc.ss-single-case
+	.ss-container.ss-wrapper
 		.ss-doc-layout__grid
 
-			//- -------------------- Header (теги + h1 + 3 метрики) --------------------
-			header.ss-doc-layout__header.ss-single-case__header
-				ul.ss-single-case__tags
-					li: span.ss-tag.ss-tag--mini Молочная промышленность
-					li: span.ss-tag.ss-tag--mini Диагностика
-					li: span.ss-tag.ss-tag--mini Конденсатоотводчики TLV
+			//- -------------------- Header (h1 + опциональная картинка) --------------------
+			//- По макету fix-case.png / fix-case2.png — крупный заголовок,
+			//- под ним опционально <figure> с картинкой и подписью. Если
+			//- <figure> отсутствует — вёрстка не ломается (h1 просто имеет
+			//- margin-bottom до следующего блока в main-колонке).
+			header.ss-doc-layout__header.ss-single-case__hero
+				h1.ss-h2.ss-single-case__hero-title Диагностика и замена конденсатоотводчиков на молочном комбинате — снижение потерь пара на&nbsp;15%
 
-				h1.ss-h3.ss-single-case__title Диагностика и замена конденсатоотводчиков на молочном комбинате — снижение потерь пара на&nbsp;15%
-
-				//- Метрики — универсальный .ss-metrics.--light (blocks/_metrics.scss).
-				.ss-metrics.ss-metrics--light
-					.ss-metrics__item
-						p.ss-metrics__value −15%
-						p.ss-metrics__label расход пара
-					.ss-metrics__item
-						p.ss-metrics__value 12 КО
-						p.ss-metrics__label выявлено нерабочих
-					.ss-metrics__item
-						p.ss-metrics__value 6 мес.
-						p.ss-metrics__label окупаемость
-
-				//- Мета-строка «Отрасль / Регион / Год» — key/value пары в ряд.
-				dl.ss-single-case__meta
-					.ss-single-case__meta-item
-						dt.ss-single-case__meta-key Отрасль:
-						dd.ss-single-case__meta-value Молочная промышленность
-					.ss-single-case__meta-item
-						dt.ss-single-case__meta-key Регион:
-						dd.ss-single-case__meta-value Краснодарский край
-					.ss-single-case__meta-item
-						dt.ss-single-case__meta-key Год:
-						dd.ss-single-case__meta-value 2023
+				figure.ss-single-case__hero-image
+					img(src=`${basePath}img/gallery1.webp` width='865' height='400' alt='Устаревшее оборудование на объекте монтажа конденсатоотводчиков' loading='lazy' decoding='async')
+					figcaption.ss-single-case__hero-caption Устаревшее оборудование на объекте монтажа конденсатоотводчиков
 
 			//- -------------------- Main content (левая колонка) --------------------
 			//- Внутри .ss-content — семантические теги. Стили заголовков,
@@ -81,21 +60,74 @@ section.ss-doc-layout.ss-single-case
 			.ss-doc-layout__main
 				.ss-content
 
+					//- ===== Паспорт проекта =====
+					//- Page-level обёртка .ss-single-case__passport (стили в
+					//- _single-case.scss). Внутри — универсальный UI-компонент
+					//- .ss-info-grid (blocks/_info-grid.scss) с 9 полями.
+					section#sec-passport.ss-single-case__passport
+						h2 Паспорт проекта
+						ul.ss-info-grid
+							li.ss-info-grid__item
+								span.ss-info-grid__icon(aria-hidden='true')
+									+svgIcon('user')
+								.ss-info-grid__body
+									p.ss-info-grid__label Клиент
+									p.ss-info-grid__value Молочный комбинат «Вкусмол»
+							li.ss-info-grid__item
+								span.ss-info-grid__icon(aria-hidden='true')
+									+svgIcon('calendar')
+								.ss-info-grid__body
+									p.ss-info-grid__label Год реализации
+									p.ss-info-grid__value 2023
+							li.ss-info-grid__item
+								span.ss-info-grid__icon(aria-hidden='true')
+									+svgIcon('tool')
+								.ss-info-grid__body
+									p.ss-info-grid__label Оборудование
+									p.ss-info-grid__value TLV, TUMA, фильтры Y-типа
+							li.ss-info-grid__item
+								span.ss-info-grid__icon(aria-hidden='true')
+									+svgIcon('shield')
+								.ss-info-grid__body
+									p.ss-info-grid__label Отрасль
+									p.ss-info-grid__value Молочная промышленность
+							li.ss-info-grid__item
+								span.ss-info-grid__icon(aria-hidden='true')
+									+svgIcon('doc')
+								.ss-info-grid__body
+									p.ss-info-grid__label Тип объекта
+									p.ss-info-grid__value Пищевое производство
+							li.ss-info-grid__item
+								span.ss-info-grid__icon(aria-hidden='true')
+									+svgIcon('cog')
+								.ss-info-grid__body
+									p.ss-info-grid__label Масштаб
+									p.ss-info-grid__value 48 конденсатоотводчиков
+							li.ss-info-grid__item
+								span.ss-info-grid__icon(aria-hidden='true')
+									+svgIcon('target')
+								.ss-info-grid__body
+									p.ss-info-grid__label Регион
+									p.ss-info-grid__value Краснодарский край
+							li.ss-info-grid__item
+								span.ss-info-grid__icon(aria-hidden='true')
+									+svgIcon('sliders')
+								.ss-info-grid__body
+									p.ss-info-grid__label Вид работ
+									p.ss-info-grid__value Диагностика и замена конденсатоотводчиков
+							li.ss-info-grid__item
+								span.ss-info-grid__icon(aria-hidden='true')
+									+svgIcon('chart')
+								.ss-info-grid__body
+									p.ss-info-grid__label Срок реализации
+									p.ss-info-grid__value 6 месяцев
+
 					//- ===== Ситуация (callout) =====
 					section#sec-situation
 						h2 Ситуация
 						.ss-callout
 							.ss-callout__body
 								p На молочном комбинате «Вкусный» (Краснодарский край) эксплуатировалась пароконденсатная система с 48 конденсатоотводчиками различных типов. По данным энергетика предприятия, потери конденсата составляли около 35% от общего расхода пара. Часть оборудования не обслуживалась более 5 лет. Ни разу не проводилась инструментальная диагностика состояния КО. Руководство предприятия хотело понять реальный масштаб потерь и обосновать бюджет на замену.
-
-					//- ===== Объект (2 мини-поля — label uppercase + значение) =====
-					section#sec-object
-						.ss-single-case__field
-							p.ss-single-case__field-label Объект
-							p Молочный комбинат «Вкусный», Краснодарский край
-						.ss-single-case__field
-							p.ss-single-case__field-label Отрасль
-							p Пищевая промышленность / молочное производство
 
 					//- ===== Входные параметры (таблица с чередованием рядов) =====
 					section#sec-input
@@ -133,9 +165,9 @@ section.ss-doc-layout.ss-single-case
 						p Диагностика выявила 12 конденсатоотводчиков в режиме «открыт» (непрерывный пропуск пара) и 8 — в режиме «закрыт» (накопление конденсата, гидроудары). Итого 20 из 48 КО работали некорректно.
 						p Приоритетом первой очереди стала замена 12 «открытых» КО — именно они давали основной объём прямых потерь пара. Для замены подобраны поплавковые конденсатоотводчики TLV серии J3S с учётом рабочего давления и расхода конденсата на каждой точке, а также арматура и смотровые стёкла для контроля работы системы.
 
-					//- ===== Состав оборудования =====
+					//- ===== Что установили =====
 					section#sec-equipment
-						h2 Состав оборудования
+						h2 Что установили
 						ul
 							li
 								| Конденсатоотводчик поплавковый&nbsp;
@@ -229,59 +261,28 @@ section.ss-doc-layout.ss-single-case
 			//- левой колонки (header → content) не рвался элементом правой.
 			//- Grid-areas ставит aside визуально в правую колонку.
 			//-
-			//- Порядок карточек по прототипу (prototype/screens/case-right-sidebar.png):
-			//-   1. CTA «Запросить похожее решение»
-			//-   2. Детали проекта
-			//-   3. Связанные решения
-			//-   4. Калькулятор (--tinted)
-			//- TOC-блок «Содержание» в прототипе кейса не используется —
-			//- оглавление поддерживается только на статьях.
+			//- По макету fix-case1.png — только TOC «Навигация по кейсу»
+			//- (reuse .ss-toc, scroll-spy из src/js/toc.js). Пункты ведут
+			//- на #sec-* якоря секций в main-колонке.
 			aside.ss-sticky-side.ss-doc-layout__aside
 
-				//- Верхняя CTA — «Запросить похожее решение» + сноска о сроках ответа.
-				//- data-doc-extra: на < $lg уедет в mobile-extras под контентом.
-				.ss-help-card(data-doc-extra)
-					+ssBtn('Запросить похожее решение', { variant: 'dark', full: true })(data-modal='request-b24')
-					p.ss-help-card__footnote Ответим в течение 4 часов в рабочее время
+				//- Навигация по кейсу — reuse .ss-toc. Scroll-spy активной
+				//- ссылки — JS src/js/toc.js по мере скролла страницы.
+				nav.ss-toc.js-toc(aria-label='Навигация по кейсу')
+					button.ss-toc__toggle(type='button', aria-expanded='false', aria-controls='ss-case-toc-body')
+						span Навигация по кейсу
+						+svgIcon('chevron-down')
+					h3.ss-toc__title Навигация по кейсу
+					.ss-toc__body#ss-case-toc-body(hidden)
+						ul.ss-toc__list
+							li.ss-toc__item: a.ss-toc__link(href='#sec-passport') Паспорт проекта
+							li.ss-toc__item: a.ss-toc__link(href='#sec-situation') Ситуация
+							li.ss-toc__item: a.ss-toc__link(href='#sec-input') Входные параметры
+							li.ss-toc__item: a.ss-toc__link(href='#sec-solution') Предложенное решение
+							li.ss-toc__item: a.ss-toc__link(href='#sec-equipment') Что установили
+							li.ss-toc__item: a.ss-toc__link(href='#sec-result') Результат
+							li.ss-toc__item: a.ss-toc__link(href='#sec-repeat') Что можно повторить
 
-				//- Детали проекта — 6 пар key/value, две колонки внутри строки.
-				.ss-case-details(data-doc-extra)
-					p.ss-case-details__title Детали проекта
-					ul.ss-case-details__list
-						li.ss-case-details__item
-							span.ss-case-details__key Клиент
-							span.ss-case-details__value МК «Вкусный»
-						li.ss-case-details__item
-							span.ss-case-details__key Отрасль
-							span.ss-case-details__value Молочная промышленность
-						li.ss-case-details__item
-							span.ss-case-details__key Регион
-							span.ss-case-details__value Краснодарский край
-						li.ss-case-details__item
-							span.ss-case-details__key Тип решения
-							span.ss-case-details__value Диагностика и замена КО
-						li.ss-case-details__item
-							span.ss-case-details__key Оборудование
-							span.ss-case-details__value TLV J3S, A3, SG10
-						li.ss-case-details__item
-							span.ss-case-details__key Год
-							span.ss-case-details__value 2023
-
-				//- Связанные решения — ссылки со стрелкой слева и разделителями.
-				.ss-solutions-list(data-doc-extra)
-					p.ss-solutions-list__title Связанные решения
-					ul.ss-solutions-list__list
-						li.ss-solutions-list__item
-							+ssLink('Станция возврата конденсата (СВК)', { size: 'md', iconSide: 'left' })
-						li.ss-solutions-list__item
-							+ssLink('Конденсатоотводчики TLV', { size: 'md', iconSide: 'left' })
-
-				//- Калькулятор — CTA на онлайн-инструмент.
-				//- Серый фон (--tinted), без границы, с описательным текстом и ссылкой-CTA.
-				.ss-help-card.ss-help-card--tinted(data-doc-extra)
-					p.ss-help-card__title Хотите узнать состояние своей системы?
-					p.ss-help-card__text Диагностика конденсатоотводчиков выявляет реальные потери и позволяет обосновать бюджет на замену цифрами.
-					+ssLink('Рассчитать потери онлайн', { variant: 'dark', size: 'md', href: '#' })
 
 			//- -------------------- Мобильный контейнер для extras --------------------
 			//- Пуст на десктопе. На < $lg JS (src/js/doc-layout.js) переносит сюда
