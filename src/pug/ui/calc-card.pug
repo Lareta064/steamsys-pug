@@ -1,0 +1,115 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Карточка калькулятора (.ss-calc-card)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Карточка калькулятора (.ss-calc-card)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Карточка одного инженерного калькулятора в grid'е хаба инструментов (
+				code calculators.html
+				| ). Две колонки: слева — заголовок + описание, справа — CTA «Рассчитать». На &lt;768px стек: кнопка на всю ширину. Hover подсвечивает рамку
+				code --accent1
+				| . Стили —
+				code src/scss/blocks/_calc-card.scss
+				| .
+
+			//- ===== Одиночная карточка =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Одиночная
+
+				.breadcrumbs-catalog__demo
+					article.ss-calc-card
+						.ss-calc-card__body
+							h3.ss-calc-card__title Расчёт диаметра паропровода по потерям давления
+							p.ss-calc-card__text Подбор DN по расходу, давлению, длине и допустимому падению давления.
+						.ss-calc-card__action
+							+ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')
+
+			//- ===== Ряд из нескольких =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Ряд (сетка 2 в ряд)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| На хабе калькуляторы сгруппированы по категориям (Пар, Конденсат, Вода…) и выведены в grid 2 в ряд на десктопе, 1 на мобиле. Grid задаёт секция-потребитель (
+					code .ss-grid.ss-grid--row-2.ss-grid--md-row-1
+					| ) — сама карточка раскладкой не управляет.
+
+				.breadcrumbs-catalog__demo
+					.ss-grid.ss-grid--row-2.ss-grid--md-row-1
+						article.ss-calc-card
+							.ss-calc-card__body
+								h3.ss-calc-card__title Расчёт расхода пара на подогрев воды
+								p.ss-calc-card__text Расчёт расхода пара на нагрев воды в теплообменнике по тепловой нагрузке и параметрам пара.
+							.ss-calc-card__action
+								+ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')
+						article.ss-calc-card
+							.ss-calc-card__body
+								h3.ss-calc-card__title Пропускная способность конденсатоотводчика
+								p.ss-calc-card__text Проверка подобранного КО по рабочему давлению и максимальному расходу конденсата.
+							.ss-calc-card__action
+								+ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')
+						article.ss-calc-card
+							.ss-calc-card__body
+								h3.ss-calc-card__title Экономия от возврата конденсата
+								p.ss-calc-card__text Оценка эффекта от внедрения СВК: экономия пара, топлива, химводоочистки и затрат на подпитку.
+							.ss-calc-card__action
+								+ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')
+						article.ss-calc-card
+							.ss-calc-card__body
+								h3.ss-calc-card__title Расчёт тепловой нагрузки калорифера
+								p.ss-calc-card__text Оценка тепловой нагрузки парового калорифера по расходу воздуха и температурам.
+							.ss-calc-card__action
+								+ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')
+
+			//- ===== Описание элементов =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Элементы
+				ul
+					li
+						code .ss-calc-card
+						|  — обёртка. Белый фон, border
+						code --secondary2
+						| , radius 10, padding 24 (на &lt;768px — 20). Grid 1fr/auto, align center.
+					li
+						code .ss-calc-card__body
+						|  — левая колонка. Внутри —
+						code h3.__title
+						|  и
+						code p.__text
+						| .
+						code min-width: 0
+						|  — чтобы длинные слова не распирали колонку (hyphens работает).
+					li
+						code .ss-calc-card__title
+						|  — 18/700, color
+						code --primary
+						| , hyphens: auto. На длинных формулировках режется по слогам.
+					li
+						code .ss-calc-card__text
+						|  — 14/400, color
+						code --secondary
+						| .
+					li
+						code .ss-calc-card__action
+						|  — правая колонка. Внутри — обычная
+						code .ss-btn
+						|  через миксин
+						code +ssBtn
+						| . На &lt;768px стек: кнопка на всю ширину.
+
+			//- ===== Сниппет =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Сниппет
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| article.ss-calc-card
+						|     .ss-calc-card__body
+						|         h3.ss-calc-card__title Расчёт диаметра паропровода по потерям давления
+						|         p.ss-calc-card__text Подбор DN по расходу, давлению, длине и допустимому падению давления.
+						|     .ss-calc-card__action
+						|         +ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')

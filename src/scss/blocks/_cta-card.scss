@@ -1,19 +1,31 @@
 @use '../base/_var' as *;
 
 // ==============================================================
-// .ss-cta-card — компактная плашка «Нужна консультация?» / «Получить КП»
-// и т.п. Универсальная, не привязана к контексту. Используется в
-// сайдбарах, футерах, боковых блоках — где нужен компактный CTA
-// с заголовком + опциональным описанием + кнопкой.
+// .ss-cta-card — универсальная плашка CTA. Два варианта:
 //
-// Разметка:
-//   .ss-cta-card
-//     p.ss-cta-card__title Нужна консультация?
-//     p.ss-cta-card__text Инженер ответит на вопрос по статье или подберёт решение.
-//     +ssBtn('Задать вопрос', { variant: 'primary', full: true, tag: 'a', href: '#' })
+// 1) Компактный (base) — для сайдбаров и боковых блоков. Белый фон,
+//    вертикальная раскладка: title → text → кнопка.
 //
-// __text опционален — если нет, между title и кнопкой сохраняется отступ.
-// Кнопка — стандартная .ss-btn (обычно full: true для sidebar-ширины).
+//    .ss-cta-card
+//      p.ss-cta-card__title Нужна консультация?
+//      p.ss-cta-card__text Инженер ответит на вопрос по статье.
+//      +ssBtn('Задать вопрос', { variant: 'primary', full: true, tag: 'a', href: '#' })
+//
+// 2) Промо-плашка (.--promo) — в полную ширину секции. Серый фон,
+//    горизонтальная раскладка: слева content (kicker + title + text),
+//    справа action (кнопка + footnote). На <$md — стек в колонку.
+//
+//    .ss-cta-card.ss-cta-card--promo
+//      .ss-cta-card__content
+//        p.ss-cta-card__kicker Нужна точность?
+//        p.ss-cta-card__title Точный расчёт от инженера — за 24 часа
+//        p.ss-cta-card__text Калькуляторы дают оценку ±30%...
+//      .ss-cta-card__action
+//        +ssBtn('Получить точный расчёт', { variant: 'dark', tag: 'a', href: '#' })
+//        p.ss-cta-card__footnote Ответ в течение 24 часов
+//
+// __content/__action — обёртки для promo-варианта. В base они не нужны:
+// title/text/button лежат прямыми детьми .ss-cta-card.
 // ==============================================================
 
 .ss-cta-card {
@@ -46,4 +58,97 @@
 // Селектор: .ss-btn, если он идёт сразу после __title (без __text между ними).
 .ss-cta-card__title + .ss-btn {
 	margin-top: 20px;
+}
+
+
+// ==============================================================
+// Модификатор --promo: промо-плашка в полную ширину секции.
+// Светло-серый фон, 2 колонки (content | action), заметно крупнее
+// паддинги. На <$md — стек в колонку, action идёт под content.
+// ==============================================================
+.ss-cta-card--promo {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: 40px;
+	padding: 30px 40px;
+	background: var(--secondary3);
+	border-color: var(--secondary2);
+
+	@include down($lg) {
+		padding: 24px 30px;
+		gap: 30px;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 24px;
+		padding: 24px;
+	}
+
+	// В promo title крупнее базового (18 вместо 16) + text 14 вместо 13.
+	// Параграф-text без margin-bottom — вертикальный ритм задаёт gap grid'а.
+	.ss-cta-card__title {
+		margin: 0 0 10px;
+		font-size: 18px;
+	}
+
+	.ss-cta-card__text {
+		margin: 0;
+		font-size: 14px;
+	}
+}
+
+// Левая колонка — content (kicker + title + text). Пустая обёртка-group,
+// нужна для правильного grid-item'а.
+.ss-cta-card__content {
+	min-width: 0;
+}
+
+// Правая колонка — action (кнопка + footnote под ней). flex-column,
+// footnote центрирован по кнопке.
+.ss-cta-card__action {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+
+	// На <$md кнопка на всю ширину — чтобы в стеке занимала как content.
+	@include down($md) {
+		align-items: stretch;
+
+		.ss-btn {
+			width: 100%;
+		}
+	}
+}
+
+
+// ==============================================================
+// Универсальные элементы (работают и в base, и в --promo).
+// ==============================================================
+
+// Kicker — uppercase мелкий серый, обычно над __title в promo-варианте.
+.ss-cta-card__kicker {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: var(--accent1);
+	text-transform: uppercase;
+}
+
+// Footnote — мелкая серая подпись под кнопкой («Ответ в течение 24 часов»).
+// Используется и в .ss-cta-card--promo (под __action), и может пригодиться
+// в base-варианте под кнопкой — margin сверху даёт просвет.
+.ss-cta-card__footnote {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary);
+	text-align: center;
 }

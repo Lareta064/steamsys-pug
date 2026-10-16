@@ -45,6 +45,7 @@
 | Form, input, checkbox, radio, select | `src/scss/base/_form.scss`, `_select.scss`, `_b24-form.scss`, `src/pug/ui/form.pug`, `select.pug` |
 | Tags, badges, metrics | `src/scss/base/_tag.scss`, `src/scss/blocks/_metrics.scss`, `src/pug/ui/tags.pug` |
 | Card (любая) | `src/pug/ui/cards.pug`, спец-карточки в `src/scss/blocks/_*-card.scss` |
+| Карточка калькулятора (хаб инструментов) | `src/pug/ui/calc-card.pug`, `src/scss/blocks/_calc-card.scss` |
 | Filter / drawer / chip | `src/scss/blocks/_filters.scss`, `_filter-bar.scss`, `_filter-chip.scss`, `_category-nav.scss` |
 | Pagination | `src/scss/base/_pagination.scss`, `src/scss/blocks/_pagination-toolbar.scss` |
 | Table | `src/scss/blocks/_simple-table.scss` |
@@ -165,6 +166,57 @@ div
 Не создавать новые классы редизайна без префикса `ss-`, если это может привести к конфликту с существующими стилями.
 
 **Исключение:** для утилитарных SVG-иконок из общего спрайта допускается класс вида `.svg-<name>` без префикса `ss-` (см. раздел «Иконки svg»).
+
+## Селекторы: по классам, а не по тегам
+
+Собственную разметку редизайна (компоненты из `src/pug/ui/`, секции `src/pug/sections/_*.pug`, страницы `src/pug/pages/*.pug`) стилизуем **только по классам**. Селекторы по тегу (`.ss-block > h2`, `.ss-block p`, `.ss-block ul li` и т.п.) запрещены — у каждого элемента должен быть явный BEM-класс компонента, и правило вешается на него.
+
+```scss
+// ❌ плохо — зависимость от тега
+.ss-calc-catalog__group > h2 {
+    font-size: 24px;
+    margin: 0 0 20px;
+}
+
+// ✅ хорошо — явный класс в разметке
+.ss-calc-catalog__group-title {
+    font-size: 24px;
+    margin: 0 0 20px;
+}
+```
+
+**Почему это важно:**
+
+- Контент/разметку часто рефакторят: `h2` может стать `h3`, `div` — `<section>`. Правило по классу переживёт это, по тегу — нет.
+- Селектор по тегу создаёт неявные зависимости: прочитав HTML, непонятно, какие теги стилизованы. По классу — всё в разметке явно.
+- Семантика HTML должна подчиняться контексту (`h1` → `h6` вложенность), а не визуальному размеру. Привязка стилей к тегу вынуждает выбирать тег по размеру шрифта.
+- БЭМ-дисциплина проще для контрибьюторов: один компонент → один `__*` класс на каждый визуально значимый элемент.
+
+### Единственное исключение — контент из WYSIWYG админки
+
+Внутри `.ss-content` админ пишет HTML без классов (просто `<h2>`, `<p>`, `<ul>`, `<strong>`, `<blockquote>`, `<table>` и т.п.). Здесь — и **только здесь** — стилизация по тегу допустима и необходима: это задокументированный контракт между нашими стилями и редактором.
+
+```scss
+// ✅ единственный допустимый кейс
+:where(.ss-content) h2 { font-weight: 700; font-size: clamp(22px, …, 28px); }
+:where(.ss-content) p  { font-size: 16px; line-height: 1.6; }
+:where(.ss-content) blockquote p { font-style: italic; }
+```
+
+Специфика стилизации контента админки — см. `src/scss/blocks/_content.scss` (используется `:where()` для низкой специфичности, чтобы utility-классы перебивали без `!important`).
+
+### Крайний случай — временный override внутри секции
+
+Если **точно разово** (локальный один-единственный override внутри секции-реализатора, не компонент UI Framework) — допустимо стилизовать по тегу через scope родительского класса. Но даже тогда это сигнал задуматься: может лучше добавить класс?
+
+```scss
+// ⚠ крайний случай — scope-override в page-level секции
+.ss-calc-howto .ss-feature-card__icon > span {
+    font-size: 32px; // цифра номера шага вместо иконки
+}
+```
+
+Если этот паттерн повторится — пора вводить класс.
 
 ## Изоляция базовых стилей
 

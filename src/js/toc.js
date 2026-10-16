@@ -5,7 +5,11 @@
 //    кнопка .ss-toc__toggle + body[hidden]. Логика идентична
 //    _section-blog.__accordion — синхронизируем aria-expanded ↔ [hidden].
 //
-// 2. Scroll-spy — активная ссылка меняется по мере скролла статьи.
+// 2. Auto-close on anchor click — на < $lg после клика по .ss-toc__link
+//    сворачиваем аккордеон. Иначе развёрнутый список перекрывает контент
+//    после перехода к якорю. Делегирование на nav-обёртке.
+//
+// 3. Scroll-spy — активная ссылка меняется по мере скролла статьи.
 //    Алгоритм: находим самую нижнюю секцию, чей top уже перекатился под
 //    header (учитываем --header-height + небольшой offset). Работает
 //    предсказуемо для длинных секций (в отличие от чистого
@@ -28,6 +32,20 @@
 				toggle.setAttribute('aria-expanded', String(!open));
 				if (open) body.setAttribute('hidden', '');
 				else body.removeAttribute('hidden');
+			});
+
+			// Auto-close on anchor click (< $lg). Breakpoint согласован
+			// с SCSS: $lg = 1024, значит mobile — до 1023 включительно.
+			// Делегирование клика на nav-обёртке — срабатывает для любой
+			// ссылки внутри (включая обёрнутую в __label/__count разметку).
+			var mql = window.matchMedia('(max-width: 1023px)');
+			toc.addEventListener('click', function (e) {
+				if (!mql.matches) return;
+				var link = e.target.closest('.ss-toc__link');
+				if (!link || !toc.contains(link)) return;
+				if (toggle.getAttribute('aria-expanded') !== 'true') return;
+				toggle.setAttribute('aria-expanded', 'false');
+				body.setAttribute('hidden', '');
 			});
 		}
 

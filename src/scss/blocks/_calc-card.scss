@@ -1,0 +1,107 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-calc-card — карточка одного калькулятора в grid'е хаба инструментов
+// (страница calculators.html).
+//
+// Вся карточка — одна ссылка (stretched-link паттерн): CTA-кнопка
+// «Рассчитать» внутри .__action — реальный <a>, а её ::after растянут
+// на всю карточку через position: absolute; inset: 0. Click по любому
+// месту карточки идёт на эту ссылку. Текст заголовка/описания
+// визуально остаётся «под» слоем ссылки — поэтому выделение текста
+// внутри карточки отключено (стандартный trade-off для кликабельных
+// карточек, типичный для product/case/calc-листингов).
+//
+// Структура — 2 колонки: слева заголовок + описание, справа CTA «Рассчитать».
+// На < $md перестраивается в стек: body → action с кнопкой на всю ширину.
+//
+// Разметка:
+//   article.ss-calc-card
+//     .ss-calc-card__body
+//       h3.ss-calc-card__title Расчёт диаметра паропровода по потерям давления
+//       p.ss-calc-card__text Подбор DN по расходу, давлению, длине и допустимому падению давления.
+//     .ss-calc-card__action
+//       +ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')
+//
+// Hover — подсветка рамки --accent1 (как у .ss-product-card).
+// ==============================================================
+
+.ss-calc-card {
+	position: relative;      // scope для stretched-link ::after
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: 20px;
+	padding: 24px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-left: 3px solid var(--secondary);
+	
+	border-radius: 10px;
+	transition: border-color .2s ease;
+
+	&:hover,
+	&:focus-within {
+		
+		border-left: 3px solid var(--accent1);
+		.ss-calc-card__title{color:var(--accent1);}
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 15px;
+		padding: 20px;
+	}
+}
+
+// Stretched-link: ::after на CTA-ссылке покрывает всю карточку.
+// z-index: 1 — поверх текста/body карточки. Сама кнопка визуально
+// остаётся на своём месте, но клик по любому пикселю карточки
+// попадает на эту ссылку (ближайший position:relative = .ss-calc-card).
+.ss-calc-card__link::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+}
+
+// min-width: 0 — важно для title/text с длинными словами (hyphens работает,
+// grid-child не распирает колонку при длинном слове).
+.ss-calc-card__body {
+	min-width: 0;
+}
+
+.ss-calc-card__title {
+	margin: 0 0 6px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 1.3;
+	color: var(--primary);
+	hyphens: auto;
+	overflow-wrap: break-word;
+}
+
+.ss-calc-card__text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+// На мобиле кнопка CTA — на всю ширину (стек-раскладка карточки).
+.ss-calc-card__action {
+	@include down($md) {
+		.ss-btn {
+			width: 100%;
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ss-calc-card {
+		transition: none;
+	}
+}

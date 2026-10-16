@@ -1,0 +1,21 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Калькуляторы — инженерные инструменты STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+	-var customStyle = `.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/calc-hero-mob.webp')}@media(min-width:1024px){.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/calc-hero@2x.webp')}}`
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-calculators
+		include ../sections/_calc-hero.pug
+		include ../sections/_calc-intro.pug
+		include ../sections/_calc-catalog.pug
+		include ../sections/_calc-cta.pug
+		include ../sections/_calc-howto.pug
+		include ../sections/_feedback-b24-inner.pug
+
+	include ../sections/_footer.pug
+
+	//- Модалки страницы (скрыты по умолчанию, открываются JS по data-modal="<id>")
+	include ../sections/_modal-request-b24.pug

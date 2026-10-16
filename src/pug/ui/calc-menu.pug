@@ -1,0 +1,195 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Многоуровневое меню (.ss-calc-menu)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Многоуровневое меню (.ss-calc-menu)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Многоуровневое аккордеон-меню для sticky-сайдбара на хабе инструментов (
+				code calculators.html
+				| ). До 3 уровней вложенности: level-1 (разделы), level-2 (подкатегории), ссылки (конкретные калькуляторы). Внутри level-1 допускаются standalone-ссылки без level-2 обёртки.
+				br
+				| Раскрытие — accordion-паттерн: клик по
+				code .__head
+				|  переключает
+				code .is-open
+				|  на родительском
+				code .__group
+				| . Множественный open — любые группы могут быть одновременно раскрыты.
+				br
+				| На &lt;1024px блок скрыт целиком (
+				code display: none
+				| ). Стили —
+				code src/scss/blocks/_calc-menu.scss
+				| , JS —
+				code src/js/calc-menu.js
+				| .
+
+			//- ===== Полное демо =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример (3 уровня + standalone-ссылка)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Клик по заголовку любого уровня — раскрытие/сворачивание. Первая активная ссылка подсвечена
+					code --accent1
+					|  (класс
+					code .is-active
+					|  ставит консьюмер по текущему url'у).
+
+				.breadcrumbs-catalog__demo(style='max-width: 320px;')
+					nav.ss-calc-menu
+						//- Level-1 раскрытая группа «Пар»
+						.ss-calc-menu__group.ss-calc-menu__group--level-1.is-open
+							button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+								span Пар
+								span.ss-calc-menu__count 23
+							.ss-calc-menu__body
+								.ss-calc-menu__body-inner
+									//- Level-2 раскрытая «Проектирование трубопроводов»
+									.ss-calc-menu__group.ss-calc-menu__group--level-2.is-open
+										button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+											span.ss-calc-menu__icon
+												+svgIcon('chevron-down')
+											span Проектирование трубопроводов
+										.ss-calc-menu__body
+											.ss-calc-menu__body-inner
+												a.ss-calc-menu__link.is-active(href='#') Расчёт размера трубы по потерям давления
+												a.ss-calc-menu__link(href='#') Расчёт размера трубы по скорости
+												a.ss-calc-menu__link(href='#') Расход пара в трубопроводе
+									//- Level-2 закрытая «Клапаны и сопла»
+									.ss-calc-menu__group.ss-calc-menu__group--level-2
+										button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+											span.ss-calc-menu__icon
+												+svgIcon('chevron-down')
+											span Клапаны и сопла
+										.ss-calc-menu__body
+											.ss-calc-menu__body-inner
+												a.ss-calc-menu__link(href='#') Значения пропускной способности Cv и Kv
+												a.ss-calc-menu__link(href='#') Расход пара через клапан
+									//- Standalone-ссылка (без level-2 обёртки)
+									a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Эффективность котла
+
+						//- Level-1 закрытая «Возврат конденсата»
+						.ss-calc-menu__group.ss-calc-menu__group--level-1
+							button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+								span Возврат конденсата
+								span.ss-calc-menu__count 9
+							.ss-calc-menu__body
+								.ss-calc-menu__body-inner
+									a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Образование выпара
+
+						//- Level-1 закрытая «Паровые таблицы» (только standalone)
+						.ss-calc-menu__group.ss-calc-menu__group--level-1
+							button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+								span Паровые таблицы
+								span.ss-calc-menu__count 3
+							.ss-calc-menu__body
+								.ss-calc-menu__body-inner
+									a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Насыщенный пар — по давлению
+									a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Насыщенный пар — по температуре
+
+			//- ===== Элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Элементы
+
+				ul
+					li
+						code .ss-calc-menu
+						|  — обёртка
+						code &lt;nav&gt;
+						| . На &lt;1024px скрыта.
+					li
+						code .ss-calc-menu__group
+						|  — группа (level-1 или level-2). Раскрывается через класс
+						code .is-open
+						|  на себе.
+					li
+						code .ss-calc-menu__group--level-1
+						| ,
+						code .ss-calc-menu__group--level-2
+						|  — модификаторы уровня (визуально влияют на вложенные
+						code .__head
+						| ).
+					li
+						code .ss-calc-menu__head
+						|  —
+						code &lt;button type="button"&gt;
+						|  во всю ширину. Клик переключает
+						code .is-open
+						|  на родителе
+						code .__group
+						| . Внутри: один
+						code &lt;span&gt;
+						|  с текстом + один
+						code .__icon
+						| .
+					li
+						code .ss-calc-menu__head--level-1
+						|  — крупнее (16/600). Справа — счётчик
+						code .ss-calc-menu__count
+						|  вместо chevron'а. При
+						code .is-open
+						|  на родителе: серый фон +
+						code --accent3
+						|  вертикальная полоса слева.
+					li
+						code .ss-calc-menu__count
+						|  — pill с цифрой количества калькуляторов (программист подставляет актуальное число из БД).
+					li
+						code .ss-calc-menu__head--level-2
+						|  — средний (14/500), chevron слева от текста, отступ слева 20px.
+					li
+						code .ss-calc-menu__icon
+						|  — обёртка под SVG-иконку
+						code chevron-down
+						| . При
+						code .is-open
+						|  на родителе — поворот 180°.
+					li
+						code .ss-calc-menu__body
+						|  — collapsible-контейнер. Grid-template-rows 0fr → 1fr + visibility (как в
+						code .ss-accordion
+						| ).
+					li
+						code .ss-calc-menu__body-inner
+						|  — flex-column с небольшим gap. Нужен для min-height: 0 (grid-child).
+					li
+						code .ss-calc-menu__link
+						|  — конечная ссылка. Padding-left 44 (level-3 отступ). Hover —
+						code --secondary3
+						|  фон,
+						code .is-active
+						|  —
+						code --accent1
+						|  заливка + белый текст.
+					li
+						code .ss-calc-menu__link--standalone
+						|  — ссылка под level-1 без level-2 обёртки. Padding-left 20 (как level-2 head).
+
+			//- ===== Сниппет =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Сниппет (минимальный)
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| nav.ss-calc-menu
+						|     .ss-calc-menu__group.ss-calc-menu__group--level-1.is-open
+						|         button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+						|             span Пар
+						|             span.ss-calc-menu__count 23
+						|         .ss-calc-menu__body
+						|             .ss-calc-menu__body-inner
+						|                 .ss-calc-menu__group.ss-calc-menu__group--level-2
+						|                     button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+						|                         span.ss-calc-menu__icon
+						|                             +svgIcon('chevron-down')
+						|                         span Клапаны и сопла
+						|                     .ss-calc-menu__body
+						|                         .ss-calc-menu__body-inner
+						|                             a.ss-calc-menu__link.is-active(href='#') Расход пара через клапан
+						|                             a.ss-calc-menu__link(href='#') Расход пара через сопло
+						|                 a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Эффективность котла
