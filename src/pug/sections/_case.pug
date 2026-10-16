@@ -22,7 +22,7 @@
 
 //- ==================== Полоса хлебных крошек ====================
 section.ss-doc-layout__crumbs
-	.ss-container.ss-container--narrow.ss-wrapper
+	.ss-container.ss-wrapper
 		nav.ss-breadcrumbs(aria-label='Хлебные крошки')
 			ol.ss-breadcrumbs__list
 				li.ss-breadcrumbs__item
@@ -69,55 +69,55 @@ section.ss-doc-layout.ss-doc-layout--with-toc.ss-single-case
 						ul.ss-info-grid
 							li.ss-info-grid__item
 								span.ss-info-grid__icon(aria-hidden='true')
-									+svgIcon('user')
+									img(src=`${basePath}img/user-blue-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 								.ss-info-grid__body
 									p.ss-info-grid__label Клиент
 									p.ss-info-grid__value Молочный комбинат «Вкусмол»
 							li.ss-info-grid__item
 								span.ss-info-grid__icon(aria-hidden='true')
-									+svgIcon('calendar')
+									img(src=`${basePath}img/calendar-blue-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 								.ss-info-grid__body
 									p.ss-info-grid__label Год реализации
 									p.ss-info-grid__value 2023
 							li.ss-info-grid__item
 								span.ss-info-grid__icon(aria-hidden='true')
-									+svgIcon('tool')
+									img(src=`${basePath}img/tool-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 								.ss-info-grid__body
 									p.ss-info-grid__label Оборудование
 									p.ss-info-grid__value TLV, TUMA, фильтры Y-типа
 							li.ss-info-grid__item
 								span.ss-info-grid__icon(aria-hidden='true')
-									+svgIcon('shield')
+									img(src=`${basePath}img/shield-check-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 								.ss-info-grid__body
 									p.ss-info-grid__label Отрасль
 									p.ss-info-grid__value Молочная промышленность
 							li.ss-info-grid__item
 								span.ss-info-grid__icon(aria-hidden='true')
-									+svgIcon('doc')
+									img(src=`${basePath}img/doc-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 								.ss-info-grid__body
 									p.ss-info-grid__label Тип объекта
 									p.ss-info-grid__value Пищевое производство
 							li.ss-info-grid__item
 								span.ss-info-grid__icon(aria-hidden='true')
-									+svgIcon('cog')
+									img(src=`${basePath}img/cog-blue-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 								.ss-info-grid__body
 									p.ss-info-grid__label Масштаб
 									p.ss-info-grid__value 48 конденсатоотводчиков
 							li.ss-info-grid__item
 								span.ss-info-grid__icon(aria-hidden='true')
-									+svgIcon('target')
+									img(src=`${basePath}img/target-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 								.ss-info-grid__body
 									p.ss-info-grid__label Регион
 									p.ss-info-grid__value Краснодарский край
 							li.ss-info-grid__item
 								span.ss-info-grid__icon(aria-hidden='true')
-									+svgIcon('sliders')
+									img(src=`${basePath}img/center-icon-blue.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 								.ss-info-grid__body
 									p.ss-info-grid__label Вид работ
 									p.ss-info-grid__value Диагностика и замена конденсатоотводчиков
 							li.ss-info-grid__item
 								span.ss-info-grid__icon(aria-hidden='true')
-									+svgIcon('chart')
+									img(src=`${basePath}img/chart-blue-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 								.ss-info-grid__body
 									p.ss-info-grid__label Срок реализации
 									p.ss-info-grid__value 6 месяцев
@@ -208,15 +208,18 @@ section.ss-doc-layout.ss-doc-layout--with-toc.ss-single-case
 						cite — Главный энергетик, молочный комбинат «Вкусный»
 
 					//- ===== Что можно повторить (текст + CTA-ряд) =====
+					//- ===== CTA «Хотите такой же результат?» =====
+					//- Reuse .ss-cta-card с модификаторами --promo (горизонтальная
+					//- раскладка) + --dark (тёмно-синяя плашка, инверсный текст).
+					//- Якорь #sec-repeat сохранён — ссылка в TOC продолжает работать.
 					section#sec-repeat
-						h2 Что можно повторить на вашем объекте
-						p Аналогичный подход применим для паровых систем с конденсатоотводчиками: диагностика — расчёт эффекта — замена в плановый останов. Инженер оценит систему по параметрам и предложит оптимальный объём работ.
-
-						.ss-cta-row
-							.ss-cta-row__buttons
-								+ssBtn('Запросить похожее решение', { variant: 'dark', size: 'small' })(data-modal='request-b24')
-								+ssBtn('Отправить параметры системы', { variant: 'outline-dark', size: 'small' })
-								+ssBtn('Схемы и документы', { variant: 'outline-dark', size: 'small', icon: 'arrow-right' })
+						.ss-cta-card.ss-cta-card--promo.ss-cta-card--dark
+							.ss-cta-card__content
+								p.ss-cta-card__title Хотите такой же результат на&nbsp;вашем объекте?
+								p.ss-cta-card__text Проведём диагностику вашей паровой системы, подберём решение под параметры и&nbsp;рассчитаем экономический эффект.
+							.ss-cta-card__action
+								+ssBtn('Запросить похожее решение', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(data-modal='request-b24')
+								+ssLink('Получить консультацию инженера', { variant: 'white', size: 'md' })(href='#')
 
 				//- -------------------- Слайдер «Похожие кейсы» (внутри main-колонки) --------------------
 				//- Серый фон, карточки .ss-case-card--portfolio, навигация стрелками сверху

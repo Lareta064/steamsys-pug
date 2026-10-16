@@ -152,3 +152,35 @@
 	color: var(--secondary);
 	text-align: center;
 }
+
+
+// ==============================================================
+// Модификатор --dark: инверсная тёмно-синяя плашка. Сочетается с --promo
+// (горизонтальная раскладка): фон --primary1, весь текст — белый. Используется
+// для крупного CTA под основным контентом страницы кейса
+// («Хотите такой же результат на вашем объекте?» и т.п.).
+// ==============================================================
+.ss-cta-card--dark {
+	background: var(--primary1);
+	border-color: transparent;
+	color: var(--white);
+
+	.ss-cta-card__title {
+		color: var(--white);
+	}
+
+	// Описание — приглушённый светлый (title читается акцентнее).
+	.ss-cta-card__text {
+		color: var(--secondary2);
+	}
+
+	// Kicker — светло-синий акцент на тёмной подложке.
+	.ss-cta-card__kicker {
+		color: var(--accent3);
+	}
+
+	// Footnote под кнопкой — осветлённый серый.
+	.ss-cta-card__footnote {
+		color: var(--secondary2);
+	}
+}

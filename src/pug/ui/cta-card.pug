@@ -91,6 +91,39 @@ block content
 						|         +ssBtn('Получить точный расчёт', { variant: 'dark', tag: 'a', href: '#' })
 						|         p.ss-cta-card__footnote Ответ в течение 24 часов
 
+			//- ===== Модификатор --dark =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Модификатор .ss-cta-card--dark (тёмно-синяя плашка)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Инверсная тёмная плашка. Сочетается с
+					code --promo
+					|  (горизонтальная раскладка): фон
+					code --primary1
+					| , весь текст — белый. Используется для крупного CTA под основным контентом страницы (например, под кейсом: «Хотите такой же результат на вашем объекте?»).
+					br
+					| __title белый, __text осветлённый (--secondary2), __kicker --accent3 (светло-синий), __footnote --secondary2. В
+					code .__action
+					|  можно размещать несколько CTA — кнопку и текстовую ссылку, они стекаются по вертикали с центровкой.
+
+				.breadcrumbs-catalog__demo
+					.ss-cta-card.ss-cta-card--promo.ss-cta-card--dark
+						.ss-cta-card__content
+							p.ss-cta-card__title Хотите такой же результат на&nbsp;вашем объекте?
+							p.ss-cta-card__text Проведём диагностику вашей паровой системы, подберём решение под параметры и&nbsp;рассчитаем экономический эффект.
+						.ss-cta-card__action
+							+ssBtn('Запросить похожее решение', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })
+							+ssLink('Получить консультацию инженера', { variant: 'white', size: 'md' })(href='#')
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-cta-card.ss-cta-card--promo.ss-cta-card--dark
+						|     .ss-cta-card__content
+						|         p.ss-cta-card__title Хотите такой же результат на вашем объекте?
+						|         p.ss-cta-card__text Проведём диагностику…
+						|     .ss-cta-card__action
+						|         +ssBtn('Запросить похожее решение', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })
+						|         +ssLink('Получить консультацию инженера', { variant: 'white', size: 'md' })(href='#')
+
 			//- ===== Про элементы =====
 			section.breadcrumbs-catalog__section
 				h3.breadcrumbs-catalog__section-title Про элементы

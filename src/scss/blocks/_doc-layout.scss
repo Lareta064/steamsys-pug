@@ -133,6 +133,22 @@
 	margin-bottom: 20px;
 }
 
+// .ss-info-grid внутри узкой main-колонки раньше сжимается до 2 колонок
+// (на ≥ $xxl ещё помещается 3, ниже — колонка узковата, карточки «иконка +
+// label + value» лучше читаются в 2 колонки). На <$md — 1 колонка.
+// Явный override на <$md обязателен, т.к. специфичность scoped-селектора
+// (2 класса) перебивает базовое правило .ss-info-grid (1 класс) → без него
+// на мобиле осталось бы 2 колонки.
+.ss-doc-layout__main .ss-info-grid {
+	@include down($xxl) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+	}
+}
+
 
 // ---------- Mobile extras placeholder ----------
 // Пуст на десктопе. На мобилке JS (doc-layout.js) переносит сюда [data-doc-extra] блоки.

@@ -28,55 +28,55 @@ block content
 					ul.ss-info-grid
 						li.ss-info-grid__item
 							span.ss-info-grid__icon(aria-hidden='true')
-								+svgIcon('user')
+								img(src=`${basePath}img/user-blue-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 							.ss-info-grid__body
 								p.ss-info-grid__label Клиент
 								p.ss-info-grid__value Молочный комбинат «Вкусмол»
 						li.ss-info-grid__item
 							span.ss-info-grid__icon(aria-hidden='true')
-								+svgIcon('calendar')
+								img(src=`${basePath}img/calendar-blue-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 							.ss-info-grid__body
 								p.ss-info-grid__label Год реализации
 								p.ss-info-grid__value 2023
 						li.ss-info-grid__item
 							span.ss-info-grid__icon(aria-hidden='true')
-								+svgIcon('tool')
+								img(src=`${basePath}img/tool-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 							.ss-info-grid__body
 								p.ss-info-grid__label Оборудование
 								p.ss-info-grid__value TLV, TUMA, фильтры Y-типа
 						li.ss-info-grid__item
 							span.ss-info-grid__icon(aria-hidden='true')
-								+svgIcon('shield')
+								img(src=`${basePath}img/shield-check-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 							.ss-info-grid__body
 								p.ss-info-grid__label Отрасль
 								p.ss-info-grid__value Молочная промышленность
 						li.ss-info-grid__item
 							span.ss-info-grid__icon(aria-hidden='true')
-								+svgIcon('doc')
+								img(src=`${basePath}img/doc-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 							.ss-info-grid__body
 								p.ss-info-grid__label Тип объекта
 								p.ss-info-grid__value Пищевое производство
 						li.ss-info-grid__item
 							span.ss-info-grid__icon(aria-hidden='true')
-								+svgIcon('cog')
+								img(src=`${basePath}img/cog-blue-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 							.ss-info-grid__body
 								p.ss-info-grid__label Масштаб
 								p.ss-info-grid__value 48 конденсатоотводчиков
 						li.ss-info-grid__item
 							span.ss-info-grid__icon(aria-hidden='true')
-								+svgIcon('target')
+								img(src=`${basePath}img/target-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 							.ss-info-grid__body
 								p.ss-info-grid__label Регион
 								p.ss-info-grid__value Краснодарский край
 						li.ss-info-grid__item
 							span.ss-info-grid__icon(aria-hidden='true')
-								+svgIcon('sliders')
+								img(src=`${basePath}img/center-icon-blue.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 							.ss-info-grid__body
 								p.ss-info-grid__label Вид работ
 								p.ss-info-grid__value Диагностика и замена конденсатоотводчиков
 						li.ss-info-grid__item
 							span.ss-info-grid__icon(aria-hidden='true')
-								+svgIcon('chart')
+								img(src=`${basePath}img/chart-blue-icon.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
 							.ss-info-grid__body
 								p.ss-info-grid__label Срок реализации
 								p.ss-info-grid__value 6 месяцев
@@ -97,9 +97,15 @@ block content
 						| ), flex-row.
 					li
 						code .ss-info-grid__icon
-						|  — обёртка SVG 32×32,
-						code color: --accent1
-						| .
+						|  — обёртка 32×32. Внутри —
+						code img
+						|  (webp из
+						code src/img/
+						| ). Используется
+						code img
+						|  вместо SVG, т.к. контент админ-редактируемый: при добавлении/удалении полей проще заменить файл в медиа-библиотеке, чем править sprite. Image
+						code object-fit: contain
+						|  — сохраняет пропорции при нестандартных размерах исходника.
 					li
 						code .ss-info-grid__label
 						|  — надпись-метка (13/400, --secondary).
@@ -116,13 +122,13 @@ block content
 						| ul.ss-info-grid
 						|     li.ss-info-grid__item
 						|         span.ss-info-grid__icon(aria-hidden='true')
-						|             +svgIcon('user')
+						|             img(src='./img/user-blue-icon.webp' width='32' height='32' alt='' loading='lazy' decoding='async')
 						|         .ss-info-grid__body
 						|             p.ss-info-grid__label Клиент
 						|             p.ss-info-grid__value Молочный комбинат «Вкусмол»
 						|     li.ss-info-grid__item
 						|         span.ss-info-grid__icon(aria-hidden='true')
-						|             +svgIcon('calendar')
+						|             img(src='./img/calendar-blue-icon.webp' width='32' height='32' alt='' loading='lazy' decoding='async')
 						|         .ss-info-grid__body
 						|             p.ss-info-grid__label Год реализации
 						|             p.ss-info-grid__value 2023

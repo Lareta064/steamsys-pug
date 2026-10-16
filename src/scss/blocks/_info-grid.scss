@@ -49,6 +49,7 @@
 	display: flex;
 	align-items: flex-start;
 	gap: 14px;
+	border-bottom: 1px solid var(--secondary2);
 }
 
 .ss-info-grid__icon {
@@ -63,6 +64,17 @@
 	svg {
 		width: 100%;
 		height: 100%;
+	}
+
+	// Для блоков, которые редактируются из админки (контент админ может
+	// добавлять/удалять) — иконка подаётся как <img> с готовой картинкой
+	// (webp), а не как SVG из спрайта. Так админ подменяет PNG через
+	// файловый upload без необходимости править sprite.
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
 	}
 }
 
