@@ -1,24 +1,57 @@
 section.ss-section.ss-product-analogs(id='product-analogs')
 	.ss-container.ss-wrapper
-		.ss-product-analogs__grid
+		//- Заголовок + подзаголовок на всю ширину контейнера.
+		.ss-product-analogs__header
+			h2.ss-h2 Нужен аналог?
+			p.ss-product-analogs__desc
+				| Укажите параметры вашего текущего конденсатоотводчика — подберём совместимую замену
 
-			.ss-product-analogs__intro
-				h2.ss-h2 Нужен аналог?
-				p.ss-product-analogs__desc
-					| Укажите параметры вашего текущего конденсатоотводчика — подберём совместимую замену
+		form.ss-product-analogs__form
+			//- Общая серая рамка оборачивает обе колонки + футер — визуальная
+			//- целостность всей формы на фоне белой секции.
+			.ss-product-analogs__box
+				.ss-product-analogs__cols
 
-			.ss-product-analogs__card
-				.ss-product-analogs__fields
-					.ss-product-analogs__field
-						label.ss-product-analogs__label(for='pa-dn') DN и PN
-						input.ss-product-analogs__input#pa-dn(type='text', placeholder='DN25, PN16')
-					.ss-product-analogs__field
-						label.ss-product-analogs__label(for='pa-pressure') Давление рабочее
-						input.ss-product-analogs__input#pa-pressure(type='text', placeholder='бар')
-					.ss-product-analogs__field
-						label.ss-product-analogs__label(for='pa-flow') Расход конденсата
-						input.ss-product-analogs__input#pa-flow(type='text', placeholder='кг/ч')
-					.ss-product-analogs__field
-						label.ss-product-analogs__label(for='pa-analog') Текущий аналог (марка/артикул)
-						input.ss-product-analogs__input#pa-analog(type='text', placeholder='Производитель, артикул')
-				+ssBtn('Подобрать аналог', { variant: 'dark', full: true })(type='submit')
+					//- Левая колонка — контактные поля. Единый с правой колонкой паттерн:
+					//- label над инпутом, тот же бордер/фон/высота.
+					.ss-product-analogs__col
+						//- Имя + Телефон в одну строку.
+						.ss-product-analogs__row
+							.ss-product-analogs__field
+								label.ss-product-analogs__label(for='pa-name') Ваше имя
+								input.ss-product-analogs__input#pa-name(type='text', placeholder='Иван Иванов')
+							.ss-product-analogs__field
+								label.ss-product-analogs__label(for='pa-phone') Телефон
+								input.ss-product-analogs__input#pa-phone(type='tel', placeholder='+7 (___) ___-__-__')
+						.ss-product-analogs__field
+							label.ss-product-analogs__label(for='pa-email') Email для отправки КП
+							input.ss-product-analogs__input#pa-email(type='email', placeholder='name@company.ru')
+						.ss-product-analogs__field
+							label.ss-product-analogs__label(for='pa-comment') Комментарий или описание задачи
+							textarea.ss-product-analogs__input.ss-product-analogs__input--textarea#pa-comment(placeholder='Дополнительные детали, по которым проще подобрать аналог', rows='4')
+
+					//- Правая колонка — параметры аналога + футер (политика + кнопка).
+					.ss-product-analogs__col
+						.ss-product-analogs__fields
+							.ss-product-analogs__field
+								label.ss-product-analogs__label(for='pa-dn') DN и PN
+								input.ss-product-analogs__input#pa-dn(type='text', placeholder='DN25, PN16')
+							.ss-product-analogs__field
+								label.ss-product-analogs__label(for='pa-pressure') Давление рабочее
+								input.ss-product-analogs__input#pa-pressure(type='text', placeholder='бар')
+							.ss-product-analogs__field
+								label.ss-product-analogs__label(for='pa-flow') Расход конденсата
+								input.ss-product-analogs__input#pa-flow(type='text', placeholder='кг/ч')
+							.ss-product-analogs__field
+								label.ss-product-analogs__label(for='pa-analog') Текущий аналог (марка/артикул)
+								input.ss-product-analogs__input#pa-analog(type='text', placeholder='Производитель, артикул')
+
+						//- Футер формы под полями правой колонки: политика + кнопка.
+						.ss-product-analogs__footer
+							label.ss-checkbox
+								input.ss-checkbox__input(type='checkbox')
+								span.ss-checkbox__box
+								span.ss-checkbox__label
+									| Нажимая кнопку, вы соглашаетесь с&nbsp;
+									a(href='#') политикой конфиденциальности
+							+ssBtn('Подобрать аналог', { variant: 'dark', full: true })(type='submit')
