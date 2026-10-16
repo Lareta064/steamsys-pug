@@ -62,9 +62,9 @@
 	background: var(--secondary3);
 }
 
-// Sidebar слева + без header-ряда (главный заголовок страницы живёт
-// в предыдущей секции _calc-intro, grid-area header тут не нужна).
-// На < $lg — тоже без header-ряда: sidebar сверху → content → extras.
+// Sidebar слева, без header-ряда (главный заголовок живёт в _calc-intro).
+// На < $lg aside скрыт целиком (меню .ss-calc-menu применяет display: none),
+// поэтому в mobile-grid-areas sidebar-ряд не нужен — только content + extras.
 .ss-calc-catalog .ss-doc-layout__grid {
 	grid-template-columns: 320px 1fr;
 	grid-template-areas:
@@ -74,7 +74,6 @@
 	@include down($lg) {
 		grid-template-columns: 1fr;
 		grid-template-areas:
-			'sidebar'
 			'content'
 			'extras';
 	}
