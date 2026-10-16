@@ -35,16 +35,16 @@
 	padding: 24px;
 	background: var(--white);
 	border: 1px solid var(--secondary2);
-	border-left: 3px solid var(--secondary2);
-	border-left: 3px solid var(--accent1);
+	border-left: 3px solid var(--secondary);
+	
 	border-radius: 10px;
 	transition: border-color .2s ease;
 
 	&:hover,
 	&:focus-within {
-		border: 1px solid var(--secondary1);
+		
 		border-left: 3px solid var(--accent1);
-
+		.ss-calc-card__title{color:var(--accent1);}
 	}
 
 	@include down($md) {
