@@ -1,0 +1,22 @@
+//- ============================================================
+//- Методология — 3 шага работы с калькуляторами. Reuse .ss-feature-card
+//- с цифрой-номером вместо иконки. Цифра в .__icon рендерится как
+//- большой акцентный span (стили — _calculators.scss).
+//- ============================================================
+- var calcHowtoItems = [{ num: '01', title: 'Ввод параметров', text: 'Задаёте давление, расход, температуру и другие параметры системы — калькулятор работает без регистрации.' }, { num: '02', title: 'Мгновенный результат', text: 'Получаете оценочный расчёт с точностью ±30%. Достаточно для первичного анализа и обоснования бюджета.' }, { num: '03', title: 'Точный расчёт инженера', text: 'Если нужна точность выше — инженер подготовит расчёт по спецификации за 1 рабочий день.' }]
+
+section.ss-section.ss-calc-howto
+	.ss-container.ss-container--narrow.ss-wrapper
+		.ss-section-header
+			.ss-section-header__title
+				span.ss-kicker Как это работает
+				h2.ss-h2 От быстрой оценки до точного расчёта
+
+		.ss-grid.ss-grid--row-3.ss-grid--md-row-1
+			each item in calcHowtoItems
+				.ss-feature-card
+					span.ss-feature-card__icon(aria-hidden='true')
+						span.ss-calc-howto__num= item.num
+					.ss-feature-card__body
+						p.ss-feature-card__title= item.title
+						p.ss-feature-card__text= item.text

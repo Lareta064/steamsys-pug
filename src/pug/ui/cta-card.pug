@@ -58,6 +58,39 @@ block content
 						|     p.ss-cta-card__title Получить коммерческое предложение
 						|     +ssBtn('Оставить заявку', { variant: 'primary', full: true, tag: 'a', href: '#' })
 
+			//- ===== Модификатор --promo =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Модификатор .ss-cta-card--promo (промо-плашка в полную ширину)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Светло-серый фон, горизонтальная раскладка 2 колонки: слева
+					code .ss-cta-card__content
+					|  (kicker + title + text), справа
+					code .ss-cta-card__action
+					|  (кнопка + footnote под ней). На &lt;768px стек в колонку, кнопка на всю ширину.
+					br
+					| Используется для секций «Нужна точность?» и подобных — крупный CTA под основным контентом.
+
+				.breadcrumbs-catalog__demo
+					.ss-cta-card.ss-cta-card--promo
+						.ss-cta-card__content
+							p.ss-cta-card__kicker Нужна точность?
+							p.ss-cta-card__title Точный расчёт от инженера — за 24 часа, бесплатно
+							p.ss-cta-card__text Калькуляторы дают оценку ±30%. Для обоснования перед руководством нужен точный расчёт с учётом реальных параметров вашей системы.
+						.ss-cta-card__action
+							+ssBtn('Получить точный расчёт', { variant: 'dark', tag: 'a', href: '#' })
+							p.ss-cta-card__footnote Ответ в течение 24 часов
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-cta-card.ss-cta-card--promo
+						|     .ss-cta-card__content
+						|         p.ss-cta-card__kicker Нужна точность?
+						|         p.ss-cta-card__title Точный расчёт от инженера — за 24 часа
+						|         p.ss-cta-card__text Калькуляторы дают оценку ±30%…
+						|     .ss-cta-card__action
+						|         +ssBtn('Получить точный расчёт', { variant: 'dark', tag: 'a', href: '#' })
+						|         p.ss-cta-card__footnote Ответ в течение 24 часов
+
 			//- ===== Про элементы =====
 			section.breadcrumbs-catalog__section
 				h3.breadcrumbs-catalog__section-title Про элементы

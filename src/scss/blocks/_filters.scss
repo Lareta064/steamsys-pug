@@ -51,8 +51,8 @@
 
 .ss-filters__title {
 	margin: 0;
-	font-family: var(--font-family);
-	font-weight: 600;
+	font-family: var(--font-family);	
+	font-weight: 700;
 	font-size: 20px;
 	line-height: 1.3;
 	color: var(--primary);
@@ -81,6 +81,8 @@
 .ss-filters .ss-accordion__header {
 	padding: 10px 0;
 	font-weight: 500;
+	  font-size: 16px;
+     line-height: 1.4;
 }
 
 // Chevron-down справа. Ротация 180° при раскрытии. Цвет inherit — идёт
@@ -322,8 +324,8 @@
 	margin-bottom: 8px;
 	color: var(--primary);
 	font-family: var(--font-family);
-	font-size: 12px;
-	font-weight: 500;
+	font-size: 16px;
+	font-weight: 600;
 	line-height: 1.4;
 	text-transform: uppercase;
 }

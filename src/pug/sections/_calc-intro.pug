@@ -1,0 +1,22 @@
+//- ============================================================
+//- Заголовок страницы + 3 карточки входа (reuse .ss-info-card).
+//- По макету этот заголовок — для секции-каталога ниже
+//- (sidebar с категориями). Он живёт здесь, в полной ширине
+//- над грид-секцией _calc-catalog, а не внутри её grid-header'а.
+//- ============================================================
+- var calcIntroItems = [{ title: 'Быстрый вход для энергетика', text: 'Экономика возврата конденсата, потери через КО, окупаемость модернизации.', link: 'Рассчитать экономию', href: '#calc-economy' }, { title: 'Подбор трубопроводов', text: 'Диаметр, скорость, расход и потери давления для пара, конденсата и воды.', link: 'Перейти к расчётам', href: '#calc-steam' }, { title: 'Точный расчёт инженера', text: 'Если нужны проверка исходных данных, схема или расчёт для КП.', link: 'Передать параметры', href: '#calc-form' }]
+
+section.ss-section.ss-calc-intro
+	.ss-container.ss-container--narrow.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				span.ss-kicker Каталог инструментов
+				h2.ss-h2 Выберите раздел и расчётную задачу
+			p.ss-calc-intro__lead Расчёты сгруппированы по рабочей среде и инженерной задаче: пар, конденсат, вода, воздух, экономика и справочные таблицы.
+
+		.ss-grid.ss-grid--row-3.ss-grid--md-row-1
+			each item in calcIntroItems
+				article.ss-info-card
+					h3.ss-semi-20= item.title
+					p.ss-reg-16.ss-txt-secondary= item.text
+					+ssLink(item.link, { size: 'md' })(href=item.href)

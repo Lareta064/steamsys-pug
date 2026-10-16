@@ -1,0 +1,250 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-calc-menu — многоуровневое меню калькуляторов для sticky-сайдбара
+// на хабе инструментов (calculators.html). До 3 уровней вложенности:
+//   level-1  (Пар / Возврат конденсата / Вода / Воздух / Газ / Таблицы)
+//     level-2  (Проектирование трубопроводов / Клапаны и сопла / …)
+//       link   (Расчёт размера трубы / Расход пара через клапан / …)
+//
+// Внутри level-1 могут быть и standalone-ссылки без level-2 обёртки.
+//
+// Раскрытие — accordion-паттерн: клик по __head переключает .is-open на
+// родительском __group. Анимация body — grid-template-rows 0fr → 1fr
+// (тот же приём, что в .ss-accordion). JS — src/js/calc-menu.js.
+//
+// На < $lg блок скрыт целиком (меню не нужно, контент хаба читается
+// в линейном порядке в main-колонке).
+//
+// Разметка (укороченный пример):
+//   nav.ss-calc-menu
+//     .ss-calc-menu__group.ss-calc-menu__group--level-1.is-open
+//       button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+//         span Пар
+//         span.ss-calc-menu__icon
+//           +svgIcon('chevron-down')
+//       .ss-calc-menu__body
+//         .ss-calc-menu__body-inner
+//           .ss-calc-menu__group.ss-calc-menu__group--level-2.is-open
+//             button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+//               span.ss-calc-menu__icon
+//                 +svgIcon('chevron-down')
+//               span Проектирование трубопроводов
+//             .ss-calc-menu__body
+//               .ss-calc-menu__body-inner
+//                 a.ss-calc-menu__link.is-active(href='#') Расчёт размера трубы
+//                 a.ss-calc-menu__link(href='#') Расход пара в трубопроводе
+//           a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Эффективность котла
+// ==============================================================
+
+.ss-calc-menu {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 16px;
+	background-color: #fff;
+	// На мобильных и планшетах < $lg блок не отображается.
+	// Калькуляторы в правой колонке видимы сами по себе, а меню теряет
+	// смысл без sticky-позиционирования.
+	@include down($lg) {
+		display: none;
+	}
+}
+
+
+// ---------- Group (аккордеон-обёртка level-1 / level-2) ----------
+.ss-calc-menu__group {
+	// Пустая обёртка — родитель head + body. Нужна как якорь для .is-open
+	// и для вложенности (внутри level-1 body живут level-2 groups).
+}
+
+
+// ---------- Head (кликабельная строка) ----------
+// Button по всей ширине — вся строка кликабельна.
+.ss-calc-menu__head {
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+	padding: 10px 12px;
+	margin: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	color: var(--primary);
+	font-family: var(--font-family);
+	line-height: 1.3;
+	text-align: left;
+	cursor: pointer;
+	transition: background-color .2s ease, color .2s ease;
+
+	&:hover {
+		background: var(--secondary3);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+
+	// Label-текст: забирает всё свободное место (между иконками/краями).
+	> span:not(.ss-calc-menu__icon) {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+}
+
+// Level-1: крупнее, жирнее. Справа — счётчик .ss-calc-menu__count (цифра
+// количества калькуляторов в разделе). Border-left: 3px transparent всегда
+// (резервирует место), при .is-open на родителе красится в accent3 —
+// паттерн, как у активного пункта .ss-toc.
+.ss-calc-menu__head--level-1 {
+	padding-left: 11px;    // 14 базовых − 3 border = визуально ровно
+	border-left: 3px solid transparent;
+	font-weight: 600;
+	font-size: 16px;
+}
+
+// Level-2: средний размер, chevron слева от текста (как в исходнике).
+.ss-calc-menu__head--level-2 {
+	padding-left: 20px;
+	font-weight: 500;
+	font-size: 14px;
+	color: var(--secondary);
+	
+}
+.ss-calc-menu__group--level-2.is-open .ss-calc-menu__head--level-2{
+	color: var(--accent1);
+	svg{color: var(--accent1)}
+}
+// Раскрытый level-1: серый фон + акцентная вертикаль слева.
+.ss-calc-menu__group--level-1.is-open > .ss-calc-menu__head--level-1 {
+	background: var(--secondary3);
+	border-left-color: var(--accent3);
+}
+
+// Счётчик количества калькуляторов в разделе. Пилюля справа у level-1 head
+// (вместо chevron'а). Нейтральный серый, не меняется при раскрытии —
+// визуальная индикация раскрытия и так есть: подсветка фона + полоса слева.
+// Цифру ставит консьюмер (программист выводит актуальное число из БД).
+.ss-calc-menu__count {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 30px;
+	max-width: 30px;
+	height: 30px;
+	padding: 0 6px;
+	border-radius: 4px;
+	background: var(--secondary2);
+	color: var(--primary);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1;
+}
+
+// Chevron. По умолчанию направлен вниз (closed), при .is-open на родителе
+// — поворот на 180°.
+.ss-calc-menu__icon {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	color: var(--secondary1);
+	transition: transform .25s ease;
+
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.ss-calc-menu__group.is-open > .ss-calc-menu__head .ss-calc-menu__icon {
+	transform: rotate(180deg);
+}
+
+
+// ---------- Body (collapsible) ----------
+// Grid 0fr/1fr + overflow: hidden — чистое CSS-раскрытие без JS-измерений.
+// Visibility снимается после закрытия, чтобы Tab не проваливался в скрытое.
+.ss-calc-menu__body {
+	display: grid;
+	grid-template-rows: 0fr;
+	overflow: hidden;
+	visibility: hidden;
+	transition:
+		grid-template-rows .25s ease,
+		visibility 0s linear .25s;
+}
+
+.ss-calc-menu__body-inner {
+	min-height: 0;
+	padding: 2px 0 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ss-calc-menu__group.is-open > .ss-calc-menu__body {
+	grid-template-rows: 1fr;
+	visibility: visible;
+	transition:
+		grid-template-rows .25s ease,
+		visibility 0s;
+}
+
+
+// ---------- Link (конечная ссылка — уровень 3 или standalone) ----------
+// В обычном месте — отступ как level-2 head + ещё 20 за счёт вложенности.
+// Standalone-ссылка (прямо под level-1, минуя level-2) — отступ как level-2.
+.ss-calc-menu__link {
+	display: block;
+	padding: 8px 12px 8px 44px;
+	border-radius: 8px;
+	color: var(--secondary);
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	text-decoration: none;
+	transition: background-color .2s ease, color .2s ease;
+
+	&:hover {
+		background: var(--secondary3);
+		color: var(--primary);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+
+	// Активная ссылка — заливка --accent1 + белый текст (как в .ss-cat-list).
+	// Класс .is-active ставит сам консьюмер — обычно по текущему url'у.
+	&.is-active {
+		background: var(--accent1);
+		color: var(--white);
+	}
+}
+
+// Standalone — ссылка без level-2 обёртки (сразу под level-1). Отступ
+// совпадает с level-2 head'ом, визуально встаёт в тот же ряд.
+.ss-calc-menu__link--standalone {
+	padding-left: 20px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+	.ss-calc-menu__body,
+	.ss-calc-menu__group.is-open > .ss-calc-menu__body,
+	.ss-calc-menu__icon,
+	.ss-calc-menu__head,
+	.ss-calc-menu__link {
+		transition: none;
+	}
+}

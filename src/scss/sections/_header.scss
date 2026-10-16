@@ -163,9 +163,10 @@
 // Кнопка «Получить КП» — заглушка под будущую модалку (data-modal="request").
 // margin-left: 0 — gap задан на inner (20px), не нужно доп. отступа.
 // ------------------------------
-.ss-header__cta {
+.ss-btn.ss-header__cta {
 	flex-shrink: 0;
-
+	height: 40px;
+    column-gap: 12px;
 	@include down($xl) {
 		display: none;
 	}

@@ -1,0 +1,29 @@
+//- ============================================================
+//- Hero страницы «Калькуляторы» (хаб инженерных инструментов).
+//- Темный .ss-hero-inner--dark с фоновой картинкой (calc-hero).
+//- Фоновая картинка задаётся через customStyle в calculators.pug —
+//- CSS custom properties --hero-bg-sm / --hero-bg-lg (см. REDESIGN_RULES.md
+//- «Старт новой страницы — чек-лист», шаг 5).
+//-
+//- Содержимое: кикер + h1 + lead + 3 бейджа .ss-tag--mini.
+//- ============================================================
+section.ss-hero-inner.ss-hero-inner--dark.calc-page__hero
+	.ss-hero-inner__crumbs
+		.ss-container.ss-container--narrow.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='/') Главная
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Калькуляторы
+
+	.ss-hero-inner__body
+		.ss-container.ss-container--narrow.ss-wrapper
+			.ss-hero-inner__body-inner
+				span.ss-kicker.ss-txt-accent3 Инженерные инструменты
+				h1.ss-h1 Калькуляторы
+				p.ss-hero-inner__lead
+					| Оценочные расчёты для первичного анализа экономики модернизации. Подбор DN, оценка потерь пара, экономика возврата конденсата, учёт КПД.
+				ul.calc-page__hero-tags
+					li: span.ss-tag.ss-tag--mini Без регистрации
+					li: span.ss-tag.ss-tag--mini Мгновенный результат
+					li: span.ss-tag.ss-tag--mini Точность ±30%

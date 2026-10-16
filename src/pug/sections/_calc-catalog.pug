@@ -1,0 +1,234 @@
+//- ============================================================
+//- Основная секция хаба калькуляторов — grid калькуляторов по 6 категориям
+//- со sticky многоуровневым меню слева (.ss-calc-menu).
+//-
+//- Reuse раскладки .ss-doc-layout (БЕЗ --with-toc: aside на мобиле скрыт,
+//- grid-template-areas на < $lg не резервирует ряд sidebar). Левая колонка
+//- для sticky-sidebar включается page-specific scoped override (см.
+//- _calculators.scss).
+//-
+//- Левый sidebar — nav.ss-calc-menu (многоуровневое аккордеон-меню
+//- с полным списком всех калькуляторов, 3 уровня вложенности).
+//- Правая колонка — заголовки категорий + grid'ы .ss-calc-card.
+//- Контейнер — .ss-container--narrow.
+//- ============================================================
+- var calcCategories = [{ id: 'calc-steam', title: 'Пар', count: 8, items: [{ title: 'Расчёт диаметра паропровода по потерям давления', text: 'Подбор DN по расходу, давлению, длине и допустимому падению давления.' }, { title: 'Расход пара на подогрев воды', text: 'Расход пара на нагрев воды в теплообменнике по тепловой нагрузке и параметрам пара.' }, { title: 'Расход пара на подогрев воздуха', text: 'Оценка тепловой нагрузки парового калорифера по расходу воздуха и температурам.' }, { title: 'Пропускная способность редукционного клапана', text: 'Проверка Kvs клапана по заданному перепаду давления и расходу пара.' }, { title: 'Температура насыщенного пара', text: 'Температура и теплосодержание насыщенного пара при известном давлении.' }, { title: 'Потери пара через свищ', text: 'Оценка объёмных потерь пара через отверстие известного диаметра.' }, { title: 'Расход пара на разогрев трубопровода', text: 'Пусковой расход пара на прогрев остывшего паропровода до рабочей температуры.' }, { title: 'Расход пара на увлажнение воздуха', text: 'Расход насыщенного пара для увлажнения приточного воздуха до заданных параметров.' }] }, { id: 'calc-condensate', title: 'Конденсат', count: 7, items: [{ title: 'Пропускная способность конденсатоотводчика', text: 'Проверка подобранного КО по рабочему давлению и максимальному расходу конденсата.' }, { title: 'Диаметр конденсатопровода', text: 'Подбор DN конденсатопровода с учётом пароводяной смеси после КО.' }, { title: 'Температура конденсата после КО', text: 'Оценка температуры конденсата после КО с учётом доли вскипания.' }, { title: 'Доля пара вторичного вскипания', text: 'Процент пара вторичного вскипания при известных давлениях до и после КО.' }, { title: 'Выбор типа КО по условиям', text: 'Рекомендация типа КО (поплавковый / термодинамический / термостатический) по режиму работы.' }, { title: 'Потери от утечки через КО', text: 'Годовые потери пара при утечке через неисправный КО.' }, { title: 'Производительность СВК', text: 'Подбор производительности станции возврата конденсата по пиковому расходу.' }] }, { id: 'calc-water', title: 'Вода', count: 6, items: [{ title: 'Диаметр водопровода', text: 'Подбор DN по расходу и допустимой скорости течения воды.' }, { title: 'Расход питательной воды котла', text: 'Потребность в питательной воде по паропроизводительности с учётом непрерывной продувки.' }, { title: 'Расход воды на подпитку системы', text: 'Расход воды на компенсацию потерь при известной доле возврата конденсата.' }, { title: 'Температура нагрева ХВО', text: 'Температура предварительного нагрева воды перед деаэратором.' }, { title: 'Расход воды на химводоочистку', text: 'Нагрузка ХВО с учётом регенерации и качества исходной воды.' }, { title: 'Жёсткость котловой воды', text: 'Оценка жёсткости котловой воды при известной продувке и жёсткости питательной.' }] }, { id: 'calc-air', title: 'Воздух', count: 5, items: [{ title: 'Расход сжатого воздуха пневмопривода', text: 'Пиковый расход сжатого воздуха на регулирующий клапан с пневмоприводом.' }, { title: 'Диаметр воздуховода', text: 'Подбор диаметра воздуховода по расходу и допустимой скорости.' }, { title: 'Потери давления воздуха', text: 'Потери давления в участке воздуховода с учётом местных сопротивлений.' }, { title: 'Температура точки росы', text: 'Температура точки росы сжатого воздуха при заданных параметрах.' }, { title: 'Производительность компрессора', text: 'Подбор производительности компрессора под пиковую нагрузку системы.' }] }, { id: 'calc-economy', title: 'Экономика', count: 5, items: [{ title: 'Экономия от возврата конденсата', text: 'Оценка эффекта от внедрения СВК: экономия пара, топлива, химводоочистки и подпитки.' }, { title: 'Срок окупаемости модернизации', text: 'Простая окупаемость при известной экономии в год и затратах на модернизацию.' }, { title: 'Экономия от замены неисправных КО', text: 'Годовая экономия при замене всех неисправных конденсатоотводчиков.' }, { title: 'Стоимость тонны пара', text: 'Себестоимость тонны пара при известных ценах на топливо, воду и КПД котельной.' }, { title: 'Экономия от повышения КПД котла', text: 'Экономия топлива при повышении КПД котла на 1% и выше.' }] }, { id: 'calc-tables', title: 'Таблицы', count: 3, items: [{ title: 'Параметры насыщенного пара', text: 'Таблица температуры, теплосодержания и теплоты парообразования от 0 до 40 бар.' }, { title: 'Температура / давление пара', text: 'Пересчёт давления в температуру насыщения и обратно.' }, { title: 'Пересчёт единиц измерения', text: 'Калькулятор пересчёта давления, расхода, мощности и температуры в разных системах единиц.' }] }]
+
+section.ss-doc-layout.ss-calc-catalog
+	.ss-container.ss-container--narrow.ss-wrapper
+		.ss-doc-layout__grid
+
+			.ss-doc-layout__main
+				each cat in calcCategories
+					section(id=cat.id).ss-calc-catalog__group
+						h2.ss-h5= cat.title
+						.ss-grid.ss-grid--row-1
+							each c in cat.items
+								article.ss-calc-card
+									.ss-calc-card__body
+										h3.ss-calc-card__title= c.title
+										p.ss-calc-card__text= c.text
+									.ss-calc-card__action
+										+ssBtn('Рассчитать', { variant: 'primary', icon: 'arrow-right', tag: 'a', href: '#' })(class='ss-calc-card__link')
+
+			aside.ss-sticky-side.ss-doc-layout__aside
+				//- Многоуровневое меню (.ss-calc-menu, blocks/_calc-menu.scss).
+				//- 3 уровня вложенности: level-1 → level-2 → ссылки.
+				//- JS toggle — src/js/calc-menu.js. На < $lg блок скрыт (сам
+				//- компонент применяет display: none через свои стили).
+				nav.ss-calc-menu(aria-label='Калькуляторы')
+					//- Пар
+					.ss-calc-menu__group.ss-calc-menu__group--level-1.is-open
+						button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+							span Пар
+							span.ss-calc-menu__count 23
+						.ss-calc-menu__body
+							.ss-calc-menu__body-inner
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Проектирование трубопроводов
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Расчёт размера трубы по потерям давления
+											a.ss-calc-menu__link(href='#') Расчёт размера трубы по скорости
+											a.ss-calc-menu__link(href='#') Расчёт размера вестовой трубы
+											a.ss-calc-menu__link(href='#') Потери давления в трубопроводе
+											a.ss-calc-menu__link(href='#') Скорость пара в трубопроводе
+											a.ss-calc-menu__link(href='#') Расход пара в трубопроводе
+											a.ss-calc-menu__link(href='#') Экономичная толщина изоляции
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Клапаны и сопла
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Значения пропускной способности Cv и Kv
+											a.ss-calc-menu__link(href='#') Расход пара через клапан
+											a.ss-calc-menu__link(href='#') Расход пара через сопло
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Расход конденсата
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') От трубопровода при запуске
+											a.ss-calc-menu__link(href='#') При нагреве жидкости (непрерывном)
+											a.ss-calc-menu__link(href='#') При нагреве жидкости (фикс. объём)
+											a.ss-calc-menu__link(href='#') При нагреве воздуха
+											a.ss-calc-menu__link(href='#') От потери лучистого тепла в трубопроводах
+											a.ss-calc-menu__link(href='#') Точка подтопления
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Улучшенная сухость пара
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') От снижения давления
+											a.ss-calc-menu__link(href='#') От снижения давления и отделения конденсата
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Эффект смеси пара и воздуха
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Падение температуры (по % воздуха)
+											a.ss-calc-menu__link(href='#') % воздуха (по температуре смеси)
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Стоимость единицы пара и энергии
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Стоимость единицы энергии
+											a.ss-calc-menu__link(href='#') Стоимость единицы пара
+								a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Эффективность котла
+
+					//- Возврат конденсата
+					.ss-calc-menu__group.ss-calc-menu__group--level-1
+						button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+							span Возврат конденсата
+							span.ss-calc-menu__count 9
+						.ss-calc-menu__body
+							.ss-calc-menu__body-inner
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Экономический анализ
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Открытая система
+											a.ss-calc-menu__link(href='#') Закрытая система
+											a.ss-calc-menu__link(href='#') Теплообменник
+											a.ss-calc-menu__link(href='#') Регенерация выпара
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Расчёт размера трубы
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Между оборудованием и конденсатоотводчиком
+											a.ss-calc-menu__link(href='#') Конденсатопровод по потерям давления
+											a.ss-calc-menu__link(href='#') Конденсатопровод по скорости
+											a.ss-calc-menu__link(href='#') Выпускная линия насоса
+								a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Образование выпара
+
+					//- Вода
+					.ss-calc-menu__group.ss-calc-menu__group--level-1
+						button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+							span Вода
+							span.ss-calc-menu__count 9
+						.ss-calc-menu__body
+							.ss-calc-menu__body-inner
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Проектирование трубопроводов
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Расчёт размера трубы по потерям давления
+											a.ss-calc-menu__link(href='#') Расчёт размера трубы по скорости
+											a.ss-calc-menu__link(href='#') Потеря давления через трубопровод
+											a.ss-calc-menu__link(href='#') Скорость прохождения воды через трубу
+											a.ss-calc-menu__link(href='#') Расход воды в трубе
+											a.ss-calc-menu__link(href='#') Экономичная толщина изоляции
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Клапаны и сопла
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Значения пропускной способности Cv и Kv
+											a.ss-calc-menu__link(href='#') Расход воды через клапан
+											a.ss-calc-menu__link(href='#') Расход воды через сопло
+
+					//- Воздух
+					.ss-calc-menu__group.ss-calc-menu__group--level-1
+						button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+							span Воздух
+							span.ss-calc-menu__count 10
+						.ss-calc-menu__body
+							.ss-calc-menu__body-inner
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Расчёт трубопроводов
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Расчёт по потерям давления
+											a.ss-calc-menu__link(href='#') Расчёт по скорости
+											a.ss-calc-menu__link(href='#') Потеря давления через трубопровод
+											a.ss-calc-menu__link(href='#') Скорость прохождения воздуха через трубопровод
+											a.ss-calc-menu__link(href='#') Расход воздуха в трубе
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Клапаны и сопла
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Значения пропускной способности Cv и Kv
+											a.ss-calc-menu__link(href='#') Расход воздуха через клапан
+											a.ss-calc-menu__link(href='#') Расход воздуха через сопло
+								a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Расход конденсата в системах сжатого воздуха
+								a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Таблица насыщения для влажного воздуха
+
+					//- Газ
+					.ss-calc-menu__group.ss-calc-menu__group--level-1
+						button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+							span Газ
+							span.ss-calc-menu__count 1
+						.ss-calc-menu__body
+							.ss-calc-menu__body-inner
+								.ss-calc-menu__group.ss-calc-menu__group--level-2
+									button.ss-calc-menu__head.ss-calc-menu__head--level-2(type='button')
+										span.ss-calc-menu__icon
+											+svgIcon('chevron-down')
+										span Проектирование трубопроводов
+									.ss-calc-menu__body
+										.ss-calc-menu__body-inner
+											a.ss-calc-menu__link(href='#') Потеря давления через трубопровод
+
+					//- Паровые таблицы (только standalone-ссылки)
+					.ss-calc-menu__group.ss-calc-menu__group--level-1
+						button.ss-calc-menu__head.ss-calc-menu__head--level-1(type='button')
+							span Паровые таблицы
+							span.ss-calc-menu__count 3
+						.ss-calc-menu__body
+							.ss-calc-menu__body-inner
+								a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Таблица свойств насыщенного пара (по давлению)
+								a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Таблица свойств насыщенного пара (по температуре)
+								a.ss-calc-menu__link.ss-calc-menu__link--standalone(href='#') Таблица свойств перегретого пара
+
+			.ss-doc-layout__mobile-extras(data-doc-mobile-extras)
