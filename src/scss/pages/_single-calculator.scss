@@ -91,7 +91,10 @@ $calc-radius-sm: 10px;
 	grid-template-columns: minmax(0, 1fr) 460px;
 	gap: 30px;
 	align-items: start;
-
+	@media (max-width: 1364px) {
+		grid-template-columns: minmax(0, 1fr) 400px;
+		gap: 20px;
+	}
 	@include down($lg) {
 		grid-template-columns: 1fr;
 		gap: 24px;
@@ -106,7 +109,7 @@ $calc-radius-sm: 10px;
 	border: 1px solid var(--secondary2);
 	border-radius: $calc-radius;
 	&.ss-calc-single__inputs{background: var(--white);}
-	@include down($xl) {
+	@include down($xxl) {
 		padding: 24px;
 	}
 
@@ -566,8 +569,8 @@ $calc-radius-sm: 10px;
 
 .ss-calc-single__step {
 	display: grid;
-	grid-template-columns: 32px minmax(0, 1fr);
-	column-gap: 20px;
+	grid-template-columns: 20px minmax(0, 1fr);
+	column-gap: 10px;
 	align-items: start;
 	padding: 16px 0;
 	border-top: 1px solid var(--secondary2);
@@ -657,7 +660,7 @@ $calc-radius-sm: 10px;
 		color: var(--primary);
 
 		&:first-child {
-			width: 60px;
+			width: 45px;
 			padding-right: 12px;
 			font-weight: 700;
 			color: var(--accent1);

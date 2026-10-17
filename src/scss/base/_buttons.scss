@@ -167,6 +167,7 @@
 		background: var(--accent1);
 		color: var(--white);
 		border-color: var(--accent1);
+		svg{color: var(--white);}
 	}
 	&:focus-visible { outline-color: var(--accent1); }
 }

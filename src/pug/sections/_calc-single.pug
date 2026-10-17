@@ -91,7 +91,7 @@ section.ss-section.ss-calc-single
 					//- FORM BODY — основные поля на .ss-calc-field.
 					//- .ss-grid + --row-2 + --md-row-1 — 2 поля в ряду на ≥768, 1 на <768.
 					.calculator-form__body
-						.calculator-fieldset.form-two-cols.ss-grid.ss-grid--row-2.ss-grid--md-row-1
+						.calculator-fieldset.form-two-cols.ss-grid.ss-grid--row-2.ss-grid--lg-row-1
 
 							//- Класс трубопровода — простой dropdown без input'а (только выбор).
 							//- Структуру держим на наших классах, JS entry-point сохраняем на .dropdown.
@@ -419,11 +419,11 @@ section.ss-section.ss-calc-single
 							p Расчёт ориентировочный. Для точного подбора — передайте параметры инженеру.
 						.ss-calc-single__results-actions
 							+ssBtn('Подобрать СВК под эти параметры', { variant: 'dark', full: true })(type='button')
-							a.ss-link(href='#') Подобрать конденсатоотводчик →
-							a.ss-link(href='#') Отправить расчёт инженеру →
+							+ssBtn('Отправить расчёт инженеру', { variant: 'primary', full: true, tag: 'a', href: '#' })
+							+ssBtn('Рассчитать и скачать', { variant: 'outline', full: true, icon: 'pdf', iconSide: 'right', tag: 'a', href: '#' })
 
 //- ==================== Методика + Формулы (боевой блок) ====================
-section.ss-section.ss-calc-single__methodology
+section.ss-section.ss-section--tinted.ss-calc-single__methodology
 	.ss-container.ss-wrapper
 		.ss-section-intro.ss-calc-single__methodology-intro
 			p.ss-kicker Методика
@@ -452,7 +452,7 @@ section.ss-section.ss-calc-single__methodology
 				.formulas__title Формулы:
 				.formulas__block
 					.formulas__image
-						img(src='/bitrix/templates/aspro-priority/calc/img/calc/calc-2.webp' width='600' height='200' loading='lazy' alt='Формулы расчёта')
+						img(src=`${basePath}img/formula.webp` width='600' height='200' loading='lazy' decoding='async' alt='Формулы расчёта размера труб по скорости')
 					.formulas__list
 						table
 							tr
