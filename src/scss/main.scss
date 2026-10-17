@@ -143,6 +143,7 @@
 @use "pages/_single-product";
 @use "pages/_single-case";
 @use "pages/_calculators";
+@use "pages/_single-calculator";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

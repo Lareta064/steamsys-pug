@@ -1,0 +1,217 @@
+//- ============================================================
+//- Секция одного калькулятора — страница single-calculator.html.
+//- По требованию Лореты раскладка контента НЕ 3-колоночная
+//- (без .ss-doc-layout): основной workbench — 2 колонки (поля
+//- слева, результат справа). Над ним потом разместится блок
+//- выбора типа калькулятора (меню — в отдельной задаче).
+//-
+//- Внутренние секции:
+//-   1. Полоса крошек
+//-   2. Hero (kicker + h1 + lead + chips)
+//-   3. Intro над workbench (kicker + h2 + lead)
+//-   4. Workbench — 2 колонки «ИСХОДНЫЕ ДАННЫЕ» ↔ «РЕЗУЛЬТАТ»
+//-   5. Методика (светло-серый фон): шаги + плашка формул
+//-   6. Смежные расчёты — 3 карточки (active + 2 soon)
+//- ============================================================
+
+//- ==================== Крошки ====================
+section.ss-doc-layout__crumbs
+	.ss-container.ss-wrapper
+		nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+			ol.ss-breadcrumbs__list
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='./') Главная
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='./calculators.html') Калькуляторы
+				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Диаметр конденсатопровода после КО
+
+//- ==================== Hero ====================
+section.ss-section.ss-calc-single__hero-section
+	.ss-container.ss-wrapper
+		header.ss-calc-single__hero
+			p.ss-kicker Боевой инженерный калькулятор
+			h1.ss-h1.ss-calc-single__hero-title Расчёт диаметра конденсатопровода от&nbsp;КО до&nbsp;места сбора по&nbsp;скорости
+			p.ss-calc-single__hero-lead Рабочий прототип на&nbsp;восстановленной логике Wengi: расчёт вторичного пара, удельного объёма смеси, расчётного диаметра, ближайшего DN, фактической скорости и&nbsp;потерь давления.
+			.ss-tag-group.ss-calc-single__hero-tags
+				span.ss-tag.ss-tag--gray Конденсат
+				span.ss-tag.ss-tag--gray Двухфазная смесь
+				span.ss-tag.ss-tag--gray Расчёт в&nbsp;браузере
+				span.ss-tag.ss-tag--gray Источник: Wengi
+
+//- ==================== Workbench (2 колонки) ====================
+section.ss-section.ss-calc-single__workbench
+	.ss-container.ss-wrapper
+		//- Intro над колонками: kicker + h2 + lead.
+		.ss-section-intro.ss-calc-single__intro
+			p.ss-kicker Исходные данные
+			.ss-section-intro__body
+				h2.ss-h2 Введите параметры конденсатной линии
+				p.ss-section-intro__description.ss-calc-single__intro-lead Поля и&nbsp;диапазоны соответствуют восстановленному калькулятору Wengi. Значения по&nbsp;умолчанию нужны для быстрой проверки прототипа.
+
+		//- Grid 2 колонки: слева inputs plashka, справа result plashka.
+		//- На <$lg стек. Форма работает через js — здесь только разметка/стили.
+		.ss-calc-single__workbench-grid
+
+			//- ---------- Левая плашка: поля ввода ----------
+			form.ss-calc-single__panel.ss-calc-single__inputs(action='#' method='post' novalidate)
+
+				//- Группа «Конденсат и давление»
+				fieldset.ss-calc-single__group
+					legend.ss-kicker.ss-calc-single__group-legend Конденсат и&nbsp;давление
+
+					.ss-calc-single__field
+						label.ss-calc-single__field-label(for='calc-flow') Расход конденсата, кг/ч
+						input.ss-calc-single__field-input#calc-flow(type='number' value='1000' step='0.1' min='0.1' max='200000' inputmode='decimal')
+						p.ss-calc-single__field-hint Диапазон: 0.1…200000 кг/ч
+
+					.ss-calc-single__field
+						label.ss-calc-single__field-label(for='calc-pressure') Давление конденсата до&nbsp;КО, бар(и)
+						input.ss-calc-single__field-input#calc-pressure(type='number' value='6' step='0.1' inputmode='decimal')
+						p.ss-calc-single__field-hint Избыточное давление до&nbsp;конденсатоотводчика
+
+					.ss-calc-single__field
+						label.ss-calc-single__field-label(for='calc-backp') Противодавление системы, бар(и)
+						input.ss-calc-single__field-input#calc-backp(type='number' value='0.5' step='0.1' inputmode='decimal')
+						p.ss-calc-single__field-hint Давление в&nbsp;линии сбора конденсата
+
+				//- Группа «Трубопровод»
+				fieldset.ss-calc-single__group
+					legend.ss-kicker.ss-calc-single__group-legend Трубопровод
+
+					.ss-calc-single__field
+						label.ss-calc-single__field-label(for='calc-speed') Максимально допустимая скорость смеси, м/с
+						input.ss-calc-single__field-input#calc-speed(type='number' value='15' step='0.1' inputmode='decimal')
+						p.ss-calc-single__field-hint Рекомендация до&nbsp;бака сбора: не&nbsp;более 15 м/с
+
+					.ss-calc-single__field
+						label.ss-calc-single__field-label(for='calc-length') Длина трубопровода, м
+						input.ss-calc-single__field-input#calc-length(type='number' value='100' step='1' inputmode='decimal')
+						p.ss-calc-single__field-hint Используется для оценки потерь давления
+
+					.ss-calc-single__field
+						label.ss-calc-single__field-label(for='calc-rough') Шероховатость трубы, мм
+						input.ss-calc-single__field-input#calc-rough(type='number' value='0.06' step='0.01' inputmode='decimal')
+						p.ss-calc-single__field-hint Значение Wengi по&nbsp;умолчанию: 0.06 мм
+
+				//- Отправка.
+				.ss-calc-single__submit
+					+ssBtn('Рассчитать диаметр', { variant: 'dark', full: true })(type='submit')
+					p.ss-calc-single__submit-note Расчёт выполняется локально в&nbsp;браузере
+
+			//- ---------- Правая плашка: результаты ----------
+			aside.ss-calc-single__panel.ss-calc-single__results(aria-label='Результат расчёта')
+				p.ss-kicker.ss-calc-single__results-kicker Результат
+
+				//- Основные метрики — label сверху, крупное значение снизу.
+				//- В пустом состоянии значения — «—» (short dash).
+				.ss-calc-single__metric
+					p.ss-calc-single__metric-label Расчётный внутренний диаметр
+					p.ss-calc-single__metric-value —
+
+				.ss-calc-single__metric
+					p.ss-calc-single__metric-label Рекомендуемый условный диаметр
+					p.ss-calc-single__metric-value —
+					p.ss-calc-single__metric-sub Внутренний диаметр: —
+
+				.ss-calc-single__metric
+					p.ss-calc-single__metric-label Фактическая скорость смеси
+					p.ss-calc-single__metric-value —
+
+				.ss-calc-single__metric
+					p.ss-calc-single__metric-label Потери давления на&nbsp;участке
+					p.ss-calc-single__metric-value —
+
+				//- Вторичные показатели — 2×2 микро-карточки.
+				.ss-calc-single__chips
+					.ss-calc-single__chip
+						p.ss-calc-single__chip-label Вторичный пар
+						p.ss-calc-single__chip-value —
+					.ss-calc-single__chip
+						p.ss-calc-single__chip-label Конденсат
+						p.ss-calc-single__chip-value —
+					.ss-calc-single__chip
+						p.ss-calc-single__chip-label Уд. объём смеси
+						p.ss-calc-single__chip-value —
+					.ss-calc-single__chip
+						p.ss-calc-single__chip-label Температура
+						p.ss-calc-single__chip-value —
+
+				//- Инфо-подсказка про методику подбора DN (голубая).
+				.ss-calc-single__hint.ss-calc-single__hint--info
+					p
+						strong Проверка:
+						|  DN подбирается по&nbsp;ближайшему большему внутреннему диаметру из&nbsp;таблицы труб. Потери давления считаются после выбора DN.
+
+				//- Замечание-предупреждение (бежевое).
+				.ss-calc-single__hint.ss-calc-single__hint--warn
+					p Расчёт ориентировочный. Точный подбор DN зависит от&nbsp;схемы системы, противодавления, режима работы и&nbsp;длины участка. Для точного расчёта — передайте параметры инженеру.
+
+				//- CTA + вторичные ссылки.
+				.ss-calc-single__results-actions
+					+ssBtn('Подобрать СВК под эти параметры', { variant: 'dark', full: true })(type='button')
+					a.ss-link(href='#') Подобрать конденсатоотводчик →
+					a.ss-link(href='#') Отправить расчёт инженеру →
+
+//- ==================== Методика (серый фон) ====================
+section.ss-section.ss-calc-single__methodology
+	.ss-container.ss-wrapper
+		.ss-section-intro.ss-calc-single__methodology-intro
+			p.ss-kicker Методика
+			.ss-section-intro__body
+				h2.ss-h2 Что считает калькулятор
+
+		.ss-calc-single__methodology-grid
+			//- Слева — лид и нумерованные шаги.
+			.ss-calc-single__methodology-text
+				p.ss-calc-single__methodology-lead При снижении давления после конденсатоотводчика часть горячего конденсата вскипает и&nbsp;образует вторичный пар. Поэтому линия после КО считается как смесь жидкого конденсата и&nbsp;пара.
+
+				ol.ss-calc-single__steps
+					li.ss-calc-single__step
+						span.ss-calc-single__step-num 1
+						p.ss-calc-single__step-text По&nbsp;давлению до&nbsp;КО и&nbsp;противодавлению берутся свойства насыщенной воды и&nbsp;пара.
+					li.ss-calc-single__step
+						span.ss-calc-single__step-num 2
+						p.ss-calc-single__step-text Рассчитывается доля вторичного пара по&nbsp;разности энтальпий.
+					li.ss-calc-single__step
+						span.ss-calc-single__step-num 3
+						p.ss-calc-single__step-text Определяется удельный объём смеси и&nbsp;расчётный внутренний диаметр.
+					li.ss-calc-single__step
+						span.ss-calc-single__step-num 4
+						p.ss-calc-single__step-text Подбирается ближайший больший DN и&nbsp;пересчитываются скорость и&nbsp;потери давления.
+
+			//- Справа — плашка «Формулы». В production сюда вставляются картинки
+			//- формул. В прототипе — текстовый placeholder.
+			figure.ss-calc-single__formulas
+				figcaption.ss-calc-single__formulas-title Основные формулы:
+				pre.ss-calc-single__formulas-body
+					| Gп = Gк × (h1 − h2′) / (h2″ − h2′)
+					| Vсм = (Gк × vк + Gп × vп) / Gк
+					| d = 1000 × sqrt(4 × Gк × Vсм / (3600 × π × U))
+					| Uф = 4000 × Gк × Vсм / (3.6 × π × dвн²)
+					| ΔP = λ × L × Uф² / (200 × dвн × Vсм)
+
+//- ==================== Смежные расчёты ====================
+section.ss-section.ss-calc-single__related
+	.ss-container.ss-wrapper
+		.ss-section-intro.ss-calc-single__related-intro
+			p.ss-kicker Смежные расчёты
+			.ss-section-intro__body
+				h2.ss-h2 Другие калькуляторы конденсата
+
+		.ss-calc-single__related-grid
+			//- Активная карточка — толстая тёмная рамка + бейдж «Вы здесь».
+			article.ss-calc-single__related-card.ss-calc-single__related-card--active
+				h3.ss-calc-single__related-title После КО по&nbsp;скорости
+				p.ss-calc-single__related-text Текущий боевой прототип: расчёт двухфазной смеси и&nbsp;подбор DN.
+				p.ss-calc-single__related-status Вы здесь
+
+			//- Soon-карточки — осветленная кнопка «Скоро».
+			article.ss-calc-single__related-card.ss-calc-single__related-card--soon
+				h3.ss-calc-single__related-title После КО по&nbsp;потерям давления
+				p.ss-calc-single__related-text Следующий режим из&nbsp;Wengi: подбор DN по&nbsp;допустимым потерям давления.
+				span.ss-calc-single__related-badge Скоро
+
+			article.ss-calc-single__related-card.ss-calc-single__related-card--soon
+				h3.ss-calc-single__related-title Вторичный пар
+				p.ss-calc-single__related-text Расчёт количества пара вторичного вскипания при снижении давления конденсата.
+				span.ss-calc-single__related-badge Скоро
