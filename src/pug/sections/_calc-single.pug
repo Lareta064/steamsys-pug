@@ -1,17 +1,26 @@
 //- ============================================================
-//- Секция одного калькулятора — страница single-calculator.html.
-//- По требованию Лореты раскладка контента НЕ 3-колоночная
-//- (без .ss-doc-layout): основной workbench — 2 колонки (поля
-//- слева, результат справа). Над ним потом разместится блок
-//- выбора типа калькулятора (меню — в отдельной задаче).
+//- single-calculator.html — страница конкретного калькулятора
+//- «Расчёт размера труб по скорости» (steamsys.ru/calculators/
+//- raschet-razmera-trub-po-skorosti/). Наша стилизация надета на
+//- боевую форму — JS бэкенда работает со своими entry-point'ами.
 //-
-//- Внутренние секции:
-//-   1. Полоса крошек
-//-   2. Hero (kicker + h1 + lead + chips)
-//-   3. Intro над workbench (kicker + h2 + lead)
-//-   4. Workbench — 2 колонки «ИСХОДНЫЕ ДАННЫЕ» ↔ «РЕЗУЛЬТАТ»
-//-   5. Методика (светло-серый фон): шаги + плашка формул
-//-   6. Смежные расчёты — 3 карточки (active + 2 soon)
+//- Что оставлено 1-в-1 с production (JS бэкенда это читает):
+//-   · <form class="calculator-form custom-form" data-calc="11120">
+//-   · Layout-классы: .calculator-form__head/__body/__footer/__result,
+//-     .calculator-fieldset, .form-two-cols, .calculator-result-block,
+//-     .calculator-result-row
+//-   · hide-блок: .hide-block-wrapper, .is-hide-block, .open-hide-btn
+//-   · dropdown: .dropdown, .dropdown--measure, .dropdown__button,
+//-     .dropdown__list, .dropdown__list-item, .form-radio-label,
+//-     .form-radio-name
+//-   · ВСЕ атрибуты инпутов: name, data-var, data-cat, data-out,
+//-     value, checked, type, inputmode, readonly
+//-
+//- Переделано на нашу стилизацию (.ss-calc-field):
+//-   · Разметка одного поля — label.ss-calc-field__label + input.ss-calc-field__input
+//-   · Поля с единицами — .ss-calc-field.ss-calc-field--measure + __row
+//-   · На тех же элементах, где JS ищет свои классы, повешены оба
+//-     набора (напр. span.form-radio-name внутри нашего __unit-item)
 //- ============================================================
 
 //- ==================== Крошки ====================
@@ -23,136 +32,397 @@ section.ss-doc-layout__crumbs
 					a.ss-breadcrumbs__link(href='./') Главная
 				li.ss-breadcrumbs__item
 					a.ss-breadcrumbs__link(href='./calculators.html') Калькуляторы
-				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Диаметр конденсатопровода после КО
+				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Расчёт размера труб по&nbsp;скорости
 
 //- ==================== Hero ====================
 section.ss-section.ss-calc-single__hero-section
 	.ss-container.ss-wrapper
 		header.ss-calc-single__hero
 			p.ss-kicker Боевой инженерный калькулятор
-			h1.ss-h1.ss-calc-single__hero-title Расчёт диаметра конденсатопровода от&nbsp;КО до&nbsp;места сбора по&nbsp;скорости
-			p.ss-calc-single__hero-lead Рабочий прототип на&nbsp;восстановленной логике Wengi: расчёт вторичного пара, удельного объёма смеси, расчётного диаметра, ближайшего DN, фактической скорости и&nbsp;потерь давления.
+			h1.ss-h1.ss-calc-single__hero-title Расчёт размера труб по&nbsp;скорости
+			p.ss-calc-single__hero-lead Боевая форма со&nbsp;steamsys.ru, одетая в&nbsp;новую стилизацию. Поля, имена и&nbsp;селекторы единиц измерения сохранены 1-в-1 — калькулятор работает со&nbsp;своим JS.
 			.ss-tag-group.ss-calc-single__hero-tags
-				span.ss-tag.ss-tag--gray Конденсат
-				span.ss-tag.ss-tag--gray Двухфазная смесь
+				span.ss-tag.ss-tag--gray Пар
+				span.ss-tag.ss-tag--gray Диаметр
 				span.ss-tag.ss-tag--gray Расчёт в&nbsp;браузере
-				span.ss-tag.ss-tag--gray Источник: Wengi
 
-//- ==================== Workbench (2 колонки) ====================
-section.ss-section.ss-calc-single__workbench
+//- ==================== Workbench (боевая форма) ====================
+section.ss-section.ss-calc-single
 	.ss-container.ss-wrapper
-		//- Intro над колонками: kicker + h2 + lead.
 		.ss-section-intro.ss-calc-single__intro
 			p.ss-kicker Исходные данные
 			.ss-section-intro__body
-				h2.ss-h2 Введите параметры конденсатной линии
-				p.ss-section-intro__description.ss-calc-single__intro-lead Поля и&nbsp;диапазоны соответствуют восстановленному калькулятору Wengi. Значения по&nbsp;умолчанию нужны для быстрой проверки прототипа.
+				h2.ss-h2 Введите параметры трубопровода
+				p.ss-section-intro__description.ss-calc-single__intro-lead Форма работает локально в&nbsp;браузере. Разметка повторяет production — JS подхватывает поля по&nbsp;именам.
 
-		//- Grid 2 колонки: слева inputs plashka, справа result plashka.
-		//- На <$lg стек. Форма работает через js — здесь только разметка/стили.
-		.ss-calc-single__workbench-grid
+		//- ОДИН <form> — JS бэкенда (data-calc="11120") видит её целиком.
+		form.calculator-form.custom-form.ss-calc-single__form(data-calc='11120')
+			.ss-calc-single__grid
 
-			//- ---------- Левая плашка: поля ввода ----------
-			form.ss-calc-single__panel.ss-calc-single__inputs(action='#' method='post' novalidate)
+				//- ============== Левая колонка: inputs ==============
+				.ss-calc-single__panel.ss-calc-single__inputs
 
-				//- Группа «Конденсат и давление»
-				fieldset.ss-calc-single__group
-					legend.ss-kicker.ss-calc-single__group-legend Конденсат и&nbsp;давление
+					//- FORM HEADER — заголовок секции и глобальный селектор единиц.
+					.calculator-form__head
+						.semi-24 Начальные данные
+						.calculator-form__measure
+							p.medi-16 Единицы измерения
+							.dropdown.dropdown--abs
+								button.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false') SI(бар)
+								.dropdown__list
+									ul
+										li.dropdown__list-item
+											label.form-radio-label
+												input(type='radio' name='measure' value='0')
+												span.form-radio-name SI
+										li.dropdown__list-item
+											label.form-radio-label
+												input(type='radio' name='measure' value='1' checked)
+												span.form-radio-name SI (бар)
+										li.dropdown__list-item
+											label.form-radio-label
+												input(type='radio' name='measure' value='2')
+												span.form-radio-name Imperial
+										li.dropdown__list-item
+											label.form-radio-label
+												input(type='radio' name='measure' value='3')
+												span.form-radio-name МКС
 
-					.ss-calc-single__field
-						label.ss-calc-single__field-label(for='calc-flow') Расход конденсата, кг/ч
-						input.ss-calc-single__field-input#calc-flow(type='number' value='1000' step='0.1' min='0.1' max='200000' inputmode='decimal')
-						p.ss-calc-single__field-hint Диапазон: 0.1…200000 кг/ч
+					//- FORM BODY — основные поля на .ss-calc-field.
+					//- .ss-grid + --row-2 + --md-row-1 — 2 поля в ряду на ≥768, 1 на <768.
+					.calculator-form__body
+						.calculator-fieldset.form-two-cols.ss-grid.ss-grid--row-2.ss-grid--md-row-1
 
-					.ss-calc-single__field
-						label.ss-calc-single__field-label(for='calc-pressure') Давление конденсата до&nbsp;КО, бар(и)
-						input.ss-calc-single__field-input#calc-pressure(type='number' value='6' step='0.1' inputmode='decimal')
-						p.ss-calc-single__field-hint Избыточное давление до&nbsp;конденсатоотводчика
+							//- Класс трубопровода — простой dropdown без input'а (только выбор).
+							//- Структуру держим на наших классах, JS entry-point сохраняем на .dropdown.
+							.ss-calc-field
+								label.ss-calc-field__label Класс трубопровода
+								.ss-calc-field--measure
+									.ss-calc-field__row
+										//- У этого поля нет числового input'а в production,
+										//- но для согласованной геометрии (одна рамка под dropdown)
+										//- используем __row + __units. Input оставляем readonly-пустым,
+										//- чтобы JS не сломался от отсутствия поля.
+										input.ss-calc-field__input(type='text' value='DIN 2448' readonly)
+										.ss-calc-field__units.dropdown(data-var='pipeGrade' data-type='grade')
+											button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+												span.ss-calc-field__unit-text DIN 2448
+												+svgIcon('chevron-down').ss-calc-field__unit-caret
+											ul.ss-calc-field__unit-list.dropdown__list
+												li.ss-calc-field__unit-item.dropdown__list-item.is-selected
+													+svgIcon('check').ss-calc-field__unit-check
+													label.form-radio-label
+														input(type='radio' name='truboprovod_class' value='7' checked hidden)
+														span.form-radio-name DIN 2448
 
-					.ss-calc-single__field
-						label.ss-calc-single__field-label(for='calc-backp') Противодавление системы, бар(и)
-						input.ss-calc-single__field-input#calc-backp(type='number' value='0.5' step='0.1' inputmode='decimal')
-						p.ss-calc-single__field-hint Давление в&nbsp;линии сбора конденсата
+							//- Давление пара
+							.ss-calc-field.ss-calc-field--measure
+								label.ss-calc-field__label Давление пара
+								.ss-calc-field__row
+									input.ss-calc-field__input(type='text' name='current_davlenie_para' data-var='stmPress' data-cat='pressureAbs' inputmode='decimal' value='0')
+									.ss-calc-field__units.dropdown.dropdown--measure
+										button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text barG
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list.dropdown__list
+											each pair in [['0','кПа абс.'],['1','МПа абс.'],['2','psi абс.'],['3','бар абс.'],['4','кг/см² абс.'],['5','мм рт. ст. абс.'],['6','кПа изб.'],['7','МПа изб.'],['8','psig'],['9','бар изб.'],['10','кг/см² изб.'],['11','мм рт. ст. изб.']]
+												li.ss-calc-field__unit-item.dropdown__list-item(class=(pair[0]==='9' ? 'is-selected' : ''))
+													+svgIcon('check').ss-calc-field__unit-check
+													label.form-radio-label
+														if pair[0] === '9'
+															input(type='radio' name='davlenie_para' value=pair[0] checked hidden)
+														else
+															input(type='radio' name='davlenie_para' value=pair[0] hidden)
+														span.form-radio-name= pair[1]
 
-				//- Группа «Трубопровод»
-				fieldset.ss-calc-single__group
-					legend.ss-kicker.ss-calc-single__group-legend Трубопровод
+							//- Температура пара
+							.ss-calc-field.ss-calc-field--measure
+								label.ss-calc-field__label
+									span Температура пара
+								.ss-calc-field__row
+									input.ss-calc-field__input(type='text' name='current_temperatura_para' data-var='stmTemp' data-cat='temp' inputmode='decimal' value='(99.9743)')
+									.ss-calc-field__units.dropdown.dropdown--measure
+										button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text °C
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list.dropdown__list
+											li.ss-calc-field__unit-item.dropdown__list-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='temperatura_para' value='0' checked hidden)
+													span.form-radio-name °C
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='temperatura_para' value='1' hidden)
+													span.form-radio-name °F
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='temperatura_para' value='2' hidden)
+													span.form-radio-name K
+								p.ss-calc-field__hint Для перегретого пара введите температуру выше, чем температура насыщения
 
-					.ss-calc-single__field
-						label.ss-calc-single__field-label(for='calc-speed') Максимально допустимая скорость смеси, м/с
-						input.ss-calc-single__field-input#calc-speed(type='number' value='15' step='0.1' inputmode='decimal')
-						p.ss-calc-single__field-hint Рекомендация до&nbsp;бака сбора: не&nbsp;более 15 м/с
+							//- Расход пара
+							.ss-calc-field.ss-calc-field--measure
+								label.ss-calc-field__label Расход пара
+								.ss-calc-field__row
+									input.ss-calc-field__input(type='text' name='current_rashod_para' data-var='stmFlow' data-cat='massFlow' inputmode='decimal' value='0')
+									.ss-calc-field__units.dropdown.dropdown--measure
+										button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text kg/h
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list.dropdown__list
+											li.ss-calc-field__unit-item.dropdown__list-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='rashod_para' value='0' checked hidden)
+													span.form-radio-name кг/ч
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='rashod_para' value='1' hidden)
+													span.form-radio-name т/ч
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='rashod_para' value='2' hidden)
+													span.form-radio-name фунт/ч
 
-					.ss-calc-single__field
-						label.ss-calc-single__field-label(for='calc-length') Длина трубопровода, м
-						input.ss-calc-single__field-input#calc-length(type='number' value='100' step='1' inputmode='decimal')
-						p.ss-calc-single__field-hint Используется для оценки потерь давления
+							//- Максимально допустимая скорость
+							.ss-calc-field.ss-calc-field--measure
+								label.ss-calc-field__label
+									span Максимально допустимая скорость
+								.ss-calc-field__row
+									input.ss-calc-field__input(type='text' name='current_max_skorost' data-var='upperVelo' data-cat='velocity' inputmode='decimal' value='30')
+									.ss-calc-field__units.dropdown.dropdown--measure
+										button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text m/s
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list.dropdown__list
+											li.ss-calc-field__unit-item.dropdown__list-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='max_skorost' value='0' checked hidden)
+													span.form-radio-name м/с
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='max_skorost' value='1' hidden)
+													span.form-radio-name км/ч
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='max_skorost' value='2' hidden)
+													span.form-radio-name фут/с
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='max_skorost' value='3' hidden)
+													span.form-radio-name миль/ч
+								p.ss-calc-field__hint Введите максимально допустимую скорость пара в&nbsp;трубопроводе
 
-					.ss-calc-single__field
-						label.ss-calc-single__field-label(for='calc-rough') Шероховатость трубы, мм
-						input.ss-calc-single__field-input#calc-rough(type='number' value='0.06' step='0.01' inputmode='decimal')
-						p.ss-calc-single__field-hint Значение Wengi по&nbsp;умолчанию: 0.06 мм
+							//- Длина трубопровода
+							.ss-calc-field.ss-calc-field--measure
+								label.ss-calc-field__label
+									span Длина трубопровода
+								.ss-calc-field__row
+									input.ss-calc-field__input(type='text' name='current_dlina_truboprovoda' data-var='pipeLen' data-cat='length' inputmode='decimal' value='0')
+									.ss-calc-field__units.dropdown.dropdown--measure
+										button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text m
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list.dropdown__list
+											each pair in [['0','мм'],['1','см'],['2','м'],['3','дюйм'],['4','фут'],['5','ярд']]
+												li.ss-calc-field__unit-item.dropdown__list-item(class=(pair[0]==='2' ? 'is-selected' : ''))
+													+svgIcon('check').ss-calc-field__unit-check
+													label.form-radio-label
+														if pair[0] === '2'
+															input(type='radio' name='dlina_truboprovoda' value=pair[0] checked hidden)
+														else
+															input(type='radio' name='dlina_truboprovoda' value=pair[0] hidden)
+														span.form-radio-name= pair[1]
+								p.ss-calc-field__hint Введите полную длину трубопровода
 
-				//- Отправка.
-				.ss-calc-single__submit
-					+ssBtn('Рассчитать диаметр', { variant: 'dark', full: true })(type='submit')
-					p.ss-calc-single__submit-note Расчёт выполняется локально в&nbsp;браузере
+						//- СКРЫТЫЕ ДОП ОПЦИИ — раскрываются по клику на .open-hide-btn.
+						//- JS — src/js/hide-block.js (toggle .is-open на .hide-block-wrapper).
+						.hide-block-wrapper
+							.calculator-fieldset.is-hide-block
+								.form-two-cols.ss-grid.ss-grid--row-2.ss-grid--md-row-1
+									.ss-calc-field
+										label.ss-calc-field__label Клапаны с&nbsp;изменяемым направлением потока (вентили и&nbsp;т.п.) (кол-во)
+										input.ss-calc-field__input(type='number' name='klapan_1' value='0' data-var='fit.obsFlo')
+										p.ss-calc-field__hint Введите количество клапанов с&nbsp;изменением потока (вентили и&nbsp;пр.)
 
-			//- ---------- Правая плашка: результаты ----------
-			aside.ss-calc-single__panel.ss-calc-single__results(aria-label='Результат расчёта')
-				p.ss-kicker.ss-calc-single__results-kicker Результат
+									.ss-calc-field
+										label.ss-calc-field__label Проходные клапаны (задвижки и&nbsp;т.п.) (кол-во)
+										input.ss-calc-field__input(type='number' name='klapan_2' value='0' data-var='fit.thruFlo')
+										p.ss-calc-field__hint Введите количество проходных клапанов на&nbsp;трубопроводе
 
-				//- Основные метрики — label сверху, крупное значение снизу.
-				//- В пустом состоянии значения — «—» (short dash).
-				.ss-calc-single__metric
-					p.ss-calc-single__metric-label Расчётный внутренний диаметр
-					p.ss-calc-single__metric-value —
+									.ss-calc-field
+										label.ss-calc-field__label Обратные клапаны (кол-во)
+										input.ss-calc-field__input(type='number' name='klapan_3' value='0' data-var='fit.check')
+										p.ss-calc-field__hint Введите количество обратных клапанов на&nbsp;трубопроводе
 
-				.ss-calc-single__metric
-					p.ss-calc-single__metric-label Рекомендуемый условный диаметр
-					p.ss-calc-single__metric-value —
-					p.ss-calc-single__metric-sub Внутренний диаметр: —
+									.ss-calc-field
+										label.ss-calc-field__label Отводы (кол-во)
+										input.ss-calc-field__input(type='number' name='klapan_4' value='0' data-var='fit.elbow')
+										p.ss-calc-field__hint Введите количество отводов
 
-				.ss-calc-single__metric
-					p.ss-calc-single__metric-label Фактическая скорость смеси
-					p.ss-calc-single__metric-value —
+									//- Возраст трубы — поле с единицами
+									.ss-calc-field.ss-calc-field--measure
+										label.ss-calc-field__label Возраст трубы влияет на&nbsp;поверхность, делая её&nbsp;более грубой со&nbsp;временем.
+										.ss-calc-field__row
+											input.ss-calc-field__input(type='text' name='current_vozrast_truby' data-var='pipeRough' data-cat='length' inputmode='decimal' value='0.05')
+											.ss-calc-field__units.dropdown.dropdown--measure
+												button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+													span.ss-calc-field__unit-text mm
+													+svgIcon('chevron-down').ss-calc-field__unit-caret
+												ul.ss-calc-field__unit-list.dropdown__list
+													each pair in [['0','мм'],['1','см'],['2','м'],['3','дюйм'],['4','фут'],['5','ярд']]
+														li.ss-calc-field__unit-item.dropdown__list-item(class=(pair[0]==='0' ? 'is-selected' : ''))
+															+svgIcon('check').ss-calc-field__unit-check
+															label.form-radio-label
+																if pair[0] === '0'
+																	input(type='radio' name='vozrast_truby' value=pair[0] checked hidden)
+																else
+																	input(type='radio' name='vozrast_truby' value=pair[0] hidden)
+																span.form-radio-name= pair[1]
 
-				.ss-calc-single__metric
-					p.ss-calc-single__metric-label Потери давления на&nbsp;участке
-					p.ss-calc-single__metric-value —
+							button.open-hide-btn.ml-auto.mt-20(type='button')
+								i.plus-minus
+								span.hide-btn-txt.medi-15 Показать дополнительные опции
 
-				//- Вторичные показатели — 2×2 микро-карточки.
-				.ss-calc-single__chips
-					.ss-calc-single__chip
-						p.ss-calc-single__chip-label Вторичный пар
-						p.ss-calc-single__chip-value —
-					.ss-calc-single__chip
-						p.ss-calc-single__chip-label Конденсат
-						p.ss-calc-single__chip-value —
-					.ss-calc-single__chip
-						p.ss-calc-single__chip-label Уд. объём смеси
-						p.ss-calc-single__chip-value —
-					.ss-calc-single__chip
-						p.ss-calc-single__chip-label Температура
-						p.ss-calc-single__chip-value —
+					//- FORM FOOTER — кнопки calc/clear на нашем +ssBtn.
+					//- Рассчитать — primary (тёмная заливка).
+					//- Очистить  — outline-light (прозрачная + серый бордер).
+					//- xsFull → width:100% на <$md.
+					//- Классы .form-button / .btn-clear-form сохранены для JS бэкенда.
+					.calculator-form__footer.flex-column.flex-center
+						+ssBtn('Рассчитать', { variant: 'primary', xsFull: true })(type='submit' class='form-button')
+						+ssBtn('Очистить', { variant: 'outline-light', xsFull: true })(type='reset' class='btn-clear-form w-auto')
 
-				//- Инфо-подсказка про методику подбора DN (голубая).
-				.ss-calc-single__hint.ss-calc-single__hint--info
-					p
-						strong Проверка:
-						|  DN подбирается по&nbsp;ближайшему большему внутреннему диаметру из&nbsp;таблицы труб. Потери давления считаются после выбора DN.
+				//- ============== Правая колонка: result ==============
+				.ss-calc-single__panel.ss-calc-single__results
 
-				//- Замечание-предупреждение (бежевое).
-				.ss-calc-single__hint.ss-calc-single__hint--warn
-					p Расчёт ориентировочный. Точный подбор DN зависит от&nbsp;схемы системы, противодавления, режима работы и&nbsp;длины участка. Для точного расчёта — передайте параметры инженеру.
+					//- Их FORM RESULT, с полями на .ss-calc-field (readonly).
+					.calculator-form__result
+						p.semi-24 Результат:
+						.calculator-result-block
+							p.medi-16(data-result-note)
 
-				//- CTA + вторичные ссылки.
-				.ss-calc-single__results-actions
-					+ssBtn('Подобрать СВК под эти параметры', { variant: 'dark', full: true })(type='button')
-					a.ss-link(href='#') Подобрать конденсатоотводчик →
-					a.ss-link(href='#') Отправить расчёт инженеру →
+							//- Диаметр трубопровода — простое readonly поле.
+							.ss-calc-field.calculator-result-row
+								label.ss-calc-field__label Диаметр трубопровода
+								input.ss-calc-field__input(type='text' name='res_size' data-out='pipeSize' readonly)
 
-//- ==================== Методика (серый фон) ====================
+							//- Внутренний диаметр
+							.ss-calc-field.ss-calc-field--measure.calculator-result-row
+								label.ss-calc-field__label Внутренний диаметр трубопровода
+								.ss-calc-field__row
+									input.ss-calc-field__input(type='text' name='res_id' data-out='pipeInDiam' data-cat='length' inputmode='decimal' readonly)
+									.ss-calc-field__units.dropdown.dropdown--measure
+										button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text mm
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list.dropdown__list
+											li.ss-calc-field__unit-item.dropdown__list-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='res_id_unit' value='mm' checked hidden)
+													span.form-radio-name мм
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='res_id_unit' value='in' hidden)
+													span.form-radio-name дюйм
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='res_id_unit' value='m' hidden)
+													span.form-radio-name м
+
+							//- Скорость пара
+							.ss-calc-field.ss-calc-field--measure.calculator-result-row
+								label.ss-calc-field__label Скорость пара
+								.ss-calc-field__row
+									input.ss-calc-field__input(type='text' name='res_velo' data-out='stmVelo' data-cat='velocity' inputmode='decimal' readonly)
+									.ss-calc-field__units.dropdown.dropdown--measure
+										button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text m/s
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list.dropdown__list
+											li.ss-calc-field__unit-item.dropdown__list-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='res_velo_unit' value='m/s' checked hidden)
+													span.form-radio-name м/с
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='res_velo_unit' value='ft/s' hidden)
+													span.form-radio-name фут/с
+
+							//- Потери давления
+							.ss-calc-field.ss-calc-field--measure.calculator-result-row
+								label.ss-calc-field__label Потери давления
+								.ss-calc-field__row
+									input.ss-calc-field__input(type='text' name='res_dp' data-out='pressLoss' data-cat='dPress' inputmode='decimal' readonly)
+									.ss-calc-field__units.dropdown.dropdown--measure
+										button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text bar
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list.dropdown__list
+											each pair in [['bar','бар'],['kPa','кПа'],['MPa','МПа'],['psi','psi'],['kg/cm²','кг/см²'],['mmHg','мм. рт. ст.']]
+												li.ss-calc-field__unit-item.dropdown__list-item(class=(pair[0]==='bar' ? 'is-selected' : ''))
+													+svgIcon('check').ss-calc-field__unit-check
+													label.form-radio-label
+														if pair[0] === 'bar'
+															input(type='radio' name='res_dp_unit' value=pair[0] checked hidden)
+														else
+															input(type='radio' name='res_dp_unit' value=pair[0] hidden)
+														span.form-radio-name= pair[1]
+
+							//- Эквивалентная длина
+							.ss-calc-field.ss-calc-field--measure.calculator-result-row
+								label.ss-calc-field__label Эквивалентная длина прямого участка трубы
+								.ss-calc-field__row
+									input.ss-calc-field__input(type='text' name='res_leq' data-out='equivLen' data-cat='length' inputmode='decimal' readonly)
+									.ss-calc-field__units.dropdown.dropdown--measure
+										button.ss-calc-field__unit-btn.dropdown__button(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text m
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list.dropdown__list
+											li.ss-calc-field__unit-item.dropdown__list-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='res_leq_unit' value='m' checked hidden)
+													span.form-radio-name м
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='res_leq_unit' value='mm' hidden)
+													span.form-radio-name мм
+											li.ss-calc-field__unit-item.dropdown__list-item
+												+svgIcon('check').ss-calc-field__unit-check
+												label.form-radio-label
+													input(type='radio' name='res_leq_unit' value='ft' hidden)
+													span.form-radio-name фут
+
+					//- Доп. блок — хинты + CTA (наш UX, НЕ бэкенд).
+					.ss-calc-single__extras
+						.ss-calc-single__hint.ss-calc-single__hint--info
+							p
+								strong Проверка:
+								|  результаты пересчитываются сразу после ввода полей. DN подбирается по&nbsp;ближайшему большему диаметру из&nbsp;таблицы труб.
+						.ss-calc-single__hint.ss-calc-single__hint--warn
+							p Расчёт ориентировочный. Для точного подбора — передайте параметры инженеру.
+						.ss-calc-single__results-actions
+							+ssBtn('Подобрать СВК под эти параметры', { variant: 'dark', full: true })(type='button')
+							a.ss-link(href='#') Подобрать конденсатоотводчик →
+							a.ss-link(href='#') Отправить расчёт инженеру →
+
+//- ==================== Методика + Формулы (боевой блок) ====================
 section.ss-section.ss-calc-single__methodology
 	.ss-container.ss-wrapper
 		.ss-section-intro.ss-calc-single__methodology-intro
@@ -161,34 +431,51 @@ section.ss-section.ss-calc-single__methodology
 				h2.ss-h2 Что считает калькулятор
 
 		.ss-calc-single__methodology-grid
-			//- Слева — лид и нумерованные шаги.
 			.ss-calc-single__methodology-text
-				p.ss-calc-single__methodology-lead При снижении давления после конденсатоотводчика часть горячего конденсата вскипает и&nbsp;образует вторичный пар. Поэтому линия после КО считается как смесь жидкого конденсата и&nbsp;пара.
-
+				p.ss-calc-single__methodology-lead Калькулятор подбирает диаметр паропровода по&nbsp;заданной максимально допустимой скорости и&nbsp;параметрам пара. Учитывается длина, местные сопротивления (клапаны, отводы) и&nbsp;возраст трубы.
 				ol.ss-calc-single__steps
 					li.ss-calc-single__step
 						span.ss-calc-single__step-num 1
-						p.ss-calc-single__step-text По&nbsp;давлению до&nbsp;КО и&nbsp;противодавлению берутся свойства насыщенной воды и&nbsp;пара.
+						p.ss-calc-single__step-text По&nbsp;давлению и&nbsp;температуре пара определяется удельный объём V.
 					li.ss-calc-single__step
 						span.ss-calc-single__step-num 2
-						p.ss-calc-single__step-text Рассчитывается доля вторичного пара по&nbsp;разности энтальпий.
+						p.ss-calc-single__step-text По&nbsp;расходу ms&nbsp;и&nbsp;заданной скорости v&nbsp;вычисляется требуемый внутренний диаметр d.
 					li.ss-calc-single__step
 						span.ss-calc-single__step-num 3
-						p.ss-calc-single__step-text Определяется удельный объём смеси и&nbsp;расчётный внутренний диаметр.
+						p.ss-calc-single__step-text По&nbsp;таблице DIN&nbsp;2448 подбирается ближайший больший DN.
 					li.ss-calc-single__step
 						span.ss-calc-single__step-num 4
-						p.ss-calc-single__step-text Подбирается ближайший больший DN и&nbsp;пересчитываются скорость и&nbsp;потери давления.
+						p.ss-calc-single__step-text Считаются фактическая скорость пара, потери давления ∆p и&nbsp;эквивалентная длина с&nbsp;учётом местных сопротивлений.
 
-			//- Справа — плашка «Формулы». В production сюда вставляются картинки
-			//- формул. В прототипе — текстовый placeholder.
-			figure.ss-calc-single__formulas
-				figcaption.ss-calc-single__formulas-title Основные формулы:
-				pre.ss-calc-single__formulas-body
-					| Gп = Gк × (h1 − h2′) / (h2″ − h2′)
-					| Vсм = (Gк × vк + Gп × vп) / Gк
-					| d = 1000 × sqrt(4 × Gк × Vсм / (3600 × π × U))
-					| Uф = 4000 × Gк × Vсм / (3.6 × π × dвн²)
-					| ΔP = λ × L × Uф² / (200 × dвн × Vсм)
+			//- Боевой блок .formulas — классы 1-в-1 с production.
+			.formulas
+				.formulas__title Формулы:
+				.formulas__block
+					.formulas__image
+						img(src='/bitrix/templates/aspro-priority/calc/img/calc/calc-2.webp' width='600' height='200' loading='lazy' alt='Формулы расчёта')
+					.formulas__list
+						table
+							tr
+								td ms
+								td : Расход пара (kg/h)
+							tr
+								td l
+								td : Длина трубопровода (m)
+							tr
+								td d
+								td : Внутренний диаметр трубопровода (m)
+							tr
+								td v
+								td : Скорость пара (m/s)
+							tr
+								td ∆p
+								td : Потери давления (Pa)
+							tr
+								td μ
+								td : Коэффициент трения
+							tr
+								td V
+								td : Удельный объём (m³/kg)
 
 //- ==================== Смежные расчёты ====================
 section.ss-section.ss-calc-single__related
@@ -196,22 +483,20 @@ section.ss-section.ss-calc-single__related
 		.ss-section-intro.ss-calc-single__related-intro
 			p.ss-kicker Смежные расчёты
 			.ss-section-intro__body
-				h2.ss-h2 Другие калькуляторы конденсата
+				h2.ss-h2 Другие калькуляторы
 
 		.ss-calc-single__related-grid
-			//- Активная карточка — толстая тёмная рамка + бейдж «Вы здесь».
 			article.ss-calc-single__related-card.ss-calc-single__related-card--active
-				h3.ss-calc-single__related-title После КО по&nbsp;скорости
-				p.ss-calc-single__related-text Текущий боевой прототип: расчёт двухфазной смеси и&nbsp;подбор DN.
+				h3.ss-calc-single__related-title Размер труб по&nbsp;скорости
+				p.ss-calc-single__related-text Текущая боевая форма: подбор DN&nbsp;по&nbsp;максимально допустимой скорости пара.
 				p.ss-calc-single__related-status Вы здесь
 
-			//- Soon-карточки — осветленная кнопка «Скоро».
 			article.ss-calc-single__related-card.ss-calc-single__related-card--soon
-				h3.ss-calc-single__related-title После КО по&nbsp;потерям давления
-				p.ss-calc-single__related-text Следующий режим из&nbsp;Wengi: подбор DN по&nbsp;допустимым потерям давления.
+				h3.ss-calc-single__related-title Размер труб по&nbsp;потерям давления
+				p.ss-calc-single__related-text Подбор DN&nbsp;по&nbsp;допустимым потерям давления на&nbsp;участке.
 				span.ss-calc-single__related-badge Скоро
 
 			article.ss-calc-single__related-card.ss-calc-single__related-card--soon
-				h3.ss-calc-single__related-title Вторичный пар
-				p.ss-calc-single__related-text Расчёт количества пара вторичного вскипания при снижении давления конденсата.
+				h3.ss-calc-single__related-title Экономия на&nbsp;КО
+				p.ss-calc-single__related-text Оценка экономии от&nbsp;замены конденсатоотводчиков на&nbsp;современные.
 				span.ss-calc-single__related-badge Скоро

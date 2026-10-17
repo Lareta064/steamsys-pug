@@ -1,0 +1,274 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Поля калькулятора (.ss-calc-field)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Поля калькулятора (.ss-calc-field)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Светлые поля формы для страниц калькуляторов: label сверху, input (белый, radius 10, border
+				code --secondary2
+				| , focus
+				code --accent1
+				| ), опциональная подсказка снизу. Модификатор
+				code --measure
+				|  добавляет справа inline-селектор единиц измерения (dropdown с галочкой у выбранного).
+				br
+				| Стили —
+				code src/scss/blocks/_calc-field.scss
+				| . Радиус 10 — единый токен, цвета — через CSS-переменные.
+
+			//- ===== Простое поле =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Простое поле (label + input)
+
+				.breadcrumbs-catalog__demo
+					.ss-calc-field(style='max-width:420px')
+						label.ss-calc-field__label(for='demo-length') Длина трубопровода, м
+						input.ss-calc-field__input#demo-length(type='text' value='100' inputmode='decimal')
+
+			//- ===== Простое поле + hint =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Простое поле + подсказка-хинт
+
+				.breadcrumbs-catalog__demo
+					.ss-calc-field(style='max-width:420px')
+						label.ss-calc-field__label(for='demo-rough') Шероховатость трубы, мм
+						input.ss-calc-field__input#demo-rough(type='text' value='0.06' inputmode='decimal')
+						p.ss-calc-field__hint Значение Wengi по&nbsp;умолчанию: 0.06 мм
+
+			//- ===== --measure (закрыто) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Поле с&nbsp;селектором единиц — закрытое состояние
+
+				.breadcrumbs-catalog__demo
+					.ss-calc-field.ss-calc-field--measure(style='max-width:420px')
+						label.ss-calc-field__label(for='demo-flow') Расход конденсата
+						.ss-calc-field__row
+							input.ss-calc-field__input#demo-flow(type='text' value='1000' inputmode='decimal')
+							.ss-calc-field__units
+								button.ss-calc-field__unit-btn(type='button' aria-haspopup='listbox' aria-expanded='false')
+									span.ss-calc-field__unit-text кг/ч
+									+svgIcon('chevron-down').ss-calc-field__unit-caret
+								ul.ss-calc-field__unit-list
+									li.ss-calc-field__unit-item.is-selected
+										+svgIcon('check').ss-calc-field__unit-check
+										span кг/ч
+									li.ss-calc-field__unit-item
+										+svgIcon('check').ss-calc-field__unit-check
+										span т/ч
+									li.ss-calc-field__unit-item
+										+svgIcon('check').ss-calc-field__unit-check
+										span кг/с
+
+			//- ===== --measure (открыто) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Поле с&nbsp;селектором единиц — открытое состояние
+
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Для демонстрации на&nbsp;__units повешен класс
+					code .is-open
+					|  (в&nbsp;production JS добавляет его по&nbsp;клику на&nbsp;__unit-btn и&nbsp;переключает
+					code aria-expanded
+					| ).
+
+				.breadcrumbs-catalog__demo(style='min-height:220px')
+					.ss-calc-field.ss-calc-field--measure(style='max-width:420px')
+						label.ss-calc-field__label(for='demo-flow-open') При нажатии
+						.ss-calc-field__row
+							input.ss-calc-field__input#demo-flow-open(type='text' value='1000' inputmode='decimal')
+							.ss-calc-field__units.is-open
+								button.ss-calc-field__unit-btn(type='button' aria-haspopup='listbox' aria-expanded='true')
+									span.ss-calc-field__unit-text кг/ч
+									+svgIcon('chevron-down').ss-calc-field__unit-caret
+								ul.ss-calc-field__unit-list
+									li.ss-calc-field__unit-item.is-selected
+										+svgIcon('check').ss-calc-field__unit-check
+										span кг/ч
+									li.ss-calc-field__unit-item
+										+svgIcon('check').ss-calc-field__unit-check
+										span т/ч
+									li.ss-calc-field__unit-item
+										+svgIcon('check').ss-calc-field__unit-check
+										span кг/с
+
+			//- ===== Группа полей в плашке =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Группа полей в&nbsp;плашке калькулятора
+
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Пример использования: группы разделены uppercase-кикером (
+					code .ss-kicker
+					| ), поля стакаются через
+					code .ss-calc-field-group
+					| , внизу — кнопка «Рассчитать». Плашка-обёртка и&nbsp;её&nbsp;padding — на&nbsp;совести страницы (здесь показана с&nbsp;фоном
+					code --secondary3
+					| , как в&nbsp;single-calculator).
+
+				.breadcrumbs-catalog__demo
+					div(style='max-width:520px; padding:32px; background:var(--secondary3); border:1px solid var(--secondary2); border-radius:16px;')
+						p.ss-kicker(style='margin:0 0 16px;') Конденсат и&nbsp;давление
+						.ss-calc-field-group(style='margin-bottom:28px;')
+							.ss-calc-field.ss-calc-field--measure
+								label.ss-calc-field__label(for='g2-flow') Расход конденсата
+								.ss-calc-field__row
+									input.ss-calc-field__input#g2-flow(type='text' value='1000' inputmode='decimal')
+									.ss-calc-field__units
+										button.ss-calc-field__unit-btn(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text кг/ч
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list
+											li.ss-calc-field__unit-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												span кг/ч
+											li.ss-calc-field__unit-item
+												+svgIcon('check').ss-calc-field__unit-check
+												span т/ч
+
+							.ss-calc-field.ss-calc-field--measure
+								label.ss-calc-field__label(for='g2-press') Давление до&nbsp;КО
+								.ss-calc-field__row
+									input.ss-calc-field__input#g2-press(type='text' value='6' inputmode='decimal')
+									.ss-calc-field__units
+										button.ss-calc-field__unit-btn(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text бар(и)
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list
+											li.ss-calc-field__unit-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												span бар(и)
+											li.ss-calc-field__unit-item
+												+svgIcon('check').ss-calc-field__unit-check
+												span кПа
+											li.ss-calc-field__unit-item
+												+svgIcon('check').ss-calc-field__unit-check
+												span МПа
+
+							.ss-calc-field.ss-calc-field--measure
+								label.ss-calc-field__label(for='g2-back') Противодавление системы
+								.ss-calc-field__row
+									input.ss-calc-field__input#g2-back(type='text' value='0.5' inputmode='decimal')
+									.ss-calc-field__units
+										button.ss-calc-field__unit-btn(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text бар(и)
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list
+											li.ss-calc-field__unit-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												span бар(и)
+
+						p.ss-kicker(style='margin:0 0 16px;') Трубопровод
+						.ss-calc-field-group(style='margin-bottom:28px;')
+							.ss-calc-field.ss-calc-field--measure
+								label.ss-calc-field__label(for='g2-len') Длина трубопровода
+								.ss-calc-field__row
+									input.ss-calc-field__input#g2-len(type='text' value='100' inputmode='decimal')
+									.ss-calc-field__units
+										button.ss-calc-field__unit-btn(type='button' aria-haspopup='listbox' aria-expanded='false')
+											span.ss-calc-field__unit-text м
+											+svgIcon('chevron-down').ss-calc-field__unit-caret
+										ul.ss-calc-field__unit-list
+											li.ss-calc-field__unit-item.is-selected
+												+svgIcon('check').ss-calc-field__unit-check
+												span м
+											li.ss-calc-field__unit-item
+												+svgIcon('check').ss-calc-field__unit-check
+												span фут
+
+						+ssBtn('Рассчитать диаметр', { variant: 'dark', full: true })(type='button')
+
+			//- ===== Описание элементов =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Элементы
+				ul
+					li
+						code .ss-calc-field
+						|  — обёртка (flex column, gap 8).
+					li
+						code .ss-calc-field__label
+						|  — label сверху (14/600,
+						code --primary
+						| ).
+					li
+						code .ss-calc-field__input
+						|  — input (52h, radius 10, border
+						code --secondary2
+						| , focus
+						code --accent1
+						| ). Поддерживает
+						code [readonly]
+						|  (серый фон) и
+						code [type='number']
+						|  (убраны спиннеры).
+					li
+						code .ss-calc-field__hint
+						|  — опциональная подсказка снизу (13/400,
+						code --secondary1
+						| ).
+					li
+						code .ss-calc-field--measure
+						|  — модификатор: справа inline-dropdown единиц измерения в&nbsp;общей рамке с&nbsp;input'ом.
+					li
+						code .ss-calc-field__row
+						|  — grid [input | units] для --measure.
+					li
+						code .ss-calc-field__units
+						|  — скоуп для dropdown. При
+						code .is-open
+						|  (или
+						code aria-expanded='true'
+						|  на __unit-btn) показывается
+						code .ss-calc-field__unit-list
+						| .
+					li
+						code .ss-calc-field__unit-btn
+						|  — кнопка-переключатель [единица ↓].
+					li
+						code .ss-calc-field__unit-list
+						|  — поповер-список абсолютный, прижат к&nbsp;правому краю.
+					li
+						code .ss-calc-field__unit-item
+						|  — пункт списка. Модификатор
+						code .is-selected
+						|  показывает галочку (
+						code .ss-calc-field__unit-check
+						| ).
+					li
+						code .ss-calc-field-group
+						|  — утилита: flex column, gap 20. Для стека нескольких полей внутри плашки.
+
+			//- ===== Сниппеты =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Сниппет — простое поле
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-calc-field
+						|     label.ss-calc-field__label(for='fx') Длина трубопровода, м
+						|     input.ss-calc-field__input#fx(type='text' value='100')
+						|     p.ss-calc-field__hint Используется для оценки потерь давления
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Сниппет — поле с&nbsp;селектором единиц
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-calc-field.ss-calc-field--measure
+						|     label.ss-calc-field__label(for='fy') Расход конденсата
+						|     .ss-calc-field__row
+						|         input.ss-calc-field__input#fy(type='text' value='1000')
+						|         .ss-calc-field__units
+						|             button.ss-calc-field__unit-btn(type='button' aria-haspopup='listbox' aria-expanded='false')
+						|                 span.ss-calc-field__unit-text кг/ч
+						|                 +svgIcon('chevron-down').ss-calc-field__unit-caret
+						|             ul.ss-calc-field__unit-list
+						|                 li.ss-calc-field__unit-item.is-selected
+						|                     +svgIcon('check').ss-calc-field__unit-check
+						|                     span кг/ч
+						|                 li.ss-calc-field__unit-item
+						|                     +svgIcon('check').ss-calc-field__unit-check
+						|                     span т/ч
