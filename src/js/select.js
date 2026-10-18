@@ -35,12 +35,22 @@
 			toggle(select);
 		});
 
+		var isMulti = select.classList.contains('ss-select--checkbox');
+
 		options.forEach(function (option) {
 			option.addEventListener('click', function (e) {
 				e.stopPropagation();
-				choose(select, option);
-				close(select);
-				control.focus();
+				// Клик по самому input внутри опции даст встроенный toggle —
+				// не дублируем, чтобы не отменять его обратно.
+				var clickedInput = e.target.closest('.ss-select__input');
+				if (isMulti) {
+					toggleOption(select, option, !clickedInput);
+					// multi-select: dropdown открыт — выбираем несколько.
+				} else {
+					choose(select, option);
+					close(select);
+					control.focus();
+				}
 			});
 		});
 	}
@@ -85,18 +95,62 @@
 	function choose(select, option) {
 		var options = select.querySelectorAll('.ss-select__option');
 		var value = select.querySelector('.ss-select__value');
+		var isRadio = select.classList.contains('ss-select--radio');
 
 		options.forEach(function (opt) {
 			opt.setAttribute('aria-selected', opt === option ? 'true' : 'false');
+			// Для --radio синхронизируем нативный input внутри опции.
+			if (isRadio) {
+				var inp = opt.querySelector('.ss-select__input');
+				if (inp) inp.checked = (opt === option);
+			}
 		});
 
 		if (value) {
-			value.textContent = option.textContent;
+			var text = option.querySelector('.ss-select__option-text');
+			value.textContent = text ? text.textContent : option.textContent;
 			value.classList.remove('ss-select__value--placeholder');
 		}
 
 		// Пишем data-value на корень — удобно читать снаружи (фильтры и т.п.).
 		var v = option.getAttribute('data-value');
 		if (v !== null) select.setAttribute('data-value', v);
+	}
+
+	// Multi-select: toggle .is-selected на опции (+ aria-selected). Если
+	// клик пришёл НЕ по самому input'у — тоже синхронизируем input.checked.
+	// Текст control обновляется: 0 выбрано → placeholder, 1+ → «N выбрано».
+	function toggleOption(select, option, syncInput) {
+		var input = option.querySelector('.ss-select__input');
+		if (syncInput && input) input.checked = !input.checked;
+		var checked = input ? input.checked : option.getAttribute('aria-selected') !== 'true';
+		option.setAttribute('aria-selected', checked ? 'true' : 'false');
+
+		var selected = select.querySelectorAll('.ss-select__option[aria-selected="true"]');
+		var value = select.querySelector('.ss-select__value');
+		var placeholder = select.getAttribute('data-placeholder')
+			|| (value && value.getAttribute('data-placeholder'))
+			|| 'Не выбрано';
+
+		if (!value) return;
+		if (selected.length === 0) {
+			value.textContent = placeholder;
+			value.classList.add('ss-select__value--placeholder');
+			select.removeAttribute('data-value');
+		} else if (selected.length === 1) {
+			var only = selected[0];
+			var textEl = only.querySelector('.ss-select__option-text');
+			value.textContent = textEl ? textEl.textContent : only.textContent.trim();
+			value.classList.remove('ss-select__value--placeholder');
+			select.setAttribute('data-value', only.getAttribute('data-value') || '');
+		} else {
+			value.textContent = 'Выбрано: ' + selected.length;
+			value.classList.remove('ss-select__value--placeholder');
+			// data-value — список значений через запятую.
+			var vals = Array.prototype.map.call(selected, function (o) {
+				return o.getAttribute('data-value') || '';
+			});
+			select.setAttribute('data-value', vals.join(','));
+		}
 	}
 })();
