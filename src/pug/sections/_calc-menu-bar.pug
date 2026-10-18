@@ -22,6 +22,16 @@
 //-   is-active            → ссылка «Расчёт размера трубы по скорости»
 //- ============================================================
 
+//- Мобильная версия (<$lg): ссылка-плашка на хаб калькуляторов.
+//- Горизонтальное меню с 6 категориями на узких экранах не влезает,
+//- поэтому вместо него показываем компактную ссылку, которая ведёт
+//- на страницу calculators.html с полным списком.
+a.ss-calc-menu-link(href='./calculators.html')
+	span.ss-calc-menu-link__icon(aria-hidden='true')
+		img(src=`${basePath}img/logo-calc.webp` width='40' height='40' alt='' loading='lazy' decoding='async')
+	span.ss-calc-menu-link__text Инженерные калькуляторы
+	+svgIcon('arrow-right').ss-calc-menu-link__arrow
+
 nav.ss-calc-menu-bar(aria-label='Калькуляторы')
 
 	//- Brand

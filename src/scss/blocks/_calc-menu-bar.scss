@@ -47,11 +47,84 @@ $bar-radius: 12px;
 	border-radius: $bar-radius;
 
 	// На мобильных и планшетах < $lg скрываем — горизонтальная полоса
-	// в неё не влезает, а меню с 3 категориями дублирует breadcrumbs
-	// до «Калькуляторы».
-	@include down($lg) {
+	// с 6 категориями не влезает. Вместо него показываем компактную
+	// ссылку-плашку .ss-calc-menu-link (парное правило ниже).
+	@include down($xl) {
 		display: none;
 	}
+}
+
+
+// ---------- Mobile fallback: ссылка-плашка на хаб ----------
+// Комплементарна .ss-calc-menu-bar: видна только на <$lg (там, где
+// горизонтальное меню скрыто). Ведёт на calculators.html.
+.ss-calc-menu-link {
+	display: none;
+
+	@include down($xl) {
+		margin-bottom: 20px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 12px 16px;
+		background: $bar-bg;
+		border: 1px solid $bar-br;
+		border-radius: $bar-radius;
+		text-decoration: none;
+		color: var(--primary);
+		transition: border-color .2s, background-color .2s;
+
+		&:hover {
+			border-color: var(--accent1);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--accent1);
+			outline-offset: 2px;
+		}
+	}
+}
+
+.ss-calc-menu-link__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+}
+
+.ss-calc-menu-link__text {
+	flex: 1 1 auto;
+	min-width: 0;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 1.2;
+	letter-spacing: 0.06em;
+	color: var(--secondary);
+	text-transform: uppercase;
+}
+
+// Стрелка-указатель справа — визуальный маркер «это ссылка-переход».
+// На hover чуть сдвигается вправо (микро-affordance как на cta-карточках).
+.ss-calc-menu-link__arrow {
+	flex-shrink: 0;
+	width: 18px;
+	height: 18px;
+	color: var(--accent1);
+	transition: transform .2s;
+}
+
+.ss-calc-menu-link:hover .ss-calc-menu-link__arrow {
+	transform: translateX(3px);
 }
 
 
