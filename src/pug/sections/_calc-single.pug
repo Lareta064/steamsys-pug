@@ -55,6 +55,11 @@ section.ss-section.ss-calc-single
 				h2.ss-h2 Введите параметры трубопровода
 				p.ss-section-intro__description.ss-calc-single__intro-lead Форма работает локально в&nbsp;браузере. Разметка повторяет production — JS подхватывает поля по&nbsp;именам.
 
+		//- ================= Селектор калькулятора (над грид'ом) =================
+		//- Горизонтальная плашка .ss-calc-menu-bar с иконкой-брендом слева
+		//- и dropdown-поповером при клике по категории. На <$lg скрывается.
+		include ./_calc-menu-bar.pug
+
 		//- ОДИН <form> — JS бэкенда (data-calc="11120") видит её целиком.
 		form.calculator-form.custom-form.ss-calc-single__form(data-calc='11120')
 			.ss-calc-single__grid

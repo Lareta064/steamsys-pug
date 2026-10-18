@@ -82,6 +82,11 @@ $calc-radius-sm: 10px;
 }
 
 
+// Селектор калькулятора — отбивка снизу до workbench grid'а.
+.ss-calc-single .ss-calc-menu-bar {
+	margin-bottom: 24px;
+}
+
 // ---------- Форма: внешняя раскладка 2 колонки ----------
 // Grid живёт на внутренней обёртке, т.к. form.custom-form может
 // получать свои стили от production-темы (margin/padding) — наша

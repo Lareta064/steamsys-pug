@@ -1,0 +1,295 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-calc-menu-bar — горизонтальный селектор калькуляторов для
+// страницы одного калькулятора. Аналог вертикального .ss-calc-menu,
+// но раскладка другая: иконка+бренд слева, pill-кнопки категорий
+// справа. По клику на категорию раскрывается полноширинный поповер
+// с двумя колонками: подкатегории (level-2) слева, ссылки на
+// конкретные калькуляторы справа.
+//
+// Разметка (сокращённо):
+//   nav.ss-calc-menu-bar
+//     .ss-calc-menu-bar__brand
+//       .ss-calc-menu-bar__brand-icon
+//         +svgIcon('calc')
+//       p.ss-calc-menu-bar__brand-text Инженерные калькуляторы
+//     .ss-calc-menu-bar__cats
+//       .ss-calc-menu-bar__cat.is-open
+//         button.ss-calc-menu-bar__cat-btn(type='button')
+//           span.ss-calc-menu-bar__cat-text Пар
+//           +svgIcon('chevron-down').ss-calc-menu-bar__cat-caret
+//         .ss-calc-menu-bar__dropdown
+//           .ss-calc-menu-bar__panel
+//             ul.ss-calc-menu-bar__subcats
+//               li.ss-calc-menu-bar__subcat.is-active
+//                 button(type='button') Проектирование трубопроводов
+//             ul.ss-calc-menu-bar__links
+//               li.ss-calc-menu-bar__link.is-active
+//                 a(href='#') Расчёт размера труб по скорости
+//
+// JS — src/js/calc-menu-bar.js: клик по cat-btn → toggle .is-open
+// на .ss-calc-menu-bar__cat; клик по subcat-кнопке → .is-active
+// на subcat (снять с других). Делегирование на document.
+// ==============================================================
+
+$bar-bg: var(--secondary3);
+$bar-br: var(--secondary2);
+$bar-radius: 12px;
+
+.ss-calc-menu-bar {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	padding: 10px 16px;
+	background: $bar-bg;
+	border: 1px solid $bar-br;
+	border-radius: $bar-radius;
+
+	// На мобильных и планшетах < $lg скрываем — горизонтальная полоса
+	// в неё не влезает, а меню с 3 категориями дублирует breadcrumbs
+	// до «Калькуляторы».
+	@include down($lg) {
+		display: none;
+	}
+}
+
+
+// ---------- Brand (иконка + подпись) ----------
+.ss-calc-menu-bar__brand {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex-shrink: 0;
+}
+
+.ss-calc-menu-bar__brand-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+}
+
+.ss-calc-menu-bar__brand-text {
+	margin: 0;
+	max-width: 140px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 11px;
+	line-height: 1.2;
+	letter-spacing: 0.06em;
+	color: var(--secondary);
+	text-transform: uppercase;
+}
+
+
+// ---------- Cats (ряд pill-кнопок) ----------
+// position: relative — containing block для абсолютного dropdown'а.
+// Тогда поповер выравнивается по левому краю __cats (сразу после brand),
+// а не по левому краю всего .ss-calc-menu-bar.
+.ss-calc-menu-bar__cats {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.ss-calc-menu-bar__cat {
+	position: static;      // dropdown позиционируется относительно .ss-calc-menu-bar
+}
+
+.ss-calc-menu-bar__cat-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	height: 36px;
+	padding: 0 14px;
+	border: 0;
+	border-radius: 10px;
+	background: transparent;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 15px;
+	line-height: 1.2;
+	color: var(--primary);
+	cursor: pointer;
+	transition: background-color .15s, color .15s;
+
+	&:hover {
+		background: var(--white);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+}
+
+// Открытая категория — голубой тонированный фон + accent-цвет текста.
+.ss-calc-menu-bar__cat.is-open .ss-calc-menu-bar__cat-btn {
+	background: var(--white);
+	color: var(--accent1);
+}
+
+.ss-calc-menu-bar__cat-caret {
+	width: 12px;
+	height: 12px;
+	color: currentColor;
+	transition: transform .2s;
+	flex-shrink: 0;
+}
+
+.ss-calc-menu-bar__cat.is-open .ss-calc-menu-bar__cat-caret {
+	transform: rotate(180deg);
+}
+
+
+// ---------- Dropdown (full-width поповер) ----------
+.ss-calc-menu-bar__dropdown {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	max-width: 800px;
+	top: calc(100% + 8px);
+	padding: 16px;
+	background: var(--white);
+	border: 1px solid $bar-br;
+	border-radius: $bar-radius;
+	box-shadow: 0 20px 40px rgba(13, 36, 60, 0.08);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-4px);
+	transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+	z-index: 20;
+}
+
+.ss-calc-menu-bar__cat.is-open .ss-calc-menu-bar__dropdown {
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+}
+
+
+// ---------- Panel (2 колонки: subcats | links) ----------
+.ss-calc-menu-bar__panel {
+	display: grid;
+	grid-template-columns: minmax(0, 400px) minmax(0, 400px);
+	gap: 16px;
+}
+
+// Левая колонка — список подкатегорий (level-2).
+.ss-calc-menu-bar__subcats {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+// Единый вид для <button> (переключатель subcat) и <a> (standalone-ссылка
+// --link, прямой переход на страницу калькулятора).
+.ss-calc-menu-bar__subcat > button,
+.ss-calc-menu-bar__subcat > a {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	padding: 10px 14px;
+	border: 0;
+	border-radius: 8px;
+	background: transparent;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.3;
+	color: var(--primary);
+	text-align: left;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color .15s, color .15s;
+
+	&:hover {
+		background: var(--secondary3);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+}
+
+// Активная подкатегория — тонированная плашка + синий текст.
+// Класс .is-active ставит JS (единственный активный в каждой cat).
+// Для --link модификатора активное состояние не применяется (ссылка —
+// переход, нет toggle-поведения).
+.ss-calc-menu-bar__subcat.is-active > button,
+.ss-calc-menu-bar__subcat.is-active > a {
+	background: var(--accent3);
+	color: var(--white);
+}
+
+// Правая колонка — обёртка над группами ссылок (div, не ul).
+.ss-calc-menu-bar__links {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+// Группа ссылок одной подкатегории (<ul>): по умолчанию скрыта,
+// показываем только ту группу, у которой data-subcat совпадает
+// с активным subcat.
+.ss-calc-menu-bar__link-group {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: none;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ss-calc-menu-bar__link-group.is-visible {
+	display: flex;
+}
+
+.ss-calc-menu-bar__link > a {
+	display: block;
+	padding: 10px 14px;
+	border-radius: 8px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.3;
+	color: var(--primary);
+	text-decoration: none;
+	transition: background-color .15s, color .15s;
+
+	&:hover {
+		background: var(--secondary3);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--accent1);
+		outline-offset: 2px;
+	}
+}
+
+// Активная ссылка — текущий калькулятор страницы. Класс .is-active
+// ставит консьюмер в разметке.
+.ss-calc-menu-bar__link.is-active > a {
+	background: var(--accent3);
+	color: var(--white);
+}

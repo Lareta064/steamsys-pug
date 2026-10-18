@@ -1,0 +1,260 @@
+//- ============================================================
+//- .ss-calc-menu-bar — горизонтальный селектор калькуляторов над
+//- формой на страницах single-calculator.
+//-
+//- Контент — те же 6 категорий, что и в вертикальном меню на
+//- calculators.pug (.ss-calc-menu): Пар · Возврат конденсата ·
+//- Вода · Воздух · Газ · Паровые таблицы. Standalone-ссылки
+//- (без level-2) собраны в псевдо-подкатегорию «Другое» в конце.
+//-
+//- Поведение (src/js/calc-menu-bar.js):
+//-   · клик по .ss-calc-menu-bar__cat-btn → toggle .is-open на cat
+//-     (все остальные cat закрываются — single-open)
+//-   · hover (или click) по кнопке subcat → .is-active на subcat
+//-     (снять с других в рамках своей cat); показать соответствующую
+//-     .ss-calc-menu-bar__link-group (data-subcat у группы = data-subcat
+//-     у выбранного subcat)
+//-   · клик вне любого .ss-calc-menu-bar или ESC → закрыть открытые
+//-
+//- Для текущей страницы «Расчёт размера труб по скорости»:
+//-   is-active + is-open  → Пар
+//-   is-active            → Проектирование трубопроводов
+//-   is-active            → ссылка «Расчёт размера трубы по скорости»
+//- ============================================================
+
+nav.ss-calc-menu-bar(aria-label='Калькуляторы')
+
+	//- Brand
+	.ss-calc-menu-bar__brand
+		.ss-calc-menu-bar__brand-icon(aria-hidden='true')
+			img(src=`${basePath}img/logo-calc.webp` width='40' height='40' alt='' loading='lazy' decoding='async')
+		p.ss-calc-menu-bar__brand-text Инженерные калькуляторы
+
+	//- Категории (level-1)
+	ul.ss-calc-menu-bar__cats
+
+		//- ==================== Пар (is-active + is-open) ====================
+		li.ss-calc-menu-bar__cat.is-active.is-open
+			button.ss-calc-menu-bar__cat-btn(type='button' aria-haspopup='true' aria-expanded='true')
+				span.ss-calc-menu-bar__cat-text Пар
+				+svgIcon('chevron-down').ss-calc-menu-bar__cat-caret
+			.ss-calc-menu-bar__dropdown
+				.ss-calc-menu-bar__panel
+					ul.ss-calc-menu-bar__subcats
+						li.ss-calc-menu-bar__subcat.is-active(data-subcat='steam-pipes')
+							button(type='button') Проектирование трубопроводов
+						li.ss-calc-menu-bar__subcat(data-subcat='steam-valves')
+							button(type='button') Клапаны и&nbsp;сопла
+						li.ss-calc-menu-bar__subcat(data-subcat='steam-condensate')
+							button(type='button') Расход конденсата
+						li.ss-calc-menu-bar__subcat(data-subcat='steam-dryness')
+							button(type='button') Улучшенная сухость пара
+						li.ss-calc-menu-bar__subcat(data-subcat='steam-air-mix')
+							button(type='button') Эффект смеси пара и&nbsp;воздуха
+						li.ss-calc-menu-bar__subcat(data-subcat='steam-cost')
+							button(type='button') Стоимость единицы пара и&nbsp;энергии
+						li.ss-calc-menu-bar__subcat.ss-calc-menu-bar__subcat--link
+							a(href='#') Эффективность котла
+
+					.ss-calc-menu-bar__links
+						ul.ss-calc-menu-bar__link-group.is-visible(data-subcat='steam-pipes')
+							li.ss-calc-menu-bar__link
+								a(href='#') Расчёт размера трубы по&nbsp;потерям давления
+							li.ss-calc-menu-bar__link.is-active
+								a(href='./single-calculator.html') Расчёт размера трубы по&nbsp;скорости
+							li.ss-calc-menu-bar__link
+								a(href='#') Расчёт размера вестовой трубы
+							li.ss-calc-menu-bar__link
+								a(href='#') Потери давления в&nbsp;трубопроводе
+							li.ss-calc-menu-bar__link
+								a(href='#') Скорость пара в&nbsp;трубопроводе
+							li.ss-calc-menu-bar__link
+								a(href='#') Расход пара в&nbsp;трубопроводе
+							li.ss-calc-menu-bar__link
+								a(href='#') Экономичная толщина изоляции
+
+						ul.ss-calc-menu-bar__link-group(data-subcat='steam-valves')
+							li.ss-calc-menu-bar__link
+								a(href='#') Значения пропускной способности Cv и&nbsp;Kv
+							li.ss-calc-menu-bar__link
+								a(href='#') Расход пара через клапан
+							li.ss-calc-menu-bar__link
+								a(href='#') Расход пара через сопло
+
+						ul.ss-calc-menu-bar__link-group(data-subcat='steam-condensate')
+							li.ss-calc-menu-bar__link
+								a(href='#') От&nbsp;трубопровода при запуске
+							li.ss-calc-menu-bar__link
+								a(href='#') При нагреве жидкости (непрерывном)
+							li.ss-calc-menu-bar__link
+								a(href='#') При нагреве жидкости (фикс. объём)
+							li.ss-calc-menu-bar__link
+								a(href='#') При нагреве воздуха
+							li.ss-calc-menu-bar__link
+								a(href='#') От&nbsp;потери лучистого тепла в&nbsp;трубопроводах
+							li.ss-calc-menu-bar__link
+								a(href='#') Точка подтопления
+
+						ul.ss-calc-menu-bar__link-group(data-subcat='steam-dryness')
+							li.ss-calc-menu-bar__link
+								a(href='#') От&nbsp;снижения давления
+							li.ss-calc-menu-bar__link
+								a(href='#') От&nbsp;снижения давления и&nbsp;отделения конденсата
+
+						ul.ss-calc-menu-bar__link-group(data-subcat='steam-air-mix')
+							li.ss-calc-menu-bar__link
+								a(href='#') Падение температуры (по&nbsp;% воздуха)
+							li.ss-calc-menu-bar__link
+								a(href='#') %&nbsp;воздуха (по&nbsp;температуре смеси)
+
+						ul.ss-calc-menu-bar__link-group(data-subcat='steam-cost')
+							li.ss-calc-menu-bar__link
+								a(href='#') Стоимость единицы энергии
+							li.ss-calc-menu-bar__link
+								a(href='#') Стоимость единицы пара
+
+		//- ==================== Возврат конденсата ====================
+		li.ss-calc-menu-bar__cat
+			button.ss-calc-menu-bar__cat-btn(type='button' aria-haspopup='true' aria-expanded='false')
+				span.ss-calc-menu-bar__cat-text Возврат конденсата
+				+svgIcon('chevron-down').ss-calc-menu-bar__cat-caret
+			.ss-calc-menu-bar__dropdown
+				.ss-calc-menu-bar__panel
+					ul.ss-calc-menu-bar__subcats
+						li.ss-calc-menu-bar__subcat.is-active(data-subcat='cond-economy')
+							button(type='button') Экономический анализ
+						li.ss-calc-menu-bar__subcat(data-subcat='cond-pipes')
+							button(type='button') Расчёт размера трубы
+						li.ss-calc-menu-bar__subcat.ss-calc-menu-bar__subcat--link
+							a(href='#') Образование выпара
+
+					.ss-calc-menu-bar__links
+						ul.ss-calc-menu-bar__link-group.is-visible(data-subcat='cond-economy')
+							li.ss-calc-menu-bar__link
+								a(href='#') Открытая система
+							li.ss-calc-menu-bar__link
+								a(href='#') Закрытая система
+							li.ss-calc-menu-bar__link
+								a(href='#') Теплообменник
+							li.ss-calc-menu-bar__link
+								a(href='#') Регенерация выпара
+
+						ul.ss-calc-menu-bar__link-group(data-subcat='cond-pipes')
+							li.ss-calc-menu-bar__link
+								a(href='#') Между оборудованием и&nbsp;конденсатоотводчиком
+							li.ss-calc-menu-bar__link
+								a(href='#') Конденсатопровод по&nbsp;потерям давления
+							li.ss-calc-menu-bar__link
+								a(href='#') Конденсатопровод по&nbsp;скорости
+							li.ss-calc-menu-bar__link
+								a(href='#') Выпускная линия насоса
+
+		//- ==================== Вода ====================
+		li.ss-calc-menu-bar__cat
+			button.ss-calc-menu-bar__cat-btn(type='button' aria-haspopup='true' aria-expanded='false')
+				span.ss-calc-menu-bar__cat-text Вода
+				+svgIcon('chevron-down').ss-calc-menu-bar__cat-caret
+			.ss-calc-menu-bar__dropdown
+				.ss-calc-menu-bar__panel
+					ul.ss-calc-menu-bar__subcats
+						li.ss-calc-menu-bar__subcat.is-active(data-subcat='water-pipes')
+							button(type='button') Проектирование трубопроводов
+						li.ss-calc-menu-bar__subcat(data-subcat='water-valves')
+							button(type='button') Клапаны и&nbsp;сопла
+
+					.ss-calc-menu-bar__links
+						ul.ss-calc-menu-bar__link-group.is-visible(data-subcat='water-pipes')
+							li.ss-calc-menu-bar__link
+								a(href='#') Расчёт размера трубы по&nbsp;потерям давления
+							li.ss-calc-menu-bar__link
+								a(href='#') Расчёт размера трубы по&nbsp;скорости
+							li.ss-calc-menu-bar__link
+								a(href='#') Потеря давления через трубопровод
+							li.ss-calc-menu-bar__link
+								a(href='#') Скорость прохождения воды через трубу
+							li.ss-calc-menu-bar__link
+								a(href='#') Расход воды в&nbsp;трубе
+							li.ss-calc-menu-bar__link
+								a(href='#') Экономичная толщина изоляции
+
+						ul.ss-calc-menu-bar__link-group(data-subcat='water-valves')
+							li.ss-calc-menu-bar__link
+								a(href='#') Значения пропускной способности Cv и&nbsp;Kv
+							li.ss-calc-menu-bar__link
+								a(href='#') Расход воды через клапан
+							li.ss-calc-menu-bar__link
+								a(href='#') Расход воды через сопло
+
+		//- ==================== Воздух ====================
+		li.ss-calc-menu-bar__cat
+			button.ss-calc-menu-bar__cat-btn(type='button' aria-haspopup='true' aria-expanded='false')
+				span.ss-calc-menu-bar__cat-text Воздух
+				+svgIcon('chevron-down').ss-calc-menu-bar__cat-caret
+			.ss-calc-menu-bar__dropdown
+				.ss-calc-menu-bar__panel
+					ul.ss-calc-menu-bar__subcats
+						li.ss-calc-menu-bar__subcat.is-active(data-subcat='air-pipes')
+							button(type='button') Расчёт трубопроводов
+						li.ss-calc-menu-bar__subcat(data-subcat='air-valves')
+							button(type='button') Клапаны и&nbsp;сопла
+						li.ss-calc-menu-bar__subcat.ss-calc-menu-bar__subcat--link
+							a(href='#') Расход конденсата в&nbsp;системах сжатого воздуха
+						li.ss-calc-menu-bar__subcat.ss-calc-menu-bar__subcat--link
+							a(href='#') Таблица насыщения для влажного воздуха
+
+					.ss-calc-menu-bar__links
+						ul.ss-calc-menu-bar__link-group.is-visible(data-subcat='air-pipes')
+							li.ss-calc-menu-bar__link
+								a(href='#') Расчёт по&nbsp;потерям давления
+							li.ss-calc-menu-bar__link
+								a(href='#') Расчёт по&nbsp;скорости
+							li.ss-calc-menu-bar__link
+								a(href='#') Потеря давления через трубопровод
+							li.ss-calc-menu-bar__link
+								a(href='#') Скорость прохождения воздуха через трубопровод
+							li.ss-calc-menu-bar__link
+								a(href='#') Расход воздуха в&nbsp;трубе
+
+						ul.ss-calc-menu-bar__link-group(data-subcat='air-valves')
+							li.ss-calc-menu-bar__link
+								a(href='#') Значения пропускной способности Cv и&nbsp;Kv
+							li.ss-calc-menu-bar__link
+								a(href='#') Расход воздуха через клапан
+							li.ss-calc-menu-bar__link
+								a(href='#') Расход воздуха через сопло
+
+		//- ==================== Газ ====================
+		li.ss-calc-menu-bar__cat
+			button.ss-calc-menu-bar__cat-btn(type='button' aria-haspopup='true' aria-expanded='false')
+				span.ss-calc-menu-bar__cat-text Газ
+				+svgIcon('chevron-down').ss-calc-menu-bar__cat-caret
+			.ss-calc-menu-bar__dropdown
+				.ss-calc-menu-bar__panel
+					ul.ss-calc-menu-bar__subcats
+						li.ss-calc-menu-bar__subcat.is-active(data-subcat='gas-pipes')
+							button(type='button') Проектирование трубопроводов
+
+					.ss-calc-menu-bar__links
+						ul.ss-calc-menu-bar__link-group.is-visible(data-subcat='gas-pipes')
+							li.ss-calc-menu-bar__link
+								a(href='#') Потеря давления через трубопровод
+
+		//- ==================== Паровые таблицы ====================
+		li.ss-calc-menu-bar__cat
+			button.ss-calc-menu-bar__cat-btn(type='button' aria-haspopup='true' aria-expanded='false')
+				span.ss-calc-menu-bar__cat-text Паровые таблицы
+				+svgIcon('chevron-down').ss-calc-menu-bar__cat-caret
+			.ss-calc-menu-bar__dropdown
+				.ss-calc-menu-bar__panel
+					ul.ss-calc-menu-bar__subcats
+						li.ss-calc-menu-bar__subcat.is-active(data-subcat='tables-all')
+							button(type='button') Все таблицы
+
+					.ss-calc-menu-bar__links
+						ul.ss-calc-menu-bar__link-group.is-visible(data-subcat='tables-all')
+							li.ss-calc-menu-bar__link
+								a(href='#') Таблица свойств насыщенного пара (по&nbsp;давлению)
+							li.ss-calc-menu-bar__link
+								a(href='#') Таблица свойств насыщенного пара (по&nbsp;температуре)
+							li.ss-calc-menu-bar__link
+								a(href='#') Таблица свойств перегретого пара
