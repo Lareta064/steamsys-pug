@@ -17,34 +17,34 @@ section.ss-section.ss-product-analogs(id='product-analogs')
 					.ss-product-analogs__col
 						//- Имя + Телефон в одну строку.
 						.ss-product-analogs__row
-							.ss-product-analogs__field
-								label.ss-product-analogs__label(for='pa-name') Ваше имя
-								input.ss-product-analogs__input#pa-name(type='text', placeholder='Иван Иванов')
-							.ss-product-analogs__field
-								label.ss-product-analogs__label(for='pa-phone') Телефон
-								input.ss-product-analogs__input#pa-phone(type='tel', placeholder='+7 (___) ___-__-__')
-						.ss-product-analogs__field
-							label.ss-product-analogs__label(for='pa-email') Email для отправки КП
-							input.ss-product-analogs__input#pa-email(type='email', placeholder='name@company.ru')
-						.ss-product-analogs__field
-							label.ss-product-analogs__label(for='pa-comment') Комментарий или описание задачи
-							textarea.ss-product-analogs__input.ss-product-analogs__input--textarea#pa-comment(placeholder='Дополнительные детали, по которым проще подобрать аналог', rows='4')
+							.ss-calc-field
+								label.ss-calc-field__label(for='pa-name') Ваше имя
+								input.ss-calc-field__input#pa-name(type='text', placeholder='Иван Иванов')
+							.ss-calc-field
+								label.ss-calc-field__label(for='pa-phone') Телефон
+								input.ss-calc-field__input#pa-phone(type='tel', placeholder='+7 (___) ___-__-__')
+						.ss-calc-field
+							label.ss-calc-field__label(for='pa-email') Email для отправки КП
+							input.ss-calc-field__input#pa-email(type='email', placeholder='name@company.ru')
+						.ss-calc-field
+							label.ss-calc-field__label(for='pa-comment') Комментарий или описание задачи
+							textarea.ss-calc-field__input.ss-calc-field__input--textarea#pa-comment(placeholder='Дополнительные детали, по которым проще подобрать аналог', rows='4')
 
 					//- Правая колонка — параметры аналога + футер (политика + кнопка).
 					.ss-product-analogs__col
 						.ss-product-analogs__fields
-							.ss-product-analogs__field
-								label.ss-product-analogs__label(for='pa-dn') DN и PN
-								input.ss-product-analogs__input#pa-dn(type='text', placeholder='DN25, PN16')
-							.ss-product-analogs__field
-								label.ss-product-analogs__label(for='pa-pressure') Давление рабочее
-								input.ss-product-analogs__input#pa-pressure(type='text', placeholder='бар')
-							.ss-product-analogs__field
-								label.ss-product-analogs__label(for='pa-flow') Расход конденсата
-								input.ss-product-analogs__input#pa-flow(type='text', placeholder='кг/ч')
-							.ss-product-analogs__field
-								label.ss-product-analogs__label(for='pa-analog') Текущий аналог (марка/артикул)
-								input.ss-product-analogs__input#pa-analog(type='text', placeholder='Производитель, артикул')
+							.ss-calc-field
+								label.ss-calc-field__label(for='pa-dn') DN и PN
+								input.ss-calc-field__input#pa-dn(type='text', placeholder='DN25, PN16')
+							.ss-calc-field
+								label.ss-calc-field__label(for='pa-pressure') Давление рабочее
+								input.ss-calc-field__input#pa-pressure(type='text', placeholder='бар')
+							.ss-calc-field
+								label.ss-calc-field__label(for='pa-flow') Расход конденсата
+								input.ss-calc-field__input#pa-flow(type='text', placeholder='кг/ч')
+							.ss-calc-field
+								label.ss-calc-field__label(for='pa-analog') Текущий аналог (марка/артикул)
+								input.ss-calc-field__input#pa-analog(type='text', placeholder='Производитель, артикул')
 
 						//- Футер формы под полями правой колонки: политика + кнопка.
 						.ss-product-analogs__footer

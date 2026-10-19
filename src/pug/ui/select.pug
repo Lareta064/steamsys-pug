@@ -249,6 +249,109 @@ block content
 						| .ss-select.ss-select--sm(data-select)
 						|     ...
 
+			//- ===== .ss-select--checkbox (multi-select) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title С чекбоксами (.ss-select--checkbox)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Множественный выбор. Внутри опции — нативный
+					code input[type="checkbox"]
+					|  (
+					code .ss-select__input
+					| ) +
+					code span.ss-select__option-text
+					| . JS не закрывает dropdown при выборе, тогглит
+					code aria-selected
+					|  и
+					code input.checked
+					| , обновляет текст control: 0 выбрано → placeholder, 1 → название, 2+ → «Выбрано: N».
+					br
+					| Placeholder-текст запоминается на
+					code .ss-select__value[data-placeholder]
+					| .
+					code data-value
+					|  на корне становится списком через запятую.
+
+				.breadcrumbs-catalog__demo(style='max-width: 400px; padding-bottom: 260px;')
+					.ss-select.ss-select--checkbox.ss-select--sm(data-select)
+						button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+							span.ss-select__value.ss-select__value--placeholder(data-placeholder='Все отрасли') Все отрасли
+							span.ss-select__chevron
+								+svgIcon('chevron-down')
+						ul.ss-select__list(role='listbox', hidden)
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='oil')
+								input.ss-select__input(type='checkbox', name='industry[]', value='oil')
+								span.ss-select__option-text Нефтехимия
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='energy')
+								input.ss-select__input(type='checkbox', name='industry[]', value='energy')
+								span.ss-select__option-text Энергетика
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='food')
+								input.ss-select__input(type='checkbox', name='industry[]', value='food')
+								span.ss-select__option-text Пищевая промышленность
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='pharma')
+								input.ss-select__input(type='checkbox', name='industry[]', value='pharma')
+								span.ss-select__option-text Фармацевтика
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-select.ss-select--checkbox.ss-select--sm(data-select)
+						|     button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+						|         span.ss-select__value.ss-select__value--placeholder(data-placeholder='Все отрасли') Все отрасли
+						|         span.ss-select__chevron
+						|             +svgIcon('chevron-down')
+						|     ul.ss-select__list(role='listbox', hidden)
+						|         li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='oil')
+						|             input.ss-select__input(type='checkbox', name='industry[]', value='oil')
+						|             span.ss-select__option-text Нефтехимия
+						|         li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='energy')
+						|             input.ss-select__input(type='checkbox', name='industry[]', value='energy')
+						|             span.ss-select__option-text Энергетика
+
+			//- ===== .ss-select--radio (single-select с явным radio) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title С радио-кнопками (.ss-select--radio)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Одиночный выбор, но с явным
+					code input[type="radio"]
+					|  в опциях. Поведение JS — как у базового
+					code .ss-select
+					|  (dropdown закрывается после выбора,
+					code aria-selected='true'
+					|  на выбранной + синхронизируется
+					code input.checked
+					| ). Нужно, когда семантика выбора важна для формы (name/value отправляются в submit).
+
+				.breadcrumbs-catalog__demo(style='max-width: 400px; padding-bottom: 260px;')
+					.ss-select.ss-select--radio.ss-select--sm(data-select)
+						button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+							span.ss-select__value.ss-select__value--placeholder(data-placeholder='Регион') Регион
+							span.ss-select__chevron
+								+svgIcon('chevron-down')
+						ul.ss-select__list(role='listbox', hidden)
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='msk')
+								input.ss-select__input(type='radio', name='region', value='msk')
+								span.ss-select__option-text Москва
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='spb')
+								input.ss-select__input(type='radio', name='region', value='spb')
+								span.ss-select__option-text Санкт-Петербург
+							li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='rf')
+								input.ss-select__input(type='radio', name='region', value='rf')
+								span.ss-select__option-text Регионы России
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-select.ss-select--radio.ss-select--sm(data-select)
+						|     button.ss-select__control(type='button', aria-haspopup='listbox', aria-expanded='false')
+						|         span.ss-select__value.ss-select__value--placeholder(data-placeholder='Регион') Регион
+						|         span.ss-select__chevron
+						|             +svgIcon('chevron-down')
+						|     ul.ss-select__list(role='listbox', hidden)
+						|         li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='msk')
+						|             input.ss-select__input(type='radio', name='region', value='msk')
+						|             span.ss-select__option-text Москва
+						|         li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='spb')
+						|             input.ss-select__input(type='radio', name='region', value='spb')
+						|             span.ss-select__option-text Санкт-Петербург
+
 			//- ===== Про элементы =====
 			section.breadcrumbs-catalog__section
 				h3.breadcrumbs-catalog__section-title Про элементы

@@ -407,6 +407,13 @@ block content
 					|  (оранжевый
 					code --accent5 = #F0A000
 					| ).
+					br
+					strong Важно:
+					|  к кнопке ОБЯЗАТЕЛЬНО добавляется модификатор
+					code .ss-search-btn
+					|  — он поднимает высоту кнопки до 55 (под высоту
+					code .ss-search__input
+					| ). Без него геометрия ломается (кнопка 44, инпут 55).
 
 				h4.form-catalog__subtitle С белым фоном инпута —
 					code .ss-search-wrapper.ss-input-bg-white
@@ -420,13 +427,13 @@ block content
 				.form-catalog__demo.ss-bg-primary
 					.ss-search-wrapper.ss-input-bg-white
 						input.ss-search__input(type='search', placeholder='Найти статью — например, «гидроудары» или «поплавковый конденсатоотводчик»')
-						+ssBtn('Найти', { variant: 'accent5' })
+						+ssBtn('Найти', { variant: 'accent5 ss-search-btn' })
 
 				pre.form-catalog__snippet
 					code
 						| .ss-search-wrapper.ss-input-bg-white
 						|     input.ss-search__input(type='search', placeholder='Найти…')
-						|     +ssBtn('Найти', { variant: 'accent5' })
+						|     +ssBtn('Найти', { variant: 'accent5 ss-search-btn' })
 
 			//- ========== Bitrix-форма (светлая тема) ==========
 			section.form-catalog__section#b24-form

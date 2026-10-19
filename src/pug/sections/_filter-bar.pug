@@ -1,5 +1,21 @@
-- var filterBarRow1 = [{ id: 'fb-industry', label: 'Отрасль', placeholder: 'Все', options: ['Все', 'Нефтехимия', 'Энергетика', 'Пищевая промышленность', 'Фармацевтика'] }, { id: 'fb-solution-type', label: 'Тип решения', placeholder: 'Все', options: ['Все', 'Готовые системы', 'Отдельные компоненты'] }, { id: 'fb-task', label: 'Задача', placeholder: 'Все', options: ['Все', 'Дренаж конденсата', 'Теплообмен', 'Редуцирование пара'] }, { id: 'fb-region', label: 'Регион', placeholder: 'Все регионы', options: ['Все регионы', 'Москва', 'Санкт-Петербург', 'Регионы России'] }]
-- var filterBarRow2 = [{ id: 'fb-effect', label: 'Бизнес-эффект', placeholder: 'Все', options: ['Все', 'Снижение потерь', 'Экономия энергии', 'Повышение безопасности'] }]
+//- Поля с multi-select (чекбоксы) — несколько значений разом;
+//- single-select (radio) — одно значение. Placeholder — текст, который
+//- виден в кнопке, когда ничего не выбрано (бывший __label). JS возвращает
+//- его из data-placeholder на .ss-select__value при полном сбросе выбора.
+- var filterBarRow1 = [{ id: 'fb-industry', name: 'industry[]', placeholder: 'Отрасль', type: 'checkbox', options: ['Нефтехимия', 'Энергетика', 'Пищевая промышленность', 'Фармацевтика'] }, { id: 'fb-solution-type', name: 'solution_type', placeholder: 'Тип решения', type: 'radio', options: ['Готовые системы', 'Отдельные компоненты'] }, { id: 'fb-task', name: 'task[]', placeholder: 'Задача', type: 'checkbox', options: ['Дренаж конденсата', 'Теплообмен', 'Редуцирование пара'] }, { id: 'fb-region', name: 'region', placeholder: 'Регион', type: 'radio', options: ['Москва', 'Санкт-Петербург', 'Регионы России'] }]
+- var filterBarRow2 = [{ id: 'fb-effect', name: 'effect[]', placeholder: 'Бизнес-эффект', type: 'checkbox', options: ['Снижение потерь', 'Экономия энергии', 'Повышение безопасности'] }]
+
+mixin filterBarSelect(field)
+	.ss-select.ss-select--sm(class='ss-select--' + field.type data-select)
+		button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
+			span.ss-select__value.ss-select__value--placeholder(data-placeholder=field.placeholder)= field.placeholder
+			span.ss-select__chevron
+				+svgIcon('chevron-down')
+		ul.ss-select__list(role='listbox' hidden)
+			each opt, i in field.options
+				li.ss-select__option(role='option' aria-selected='false' tabindex='-1' data-value=opt)
+					input.ss-select__input(type=field.type name=field.name value=opt)
+					span.ss-select__option-text= opt
 
 .ss-section.ss-section--tinted.ss-filter-bar
 	.ss-container
@@ -7,25 +23,14 @@
 			.ss-filter-bar__row
 				each field in filterBarRow1
 					.ss-filter-bar__field
-						span.ss-filter-bar__label= field.label + ':'
-						.ss-select.ss-select--sm(data-select)
-							button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
-								span.ss-select__value.ss-select__value--placeholder= field.placeholder
-								span.ss-select__chevron
-									+svgIcon('chevron-down')
-							ul.ss-select__list(role='listbox' hidden)
-								each opt in field.options
-									li.ss-select__option(role='option' aria-selected=opt === field.placeholder ? 'true' : 'false' tabindex='-1' data-value=opt)= opt
+						+filterBarSelect(field)
 			.ss-filter-bar__row
 				each field in filterBarRow2
 					.ss-filter-bar__field
-						span.ss-filter-bar__label= field.label + ':'
-						.ss-select.ss-select--sm(data-select)
-							button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
-								span.ss-select__value.ss-select__value--placeholder= field.placeholder
-								span.ss-select__chevron
-									+svgIcon('chevron-down')
-							ul.ss-select__list(role='listbox' hidden)
-								each opt in field.options
-									li.ss-select__option(role='option' aria-selected=opt === field.placeholder ? 'true' : 'false' tabindex='-1' data-value=opt)= opt
+						+filterBarSelect(field)
 				button.ss-btn.ss-btn--dark(type='submit') Найти кейсы
+
+		//- Применённые фильтры (чипы). JS (filter-bar.js) заполняет этот
+		//- контейнер на основе выбранных опций во всех .ss-select внутри
+		//- .ss-filter-bar. При пустом контейнере :empty прячет margin.
+		.ss-filter-bar__meta(aria-label='Применённые фильтры' data-filter-chips)

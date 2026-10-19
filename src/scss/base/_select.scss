@@ -148,6 +148,59 @@
 
 
 // ==============================================================
+// .ss-select--checkbox / .ss-select--radio — варианты «мульти-выбор»
+// и «single-select с явным radio» для панелей фильтров.
+//
+// Разметка (внутри __option — скрытый нативный input + видимый span):
+//   .ss-select.ss-select--checkbox(data-select)
+//     button.ss-select__control ...
+//     ul.ss-select__list(role='listbox', hidden)
+//       li.ss-select__option(role='option', aria-selected='false', tabindex='-1', data-value='1')
+//         input.ss-select__input(type='checkbox', name='filter[]', value='1')
+//         span.ss-select__option-text Опция 1
+//
+// JS (src/js/select.js): если на корне .ss-select--checkbox — клик
+// по опции тогглит .is-selected (не закрывает dropdown), текст control
+// меняется на «N выбрано». Для .ss-select--radio — клик выбирает
+// одно значение, закрывает dropdown (как базовый .ss-select).
+// ==============================================================
+
+// Опция с input'ом внутри — flex row для align'а чекбокса/радио и текста.
+.ss-select__option:has(.ss-select__input) {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+// Стилизация нативного input — только accent-color + размеры.
+// Кастомные marker'ы не рисуем: нативный + accent-color даёт
+// консистентный вид во всех современных браузерах и бесплатную
+// клавиатурную доступность.
+.ss-select__input {
+	flex-shrink: 0;
+	width: 16px;
+	height: 16px;
+	margin: 0;
+	accent-color: var(--accent1);
+	cursor: pointer;
+}
+
+.ss-select__option-text {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+// В checkbox/radio-вариантах выбранная опция НЕ красится в accent-цвет
+// — визуальный marker даёт сам input. Переопределяем базу (которая
+// красит aria-selected='true' в --accent1 + bold).
+.ss-select--checkbox .ss-select__option[aria-selected='true'],
+.ss-select--radio .ss-select__option[aria-selected='true'] {
+	color: var(--primary);
+	font-weight: 500;
+}
+
+
+// ==============================================================
 // .ss-select--sm — компактный размер для панелей фильтров и toolbar'ов.
 // Control 44px вместо 56, паддинги и шрифт меньше.
 // Можно комбинировать с .ss-select--auto.
