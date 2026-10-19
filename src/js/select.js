@@ -115,42 +115,83 @@
 		// Пишем data-value на корень — удобно читать снаружи (фильтры и т.п.).
 		var v = option.getAttribute('data-value');
 		if (v !== null) select.setAttribute('data-value', v);
+
+		emitChange(select);
 	}
 
-	// Multi-select: toggle .is-selected на опции (+ aria-selected). Если
-	// клик пришёл НЕ по самому input'у — тоже синхронизируем input.checked.
-	// Текст control обновляется: 0 выбрано → placeholder, 1+ → «N выбрано».
+	// Публичный хук для внешних модулей (напр. src/js/filter-bar.js).
+	// Снимает выбор с одной опции и обновляет control-подпись.
+	// Для --radio снимает единственный выбор — возвращает control к placeholder.
+	// Для --checkbox — просто ресинкает счётчик.
+	window.ssSelect = {
+		clearOption: function (option) {
+			var select = option.closest('.ss-select');
+			if (!select) return;
+			var input = option.querySelector('.ss-select__input');
+			option.setAttribute('aria-selected', 'false');
+			if (input) input.checked = false;
+			sync(select);
+			emitChange(select);
+		},
+		clearAll: function (select) {
+			if (!select) return;
+			select.querySelectorAll('.ss-select__option[aria-selected="true"]').forEach(function (opt) {
+				opt.setAttribute('aria-selected', 'false');
+				var inp = opt.querySelector('.ss-select__input');
+				if (inp) inp.checked = false;
+			});
+			sync(select);
+			emitChange(select);
+		},
+		sync: function (select) {
+			sync(select);
+		}
+	};
+
+	// Пересчёт текста control на основе текущих aria-selected опций.
+	// Универсально работает и для --radio, и для --checkbox.
+	function sync(select) {
+		var value = select.querySelector('.ss-select__value');
+		if (!value) return;
+		var placeholder = value.getAttribute('data-placeholder') || '';
+		var selected = select.querySelectorAll('.ss-select__option[aria-selected="true"]');
+
+		if (selected.length === 0) {
+			if (placeholder) value.textContent = placeholder;
+			value.classList.add('ss-select__value--placeholder');
+			select.removeAttribute('data-value');
+			return;
+		}
+
+		value.classList.remove('ss-select__value--placeholder');
+		if (selected.length === 1) {
+			var only = selected[0];
+			var textEl = only.querySelector('.ss-select__option-text');
+			value.textContent = textEl ? textEl.textContent : only.textContent.trim();
+			select.setAttribute('data-value', only.getAttribute('data-value') || '');
+			return;
+		}
+		value.textContent = 'Выбрано: ' + selected.length;
+		var vals = Array.prototype.map.call(selected, function (o) {
+			return o.getAttribute('data-value') || '';
+		});
+		select.setAttribute('data-value', vals.join(','));
+	}
+
+	// Диспатчим CustomEvent, чтобы внешние модули могли слушать изменения.
+	function emitChange(select) {
+		select.dispatchEvent(new CustomEvent('ss-select:change', { bubbles: true }));
+	}
+
+	// Multi-select: toggle aria-selected на опции (+ input.checked). Если
+	// клик пришёл НЕ по самому input'у — синхронизируем input.checked сами.
+	// Текст control пересчитывает общий `sync()`.
 	function toggleOption(select, option, syncInput) {
 		var input = option.querySelector('.ss-select__input');
 		if (syncInput && input) input.checked = !input.checked;
 		var checked = input ? input.checked : option.getAttribute('aria-selected') !== 'true';
 		option.setAttribute('aria-selected', checked ? 'true' : 'false');
-
-		var selected = select.querySelectorAll('.ss-select__option[aria-selected="true"]');
-		var value = select.querySelector('.ss-select__value');
-		var placeholder = select.getAttribute('data-placeholder')
-			|| (value && value.getAttribute('data-placeholder'))
-			|| 'Не выбрано';
-
-		if (!value) return;
-		if (selected.length === 0) {
-			value.textContent = placeholder;
-			value.classList.add('ss-select__value--placeholder');
-			select.removeAttribute('data-value');
-		} else if (selected.length === 1) {
-			var only = selected[0];
-			var textEl = only.querySelector('.ss-select__option-text');
-			value.textContent = textEl ? textEl.textContent : only.textContent.trim();
-			value.classList.remove('ss-select__value--placeholder');
-			select.setAttribute('data-value', only.getAttribute('data-value') || '');
-		} else {
-			value.textContent = 'Выбрано: ' + selected.length;
-			value.classList.remove('ss-select__value--placeholder');
-			// data-value — список значений через запятую.
-			var vals = Array.prototype.map.call(selected, function (o) {
-				return o.getAttribute('data-value') || '';
-			});
-			select.setAttribute('data-value', vals.join(','));
-		}
+		sync(select);
+		emitChange(select);
 	}
 })();

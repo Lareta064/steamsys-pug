@@ -279,7 +279,9 @@ $bar-radius: 12px;
 .ss-calc-menu-bar__subcat > button,
 .ss-calc-menu-bar__subcat > a {
 	box-sizing: border-box;
-	display: block;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	width: 100%;
 	padding: 10px 14px;
 	border: 0;
@@ -303,6 +305,31 @@ $bar-radius: 12px;
 		outline: 2px solid var(--accent1);
 		outline-offset: 2px;
 	}
+}
+
+// Chevron-right справа — визуальная подсказка «есть подменю».
+// Только у <button> subcat'ов (у них есть правая колонка со ссылками).
+// У <a> --link вариантов chevron не ставим: клик по ним — прямой переход.
+// Реализуем через ::after псевдоэлемент (2 border'а, rotate 45deg) —
+// меньше DOM, не нужно трогать разметку. margin-left: auto прижимает
+// chevron к правому краю.
+.ss-calc-menu-bar__subcat > button::after {
+	content: '';
+	flex-shrink: 0;
+	width: 7px;
+	height: 7px;
+	margin-left: auto;
+	border-right: 1.5px solid currentColor;
+	border-top: 1.5px solid currentColor;
+	transform: rotate(45deg);
+	opacity: .5;
+	transition: opacity .15s;
+}
+
+// На hover / активной subcat chevron становится ярче.
+.ss-calc-menu-bar__subcat > button:hover::after,
+.ss-calc-menu-bar__subcat.is-active > button::after {
+	opacity: 1;
 }
 
 // Активная подкатегория — тонированная плашка + синий текст.

@@ -43,9 +43,9 @@ nav.ss-calc-menu-bar(aria-label='Калькуляторы')
 	//- Категории (level-1)
 	ul.ss-calc-menu-bar__cats
 
-		//- ==================== Пар (is-active + is-open) ====================
-		li.ss-calc-menu-bar__cat.is-active.is-open
-			button.ss-calc-menu-bar__cat-btn(type='button' aria-haspopup='true' aria-expanded='true')
+		//- ==================== Пар (is-active — текущая категория страницы) ====================
+		li.ss-calc-menu-bar__cat.is-active
+			button.ss-calc-menu-bar__cat-btn(type='button' aria-haspopup='true' aria-expanded='false')
 				span.ss-calc-menu-bar__cat-text Пар
 				+svgIcon('chevron-down').ss-calc-menu-bar__cat-caret
 			.ss-calc-menu-bar__dropdown

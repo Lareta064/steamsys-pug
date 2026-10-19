@@ -3,8 +3,9 @@
 // ==============================
 // .ss-filter-bar — горизонтальная панель фильтров с select-дропдаунами.
 // Используется на страницах портфолио, кейсов и каталога.
-// Структура: две строки полей label + .ss-select,
-// вторая строка заканчивается кнопкой «Найти».
+// Структура: две строки полей .ss-select (без внешних label — текст
+// метки работает как placeholder внутри select'а), вторая строка
+// заканчивается кнопкой «Найти».
 // ==============================
 
 .ss-filter-bar {
@@ -25,15 +26,11 @@
 }
 
 .ss-filter-bar__field {
-	display: flex;
-	align-items: center;
-	gap: 10px;
 	flex: 1;
 	min-width: 220px;
 
 	.ss-select {
-		flex: 1;
-		min-width: 0;
+		width: 100%;
 	}
 
 	@include down($md) {
@@ -42,13 +39,23 @@
 	}
 }
 
-.ss-filter-bar__label {
-	font-family: var(--font-family);
-	font-weight: 600;
-	font-size: 16px;
-	line-height: 1.4;
-	color: var(--primary);
-	white-space: nowrap;
+// ------------------------------
+// .ss-filter-bar__meta — ряд применённых фильтров (чипов) под формой.
+// Layout по аналогии с .ss-catalog__toolbar-meta: flex-wrap, gap 8.
+// Пустой контейнер (0 чипов) выключаем через :empty — чтобы не было
+// лишнего margin'а, когда ничего не выбрано.
+// JS (src/js/filter-bar.js) добавляет сюда .ss-filter-chip и в конце
+// кнопку .ss-filter-chip--reset «Сбросить всё».
+// ------------------------------
+.ss-filter-bar__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 16px;
+
+	&:empty {
+		display: none;
+	}
 }
 
 @include down($md) {
