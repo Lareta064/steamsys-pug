@@ -129,6 +129,8 @@
 // Ряд [input | units] — grid 2 колонки с общей рамкой-плашкой.
 // Внутренний бордер между input'ом и units рисуем левым border у __units.
 // Общая рамка перехватывает :focus-within → меняет цвет на --accent1.
+// Также — при открытом dropdown ставим такую же обводку, чтобы было
+// видно, какое поле открыто (визуальный anchor для поповера).
 //
 // БЕЗ overflow:hidden — иначе dropdown-поповер __unit-list обрезается
 // по бордеру рамки. Радиусы правой стороны __units заданы явно (ниже),
@@ -142,7 +144,8 @@
 	background: var(--white);
 	transition: border-color .2s;
 
-	&:focus-within {
+	&:focus-within,
+	&:has(.ss-calc-field__units.is-open) {
 		border-color: var(--accent1);
 	}
 }
@@ -166,8 +169,8 @@
 	position: relative;
 	display: flex;
 	align-items: stretch;
-	border-left: 1px solid var(--accent1);
-	background: var(--accent1);
+	border-left: 1px solid var(--secondary2);
+	background: var(--secondary2);
 	border-top-right-radius: 9px;
 	border-bottom-right-radius: 9px;
 }
@@ -189,12 +192,12 @@
 	font-weight: 500;
 	font-size: 14px;
 	line-height: 1.4;
-	color: var(--white);
+	color: var(--primary);
 	cursor: pointer;
 	transition: background-color .15s, color .15s;
 
 	&:hover {
-		background: var(--saccent2);
+		background: var(--secondary1);
 	}
 
 	&:focus-visible {
@@ -212,7 +215,7 @@
 .ss-calc-field__unit-caret {
 	width: 14px;
 	height: 14px;
-	color: var(--white);
+	color: var(--secondary);
 	transition: transform .2s;
 	flex-shrink: 0;
 }
