@@ -1,0 +1,110 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Ячейка-факт (.ss-feature-cell)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Ячейка-факт (.ss-feature-cell)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Ячейка для grid'а «фактов» или «пунктов»: крупный акцент (цифра / слово / значение) + заголовок + текст. Два варианта (
+				code --dark
+				|  /
+				code --light
+				| ) чередуются в шахматку. Используется в секциях «Поставки», «Преимущества» на странице одного бренда.
+				br
+				| Стили —
+				code src/scss/blocks/_feature-cell.scss
+				| .
+
+			//- ===== Поставки (с цифрами) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title С цифрами (шахматка «тёмный / светлый»)
+
+				.breadcrumbs-catalog__demo
+					.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1
+						article.ss-feature-cell.ss-feature-cell--dark
+							p.ss-feature-cell__accent 01
+							h3.ss-feature-cell__title Конденсатоотводчики
+							p.ss-feature-cell__text Поплавковые, термодинамические, термостатические, для сжатого воздуха — серии J, A, SJ, BJ, COS
+						article.ss-feature-cell.ss-feature-cell--light
+							p.ss-feature-cell__accent 02
+							h3.ss-feature-cell__title Насосные конденсатоотводчики
+							p.ss-feature-cell__text Power Trap серии GP, LP, MP — возврат конденсата без электронасосов
+						article.ss-feature-cell.ss-feature-cell--light
+							p.ss-feature-cell__accent 03
+							h3.ss-feature-cell__title Сепараторы пара и&nbsp;воздуха
+							p.ss-feature-cell__text Серия DC, TD — удаление влаги и воздуха из паропровода перед технологическим оборудованием
+						article.ss-feature-cell.ss-feature-cell--light
+							p.ss-feature-cell__accent 04
+							h3.ss-feature-cell__title Редукционные клапаны
+							p.ss-feature-cell__text Серия DR, GD — снижение давления пара, диапазон DN15–200, PN40/100
+						article.ss-feature-cell.ss-feature-cell--dark
+							p.ss-feature-cell__accent 05
+							h3.ss-feature-cell__title Регулирующие клапаны
+							p.ss-feature-cell__text Серия V, KV — управление расходом пара и конденсата, электрический и пневматический привод
+						article.ss-feature-cell.ss-feature-cell--light
+							p.ss-feature-cell__accent 06
+							h3.ss-feature-cell__title Системы диагностики
+							p.ss-feature-cell__text FluidScan — ультразвуковой контроль конденсатоотводчиков, датчики протечек и температуры
+
+			//- ===== Преимущества (со словами/аббревиатурой) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Со словами/аббревиатурами
+
+				.breadcrumbs-catalog__demo
+					.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1
+						article.ss-feature-cell.ss-feature-cell--dark
+							p.ss-feature-cell__accent JP
+							h3.ss-feature-cell__title Японское качество
+							p.ss-feature-cell__text Производство на заводах TLV в Японии. Материалы и допуски соответствуют JIS и ASME стандартам.
+						article.ss-feature-cell.ss-feature-cell--light
+							p.ss-feature-cell__accent DN 8–300
+							h3.ss-feature-cell__title Широкий типоразмерный ряд
+							p.ss-feature-cell__text Конденсатоотводчики и клапаны для любых условий — от лабораторных установок до магистральных паропроводов.
+						article.ss-feature-cell.ss-feature-cell--light
+							p.ss-feature-cell__accent 0
+							h3.ss-feature-cell__title Технология «без потерь пара»
+							p.ss-feature-cell__text TLV — изобретатели термодинамических конденсатоотводчиков с нулевым пропуском пара через клапан.
+						article.ss-feature-cell.ss-feature-cell--dark
+							p.ss-feature-cell__accent 50+
+							h3.ss-feature-cell__title Лет на&nbsp;рынке
+							p.ss-feature-cell__text TLV основана в 1950 году. Продукция применяется на ключевых промышленных предприятиях по всему миру.
+						article.ss-feature-cell.ss-feature-cell--light
+							p.ss-feature-cell__accent RU
+							h3.ss-feature-cell__title Инженерная поддержка в&nbsp;России
+							p.ss-feature-cell__text Техническая поддержка по подбору, монтажу и эксплуатации — от специалистов Паровых систем с опытом 15+ лет.
+						article.ss-feature-cell.ss-feature-cell--light
+							p.ss-feature-cell__accent PDF
+							h3.ss-feature-cell__title Документация в&nbsp;наличии
+							p.ss-feature-cell__text Паспорта, сертификаты, инструкции по монтажу и таблицы подбора на русском и английском — в наличии и по запросу.
+
+			//- ===== Элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Элементы
+				ul
+					li
+						code .ss-feature-cell
+						|  — ячейка. flex column, padding 30 (24 на &lt;$md), radius 10, min-height 180.
+					li
+						code .ss-feature-cell__accent
+						|  — крупный акцент (42px bold, 34 на &lt;$md). Цвет наследуется от модификатора.
+					li
+						code .ss-feature-cell__title
+						|  — заголовок 18/700.
+					li
+						code .ss-feature-cell__text
+						|  — тело 14/400.
+					li
+						code .ss-feature-cell--dark
+						|  — чёрный фон, белый текст, акцент белый.
+					li
+						code .ss-feature-cell--light
+						|  — светло-серый фон (
+						code --secondary3
+						| ), тёмный текст, акцент
+						code --secondary1
+						| .

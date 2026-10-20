@@ -1,0 +1,122 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Карточка бренда (.ss-brand-card)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Карточка бренда (.ss-brand-card)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Карточка бренда для хаба производителей (
+				code brands.html
+				| ). Структура: media-плашка под логотип (
+				code .ss-brand-card__media
+				| ) + заголовок + лид + ссылка «Подробнее». В прототипе media показана как fallback-текст (крупный bold-name бренда); в production туда ставится
+				code &lt;img&gt;
+				| . Hover карточки — border подсвечивается
+				code --accent1
+				| , стрелка «→» уезжает на 3px.
+				br
+				| Стили —
+				code src/scss/blocks/_brand-card.scss
+				| .
+
+			//- ===== Одиночная =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Одиночная
+
+				.breadcrumbs-catalog__demo(style='max-width: 300px;')
+					a.ss-brand-card(href='#')
+						.ss-brand-card__media(aria-hidden='true') TLV
+						h3.ss-brand-card__title TLV
+						p.ss-brand-card__text Оборудование для отвода конденсата, регулирования давления и&nbsp;эффективной работы паровых систем.
+						span.ss-brand-card__more Подробнее
+
+			//- ===== Ряд (4 в ряд на десктопе) =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Ряд (grid 4 в&nbsp;ряд → 3 → 2 → 1)
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| На странице-хабе бренды выводятся в
+					code .ss-grid.ss-grid--row-4.ss-grid--xl-row-3.ss-grid--lg-row-2.ss-grid--md-row-1
+					|  (адаптив — ровно как в catalog grid'е).
+
+				.breadcrumbs-catalog__demo
+					.ss-grid.ss-grid--row-4.ss-grid--xl-row-3.ss-grid--lg-row-2.ss-grid--md-row-1
+						a.ss-brand-card(href='#')
+							.ss-brand-card__media(aria-hidden='true') TLV
+							h3.ss-brand-card__title TLV
+							p.ss-brand-card__text Оборудование для отвода конденсата, регулирования давления и&nbsp;эффективной работы паровых систем.
+							span.ss-brand-card__more Подробнее
+						a.ss-brand-card(href='#')
+							.ss-brand-card__media(aria-hidden='true') Baelz
+							h3.ss-brand-card__title Baelz
+							p.ss-brand-card__text Регулирующие клапаны, электрические приводы и&nbsp;оборудование для автоматизации тепловых процессов.
+							span.ss-brand-card__more Подробнее
+						a.ss-brand-card(href='#')
+							.ss-brand-card__media(aria-hidden='true') Mival
+							h3.ss-brand-card__title Mival
+							p.ss-brand-card__text Промышленная арматура и&nbsp;компоненты для паровых, водяных и&nbsp;технологических трубопроводов.
+							span.ss-brand-card__more Подробнее
+						a.ss-brand-card(href='#')
+							.ss-brand-card__media(aria-hidden='true') Sauter
+							h3.ss-brand-card__title Sauter
+							p.ss-brand-card__text Контроллеры, датчики и&nbsp;электрические приводы для автоматизации инженерных систем.
+							span.ss-brand-card__more Подробнее
+
+			//- ===== Элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Элементы
+				ul
+					li
+						code .ss-brand-card
+						|  — обёртка (
+						code &lt;a&gt;
+						| , вся карточка — одна ссылка). Белый фон, border
+						code --secondary2
+						| , radius 10, padding 20 (16 на &lt;$md). Hover — border
+						code --accent1
+						| .
+					li
+						code .ss-brand-card__media
+						|  — плашка под лого.
+						code min-height: 140
+						|  (110 на &lt;$md), фон
+						code --secondary3
+						| , radius 8. Внутри —
+						code &lt;img&gt;
+						|  с
+						code object-fit: contain
+						|  (в прототипе — fallback-текст: name бренда 32/700).
+					li
+						code .ss-brand-card__title
+						|  — заголовок бренда (18/700,
+						code --primary
+						| ).
+					li
+						code .ss-brand-card__text
+						|  — краткое описание (14/400,
+						code --secondary
+						| ).
+						code flex: 1
+						|  — текст «съедает» вертикаль, чтобы
+						code .__more
+						|  всегда прижался к низу карточки (равнение в ряду).
+					li
+						code .ss-brand-card__more
+						|  — «Подробнее →». Подчёркнутая ссылка-стиль, 14/600. На hover карточки стрелка «→» уезжает на 3px.
+
+			//- ===== Сниппет =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Сниппет
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| a.ss-brand-card(href='./brands/tlv.html')
+						|     .ss-brand-card__media(aria-hidden='true')
+						|         img(src='./img/brand-tlv.webp' width='160' height='60' alt='Логотип TLV')
+						|     h3.ss-brand-card__title TLV
+						|     p.ss-brand-card__text Оборудование для отвода конденсата, регулирования давления и эффективной работы паровых систем.
+						|     span.ss-brand-card__more Подробнее

@@ -1,0 +1,33 @@
+//- ============================================================
+//- Слайдер карточек брендов для brands.html.
+//-
+//- Паттерн: .ss-slider-nav--accent (синие стрелки) НАД слайдером,
+//- прижаты к правому краю (justify-content: flex-end в блоке).
+//- Swiper триггер — .js-brands-slider (JS: src/js/brands-swiper.js).
+//- Breakpoints по slidesPerView: 1 (<768) → 2 (<1024) → 3 (<1440) → 4 (≥1440).
+//-
+//- Логотипы брендов: <picture> с 1x/2x srcset для ретины.
+//- Пути — ./img/brand-{slug}.webp + .../brand-{slug}@2x.webp (нужно загрузить
+//- файлы в src/img/).
+//- ============================================================
+
+- var brands = [{ slug: 'tlv', name: 'TLV', text: 'Оборудование для отвода конденсата, регулирования давления и эффективной работы паровых систем.' }, { slug: 'baelz', name: 'Baelz', text: 'Регулирующие клапаны, электрические приводы и оборудование для автоматизации тепловых процессов.' }, { slug: 'mival', name: 'Mival', text: 'Промышленная арматура и компоненты для паровых, водяных и технологических трубопроводов.' }, { slug: 'sauter', name: 'Sauter', text: 'Контроллеры, датчики и электрические приводы для автоматизации инженерных систем.' }]
+
+section.ss-section.ss-brands__grid-section
+	.ss-container.ss-wrapper
+		.ss-slider-nav.ss-slider-nav--accent
+			+ssSwiperBtn('prev')
+			+ssSwiperBtn('next')
+
+		.swiper.swiper-pb.swiper-bars.ss-brands__slider.js-brands-slider
+			.swiper-wrapper
+				each b in brands
+					.swiper-slide
+						a.ss-brand-card(href='#')
+							picture.ss-brand-card__media
+								source(srcset=`${basePath}img/brend-${b.slug}.webp 1x, ${basePath}img/brend-${b.slug}@2x.webp 2x`)
+								img(src=`${basePath}img/brend-${b.slug}.webp` width='120' height='120' alt=`Логотип ${b.name}` loading='lazy' decoding='async')
+							h3.ss-brand-card__title= b.name
+							p.ss-brand-card__text= b.text
+							span.ss-brand-card__more Подробнее
+			.swiper-pagination

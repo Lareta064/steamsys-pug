@@ -1,0 +1,258 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-single-brand — страница одного бренда (single-brand.html).
+// Используется single-brand страницей для 9 секций + feedback.
+// Reuse: .ss-feature-cell (поставки/преимущества), .ss-designer
+// (документация), .ss-info-card (решения), .ss-case-card--portfolio
+// (кейсы — slider), _feedback-b24-inner (фидбек).
+// ==============================================================
+
+
+// ---------- Hero ----------
+// Reuse .ss-hero-inner--dark (sections/_hero-inner.scss) без bg-image —
+// только фоновый цвет --primary1. Полоса метрик .ss-hero__metriks
+// стилизована в sections/_hero.scss.
+//
+// Плашка под логотип: светлая подложка на тёмном фоне, лого внутри
+// object-fit: contain. Живёт между .ss-kicker и .ss-h1 в body-inner.
+.ss-single-brand__hero-logo {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 180px;
+	height: 90px;
+	padding: 16px;
+	background: var(--white);
+	border-radius: 8px;
+
+	img {
+		display: block;
+		max-width: 100%;
+		max-height: 100%;
+		height: auto;
+		object-fit: contain;
+	}
+}
+
+
+// ---------- Партнёрство ----------
+.ss-single-brand__partnership-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 40px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		gap: 30px;
+	}
+}
+
+.ss-single-brand__partnership-intro {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+
+	.ss-h2 { margin: 0; }
+}
+
+.ss-single-brand__partnership-text {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+
+	p {
+		margin: 0;
+		font-family: var(--font-family);
+		font-weight: 400;
+		font-size: 16px;
+		line-height: 1.5;
+		color: var(--secondary);
+	}
+}
+
+.ss-single-brand__partnership-certs {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ss-single-brand__partnership-cert {
+	display: flex;
+	align-items: flex-start;
+	gap: 16px;
+	padding: 20px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+}
+
+.ss-single-brand__partnership-cert-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 48px;
+	height: 48px;
+	background: var(--secondary3);
+	border-radius: 8px;
+
+	img {
+		display: block;
+		width: 32px;
+		height: 32px;
+		object-fit: contain;
+	}
+}
+
+.ss-single-brand__partnership-cert-body { min-width: 0; }
+
+.ss-single-brand__partnership-cert-title {
+	margin: 0 0 6px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+.ss-single-brand__partnership-cert-text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+
+// ---------- Поставки / Преимущества (лид + title) ----------
+.ss-single-brand__supplies-lead {
+	margin: 0;
+	max-width: 620px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+// Grid 3×2 → 2 (<$lg) → 1 (<$md) — тот же паттерн, что у .ss-product-related.
+.ss-single-brand__supplies-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+// Активные плашки — градиент accent1 → accent3 (как у .ss-product-related
+// и .ss-case-inputs/.ss-case-delivery). Перебиваем базовый сплошной --primary
+// из .ss-comp-item--active. Чётные плашки остаются с базовым серым фоном
+// --secondary3 (.ss-comp-item без модификатора — компонент не трогаем).
+.ss-single-brand__supplies .ss-comp-item--active {
+	background: linear-gradient(90deg, var(--accent1) 0%, var(--accent3) 100%);
+}
+
+.ss-single-brand__features-title {
+	margin: 0 0 40px;
+}
+
+
+// ---------- Применение ----------
+// Reuse паттерна .ss-case-usage + .ss-usage-tile (как на single-product.html
+// «Где применяется»). Локальных стилей для секции не требуется — всё
+// обеспечивают классы _case-usage.scss + _usage-tile.scss.
+
+
+// ---------- Решения ----------
+.ss-single-brand__solutions-title { margin: 0 0 30px; }
+
+
+// ---------- Запрос ----------
+.ss-single-brand__request-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+	gap: 40px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		gap: 30px;
+	}
+}
+
+.ss-single-brand__request-intro {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	.ss-h2 { margin: 0; }
+}
+
+.ss-single-brand__request-lead {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+.ss-single-brand__request-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-top: 8px;
+}
+
+.ss-single-brand__request-includes {
+	padding: 24px 28px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+
+	.ss-kicker {
+		margin: 0 0 16px;
+	}
+}
+
+.ss-single-brand__request-includes-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ss-single-brand__request-includes-item {
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--primary);
+}
+
+.ss-single-brand__request-includes-check {
+	color: var(--accent1);
+	font-weight: 700;
+	flex-shrink: 0;
+}

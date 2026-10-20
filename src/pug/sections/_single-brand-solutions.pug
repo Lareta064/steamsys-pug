@@ -1,0 +1,18 @@
+//- ============================================================
+//- «Решения на базе TLV» — 2 карточки .ss-info-card с kicker + h3
+//- + lead + ссылка «Подробнее о …».
+//- ============================================================
+
+- var brandSolutions = [{ kicker: 'Системы редукции', title: 'РОУ/БРОУ с редукционными клапанами TLV', text: 'Редукционно-охладительные установки на базе клапанов TLV серии DR и GD. Надёжное снижение давления и температуры пара с минимальным техническим обслуживанием. Все элементы TLV поставляются с оригинальной документацией и входят в состав установки на одной раме.', link: 'Подробнее о РОУ/БРОУ', href: '#' }, { kicker: 'Возврат конденсата', title: 'Станции возврата конденсата с насосными конденсатоотводчиками TLV Power Trap', text: 'СВК на базе Power Trap GP/LP/MP не требуют электропитания — работают на энергии пара. Экономия тепловой энергии до 25% за счёт возврата горячего конденсата. Полная интеграция TLV Power Trap в состав готовой станции с документацией и гарантией.', link: 'Подробнее о СВК', href: '#' }]
+
+section.ss-section.ss-single-brand__solutions
+	.ss-container.ss-wrapper
+		h2.ss-h2.ss-single-brand__solutions-title Решения на&nbsp;базе TLV от&nbsp;Паровых систем
+
+		.ss-grid.ss-grid--row-2.ss-grid--md-row-1
+			each s in brandSolutions
+				article.ss-info-card.ss-info-card--upper
+					p.ss-semi-14.ss-txt-secondary= s.kicker.toUpperCase()
+					h3.ss-semi-20= s.title
+					p.ss-reg-16.ss-txt-secondary= s.text
+					+ssLink(s.link, { size: 'md' })(href=s.href)

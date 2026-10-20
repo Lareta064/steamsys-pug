@@ -1,0 +1,50 @@
+//- ============================================================
+//- Hero страницы одного бренда (single-brand.html).
+//- Reuse шаблон .ss-hero-inner--dark 1-в-1 с ui/solution-hero.html:
+//- полоса крошек (светло-серая) + тёмный body с bg-image + градиентной
+//- завесой слева + 4 метрики полосой .ss-hero__metriks внизу hero.
+//- Фоновая картинка задаётся инлайн-стилем в single-brand.pug (customStyle).
+//- ============================================================
+
+section.ss-hero-inner.ss-hero-inner--dark.ss-single-brand__hero
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./') Главная
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./brands.html') Бренды
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') TLV
+
+	.ss-hero-inner__body
+		.ss-container.ss-wrapper
+			.ss-hero-inner__body-inner
+				span.ss-kicker.ss-txt-accent3 Официальный дистрибьютор
+				picture.ss-single-brand__hero-logo
+					source(srcset=`${basePath}img/brend-tlv.webp 1x, ${basePath}img/brend-tlv@2x.webp 2x`)
+					img(src=`${basePath}img/brend-tlv.webp` width='80' height='80' alt='Логотип TLV' loading='eager' decoding='async' fetchpriority='high')
+				h1.ss-h1 TLV — Trouble Less Valve (Япония)
+				p.ss-hero-inner__lead
+					| Официальный дистрибьютор TLV в&nbsp;России. Поставки конденсатоотводчиков, клапанов и&nbsp;готовых паровых систем с&nbsp;2008 года.
+				.ss-hero-inner__actions
+					+ssBtn('Подобрать решение на базе TLV', { variant: 'primary', icon: 'arrow-right', xsFull: true })(data-modal='request-b24')
+					+ssBtn('Отправить спецификацию', { variant: 'outline-white', xsFull: true })(data-modal='request-b24')
+
+			ul.ss-hero__metriks
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 15+
+						p.ss-hero__metrik-label лет официальный дистрибьютор
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 100+
+						p.ss-hero__metrik-label моделей TLV на&nbsp;складе
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value Япония
+						p.ss-hero__metrik-label страна производства
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 12 мес.
+						p.ss-hero__metrik-label гарантия TLV

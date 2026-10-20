@@ -1,0 +1,24 @@
+//- ============================================================
+//- «Запросить КП по TLV» — 2 колонки: слева h2 + lead + 2 CTA;
+//- справа серая плашка с чеклистом «Что включает КП».
+//- ============================================================
+
+- var requestIncludes = ['Цена по позициям с НДС', 'Срок поставки', 'Реквизиты и карточка компании', 'Сертификаты TLV', 'Подходящие аналоги при дефиците']
+
+section.ss-section.ss-section--tinted.ss-single-brand__request
+	.ss-container.ss-wrapper
+		.ss-single-brand__request-grid
+			.ss-single-brand__request-intro
+				h2.ss-h2 Запросить КП по&nbsp;TLV
+				p.ss-single-brand__request-lead Укажите список позиций или загрузите спецификацию — сформируем КП с&nbsp;ценами, сроками поставки, реквизитами и&nbsp;сертификатами в&nbsp;течение 1&nbsp;рабочего дня.
+				.ss-single-brand__request-actions
+					+ssBtn('Запросить КП по TLV', { variant: 'dark' })(type='button' data-modal='request-b24')
+					+ssBtn('Отправить спецификацию', { variant: 'outline-dark' })(type='button' data-modal='request-b24')
+
+			.ss-single-brand__request-includes
+				p.ss-kicker Что включает КП
+				ul.ss-single-brand__request-includes-list
+					each item in requestIncludes
+						li.ss-single-brand__request-includes-item
+							span.ss-single-brand__request-includes-check(aria-hidden='true') ✓
+							| #{item}

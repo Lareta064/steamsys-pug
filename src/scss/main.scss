@@ -82,6 +82,8 @@
 @use "blocks/_calc-menu";
 @use "blocks/_calc-menu-bar";
 @use "blocks/_calc-field";
+@use "blocks/_brand-card";
+@use "blocks/_feature-cell";
 @use "blocks/_content";
 @use "blocks/_toc";
 @use "blocks/_footer-contacts";
@@ -146,6 +148,8 @@
 @use "pages/_single-case";
 @use "pages/_calculators";
 @use "pages/_single-calculator";
+@use "pages/_brands";
+@use "pages/_single-brand";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

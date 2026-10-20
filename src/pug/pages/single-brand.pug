@@ -1,0 +1,25 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "TLV — Trouble Less Valve (Япония) — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+	//- Фоновая картинка на hero НЕ используется — только фоновый цвет --primary1
+	//- (базовый для .ss-hero-inner--dark). customStyle не нужен.
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-single-brand
+		include ../sections/_single-brand-hero.pug
+		include ../sections/_single-brand-partnership.pug
+		include ../sections/_single-brand-supplies.pug
+		include ../sections/_single-brand-usage.pug
+		include ../sections/_single-brand-docs.pug
+		include ../sections/_single-brand-solutions.pug
+		include ../sections/_single-brand-features.pug
+		include ../sections/_single-brand-request.pug
+		include ../sections/_single-brand-cases.pug
+		include ../sections/_feedback-b24-inner.pug
+	include ../sections/_footer.pug
+
+	//- Модалки страницы (скрыты по умолчанию, открываются JS по data-modal="<id>")
+	include ../sections/_modal-request-b24.pug

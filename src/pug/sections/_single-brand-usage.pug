@@ -1,0 +1,55 @@
+//- ============================================================
+//- «Где применяется оборудование TLV» — reuse паттерна «Где применяется»
+//- с single-product.html (_product-usage.pug): 2 нумерованные карточки
+//- .ss-case-usage__card, внутри — grid из .ss-usage-tile (миниатюра +
+//- подпись + стрелка). Классы .ss-case-usage* / .ss-usage-tile reuse-ются
+//- без копирования стилей.
+//- ============================================================
+
+- var brandUsageIndustries = [{ title: 'Пищевая', img: 'ind-food', href: '#' }, { title: 'ЦБП', img: 'ind-pulp', href: '#' }, { title: 'Химическая', img: 'ind-chemistry', href: '#' }, { title: 'Фармацевтика', img: 'ind-pharma', href: '#' }, { title: 'Нефтепереработка', img: 'ind-oil', href: '#' }, { title: 'Энергетика', img: 'ind-energy', href: '#' }]
+- var brandUsageSystems = [{ title: 'РОУ/БРОУ', img: 'process-rou', href: '#' }, { title: 'СВК', img: 'process-svk', href: '#' }, { title: 'Обвязки калориферов', img: 'process-calorifer', href: '#' }, { title: 'Обвязки теплообменников', img: 'process-heat-exchanger', href: '#' }]
+
+section.ss-section.ss-case-usage.ss-section--tinted.ss-bg-gray(id='brand-usage')
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Где применяется оборудование TLV
+
+		.ss-case-usage__grid
+			//- ============== Card 01: Отрасли ==============
+			.ss-case-usage__card
+				.ss-case-usage__card-header
+					span.ss-case-usage__card-num 01
+					.ss-case-usage__card-text
+						h3.ss-case-usage__card-title Отрасли
+						p.ss-case-usage__card-desc Промышленные отрасли, где TLV закрывает задачи отвода конденсата, редуцирования и регулирования в паровых системах.
+
+				ul.ss-case-usage__tiles
+					each item in brandUsageIndustries
+						li
+							a.ss-usage-tile(href=item.href)
+								picture.ss-usage-tile__img
+									source(srcset=`${basePath}img/${item.img}.webp`)
+									img(src=`${basePath}img/${item.img}.webp` width='76' height='76' alt='' loading='lazy' decoding='async')
+								span.ss-usage-tile__label= item.title
+								span.ss-usage-tile__arrow(aria-hidden='true')
+									+svgIcon('arrow-right')
+
+			//- ============== Card 02: Готовые системы ==============
+			.ss-case-usage__card
+				.ss-case-usage__card-header
+					span.ss-case-usage__card-num 02
+					.ss-case-usage__card-text
+						h3.ss-case-usage__card-title Готовые системы
+						p.ss-case-usage__card-desc Решения на базе TLV, которые Паровые системы собирают «под ключ» — от проектирования до пусконаладки.
+
+				ul.ss-case-usage__tiles
+					each item in brandUsageSystems
+						li
+							a.ss-usage-tile(href=item.href)
+								picture.ss-usage-tile__img
+									source(srcset=`${basePath}img/${item.img}.webp`)
+									img(src=`${basePath}img/${item.img}.webp` width='76' height='76' alt='' loading='lazy' decoding='async')
+								span.ss-usage-tile__label= item.title
+								span.ss-usage-tile__arrow(aria-hidden='true')
+									+svgIcon('arrow-right')

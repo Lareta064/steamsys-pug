@@ -1,0 +1,33 @@
+//- ============================================================
+//- Hero секции brands.html — kicker + h1 + lead + 2 CTA.
+//- Reuse: .ss-hero (base/_section-header.scss) — готовая flex-column
+//- раскладка с row-gap 40 между головой и actions.
+//- ============================================================
+
+//- Крошки
+section.ss-doc-layout__crumbs
+	.ss-container.ss-wrapper
+		nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+			ol.ss-breadcrumbs__list
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='./') Главная
+				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Бренды
+
+//- Hero
+//- NB: не используем класс .ss-hero — он занят home-hero
+//- (sections/_hero.scss), который красит фон в --primary. Своя обёртка
+//- .ss-brands__hero повторяет flex-column layout .ss-hero без цветового
+//- override.
+section.ss-section
+	.ss-container.ss-wrapper
+		.ss-brands__hero
+			.ss-brands__hero-head
+				p.ss-kicker Производители оборудования
+				h1.ss-h1 Оборудование проверенных брендов для&nbsp;паровых систем
+				p.ss-brands__hero-lead
+					| Производители оборудования, которое применяется в&nbsp;паровых и&nbsp;конденсатных системах.
+					br
+					| Выберите бренд, чтобы перейти к&nbsp;категориям, документам и&nbsp;вариантам подбора.
+			.ss-brands__hero-actions
+				+ssBtn('Подобрать аналог', { variant: 'dark' })(type='button' data-modal='request-b24')
+				+ssBtn('Отправить спецификацию', { variant: 'outline-dark' })(type='button' data-modal='request-b24')

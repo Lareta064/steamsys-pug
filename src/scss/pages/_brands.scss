@@ -1,0 +1,73 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-brands — страница-хаб брендов (brands.html).
+// Карточки живут в .ss-brand-card (UI framework). Здесь — только
+// page-level настройки hero-лида и отбивок между секциями.
+// ==============================================================
+
+// Hero обёртка. Класс .ss-hero занят под home-hero (тёмный фон),
+// поэтому делаем свою обёртку с нужным layout.
+.ss-brands__hero {
+	display: flex;
+	flex-direction: column;
+	row-gap: 40px;
+	max-width: 920px;
+
+	@include down($md) {
+		row-gap: 24px;
+	}
+}
+
+.ss-brands__hero-head {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+}
+
+.ss-brands__hero-lead {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--secondary);
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-brands__hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px;
+}
+
+// Hero + grid стоят ОБА без --tinted → у второй .ss-section
+// снимается padding-top (общий gap 70). Это уплотняет hero → grid
+// в один визуальный блок, что соответствует макету brendy_hub.png.
+
+
+// ---------- Слайдер брендов ----------
+// Nav над слайдером с отбивкой 20px до swiper'а. На <$md стрелки
+// скрыты базовым правилом .ss-swiper-btn — остаётся пагинация-полоски.
+.ss-brands__grid-section {
+	.ss-slider-nav {
+		margin-bottom: 20px;
+	}
+}
+
+// Равновысотные карточки внутри слайдов. Swiper растягивает высоту
+// .swiper-slide по макс. слайду; наша карточка должна занять всю высоту,
+// чтобы «Подробнее» был прижат к низу через flex: 1 1 auto в __text.
+.ss-brands__slider {
+	.swiper-slide {
+		height: auto;
+	}
+
+	.ss-brand-card {
+		height: 100%;
+	}
+}

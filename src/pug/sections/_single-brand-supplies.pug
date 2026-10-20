@@ -1,0 +1,24 @@
+//- ============================================================
+//- «Что поставляется по TLV» — reuse 1-в-1 паттерна с single-system.html
+//- (_case-inputs.pug, _case-delivery.pug): .ss-comp-item базовый + .--active
+//- шахматкой. Нечётные (01, 03, 05) → --active (тёмный градиент accent1→accent3,
+//- заданный scope-правилом ниже). Чётные (02, 04, 06) → базовый серый фон
+//- --secondary3. Компонент .ss-comp-item НЕ модифицируем.
+//- ============================================================
+
+- var supplies = [{ accent: '01', title: 'Конденсатоотводчики', text: 'Поплавковые, термодинамические, термостатические, для сжатого воздуха — серии J, A, SJ, BJ, COS' }, { accent: '02', title: 'Насосные конденсатоотводчики', text: 'Power Trap серии GP, LP, MP — возврат конденсата без электронасосов' }, { accent: '03', title: 'Сепараторы пара и воздуха', text: 'Серия DC, TD — удаление влаги и воздуха из паропровода перед технологическим оборудованием' }, { accent: '04', title: 'Редукционные клапаны', text: 'Серия DR, GD — снижение давления пара, диапазон DN15–200, PN40/100' }, { accent: '05', title: 'Регулирующие клапаны', text: 'Серия V, KV — управление расходом пара и конденсата, электрический и пневматический привод' }, { accent: '06', title: 'Системы диагностики', text: 'FluidScan — ультразвуковой контроль конденсатоотводчиков, датчики протечек и температуры' }]
+
+section.ss-section.ss-single-brand__supplies
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Что поставляется по&nbsp;TLV
+				p.ss-single-brand__supplies-lead Полный спектр оборудования TLV для пароконденсатных систем — от&nbsp;конденсатоотводчиков до&nbsp;систем диагностики.
+
+		ul.ss-single-brand__supplies-grid
+			each s, i in supplies
+				li(class='ss-comp-item' + (i % 2 === 0 ? ' ss-comp-item--active' : ''))
+					span.ss-comp-item__num= s.accent
+					.ss-comp-item__body
+						h3.ss-comp-item__title= s.title
+						p.ss-comp-item__text= s.text

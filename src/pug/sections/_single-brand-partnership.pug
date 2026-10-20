@@ -1,0 +1,29 @@
+//- ============================================================
+//- «Статус и партнёрство». 2 колонки: слева h2 + 3 параграфа + ссылка;
+//- справа 3 карточки с иконкой.
+//- ============================================================
+
+- var partnershipCerts = [{ icon: 'doc-icon', title: 'Сертификат дистрибьютора TLV', text: 'Официальный документ от TLV Co., Ltd. Обновляется ежегодно. Доступен по запросу в PDF.' }, { icon: 'doc-icon', title: 'Сертификат на продукцию', text: 'Сертификаты соответствия ТР ТС, декларации и разрешения Ростехнадзора на ключевые серии.' }, { icon: 'shield-check-icon', title: 'Разрешение на поставку', text: 'Письмо-подтверждение TLV о праве поставки на территории РФ. Прилагается к отгрузочным документам.' }]
+
+section.ss-section.ss-single-brand__partnership
+	.ss-container.ss-wrapper
+		.ss-single-brand__partnership-grid
+			.ss-single-brand__partnership-intro
+				h2.ss-h2 Статус и&nbsp;партнёрство с&nbsp;TLV
+				.ss-single-brand__partnership-text
+					p
+						| ООО «Паровые системы» является официальным дистрибьютором TLV Co., Ltd. (Япония) на&nbsp;территории России с&nbsp;2008 года. Партнёрское соглашение заключено напрямую с&nbsp;заводом-производителем и&nbsp;ежегодно подтверждается.
+					p
+						| Уровень партнёрства — авторизованный дистрибьютор с&nbsp;правом технической поддержки и&nbsp;гарантийного обслуживания. Мы&nbsp;имеем доступ к&nbsp;полному каталогу TLV, включая позиции, не&nbsp;представленные в&nbsp;открытых источниках.
+					p
+						| Поставляем только оригинальную продукцию TLV с&nbsp;заводской маркировкой, паспортами и&nbsp;сертификатами. Каждая партия сопровождается упаковочными листами с&nbsp;серийными номерами.
+				+ssLink('Запросить актуальный сертификат дистрибьютора', { size: 'md' })(href='#' data-modal='request-b24')
+
+			ul.ss-single-brand__partnership-certs
+				each c in partnershipCerts
+					li.ss-single-brand__partnership-cert
+						span.ss-single-brand__partnership-cert-icon(aria-hidden='true')
+							img(src=`${basePath}img/${c.icon}.webp` width='32' height='32' alt='' loading='lazy' decoding='async')
+						.ss-single-brand__partnership-cert-body
+							p.ss-single-brand__partnership-cert-title= c.title
+							p.ss-single-brand__partnership-cert-text= c.text

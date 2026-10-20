@@ -1,0 +1,26 @@
+//- ============================================================
+//- «Документация по TLV» — reuse паттерн из _product-docs.pug
+//- (.ss-designer: 2 колонки — intro слева, list справа).
+//- ============================================================
+
+- var brandDocs = [{ label: 'PDF', title: 'Каталог TLV (общий)', cta: 'Скачать PDF', href: '#' }, { label: '✓', title: 'Сертификаты соответствия', cta: 'Скачать PDF', href: '#' }, { label: '3D', title: '3D/CAD по запросу (BIM уточнять)', cta: 'Запросить по проекту', href: '#' }, { label: 'DOC', title: 'Паспорта на изделия', cta: 'Запросить по серии', href: '#' }, { label: 'MNT', title: 'Инструкции по монтажу', cta: 'Скачать PDF', href: '#' }, { label: 'XLS', title: 'Таблицы подбора', cta: 'Скачать XLS', href: '#' }]
+
+section.ss-section.ss-section--tinted.ss-designer
+	.ss-container.ss-wrapper
+		.ss-designer__grid
+			.ss-designer__intro
+				p.ss-kicker Документы
+				h2.ss-h3 Документация по&nbsp;TLV
+				p.ss-designer__desc Все документы для проектирования, монтажа и&nbsp;эксплуатации оборудования TLV. Часть доступна для скачивания, часть — по&nbsp;запросу.
+
+			ul.ss-designer__list
+				each item in brandDocs
+					li
+						a.ss-designer__item(href=item.href)
+							span.ss-designer__icon.ss-designer__icon--label(aria-hidden='true')
+								i= item.label
+							.ss-designer__body
+								p.ss-designer__title= item.title
+								span.ss-link.ss-link--sm
+									span= item.cta
+									+svgIcon('arrow-right')
