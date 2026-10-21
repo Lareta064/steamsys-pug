@@ -231,28 +231,5 @@
 	}
 }
 
-.ss-single-brand__request-includes-list {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.ss-single-brand__request-includes-item {
-	display: flex;
-	align-items: baseline;
-	gap: 10px;
-	font-family: var(--font-family);
-	font-weight: 500;
-	font-size: 15px;
-	line-height: 1.4;
-	color: var(--primary);
-}
-
-.ss-single-brand__request-includes-check {
-	color: var(--accent1);
-	font-weight: 700;
-	flex-shrink: 0;
-}
+// Список пунктов — reuse .ss-list.ss-list--icon (UI framework). Собственных
+// стилей не задаём — визуал (маркер-badge + текст) обеспечивает blocks/_list.scss.

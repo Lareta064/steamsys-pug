@@ -17,8 +17,9 @@ section.ss-section.ss-section--tinted.ss-single-brand__request
 
 			.ss-single-brand__request-includes
 				p.ss-kicker Что включает КП
-				ul.ss-single-brand__request-includes-list
+				ul.ss-list.ss-list--icon
 					each item in requestIncludes
-						li.ss-single-brand__request-includes-item
-							span.ss-single-brand__request-includes-check(aria-hidden='true') ✓
-							| #{item}
+						li.ss-list__item
+							span.ss-list__marker
+								+svgIcon('check')
+							span= item
