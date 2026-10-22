@@ -1,0 +1,135 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-docs — страница «Документация» (docs.html).
+// Reuse: .ss-breadcrumbs, .ss-section, .ss-container, .ss-kicker,
+// .ss-h1, +ssBtn, _feedback-b24-inner.
+// Локальные классы — только для hero-обёртки (своя из-за того,
+// что .ss-hero занят под home-hero с тёмным фоном).
+// ==============================================================
+
+
+// ---------- Hero ----------
+.ss-docs__hero {
+	display: flex;
+	flex-direction: column;
+	row-gap: 40px;
+	max-width: 920px;
+
+	@include down($md) {
+		row-gap: 24px;
+	}
+}
+
+.ss-docs__hero-head {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+
+	.ss-kicker { margin: 0; }
+	.ss-h1 { margin: 0; }
+}
+
+.ss-docs__hero-lead {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--secondary);
+
+	@include down($md) {
+		font-size: 16px;
+	}
+}
+
+.ss-docs__hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 16px;
+
+	// На <$md стек в колонку, кнопки одинаковой ширины.
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+
+		.ss-btn {
+			width: 100%;
+		}
+	}
+}
+
+
+// ---------- Таблица документов ----------
+// Reuse .ss-simple-table (overflow-x: auto + min-width 640 на <table>) —
+// на мобилке таблица свайпается горизонтально. Своих стилей таблицы
+// не задаём, только layout футера под ней.
+.ss-docs__table-footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	margin-top: 24px;
+
+	// .ss-pagination-toolbar внутри футера занимает левую часть
+	// (summary + pagination в ряд). Кнопка «Загрузить ещё» — справа,
+	// без схлопывания даже если toolbar резиновый.
+	.ss-btn {
+		flex-shrink: 0;
+	}
+
+	// На <$md стек в колонку, кнопка на всю ширину.
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+
+		.ss-btn {
+			width: 100%;
+		}
+	}
+}
+
+
+// ---------- Материалы для закупщика ----------
+// Grid 5 карточек → 3 → 2 → 1. Для 5 в ряд нашего .ss-grid--row-5 нет
+// (UI framework содержит 1/2/3/4/6/12), поэтому локальная сетка на странице.
+.ss-docs__materials-lead {
+	margin: 10px 0 0;
+	max-width: 620px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+.ss-docs__materials-grid {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 20px;
+
+	@include down($xl) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	@include down($lg) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+// Эмодзи-иконка сверху карточки. Собственный стиль только у размера шрифта —
+// всё остальное (flex-column, gap, padding) наследуется от .ss-info-card.
+.ss-docs__materials-icon {
+	display: inline-block;
+	font-size: 28px;
+	line-height: 1;
+}
+
+

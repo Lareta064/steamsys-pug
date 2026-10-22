@@ -56,7 +56,9 @@
 
 // Мини — компактный чип для облака тегов (напр. «популярные теги» в сайдбаре).
 // Полностью округлые концы (pill-shape), меньший шрифт и паддинги.
-// Обычно используется как <a> — при hover заливка --accent3 с белым текстом.
+// Используется и как <a> (кликабельное облако тегов), и как <span>
+// (статичная метка-пилюля, напр. тип документа в таблице docs.html).
+// Hover-смена цвета — ТОЛЬКО для <a> (span-ы не кликабельны).
 .ss-tag--mini {
 	height: auto;
 	padding: 6px 12px;
@@ -68,21 +70,21 @@
 	text-decoration: none;
 	transition: background-color .2s, color .2s;
 
-	&:hover {
-		background: var(--accent3);
-		color: var(--white);
-	}
-
 	&:focus-visible {
 		outline: 2px solid var(--accent1);
 		outline-offset: 2px;
 	}
 }
 
+a.ss-tag--mini:hover {
+	background: var(--accent3);
+	color: var(--white);
+}
+
 // Mini + заливной синий (accent1 + white) одним модификатором —
 // чтобы не нагружать разметку тремя классами `.ss-tag--mini.ss-tag--primary`.
 // Та же геометрия, что у --mini (компактный pill), но цвета — как у --primary.
-// Hover — инверсия на primary, чтобы читался в облаке таких же плашек.
+// Hover — инверсия на primary, только для <a>-варианта.
 .ss-tag--mini-primary {
 	height: auto;
 	padding: 6px 12px;
@@ -94,15 +96,44 @@
 	text-decoration: none;
 	transition: background-color .2s, color .2s;
 
-	&:hover {
-		background: var(--primary);
-		color: var(--white);
-	}
-
 	&:focus-visible {
 		outline: 2px solid var(--accent1);
 		outline-offset: 2px;
 	}
+}
+
+a.ss-tag--mini-primary:hover {
+	background: var(--primary);
+	color: var(--white);
+}
+
+
+// Цветные теги-метки для типизации контента (напр. тип документа
+// в таблице docs.html). Чисто цветовые модификаторы, геометрию
+// задаёт базовый .ss-tag или .ss-tag--mini (комбинируются).
+.ss-tag--scheme {
+	background: #E8F0FF;
+	color: #2255CC;
+}
+
+.ss-tag--cert {
+	background: #E8F7EE;
+	color: #1A7A3A;
+}
+
+.ss-tag--manual {
+	background: #FFF4E0;
+	color: #8A5200;
+}
+
+.ss-tag--table-pick {
+	background: #F0E8FF;
+	color: #5500AA;
+}
+
+.ss-tag--cad {
+	background: #1A1A1A;
+	color: #FFFFFF;
 }
 
 // Группа тэгов — flex-wrap с фикс-гэпом.

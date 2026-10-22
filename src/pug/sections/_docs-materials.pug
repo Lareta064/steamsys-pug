@@ -1,0 +1,24 @@
+//- ============================================================
+//- Секция «Материалы для закупщика и аккредитации» (docs.html).
+//- 5 info-карточек с эмодзи-иконкой сверху + title + text + CTA.
+//- Reuse .ss-info-card (padding/border/flex-column) + +ssLink.
+//- Grid 5 → 3 → 2 → 1 — локальный layout в _docs.scss (нет --row-5 в UI).
+//- ============================================================
+
+- var docsMaterials = [{ icon: '🏢', title: 'Карточка компании', text: 'Реквизиты, ИНН/КПП, банк, контакты — одним файлом', cta: 'PDF', href: '#' }, { icon: '📄', title: 'Реквизиты', text: 'Полные банковские и юридические реквизиты ООО «Паровые системы»', cta: 'Открыть', href: '#' }, { icon: '✅', title: 'Сертификаты', text: 'Сертификаты дистрибьютора TLV, соответствия ЕАЭС, СТО', cta: 'Скачать PDF', href: '#' }, { icon: '📝', title: 'Образец договора', text: 'Типовой договор поставки с протоколом разногласий', cta: 'По запросу', href: '#' }, { icon: '🔒', title: 'Аккредитация', text: 'Пакет документов для аккредитации на вашем предприятии', cta: 'Запросить', href: '#' }]
+
+section.ss-section.ss-docs__materials
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				span.ss-kicker Для отдела закупок
+				h2.ss-h2 Материалы для закупщика и&nbsp;аккредитации
+				p.ss-docs__materials-lead Документы для проверки поставщика, оформления договора и&nbsp;аккредитации на&nbsp;предприятии.
+
+		.ss-docs__materials-grid
+			each m in docsMaterials
+				article.ss-info-card
+					span.ss-docs__materials-icon(aria-hidden='true')= m.icon
+					h3.ss-semi-20= m.title
+					p.ss-reg-14.ss-txt-secondary= m.text
+					+ssLink(m.cta, { size: 'md' })(href=m.href)

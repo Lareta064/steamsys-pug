@@ -25,15 +25,15 @@
     .btn-primary { background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: none; cursor: pointer; }
     .btn-outline { background: transparent; color: #1a1a1a; padding: 10px 20px; border-radius: 4px; font-size: 13px; font-weight: 600; text-decoration: none; display: inline-block; border: 2px solid #1a1a1a; cursor: pointer; }
     .btn-ghost { background: transparent; color: #444; padding: 8px 16px; border-radius: 4px; font-size: 13px; text-decoration: none; display: inline-block; border: 1px solid #ccc; cursor: pointer; }
+    .contact-icon-actions { display: flex; gap: 10px; margin-top: 24px; }
+    .contact-icon-action { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid #ccc; border-radius: 4px; background: #fff; color: #1a1a1a; text-decoration: none; }
+    .contact-icon-action:hover { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+    .contact-icon-action:focus-visible { outline: 2px solid #1a1a1a; outline-offset: 2px; }
+    .contact-icon-action svg { width: 22px; height: 22px; fill: currentColor; }
     .breadcrumbs { background: #f7f7f7; border-bottom: 1px solid #e8e8e8; padding: 10px 0; }
     .breadcrumbs-inner { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
     .breadcrumbs-inner a { color: #555; text-decoration: none; }
     .breadcrumbs-inner span { color: #ccc; }
-    .trustbar { background: #f7f7f7; border-top: 1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8; }
-    .trustbar-inner { display: grid; grid-template-columns: repeat(4, 1fr); padding: 24px 0; gap: 24px; }
-    .trust-item { text-align: center; }
-    .trust-num { font-size: 28px; font-weight: 700; color: #1a1a1a; }
-    .trust-txt { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.4; }
     .sec-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
     .sec-title { font-size: 28px; font-weight: 700; color: #111; margin-bottom: 8px; }
     .sec-sub { font-size: 15px; color: #666; line-height: 1.6; max-width: 640px; margin-bottom: 32px; }
@@ -172,31 +172,19 @@
   <div class="sec-label">Свяжитесь с нами</div>
   <h1 style="font-size: 36px; font-weight: 700; margin-bottom: 12px;">Контакты</h1>
   <p style="font-size: 16px; color: #555; max-width: 640px;">Инженеры и менеджеры на связи в рабочее время. Ответим на технические вопросы, подготовим расчёт и КП.</p>
-  <div style="display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
-    <a href="tel:+78126027770" class="btn-primary">Позвонить</a>
-    <a href="mailto:info@steamsys.ru" class="btn-outline">Написать на email</a>
-    <a href="#cta" class="btn-ghost">Оставить заявку</a>
-    <a href="#" class="btn-ghost">WhatsApp</a>
-  </div>
-</div></div></div>
-
-<!-- TRUSTBAR -->
-<div class="trustbar"><div class="container"><div class="trustbar-inner">
-  <div class="trust-item">
-    <div class="trust-num">Пн–Пт</div>
-    <div class="trust-txt">9:00–18:00 / режим работы</div>
-  </div>
-  <div class="trust-item">
-    <div class="trust-num">+7 (812) 602-77-70</div>
-    <div class="trust-txt">звонок бесплатный</div>
-  </div>
-  <div class="trust-item">
-    <div class="trust-num" style="font-size: 18px;">info@steamsys.ru</div>
-    <div class="trust-txt">email</div>
-  </div>
-  <div class="trust-item">
-    <div class="trust-num">Санкт-Петербург</div>
-    <div class="trust-txt">офис и склад</div>
+  <div class="contact-icon-actions" aria-label="Способы связи">
+    <a href="mailto:info@steamsys.ru" class="contact-icon-action" aria-label="Написать на email" title="Написать на email">
+      <svg aria-hidden="true"><use href="../../ui-framework/img/ss-sprite.svg#svg-mail"></use></svg>
+    </a>
+    <a href="#" class="contact-icon-action" aria-label="Написать в MAX" title="MAX">
+      <svg aria-hidden="true"><use href="../../ui-framework/img/ss-sprite-brend.svg#svg-max"></use></svg>
+    </a>
+    <a href="https://t.me/steamsys" class="contact-icon-action" target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram" title="Telegram">
+      <svg aria-hidden="true"><use href="../../ui-framework/img/ss-sprite-brend.svg#svg-telegram"></use></svg>
+    </a>
+    <a href="#" class="contact-icon-action" aria-label="Написать в WhatsApp" title="WhatsApp">
+      <svg aria-hidden="true"><use href="../../ui-framework/img/ss-sprite-brend.svg#svg-whatsapp"></use></svg>
+    </a>
   </div>
 </div></div></div>
 
@@ -206,15 +194,6 @@
 
     <!-- Левая колонка -->
     <div>
-      <div style="font-size: 32px; font-weight: 700; margin-bottom: 6px;">+7 (812) 602-77-70</div>
-      <p style="font-size: 14px; color: #888; margin-bottom: 20px;">Санкт-Петербург · Пн–Пт 9:00–18:00</p>
-
-      <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;">
-        <a href="tel:+78126027770" class="btn-primary">Позвонить</a>
-        <a href="mailto:info@steamsys.ru" class="btn-outline">info@steamsys.ru</a>
-        <a href="https://t.me/steamsys" class="btn-ghost" target="_blank">Telegram</a>
-      </div>
-
       <!-- Офисы -->
       <div style="display:flex;flex-direction:column;gap:8px;">
 
@@ -272,8 +251,6 @@
       <div class="variant-spec">Константин Терехов, руководитель отдела</div>
       <div style="display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;">
         <button class="btn-primary">Связаться</button>
-        <button class="btn-outline">Запросить КП</button>
-        <button class="btn-ghost">Отправить спецификацию</button>
       </div>
     </div>
 
@@ -285,8 +262,6 @@
       <p style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">engineer@steamsys.ru</p>
       <div class="variant-spec">Александр Баженов, ведущий инженер</div>
       <div style="display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap;">
-        <button class="btn-primary">Написать инженеру</button>
-        <button class="btn-outline">Отправить параметры</button>
         <button class="btn-ghost">Обсудить задачу</button>
       </div>
     </div>
@@ -299,7 +274,6 @@
       <div class="variant-spec" style="margin-bottom: 16px;">&nbsp;</div>
       <div style="display: flex; gap: 8px; margin-top: 0; flex-wrap: wrap;">
         <button class="btn-primary">Заказать диагностику</button>
-        <button class="btn-outline">Запросить экспертизу</button>
       </div>
     </div>
 
@@ -309,11 +283,6 @@
       <div class="variant-desc">Технические материалы для включения решений в проект: CAD, 3D, BIM, схемы, опросные листы.</div>
       <p style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">project@steamsys.ru</p>
       <div class="variant-spec" style="margin-bottom: 16px;">&nbsp;</div>
-      <div style="display: flex; gap: 8px; margin-top: 0; flex-wrap: wrap;">
-        <button class="btn-primary" data-goal="forma_cad_bim_zapros">Запросить CAD/3D/BIM</button>
-        <button class="btn-outline">Получить типовую схему</button>
-        <a href="wireframe_16_oprosnie_listy.html" class="btn-ghost" data-goal="oprosny_list_online">Заполнить опросный лист онлайн</a>
-      </div>
     </div>
 
   </div>

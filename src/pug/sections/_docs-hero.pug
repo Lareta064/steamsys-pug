@@ -1,0 +1,30 @@
+//- ============================================================
+//- Hero страницы «Документация» (docs.html). Крошки + kicker + h1 +
+//- lead + 2 CTA на белом фоне (без фоновой картинки). Паттерн 1-в-1
+//- с brands-hero: своя обёртка .ss-docs__hero с flex-column layout,
+//- без тёмного .ss-hero (который зарезервирован под home-hero).
+//- ============================================================
+
+//- Крошки
+section.ss-doc-layout__crumbs
+	.ss-container.ss-wrapper
+		nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+			ol.ss-breadcrumbs__list
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='./') Главная
+				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Документация
+
+//- Hero
+section.ss-section
+	.ss-container.ss-wrapper
+		.ss-docs__hero
+			.ss-docs__hero-head
+				p.ss-kicker Технические материалы
+				h1.ss-h1 Документация
+				p.ss-docs__hero-lead
+					| Паспорта, сертификаты, типовые схемы, инструкции и&nbsp;таблицы подбора.
+					br
+					| CAD/3D/BIM — по&nbsp;запросу за&nbsp;1&nbsp;рабочий день.
+			.ss-docs__hero-actions
+				+ssBtn('Найти документ', { variant: 'dark' })(type='button')
+				+ssBtn('Запросить CAD / 3D / BIM', { variant: 'outline-dark' })(type='button' data-modal='request-b24')

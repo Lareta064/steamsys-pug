@@ -43,6 +43,16 @@
 	flex-wrap: wrap;
 	align-items: center;
 	gap: 16px;
+
+	// На <$md стек в колонку, кнопки одинаковой ширины.
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+
+		.ss-btn {
+			width: 100%;
+		}
+	}
 }
 
 // Hero + grid стоят ОБА без --tinted → у второй .ss-section

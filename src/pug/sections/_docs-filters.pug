@@ -1,0 +1,36 @@
+//- ============================================================
+//- Фильтры страницы «Документация». Reuse 1-в-1 паттерна .ss-filter-bar
+//- с cases-page.html: селекты с чекбоксами (multi) / радио (single),
+//- placeholder работает как бывший label, под формой — .ss-filter-bar__meta
+//- для чипов-тегов (JS filter-bar.js добавляет их по ss-select:change).
+//- Миксин +filterBarSelect из _filter-bar.pug — локальный, повторяем здесь,
+//- чтобы не тянуть зависимость с cases-page секции.
+//- ============================================================
+
+- var docsFiltersRow1 = [{ id: 'df-type',    name: 'type[]',     placeholder: 'Все типы',     type: 'checkbox', options: ['Паспорт', 'Сертификат', 'Инструкция', 'Типовая схема', 'Таблица подбора', 'Опросный лист'] }, { id: 'df-system',  name: 'system[]',   placeholder: 'Все',          type: 'checkbox', options: ['РОУ/БРОУ', 'СВК', 'ИТП', 'Обвязка калориферов', 'Обвязка теплообменников'] }, { id: 'df-brand',   name: 'brand[]',    placeholder: 'Все бренды',   type: 'checkbox', options: ['TLV', 'Baelz', 'Mival', 'Sauter'] }, { id: 'df-industry', name: 'industry[]', placeholder: 'Все отрасли', type: 'checkbox', options: ['Пищевая', 'Фармацевтика', 'Химическая', 'ЦБП', 'Нефтепереработка', 'Энергетика'] }, { id: 'df-purpose', name: 'purpose',    placeholder: 'Все',          type: 'radio',    options: ['Проектирование', 'Монтаж', 'Эксплуатация', 'Коммерческое'] }]
+
+mixin filterBarSelect(field)
+	.ss-select.ss-select--sm(class='ss-select--' + field.type data-select)
+		button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
+			span.ss-select__value.ss-select__value--placeholder(data-placeholder=field.placeholder)= field.placeholder
+			span.ss-select__chevron
+				+svgIcon('chevron-down')
+		ul.ss-select__list(role='listbox' hidden)
+			each opt in field.options
+				li.ss-select__option(role='option' aria-selected='false' tabindex='-1' data-value=opt)
+					input.ss-select__input(type=field.type name=field.name value=opt)
+					span.ss-select__option-text= opt
+
+.ss-section.ss-section--tinted.ss-filter-bar
+	.ss-container
+		form.ss-filter-bar__form(action='#' method='get')
+			.ss-filter-bar__row
+				each field in docsFiltersRow1
+					.ss-filter-bar__field
+						+filterBarSelect(field)
+			.ss-filter-bar__row
+				button.ss-btn.ss-btn--dark(type='submit') Применить
+
+		//- Применённые фильтры (чипы). JS filter-bar.js заполняет этот
+		//- контейнер на основе выбранных опций.
+		.ss-filter-bar__meta(aria-label='Применённые фильтры' data-filter-chips)

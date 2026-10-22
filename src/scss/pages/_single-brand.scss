@@ -218,6 +218,16 @@
 	flex-wrap: wrap;
 	gap: 16px;
 	margin-top: 8px;
+
+	// На <$md стек в колонку, кнопки одинаковой ширины.
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+
+		.ss-btn {
+			width: 100%;
+		}
+	}
 }
 
 .ss-single-brand__request-includes {

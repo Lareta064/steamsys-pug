@@ -1,0 +1,83 @@
+//- ============================================================
+//- Таблица документов для docs.html. Reuse базовых компонентов:
+//-   · .ss-simple-table — обёртка с горизонтальным overflow-x: auto
+//-     и min-width: 640px на <table> (свайп на мобилке);
+//-   · .ss-tag.ss-tag--gray / --dark — пилюля-тип документа (все одного
+//-     серого цвета, CAD/3D выделен тёмной — чтобы не плодить N новых
+//-     цветных модификаторов под каждый тип);
+//-   · .ss-link / .ss-link--sm — ссылки действий (PDF / По запросу / Запросить);
+//-   · .ss-pagination-toolbar + .ss-pagination — футер со счётчиком и страницами;
+//-   · +ssBtn('Загрузить ещё', { variant: 'outline-dark' }) — доп. кнопка.
+//- ============================================================
+
+- var docsItems = [{ type: 'Типовая схема', title: 'Принципиальная схема РОУ', brand: '—', system: 'РОУ / БРОУ', action: 'pdf' }, { type: 'Типовая схема', title: 'Принципиальная схема БРОУ', brand: '—', system: 'РОУ / БРОУ', action: 'pdf' }, { type: 'Типовая схема', title: 'Схема обвязки парового калорифера', brand: '—', system: 'Обвязка калорифера', action: 'pdf' }, { type: 'Типовая схема', title: 'Принципиальная схема СВК', brand: '—', system: 'Станции возврата конденсата', action: 'pdf' }, { type: 'Типовая схема', title: 'Схема обвязки теплообменника', brand: '—', system: 'Обвязка теплообменника', action: 'pdf' }, { type: 'Паспорт', title: 'Паспорт конденсатоотводчика TLV JX4S', brand: 'TLV', system: 'Конденсатоотводчики', action: 'pdf' }, { type: 'Паспорт', title: 'Паспорт конденсатоотводчика TLV A3N', brand: 'TLV', system: 'Конденсатоотводчики', action: 'pdf' }, { type: 'Паспорт', title: 'Паспорт редукционного клапана TLV DR20', brand: 'TLV', system: 'Редукционные клапаны', action: 'pdf' }, { type: 'Паспорт', title: 'Паспорт РОУ (индивидуальный)', brand: '—', system: 'РОУ / БРОУ', action: 'request' }, { type: 'Сертификат', title: 'Сертификат дистрибьютора TLV', brand: 'TLV', system: '—', action: 'pdf' }, { type: 'Сертификат', title: 'Сертификат соответствия ЕАЭС', brand: '—', system: '—', action: 'pdf' }, { type: 'Инструкция', title: 'Монтаж конденсатоотводчиков TLV серии JX', brand: 'TLV', system: 'Конденсатоотводчики', action: 'pdf' }, { type: 'Инструкция', title: 'Эксплуатация редукционных клапанов TLV', brand: 'TLV', system: 'Редукционные клапаны', action: 'pdf' }, { type: 'Инструкция', title: 'Монтаж и наладка РОУ/БРОУ', brand: '—', system: 'РОУ / БРОУ', action: 'request' }, { type: 'PDF-каталог', title: 'Каталог TLV — полный ассортимент', brand: 'TLV', system: '—', action: 'pdf' }, { type: 'PDF-каталог', title: 'Каталог Baelz — регулирующие клапаны', brand: 'Baelz', system: 'Регулирующие клапаны', action: 'pdf' }, { type: 'Таблица подбора', title: 'Таблица подбора конденсатоотводчиков по типу и параметрам', brand: 'TLV', system: 'Конденсатоотводчики', action: 'pdf' }, { type: 'Таблица подбора', title: 'Руководство по подбору конденсатоотводчиков', brand: 'TLV', system: 'Конденсатоотводчики', action: 'pdf' }, { type: 'CAD / 3D', title: 'DWG-чертежи, 3D STEP, BIM Revit', brand: 'TLV', system: '—', action: 'request-cad' }]
+
+mixin docAction(action)
+	if action === 'pdf'
+		a.ss-link.ss-link--sm(href='#')
+			span PDF
+			+svgIcon('arrow-right')
+	else if action === 'request'
+		a.ss-link.ss-link--sm(href='#')
+			span По&nbsp;запросу
+			+svgIcon('arrow-right')
+	else if action === 'request-cad'
+		a.ss-link.ss-link--sm(href='#')
+			span Запросить
+			+svgIcon('arrow-right')
+
+//- Маппинг типа документа на цветовой модификатор .ss-tag.
+//- Все теги — .ss-tag--mini (pill-shape, 14px) + цвет-модификатор.
+//- Паспорт и PDF-каталог используют существующий --gray; CAD/3D —
+//- существующий --dark; остальные 4 — новые модификаторы в _tag.scss.
+- var docTypeColor = { 'Типовая схема': 'ss-tag--scheme', 'Паспорт': 'ss-tag--gray', 'Сертификат': 'ss-tag--cert', 'Инструкция': 'ss-tag--manual', 'PDF-каталог': 'ss-tag--gray', 'Таблица подбора': 'ss-tag--table-pick', 'CAD / 3D': 'ss-tag--cad' }
+
+section.ss-section.ss-docs__table-section
+	.ss-container.ss-wrapper
+		.ss-simple-table.ss-docs__table
+			table
+				thead
+					tr
+						th Тип
+						th Название
+						th Бренд
+						th Система / оборудование
+						th Действие
+				tbody
+					each item in docsItems
+						tr
+							td
+								span(class='ss-tag ss-tag--mini ' + (docTypeColor[item.type] || 'ss-tag--gray'))= item.type
+							td= item.title
+							td= item.brand
+							td= item.system
+							td
+								+docAction(item.action)
+
+		//- Футер таблицы: счётчик + пагинация + «Загрузить ещё»
+		.ss-docs__table-footer
+			.ss-pagination-toolbar
+				p.ss-pagination-toolbar__summary
+					| Показано&nbsp;
+					strong 18
+					|  из&nbsp;
+					strong 74
+					|  документов
+				nav.ss-pagination(aria-label='Страницы каталога документов')
+					ol.ss-pagination__list
+						li.ss-pagination__item
+							a.ss-pagination__link(href='#' aria-current='page') 1
+						li.ss-pagination__item
+							a.ss-pagination__link(href='#') 2
+						li.ss-pagination__item
+							a.ss-pagination__link(href='#') 3
+						li.ss-pagination__item
+							a.ss-pagination__link(href='#') 4
+						li.ss-pagination__item
+							span.ss-pagination__dots(aria-hidden='true') …
+						li.ss-pagination__item
+							a.ss-pagination__link(href='#') 5
+						li.ss-pagination__item
+							a.ss-pagination__link.ss-pagination__link--nav(href='#' aria-label='Следующая страница')
+								+svgIcon('arrow-right')
+				+ssBtn('Загрузить ещё', { variant: 'outline-dark' })(type='button')
