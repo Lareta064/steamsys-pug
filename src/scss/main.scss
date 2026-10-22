@@ -151,6 +151,7 @@
 @use "pages/_brands";
 @use "pages/_single-brand";
 @use "pages/_docs";
+@use "pages/_contacts";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту
@@ -158,5 +159,5 @@
 @use "base/_typography";
 
 // ui
-//@use "ui/_ui-navigation";
+@use "ui/_ui-navigation";
 @use "ui/_b24-form-preview";

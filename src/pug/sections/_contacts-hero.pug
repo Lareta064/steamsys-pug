@@ -1,0 +1,39 @@
+//- ============================================================
+//- Hero страницы «Контакты» (contacts.html). Крошки + kicker + h1 +
+//- lead + ряд контактных ссылок-иконок. Паттерн 1-в-1 с docs/brands-hero.
+//- Иконки: svg-mail — из основного спрайта, max/telegram/whatsapp —
+//- из брендового (sprite: 'ss-sprite-brend').
+//- ============================================================
+
+//- Крошки
+section.ss-doc-layout__crumbs
+	.ss-container.ss-wrapper
+		nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+			ol.ss-breadcrumbs__list
+				li.ss-breadcrumbs__item
+					a.ss-breadcrumbs__link(href='./') Главная
+				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Контакты
+
+//- Hero
+section.ss-section
+	.ss-container.ss-wrapper
+		.ss-contacts__hero
+			.ss-contacts__hero-head
+				p.ss-kicker Свяжитесь с&nbsp;нами
+				h1.ss-h1 Контакты
+				p.ss-contacts__hero-lead Инженеры и&nbsp;менеджеры на&nbsp;связи в&nbsp;рабочее время. Ответим на&nbsp;технические вопросы, подготовим расчёт и&nbsp;КП.
+
+			//- Reuse UI-блока .ss-social (blocks/_social.scss). Миксин
+			//- +socialGroup жёстко берёт иконки из ss-sprite-brend.svg —
+			//- у нас mail лежит в основном спрайте, поэтому пишем разметку
+			//- руками (чтобы параллельно задать href/aria-label для каждой
+			//- ссылки).
+			.ss-social.ss-social--dark(aria-label='Способы связи')
+				a.ss-social-item(href='mailto:info@steamsys.ru' aria-label='Написать на email' title='Написать на email')
+					+svgIcon('mail')
+				a.ss-social-item(href='#' aria-label='Написать в MAX' title='MAX')
+					+svgIcon('max', { sprite: 'ss-sprite-brend' })(class="ss-social--blue")
+				a.ss-social-item(href='https://t.me/steamsys' target='_blank' rel='noopener noreferrer' aria-label='Написать в Telegram' title='Telegram')
+					+svgIcon('telegram', { sprite: 'ss-sprite-brend' })
+				a.ss-social-item(href='#' aria-label='Написать в WhatsApp' title='WhatsApp')
+					+svgIcon('whatsapp', { sprite: 'ss-sprite-brend' })

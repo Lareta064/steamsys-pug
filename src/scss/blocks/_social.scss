@@ -1,8 +1,9 @@
 @use '../base/_var' as *;
-.ss-social{
+.ss-social, .ss-social--dark{
 	display: flex;
 	gap:10px;
 	flex-wrap: wrap;
+	svg{color: var(--primary);}
 	.ss-social-item:hover{
 		border: 1px solid var(--accent1);
 		background-color: transparent;
@@ -28,6 +29,10 @@
 			svg{color: var(--white)}
 		}
 	}
+}
+.ss-social.ss-social--dark .ss-social-item:hover{
+	background-color: var(--primary);
+	svg{color: var(--white)}
 }
 .ss-social-item{
 	display: flex;
