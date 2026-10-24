@@ -1,0 +1,44 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-comp-grid — grid-контейнер для плашек .ss-comp-item.
+// Паттерн 1-в-1 с .ss-product-related__grid на single-product
+// (secton «Совместимое оборудование»): 3 колонки на desktop,
+// 2 на <$lg, 1 на <$md.
+//
+// Разметка:
+//   ul.ss-comp-grid
+//     li.ss-comp-item                        ← обычная (серый фон)
+//       span.ss-comp-item__num 01
+//       .ss-comp-item__body
+//         h3.ss-comp-item__title Заголовок
+//         p.ss-comp-item__text  Описание…
+//     li.ss-comp-item.ss-comp-item--active   ← активная (градиентный фон)
+//       …
+//
+// Активные (.ss-comp-item--active) внутри .ss-comp-grid перебивают
+// базовый --primary фон из _comp-item.scss градиентом accent1→accent3
+// (как в .ss-product-related / .ss-case-inputs / .ss-case-delivery).
+// ==============================================================
+.ss-comp-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include down($lg) {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+// Активные плашки внутри .ss-comp-grid — градиент accent1→accent3.
+.ss-comp-grid .ss-comp-item--active {
+	background: linear-gradient(90deg, var(--accent1) 0%, var(--accent3) 100%);
+}

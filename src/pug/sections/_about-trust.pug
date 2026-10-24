@@ -1,0 +1,21 @@
+//- ============================================================
+//- Trustbar страницы «О компании» (about.html) — светло-серая полоса
+//- под hero с 4 ключевыми метриками. Разметка 1-в-1 с trustbar на
+//- странице «Системы и решения» (sections/_trustbar.pug): контейнер
+//- .ss-trustbar + сетка .ss-grid--row-4 + карточки .ss-feature-card
+//- (иконка + title + text). Иконки — временные (chart/calendar/tool/doc),
+//- подберём финальные от дизайнера.
+//- ============================================================
+
+- var aboutTrustItems = [{ value: '18', label: 'лет на&nbsp;рынке пароконденсатного оборудования', icon: 'calendar-blue-icon' }, { value: '&gt;85 000', label: 'единиц оборудования поставлено', icon: 'tool-icon' }, { value: '&gt;7 000', label: 'предприятий-клиентов', icon: 'chart-blue-icon' }, { value: '4', label: 'официальных партнёрства TLV, Baelz, Mival, Sauter', icon: 'doc-icon' }]
+
+section.ss-trustbar.ss-wrapper.ss-about__trust
+	.ss-container
+		.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+			each item in aboutTrustItems
+				.ss-feature-card
+					span.ss-feature-card__icon(aria-hidden='true')
+						img(src=`${basePath}img/${item.icon}.webp` width='48' height='48' alt='' loading='lazy' decoding='async')
+					.ss-feature-card__body
+						p.ss-feature-card__title !{item.value}
+						p.ss-feature-card__text !{item.label}

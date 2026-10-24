@@ -1,0 +1,23 @@
+//- ============================================================
+//- «Почему выбирают нас» — секция на странице О компании.
+//- Reuse .ss-comp-grid + .ss-comp-item / .ss-comp-item--active
+//- (сетка 3×2 → 2×3 → 1×6 с градиентным фоном у active).
+//- Чередование active 1-в-1 с паттерном .ss-product-related
+//- (чётный индекс → active). Контент — 6 позиций из прототипа.
+//- ============================================================
+
+- var whyItems = [{ title: 'Инженерная экспертиза', text: 'Собственный инженерный отдел, расчёт и проектирование, а не просто каталог.' }, { title: 'Готовые системы', text: 'Не отдельные компоненты, а спроектированные и испытанные узлы под задачу.' }, { title: 'Официальные партнёры', text: 'TLV, Baelz, Mival, Sauter. Оригинальная продукция, гарантия производителя.' }, { title: 'Диагностика и сервис', text: 'Аудит конденсатоотводчиков, экспресс-диагностика, техническая экспертиза.' }, { title: 'Вся Россия', text: 'Поставки на промышленные объекты по всей России и СНГ.' }, { title: 'Ответственность за результат', text: 'Не «поставим и уйдём». Сопровождение, схемы, ПНР.' }]
+
+section.ss-section.ss-about__why
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Почему выбирают нас
+
+		ul.ss-comp-grid
+			each item, i in whyItems
+				li(class='ss-comp-item' + (i % 2 === 0 ? ' ss-comp-item--active' : ''))
+					span.ss-comp-item__num= ('0' + (i + 1)).slice(-2)
+					.ss-comp-item__body
+						h3.ss-comp-item__title= item.title
+						p.ss-comp-item__text= item.text

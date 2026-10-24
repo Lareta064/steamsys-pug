@@ -1,0 +1,16 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "О компании — Паровые системы — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-about
+		include ../sections/_about-hero.pug
+		include ../sections/_about-trust.pug
+		include ../sections/_about-why.pug
+	include ../sections/_footer.pug
+
+	//- Модалки страницы (скрыты по умолчанию, открываются JS по data-modal="<id>")
+	include ../sections/_modal-request-b24.pug

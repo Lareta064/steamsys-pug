@@ -1,0 +1,147 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Плашка-шаг (.ss-comp-item) + сетка .ss-comp-grid";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Плашка-шаг (.ss-comp-item) + .ss-comp-grid
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Нумерованная плашка «номер слева + заголовок/описание справа» и grid-контейнер для перечней таких плашек. Стили —
+				code src/scss/blocks/_comp-item.scss
+				| ,
+				code src/scss/blocks/_comp-grid.scss
+				| .
+
+			//- ===== Одиночная плашка =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Одиночная плашка — базовый вид
+
+				.breadcrumbs-catalog__demo
+					.ss-comp-item
+						span.ss-comp-item__num 01
+						.ss-comp-item__body
+							h3.ss-comp-item__title Параметры системы
+							p.ss-comp-item__text Давление, расход, температура среды, вид теплоносителя.
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-comp-item
+						|     span.ss-comp-item__num 01
+						|     .ss-comp-item__body
+						|         h3.ss-comp-item__title Параметры системы
+						|         p.ss-comp-item__text Описание…
+
+			//- ===== Активная плашка =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Активная плашка
+
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Базовый
+					code .ss-comp-item--active
+					| &nbsp;— тёмный фон --primary + белый текст (из
+					code _comp-item.scss
+					| ). Внутри
+					code .ss-comp-grid
+					| &nbsp;фон перебивается на градиент accent1→accent3 (см. ниже).
+
+				.breadcrumbs-catalog__demo
+					.ss-comp-item.ss-comp-item--active
+						span.ss-comp-item__num 02
+						.ss-comp-item__body
+							h3.ss-comp-item__title Выбранный вариант
+							p.ss-comp-item__text Фон --primary, текст --white, номер --secondary2.
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| .ss-comp-item.ss-comp-item--active
+						|     span.ss-comp-item__num 02
+						|     .ss-comp-item__body
+						|         h3.ss-comp-item__title …
+						|         p.ss-comp-item__text …
+
+			//- ===== .ss-comp-grid =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Сетка .ss-comp-grid
+
+				p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Grid 3×2 → 2×3 (<$lg) → 1×6 (<$md), gap 20/10. Активные плашки получают градиент
+					code accent1→accent3
+					| &nbsp;(правило в
+					code _comp-grid.scss
+					| ). Паттерн 1-в-1 с секцией «Совместимое оборудование» на карточке товара (
+					code .ss-product-related__grid
+					| ).
+
+				.breadcrumbs-catalog__demo
+					ul.ss-comp-grid
+						- var items = [{ title: 'Сетчатые фильтры', text: 'Защита КО от окалины и механических загрязнений. Y-типа, DN 15–50.' }, { title: 'Обратные клапаны', text: 'Предотвращают возврат конденсата при изменении давлений в системе.' }, { title: 'Регулирующие клапаны', text: 'Управление подачей пара — электрические или пневматические.' }, { title: 'Предохранительные клапаны', text: 'Защита системы от превышения давления на магистрали.' }, { title: 'Датчики и автоматика', text: 'Манометры, термопары, RTD-датчики для контроля параметров.' }, { title: 'Комплектующие для монтажа', text: 'Ответные фланцы, прокладки, крепёж, шаровые краны обслуживания.' }]
+						each item, i in items
+							li(class='ss-comp-item' + (i % 2 === 0 ? ' ss-comp-item--active' : ''))
+								span.ss-comp-item__num= ('0' + (i + 1)).slice(-2)
+								.ss-comp-item__body
+									h3.ss-comp-item__title= item.title
+									p.ss-comp-item__text= item.text
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| ul.ss-comp-grid
+						|     li.ss-comp-item.ss-comp-item--active
+						|         span.ss-comp-item__num 01
+						|         .ss-comp-item__body
+						|             h3.ss-comp-item__title Сетчатые фильтры
+						|             p.ss-comp-item__text …
+						|     li.ss-comp-item
+						|         span.ss-comp-item__num 02
+						|         …
+
+			//- ===== Про элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-comp-item
+						| &nbsp;— обёртка. Grid 2 колонки (auto 1fr), gap 24, паддинг 24 30, радиус 10. Фон
+						code --secondary3
+						| , текст
+						code --primary
+						| .
+					li
+						code .ss-comp-item__num
+						| &nbsp;— номер слева. 24/600, цвет
+						code --secondary1
+						| .
+					li
+						code .ss-comp-item__body
+						| &nbsp;— flex-column, gap 6.
+						code __title
+						| &nbsp;18/600,
+						code __text
+						| &nbsp;14/400 цвет
+						code --secondary
+						| .
+					li
+						code .ss-comp-item--active
+						| &nbsp;— тёмная плашка (--primary + белый текст). Hover отключён.
+					li
+						code .ss-comp-grid
+						| &nbsp;— grid-контейнер. 3/2/1 кол по брейкам, gap 20/10. Сброс
+						code ul
+						| &nbsp;(list-style, margin, padding).
+					li
+						code .ss-comp-grid .ss-comp-item--active
+						| &nbsp;— внутри сетки активная плашка получает градиент
+						code accent1→accent3
+						| &nbsp;(перебивает базовый --primary).
+					li
+						strong Hover:
+						| &nbsp;внутри
+						code .ss-how-to-pick
+						| &nbsp;и
+						code .ss-product-in-systems
+						| &nbsp;плашка на hover переключается на
+						code --accent1
+						| &nbsp;+ белый текст (правила в самом _comp-item.scss, см. контексты).
