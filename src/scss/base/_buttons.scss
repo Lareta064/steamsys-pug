@@ -34,6 +34,11 @@
 	svg {
 		width: 20px;
 		height: 20px;
+		// Иконка всегда наследует цвет текста кнопки. Переопределяет явные
+		// color у иконок (напр. .svg-pdf = --accent1), чтобы на заливных
+		// вариантах (primary/dark/light/accent5) svg был белым вместе с
+		// текстом, а на outline-вариантах — синхронно с их color.
+		color: inherit;
 	}
 
 	&:hover {

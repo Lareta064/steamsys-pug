@@ -43,3 +43,188 @@
 	}
 }
 
+
+// ---------- Офисы + карта ----------
+// Grid 2 кол: слева список офисов (.ss-callout), справа карта Яндекса.
+// На <$lg стек в колонку.
+.ss-contacts__offices-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 24px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+}
+
+// Список офисов — flex-column c небольшим gap между карточками.
+// Переопределяем border-left-color у .ss-callout скоуплено:
+//   · первая карточка (главный офис) — акцентно-синий --accent1
+//   · остальные — светло-серый --secondary2
+// Так не плодим новые модификаторы в UI framework'е.
+.ss-contacts__offices-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	.ss-callout {
+		border-left-color: var(--secondary2);
+
+		// Kicker (название офиса) у НЕактивных карточек — тёмно-серый
+		// вместо дефолтного --accent1 (синий у .ss-callout__kicker).
+		.ss-callout__kicker {
+			color: var(--secondary);
+		}
+	}
+
+	.ss-callout:first-child {
+		border-left-color: var(--accent1);
+
+		// Первая карточка — активная, kicker возвращаем к акцентно-синему
+		// (базовый цвет .ss-callout__kicker в UI framework).
+		.ss-callout__kicker {
+			color: var(--accent1);
+		}
+	}
+
+	// Телефон внутри .ss-callout__body — чуть крупнее базового, bold,
+	// ссылка без подчёркивания.
+	.ss-callout__body a[href^='tel:'] {
+		color: var(--primary);
+		text-decoration: none;
+		font-size: 16px;
+		font-weight: 700;
+		line-height: 1.3;
+
+		&:hover {
+			color: var(--accent1);
+		}
+	}
+}
+
+// ---------- «Свяжитесь с нами» (каналы связи) ----------
+// 2 карточки .ss-help-card в ряду. На <$md стек в колонку.
+// Карточки в grid автоматом тянутся по высоте строки (align-items: stretch),
+// а внутри каждой — flex-column, поэтому margin-top: auto на CTA прибивает
+// кнопку к низу → кнопки обеих карточек на одном горизонтальном уровне.
+.ss-contacts__channels-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+	}
+
+	.ss-help-card .ss-btn {
+		margin-top: auto;
+		align-self: flex-start;
+	}
+}
+
+// Строка с телефоном/email — крупнее базового, bold, ссылка без подчёркивания.
+.ss-contacts__channels-contact {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.3;
+
+	a {
+		color: var(--primary);
+		text-decoration: none;
+
+		&:hover {
+			color: var(--accent1);
+		}
+	}
+}
+
+
+// ---------- Реквизиты ----------
+// Семантический description-list: dl > .row > dt + dd.
+// Строки — grid 1fr 2fr, тонкий разделитель снизу. На <$md стек в колонку
+// (dt сверху, dd снизу).
+.ss-contacts__rekviz-list {
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid var(--secondary2);
+}
+
+.ss-contacts__rekviz-row {
+	display: grid;
+	grid-template-columns: minmax(220px, 1fr) 2fr;
+	gap: 20px;
+	padding: 16px 0;
+	border-bottom: 1px solid var(--secondary2);
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 4px;
+		padding: 14px 0;
+	}
+
+	dt {
+		margin: 0;
+		font-family: var(--font-family);
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 1.5;
+		color: var(--secondary);
+	}
+
+	dd {
+		margin: 0;
+		font-family: var(--font-family);
+		font-weight: 500;
+		font-size: 15px;
+		line-height: 1.5;
+		color: var(--primary);
+	}
+}
+
+// CTA под списком реквизитов — отступ сверху от списка.
+.ss-contacts__rekviz-cta {
+	margin-top: 24px;
+
+	@include down($md) {
+		margin-top: 20px;
+	}
+}
+
+
+// Карта. Yandex-конструктор рендерит div/iframe/ymaps через document.write
+// по месту <script>, Google-maps или прямой <iframe src="..."> — через iframe.
+// Размеры карты задаём ТОЛЬКО на родительском .ss-contacts__map,
+// внутренний элемент (div/iframe/ymaps) растягивается на 100% в любом случае.
+.ss-contacts__map {
+	position: relative;
+	width: 100%;
+	height: 460px;
+	background: var(--secondary3);
+	border-radius: 10px;
+	overflow: hidden;
+
+	@include down($lg) {
+		height: 360px;
+	}
+
+	// Любой встроенный виджет карты (div от yandex-конструктора,
+	// <iframe> от Google/Yandex, <ymaps>) занимает весь родитель.
+	> * {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	// iframe по умолчанию inline — явно убираем лишний border и baseline-отступ.
+	iframe {
+		border: 0;
+		vertical-align: top;
+	}
+}

@@ -1,0 +1,52 @@
+//- ============================================================
+//- «Реквизиты» — секция на странице контактов.
+//- Семантический description-list: <dl> с парами <dt>/<dd> в строке.
+//- Белый фон секции. Стили — page-scope в src/scss/pages/_contacts.scss.
+//- ============================================================
+
+section.ss-section.ss-contacts__rekviz
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Реквизиты
+
+		dl.ss-contacts__rekviz-list
+			.ss-contacts__rekviz-row
+				dt Полное наименование
+				dd Общество с ограниченной ответственностью «Паровые системы»
+			.ss-contacts__rekviz-row
+				dt Краткое наименование
+				dd ООО «Паровые системы»
+			.ss-contacts__rekviz-row
+				dt ИНН
+				dd 7811000000
+			.ss-contacts__rekviz-row
+				dt КПП
+				dd 781101001
+			.ss-contacts__rekviz-row
+				dt ОГРН
+				dd 1087800000000
+			.ss-contacts__rekviz-row
+				dt Год основания
+				dd 2008
+			.ss-contacts__rekviz-row
+				dt Юридический адрес
+				dd 191119, г. Санкт-Петербург, ул. Воронежская, д. 5, лит. А, оф. 123
+			.ss-contacts__rekviz-row
+				dt Фактический адрес
+				dd 191119, г. Санкт-Петербург, ул. Воронежская, д. 5, лит. А, оф. 123
+			.ss-contacts__rekviz-row
+				dt Расчётный счёт
+				dd 40702 810 0 00000 000000
+			.ss-contacts__rekviz-row
+				dt Банк
+				dd ПАО «Сбербанк», г. Санкт-Петербург
+			.ss-contacts__rekviz-row
+				dt БИК
+				dd 044030653
+			.ss-contacts__rekviz-row
+				dt Корреспондентский счёт
+				dd 30101 810 5 00000 000653
+
+		.ss-contacts__rekviz-cta
+			+ssBtn('Скачать карточку компании', { icon: 'pdf', xsFull: true, tag: 'a', href: '#' })(download)

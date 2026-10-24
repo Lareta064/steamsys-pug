@@ -26,12 +26,12 @@
 }
 
 .ss-callout__kicker {
-	margin: 0 0 12px;
+	margin: 0 0 8px;
 	font-family: var(--font-family);
 	font-weight: 700;
 	font-size: 12px;
 	line-height: 1.4;
-	letter-spacing: 0.08em;
+	// letter-spacing: 0.08em;
 	text-transform: uppercase;
 	color: var(--secondary);
 	color: var(--accent1);
@@ -45,7 +45,7 @@
 	color: var(--primary);
 
 	p {
-		margin: 0 0 12px;
+		margin: 0 0 6px;
 
 		&:last-child {
 			margin-bottom: 0;
@@ -57,3 +57,5 @@
 		font-weight: 600;
 	}
 }
+
+

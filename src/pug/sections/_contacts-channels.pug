@@ -1,0 +1,31 @@
+//- ============================================================
+//- «Свяжитесь с нами» — 2 карточки каналов связи (отдел продаж +
+//- сервис/диагностика) на сером фоне.
+//- Reuse .ss-help-card (blocks/_help-card.scss): title + text + CTA.
+//- Телефон/email и подпись-носителя — через локальные page-классы.
+//- ============================================================
+
+section.ss-section.ss-section--tinted.ss-bg-gray.ss-contacts__channels
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Свяжитесь с&nbsp;нами
+
+		.ss-contacts__channels-grid
+
+			//- Карточка 1: Отдел продаж
+			.ss-help-card
+				p.ss-help-card__title Отдел продаж
+				p.ss-help-card__text Для закупщиков и&nbsp;коммерческих запросов. КП, спецификации, сроки поставки.
+				p.ss-contacts__channels-contact
+					a(href='tel:+78126027770') +7 (812) 602-77-70 (доб. 101)
+				p.ss-reg-14.ss-txt-secondary Константин Терехов, руководитель отдела
+				+ssBtn('Связаться', { variant: 'dark', xsFull: true })(type='button' data-modal='request-b24')
+
+			//- Карточка 2: Сервис и диагностика
+			.ss-help-card
+				p.ss-help-card__title Сервис и&nbsp;диагностика
+				p.ss-help-card__text Техническая экспертиза, диагностика пароконденсатных систем, аудит конденсатоотводчиков.
+				p.ss-contacts__channels-contact
+					a(href='mailto:service@steamsys.ru') service@steamsys.ru
+				+ssBtn('Заказать диагностику', { variant: 'dark', xsFull: true })(type='button' data-modal='request-b24')

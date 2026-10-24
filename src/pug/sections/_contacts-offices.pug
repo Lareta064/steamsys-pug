@@ -1,0 +1,54 @@
+//- ============================================================
+//- «Офисы + карта» — секция на странице контактов.
+//- Grid 2 кол: слева список офисов (reuse .ss-callout), справа карта
+//- Яндекса (временный скрипт-конструктор, заменяется на реальный
+//- виджет в production).
+//-
+//- Первая карточка (главный офис) выделена синим border-left --accent1;
+//- остальные — светло-серый --secondary2. Разруливается скоуплено
+//- на странице (page-scss :first-child), без новых модификаторов
+//- UI framework'а.
+//- ============================================================
+
+section.ss-section.ss-contacts__offices
+	.ss-container.ss-wrapper
+		.ss-contacts__offices-grid
+
+			//- Левая колонка: 4 офиса — каждый на базовом .ss-callout.
+			ul.ss-contacts__offices-list
+				li.ss-callout
+					p.ss-callout__kicker Санкт-Петербург — главный офис
+					.ss-callout__body
+						p
+							a(href='tel:+78126027770') +7 (812) 602-77-70
+						p 191119, ул. Воронежская, д. 5, лит. А, оф. 123
+						p.ss-reg-14.ss-txt-secondary1 м. Обводный канал · Пн–Пт 9:00–18:00
+
+				li.ss-callout
+					p.ss-callout__kicker Санкт-Петербург — склад
+					.ss-callout__body
+						p
+							a(href='tel:+78126027770') +7 (812) 602-77-70
+						p пос. Шушары, Московское шоссе, 19, корп. 2
+						p.ss-reg-14.ss-txt-secondary1 Пн–Пт 9:30–17:30
+
+				li.ss-callout
+					p.ss-callout__kicker Москва
+					.ss-callout__body
+						p
+							a(href='tel:+74951280367') +7 (495) 128-03-67
+						p.ss-reg-14.ss-txt-secondary1 Пн–Пт 9:00–18:00
+
+				li.ss-callout
+					p.ss-callout__kicker Екатеринбург
+					.ss-callout__body
+						p
+							a(href='tel:+73433021512') +7 (343) 302-15-12
+						p ул. Антона Валека, д. 13, оф. 305, БЦ «Прайм»
+						p.ss-reg-14.ss-txt-secondary1 Пн–Пт 9:00–18:00
+
+			//- Правая колонка: карта Яндекса (временный скрипт-конструктор).
+			//- Ширина/высота карты заданы 100% — реальный размер и соотношение
+			//- определяет родительский .ss-contacts__map (page-scss).
+			.ss-contacts__map(aria-label='Карта офисов')
+				script(type='text/javascript' charset='utf-8' async src='https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Aaa6881b87d59c79b2d92f56832d6b9e4ed599a0bf802d16cab17f1c0f72085ab&width=100%&height=100%&lang=ru_RU&scroll=true')
