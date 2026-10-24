@@ -1,0 +1,71 @@
+extends ../layouts/layout-ui.pug
+
+block variables
+	-var title = "Выноска-цитата (.ss-pullquote)";
+
+block content
+	.container-dashboard.ss-wrapper
+		h2.db-h2 Выноска-цитата (.ss-pullquote)
+
+		.container-dashboard__content
+
+			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
+				| Светло-серая плашка с цитатой клиента / отзывом в теле секции. Используется, когда к&nbsp;контенту нужна лёгкая встраиваемая цитата без аватара и&nbsp;CTA. Отличается от
+				code .ss-review-card
+				| &nbsp;(карточка отзыва в&nbsp;слайдере, с&nbsp;аватаром) и
+				code .ss-quote-card
+				| &nbsp;(тёмная карточка с&nbsp;аватаром и&nbsp;CTA). Стили —
+				code src/scss/blocks/_pullquote.scss
+				| .
+
+			//- ===== Пример =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример
+
+				.breadcrumbs-catalog__demo
+					figure.ss-pullquote(style='max-width: 480px;')
+						blockquote.ss-pullquote__text
+							p «Паровые системы&nbsp;— не&nbsp;просто поставщик. Когда у&nbsp;нас возникли проблемы с&nbsp;конденсатной системой через год после запуска, они приехали, разобрались и&nbsp;предложили решение. Не&nbsp;все так работают.»
+						figcaption.ss-pullquote__author Главный механик, крупный ЦБК, Архангельская область
+
+				pre.breadcrumbs-catalog__snippet
+					code
+						| figure.ss-pullquote
+						|     blockquote.ss-pullquote__text
+						|         p «Текст цитаты…»
+						|     figcaption.ss-pullquote__author Автор, должность
+
+			//- ===== Элементы =====
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-pullquote
+						| &nbsp;— обёртка (
+						code figure
+						| ). Светло-серый фон
+						code --secondary3
+						| , border-left 3px
+						code --primary
+						| , padding 30 (20 на &lt;$md). Без скругления&nbsp;— визуально «прибита» к&nbsp;контенту.
+					li
+						code .ss-pullquote__text
+						| &nbsp;— blockquote. 18/400 italic (16 на &lt;$md), цвет
+						code --primary
+						| . Margin-bottom 20 до автора.
+					li
+						code .ss-pullquote__author
+						| &nbsp;— figcaption. 14/400
+						code --secondary
+						| . Обычно одна строка: должность + компания + регион.
+					li
+						strong Семантика:
+						| &nbsp;пара
+						code figure
+						| &nbsp;+
+						code blockquote
+						| &nbsp;+
+						code figcaption
+						| &nbsp;— стандартный HTML5-паттерн для pull-quote (
+						a(href='https://html.spec.whatwg.org/multipage/grouping-content.html#the-figure-element' target='_blank' rel='noopener') spec
+						| ).

@@ -10,7 +10,9 @@
 	box-sizing: border-box;
 	height: 110px;
 	padding: 10px;
-	box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.03);
+	// box-shadow заменили на бордер: внутри слайдера с overflow:hidden
+	// тень обрезается у краёв, а бордер держит форму на любой подложке.
+	border: 2px solid var(--secondary3);
     background: var(--white);
 	border-radius: 20px;
 	overflow: hidden;

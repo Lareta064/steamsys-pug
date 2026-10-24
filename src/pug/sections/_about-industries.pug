@@ -1,0 +1,40 @@
+//- ============================================================
+//- «Работаем с предприятиями этих отраслей» + «Среди клиентов» —
+//- секция на странице О компании.
+//- Теги отраслей — .ss-tag.ss-tag--primary (заливной синий,
+//- base/_tag.scss). Слайдер логотипов клиентов — reuse
+//- .ss-slider-side-nav (blocks/_slider-side-nav.scss) +
+//- .ss-partner-card (blocks/_partner-card.scss), конфиг идентичен
+//- слайдеру партнёров на cases-page. Отдельный JS-инициализатор
+//- src/js/about-clients-slider.js по селектору .js-about-clients-slider.
+//- ============================================================
+
+- var industries = ['Пищевая промышленность', 'ЦБП', 'Химическая', 'Деревообработка', 'Нефтепереработка', 'Энергетика', 'Фармацевтика']
+- var aboutClients = [{ name: 'partner1', alt: 'Клиент 1' }, { name: 'partner2', alt: 'Клиент 2' }, { name: 'partner3', alt: 'Клиент 3' }, { name: 'partner4', alt: 'Клиент 4' }, { name: 'partner1', alt: 'Клиент 5' }, { name: 'partner2', alt: 'Клиент 6' }, { name: 'partner3', alt: 'Клиент 7' }, { name: 'partner4', alt: 'Клиент 8' }]
+
+section.ss-section.ss-about__industries
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Работаем с&nbsp;предприятиями этих отраслей
+
+		ul.ss-about__industries-tags
+			each name in industries
+				li
+					span.ss-tag.ss-tag--primary= name
+
+		p.ss-kicker.ss-txt-secondary.ss-about__clients-kicker Среди клиентов
+
+		.ss-slider-side-nav
+			button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--prev(type='button' aria-label='Предыдущий')
+				+svgIcon('chevron-left')
+			.swiper.js-about-clients-slider
+				.swiper-wrapper
+					each p in aboutClients
+						.swiper-slide
+							.ss-partner-card
+								picture
+									source(srcset=`${basePath}img/${p.name}.webp 1x, ${basePath}img/${p.name}@2x.webp 2x`)
+									img(src=`${basePath}img/${p.name}.webp` width='200' height='90' alt=p.alt loading='lazy' decoding='async')
+			button.ss-swiper-btn.ss-swiper-btn--ghost.ss-swiper-btn--next(type='button' aria-label='Следующий')
+				+svgIcon('chevron-right')

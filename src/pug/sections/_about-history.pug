@@ -1,0 +1,42 @@
+//- ============================================================
+//- «История и опыт» — секция на странице О компании.
+//- Grid 2 кол (слева таймлайн год/событие, справа 3 карточки
+//- отраслевых достижений). На <$lg стек в колонку.
+//-
+//- Левая колонка — семантический description-list (<dl>): пары
+//- год/описание, разделены тонкой линией --secondary2. Page-scope
+//- (стили в src/scss/pages/_about.scss, по аналогии с
+//- .ss-contacts__rekviz-list).
+//-
+//- Правая колонка — reuse .ss-info-card (белая карточка с бордером,
+//- blocks/_info-card.scss). Внутри — .ss-kicker (uppercase серый),
+//- крупное число как .ss-h2 и описание.
+//- ============================================================
+
+- var historyItems = [{ year: '2008', text: 'Основание компании, начало официальных поставок TLV' }, { year: '2011', text: 'Первые комплексные системы РОУ/БРОУ&nbsp;— переход от&nbsp;поставок к&nbsp;интеграции' }, { year: '2015', text: 'Официальное партнёрство с&nbsp;Baelz (Германия), расширение линейки регулирующей арматуры' }, { year: '2018', text: 'Более 5&nbsp;000 единиц оборудования поставлено на&nbsp;российские предприятия' }, { year: '2020', text: 'Партнёрства с&nbsp;Mival (Италия) и&nbsp;Sauter (Швейцария)&nbsp;— полное покрытие типов систем' }, { year: '2024', text: 'Более 85&nbsp;000 единиц поставлено, более 7&nbsp;000 предприятий-клиентов, выход в&nbsp;новые отрасли' }]
+
+- var historyAchieves = [{ label: 'Химическая промышленность', num: '200+', desc: 'реализованных систем РОУ/БРОУ на&nbsp;химических предприятиях России' }, { label: 'ЦБП и&nbsp;деревообработка', num: '150+', desc: 'систем обвязок и&nbsp;теплопунктов для предприятий ЦБП' }, { label: 'Пищевая и&nbsp;фармацевтика', num: '300+', desc: 'проектов GMP-совместимых систем для пищевых и&nbsp;фармацевтических производств' }]
+
+section.ss-section.ss-section--tinted.ss-bg-gray.ss-about__history
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 История и&nbsp;опыт
+
+		.ss-about__history-grid
+
+			//- Левая колонка — таймлайн год/событие
+			dl.ss-about__history-timeline
+				each item in historyItems
+					.ss-about__history-row
+						dt.ss-about__history-year= item.year
+						dd.ss-about__history-text !{item.text}
+
+			//- Правая колонка — 3 отраслевых достижения на .ss-info-card
+			//- с модификатором --compact (сжатая типографика внутри).
+			ul.ss-about__history-achieves
+				each ach in historyAchieves
+					li.ss-info-card.ss-info-card--compact
+						p.ss-kicker !{ach.label}
+						p.ss-semi-18= ach.num
+						p.ss-semi-14 !{ach.desc}

@@ -1,0 +1,77 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// .ss-pullquote — выноска-цитата (клиентский testimonial в теле
+// секции). Светло-серый фон, border-left-акцент, курсивный текст
+// цитаты + подпись автора ниже.
+//
+// Отличие от соседей:
+//   · .ss-review-card — отзыв в слайдере: title + text (clamp 4 стр.)
+//     + аватар + имя. Больше, с медиа.
+//   · .ss-quote-card  — тёмная карточка с аватаром + CTA (для hero/
+//     блока «мнение эксперта»).
+//   · .ss-pullquote   — лёгкая встраиваемая цитата рядом с контентом,
+//     без аватара, без CTA.
+//
+// Разметка:
+//   figure.ss-pullquote
+//     blockquote.ss-pullquote__text
+//       p «Текст цитаты…»
+//     figcaption.ss-pullquote__author Главный механик, крупный ЦБК
+//
+// Blockquote внутри .ss-content получает свои стили (светло-серый фон,
+// border-left) — тут мы перебиваем их на уровне .ss-pullquote, чтобы
+// визуал не зависел от контекста.
+// ==============================================================
+
+.ss-pullquote {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 30px;
+	background: var(--secondary3);
+	border-left: 3px solid var(--primary);
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+// Текст цитаты — курсив, 18/1.5 primary. Blockquote с обнулёнными
+// контентными стилями (на случай использования внутри .ss-content,
+// где base-правила ставят фон/бордер на blockquote).
+.ss-pullquote__text {
+	margin: 0 0 20px;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-style: italic;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--primary);
+
+	@include down($md) {
+		font-size: 16px;
+		margin-bottom: 16px;
+	}
+
+	> p {
+		margin: 0;
+
+		& + p {
+			margin-top: 10px;
+		}
+	}
+}
+
+// Автор/подпись под цитатой — приглушённый серый 14/400.
+.ss-pullquote__author {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}

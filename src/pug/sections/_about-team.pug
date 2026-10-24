@@ -1,0 +1,26 @@
+//- ============================================================
+//- «Инженерная команда» — секция на странице О компании.
+//- Reuse .ss-team-card (blocks/_team-card.scss) — вся карточка-ссылка
+//- на страницу специалиста. Grid 4 кол → 2 на <$lg → 1 на <$md.
+//- Аватар — ava.webp (как в .ss-expert-card на _about-section).
+//- ============================================================
+
+- var teamItems = [{ name: 'Александр Баженов', role: 'Ведущий инженер-проектировщик', exp: 'Пароконденсатные системы, 12 лет опыта', href: '#team-bazhenov' }, { name: 'Павел Гилепп', role: 'Инженер по готовым системам', exp: 'РОУ/БРОУ, ИТП ГВС, обвязки, 8 лет опыта', href: '#team-gilepp' }, { name: 'Евгения Львова', role: 'Инженер технической документации', exp: 'Проектная документация, CAD-проектирование', href: '#team-lvova' }, { name: 'Константин Терехов', role: 'Руководитель отдела продаж', exp: 'Промышленный B2B, 10 лет опыта', href: '#team-terekhov' }]
+
+section.ss-section.ss-section--tinted.ss-bg-gray.ss-about__team
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Инженерная команда
+				p.ss-about__lead
+					| Задачи клиентов решают инженеры, а&nbsp;не&nbsp;менеджеры. Мы&nbsp;проектируем системы, считаем параметры и&nbsp;несём ответственность за&nbsp;результат.
+
+		.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+			each t in teamItems
+				a.ss-team-card(href=t.href)
+					.ss-team-card__avatar
+						img(src=`${basePath}img/ava.webp` srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x` width='80' height='80' alt=t.name loading='lazy' decoding='async')
+					.ss-team-card__body
+						h3.ss-team-card__name= t.name
+						p.ss-team-card__role= t.role
+						p.ss-team-card__exp= t.exp

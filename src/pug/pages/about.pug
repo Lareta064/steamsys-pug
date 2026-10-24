@@ -3,6 +3,7 @@ extends ../layouts/layout.pug
 block variables
 	-var title = "О компании — Паровые системы — STEAMSYS";
 	-var bodyCl = "ss-wrapper";
+	-var customStyle = `.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/cases-mob.webp')}@media(min-width:1024px){.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/solution-hero.webp')}}`
 
 block content
 	include ../sections/_header.pug
@@ -10,6 +11,13 @@ block content
 		include ../sections/_about-hero.pug
 		include ../sections/_about-trust.pug
 		include ../sections/_about-why.pug
+		include ../sections/_about-history.pug
+		include ../sections/_about-industries.pug
+		include ../sections/_about-team.pug
+		include ../sections/_about-brands.pug
+		include ../sections/_about-warranty.pug
+		include ../sections/_about-docs.pug
+		include ../sections/_feedback-b24-inner.pug
 	include ../sections/_footer.pug
 
 	//- Модалки страницы (скрыты по умолчанию, открываются JS по data-modal="<id>")

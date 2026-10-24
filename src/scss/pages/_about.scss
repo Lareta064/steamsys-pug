@@ -9,3 +9,219 @@
 .ss-about {
 	// noop — секции сами держат свои отступы.
 }
+
+
+// ---------- Отрасли + клиенты ----------
+// Теги отраслей — flex-wrap с gap. Reuse .ss-tag.ss-tag--primary
+// (заливной синий, см. base/_tag.scss).
+.ss-about__industries-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 0 0 40px;
+	padding: 0;
+	list-style: none;
+
+	@include down($md) {
+		margin-bottom: 30px;
+	}
+}
+
+// Кикер «Среди клиентов» — отступ сверху от тегов, снизу от слайдера.
+.ss-about__clients-kicker {
+	margin: 0 0 20px;
+
+	@include down($md) {
+		margin-bottom: 16px;
+	}
+}
+
+
+// ---------- Общий page-local lead под h2 секции ----------
+// Приглушённый 16/400 с max-width для читаемости. Используется
+// в секциях «Инженерная команда», «Официальные партнёрства».
+.ss-about__lead {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--secondary);
+	max-width: 760px;
+
+	@include down($md) {
+		font-size: 15px;
+	}
+}
+
+
+// ---------- История и опыт ----------
+// 2 кол: слева таймлайн год/событие, справа 3 карточки отраслевых
+// достижений. На <$lg стек в колонку.
+.ss-about__history-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 40px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		gap: 30px;
+	}
+}
+
+// Таймлайн — семантический description-list: dt (год) + dd (событие)
+// обёрнуты в row. Разделители снизу у каждого ряда, кроме последнего.
+.ss-about__history-timeline {
+	margin: 0;
+	padding: 0;
+}
+
+.ss-about__history-row {
+	display: grid;
+	grid-template-columns: 90px minmax(0, 1fr);
+	gap: 30px;
+	padding: 20px 0;
+	border-bottom: 1px solid var(--secondary2);
+
+	&:first-child { padding-top: 0; }
+	&:last-child { border-bottom: 0; }
+
+	@include down($md) {
+		grid-template-columns: 70px minmax(0, 1fr);
+		gap: 16px;
+		padding: 16px 0;
+	}
+}
+
+.ss-about__history-year {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+}
+
+.ss-about__history-text {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 1.5;
+	// color: var(--secondary);
+}
+
+// 3 карточки отраслевых достижений — колонка. Карточки на
+// .ss-info-card.ss-info-card--compact, типографика внутри — из
+// модификатора --compact (см. blocks/_info-card.scss).
+.ss-about__history-achieves {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+
+// ---------- Что мы гарантируем ----------
+// 2 кол: слева .ss-list--icon (шире), справа .ss-pullquote.
+// На <$lg стек в колонку.
+.ss-about__warranty-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 40px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+		gap: 30px;
+	}
+}
+
+// Разделители между пунктами списка — тонкая линия --secondary2.
+// Base .ss-list имеет row-gap 6; переопределяем на 0 и ставим
+// внутренний padding + border-bottom у каждого item'а.
+// Внутри item'а strong — bold-«ярлык» перед обычным текстом.
+.ss-about__warranty-list {
+	row-gap: 0;
+
+	.ss-list__item {
+		padding: 20px 0;
+		border-bottom: 1px solid var(--secondary2);
+		align-items: start;
+		font-size: 15px;
+		line-height: 1.5;
+
+		&:first-child { padding-top: 0; }
+		&:last-child {
+			padding-bottom: 0;
+			border-bottom: 0;
+		}
+
+		strong {
+			font-weight: 700;
+			color: var(--primary);
+		}
+	}
+}
+
+
+// ---------- Документы для проверки поставщика ----------
+// Grid 3 кол → 2 → 1 (стандартные .ss-grid--row-*). Карточки на
+// .ss-info-card: внутри иконка-emoji сверху, h3, мета, CTA внизу
+// (прижата через margin-top: auto на .ss-btn).
+// Сброс стилей ul (list-style/margin/padding), li растягивает
+// .ss-info-card по высоте строки сетки.
+.ss-about__docs-grid {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	> li {
+		display: flex;
+	}
+
+	> li > .ss-info-card {
+		flex: 1;
+		gap: 15px;
+	}
+}
+
+// Иконка-«ярлык» сверху карточки — emoji из прототипа.
+// Размер 36px (28 на <$md), block — чтобы занимало отдельную строку
+// над заголовком.
+.ss-about__doc-icon {
+	display: block;
+	font-size: 36px;
+	line-height: 1;
+
+	@include down($md) {
+		font-size: 28px;
+	}
+}
+
+.ss-about__doc-name {
+	margin: 10px 0 0;
+}
+
+// Base .ss-info-card имеет правило `> .ss-link { margin-top: auto }`.
+// Для кнопки — аналогично через page-scope, чтобы CTA прижималась к низу
+// карточки (визуальное равнение CTA в ряду сетки).
+.ss-about__doc-card > .ss-btn {
+	margin-top: auto;
+	align-self: flex-start;
+
+	@include down($md) {
+		align-self: stretch;
+	}
+}
+
+// Featured-карточка (комплект для аккредитации) — усиленный border
+// --primary 2px, визуально выделяется в ряду. CTA — вариант dark
+// задаётся в разметке (не через scss).
+.ss-about__doc-card--featured {
+	border-width: 2px;
+	border-color: var(--primary);
+}

@@ -1,0 +1,33 @@
+//- ============================================================
+//- «Что мы гарантируем» — секция на странице О компании.
+//- Grid 2 кол: слева — список с галочкой-маркером (.ss-list.ss-list--icon),
+//- справа — pull-quote с цитатой клиента (.ss-pullquote).
+//- На <$lg стек в одну колонку.
+//- ============================================================
+
+- var warrantyItems = [{ bold: 'Гарантия 12 месяцев', text: 'на&nbsp;всё поставляемое оборудование. При заводском браке&nbsp;— замена за&nbsp;наш счёт.' }, { bold: 'Инженерная ответственность', text: 'за&nbsp;состав системы: мы&nbsp;подбираем компоненты под параметры, а&nbsp;не&nbsp;предлагаем «что есть на&nbsp;складе».' }, { bold: 'ПНР и&nbsp;сопровождение', text: '— помогаем с&nbsp;пусконаладкой, предоставляем схемы обвязки, консультируем при монтаже.' }, { bold: 'Техническая экспертиза по&nbsp;запросу', text: '— аудит системы, диагностика конденсатоотводчиков, разбор нештатных ситуаций.' }]
+
+section.ss-section.ss-about__warranty
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Что мы&nbsp;гарантируем
+
+		.ss-about__warranty-grid
+
+			//- Левая колонка — список с иконкой-галочкой
+			ul.ss-list.ss-list--icon.ss-about__warranty-list
+				each item in warrantyItems
+					li.ss-list__item
+						span.ss-list__marker
+							+svgIcon('check')
+						span
+							strong !{item.bold}
+							| &nbsp;
+							| !{item.text}
+
+			//- Правая колонка — pull-quote
+			figure.ss-pullquote
+				blockquote.ss-pullquote__text
+					p «Паровые системы&nbsp;— не&nbsp;просто поставщик. Когда у&nbsp;нас возникли проблемы с&nbsp;конденсатной системой через год после запуска, они приехали, разобрались и&nbsp;предложили решение. Не&nbsp;все так работают.»
+				figcaption.ss-pullquote__author Главный механик, крупный ЦБК, Архангельская область

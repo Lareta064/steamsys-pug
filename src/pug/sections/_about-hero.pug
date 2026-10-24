@@ -1,12 +1,14 @@
 //- ============================================================
 //- Hero страницы «О компании» (about.html).
-//- Reuse .ss-hero-inner (светлый вариант, без --dark): полоса крошек
-//- (светло-серая) + body с kicker/h1/lead/3 CTA.
-//- Структура 1-в-1 с single-brand-hero / cases-hero, но без --dark
-//- (без фоновой картинки и градиентной завесы).
+//- Reuse .ss-hero-inner--dark (тёмно-синий body + белый текст +
+//- градиентная завеса слева от bg-image). Структура 1-в-1 с
+//- single-brand-hero / cases-hero.
+//-
+//- Фоновая картинка — через customStyle в <head> страницы
+//- (см. about.pug). Градиент/позиционирование — в _hero-inner.scss.
 //- ============================================================
 
-section.ss-hero-inner.ss-about__hero
+section.ss-hero-inner.ss-hero-inner--dark.ss-about__hero
 	.ss-hero-inner__crumbs
 		.ss-container.ss-wrapper
 			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
@@ -18,11 +20,11 @@ section.ss-hero-inner.ss-about__hero
 	.ss-hero-inner__body
 		.ss-container.ss-wrapper
 			.ss-hero-inner__body-inner
-				span.ss-kicker Об&nbsp;инженерном интеграторе
+				span.ss-kicker.ss-txt-accent3 Об&nbsp;инженерном интеграторе
 				h1.ss-h1 Паровые системы&nbsp;— инженерный интегратор пароконденсатных систем
 				p.ss-hero-inner__lead
 					| С&nbsp;2008 года проектируем, поставляем и&nbsp;обслуживаем пароконденсатные системы для промышленных предприятий России. Партнёр TLV (Япония), Baelz (Германия), Mival (Италия).
 				.ss-hero-inner__actions
-					+ssBtn('Связаться с инженером', { variant: 'dark', xsFull: true })(type='button' data-modal='request-b24')
-					+ssBtn('Смотреть кейсы', { variant: 'outline-dark', xsFull: true, tag: 'a', href: './cases-page.html' })
-					+ssBtn('Скачать реквизиты компании', { variant: 'outline-light', xsFull: true, tag: 'a', href: '#' })(download)
+					+ssBtn('Связаться с инженером', { variant: 'primary', icon: 'arrow-right', xsFull: true })(type='button' data-modal='request-b24')
+					+ssBtn('Смотреть кейсы', { variant: 'outline-white', xsFull: true, tag: 'a', href: './cases-page.html' })
+					+ssBtn('Скачать реквизиты компании', { variant: 'outline-white', xsFull: true, tag: 'a', href: '#' })(download)

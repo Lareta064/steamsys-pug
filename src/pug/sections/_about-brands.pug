@@ -1,0 +1,26 @@
+//- ============================================================
+//- «Официальные партнёрства» — секция на странице О компании.
+//- Reuse .ss-brand-card из UI framework (blocks/_brand-card.scss)
+//- + сетка 1-в-1 со страницы brands.html (_brands-grid.pug):
+//- 4 кол → 3 на $xl → 2 на $lg → 1 на $md.
+//- ============================================================
+
+- var aboutBrands = [{ slug: 'tlv', name: 'TLV', text: 'Официальный дистрибьютор. Партнёрство с&nbsp;2008 года&nbsp;· Япония.' }, { slug: 'baelz', name: 'Baelz', text: 'Официальный дистрибьютор. Партнёрство с&nbsp;2015 года&nbsp;· Германия.' }, { slug: 'mival', name: 'Mival', text: 'Официальный дистрибьютор. Партнёрство с&nbsp;2020 года&nbsp;· Италия.' }, { slug: 'sauter', name: 'Sauter', text: 'Официальный дистрибьютор. Партнёрство с&nbsp;2020 года&nbsp;· Швейцария.' }]
+
+section.ss-section.ss-about__brands
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Официальные партнёрства
+				p.ss-about__lead
+					| Работаем напрямую с&nbsp;производителями. Без посредников&nbsp;— оригинальная продукция, полная документация, гарантия производителя.
+
+		.ss-grid.ss-grid--row-4.ss-grid--xl-row-3.ss-grid--lg-row-2.ss-grid--md-row-1
+			each b in aboutBrands
+				a.ss-brand-card(href='./single-brand.html')
+					picture.ss-brand-card__media
+						source(srcset=`${basePath}img/brend-${b.slug}.webp 1x, ${basePath}img/brend-${b.slug}@2x.webp 2x`)
+						img(src=`${basePath}img/brend-${b.slug}.webp` width='120' height='120' alt=`Логотип ${b.name}` loading='lazy' decoding='async')
+					h3.ss-brand-card__title= b.name
+					p.ss-brand-card__text !{b.text}
+					span.ss-brand-card__more Страница бренда

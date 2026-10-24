@@ -1,0 +1,33 @@
+//- ============================================================
+//- «Документы для проверки поставщика» — секция на странице О компании.
+//- Карточки — reuse .ss-info-card (универсальная контейнер-карточка
+//- с бордером). Иконка сверху — emoji из прототипа (📄/🏆/✅/📋/📝/📦).
+//- Сетка 3 кол → 2 (<$lg) → 1 (<$md) через стандартные .ss-grid--row-*.
+//- При меньшем количестве карточек (2/3/4) они просто занимают
+//- первые ячейки ряда — вёрстка не ломается.
+//- Последняя карточка — featured-акцент (бордер 2px --primary +
+//- CTA dark) через page-local модификатор --featured.
+//- ============================================================
+
+- var aboutDocs = [{ icon: '📄', name: 'Карточка компании с реквизитами', meta: 'PDF · Актуальная версия', cta: 'Скачать', download: true }, { icon: '🏆', name: 'Сертификат дистрибьютора TLV', meta: 'PDF · 2024', cta: 'Скачать', download: true }, { icon: '✅', name: 'Сертификат соответствия ЕАЭС', meta: 'PDF · Действующий', cta: 'Скачать', download: true }, { icon: '📋', name: 'Список референс-объектов', meta: 'PDF · Более 200 объектов', cta: 'Скачать', download: true }, { icon: '📝', name: 'Образец договора поставки', meta: 'PDF · Типовая форма', cta: 'Запросить', download: false }, { icon: '📦', name: 'Комплект для аккредитации (все документы)', meta: 'ZIP · Полный пакет', cta: 'Запросить комплект', download: false, featured: true }]
+
+section.ss-section.ss-section--tinted.ss-bg-gray.ss-about__docs
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Документы для проверки поставщика
+				p.ss-about__lead Все необходимые документы для аккредитации в&nbsp;системе закупок предприятия.
+
+		ul.ss-grid.ss-grid--row-3.ss-grid--lg-row-2.ss-grid--md-row-1.ss-about__docs-grid
+			each d in aboutDocs
+				li
+					article(class='ss-info-card ss-about__doc-card' + (d.featured ? ' ss-about__doc-card--featured' : ''))
+						span.ss-about__doc-icon(aria-hidden='true')= d.icon
+						h3.ss-semi-18.ss-about__doc-name= d.name
+						p.ss-reg-14.ss-txt-secondary= d.meta
+						if d.featured
+							+ssBtn(d.cta, { variant: 'dark', xsFull: true, tag: 'a', href: '#' })
+						else if d.download
+							+ssBtn(d.cta, { variant: 'outline-dark', xsFull: true, tag: 'a', href: '#' })(download)
+						else
+							+ssBtn(d.cta, { variant: 'outline-dark', xsFull: true, tag: 'a', href: '#' })

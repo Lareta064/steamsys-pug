@@ -24,6 +24,7 @@ block content
 					li: a(href='#product-card') .ss-product-card
 					li: a(href='#info-card') .ss-info-card
 					li: a(href='#expert-card') .ss-expert-card
+					li: a(href='#team-card') .ss-team-card
 					li: a(href='#solution-card') .ss-solution-card
 					li: a(href='#experience-card') .ss-experience-card
 					li: a(href='#stage-card') .ss-stage-card
@@ -288,6 +289,34 @@ block content
 						|     p.ss-reg-14.ss-txt-secondary Описание
 						|     +ssLink('Запросить', { size: 'md' })
 
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary.mt-24
+					| Модификатор
+					code .ss-info-card--compact
+					| &nbsp;— сжатая типографика внутри: kicker 11px uppercase серый, крупное число (.ss-h2) 28/700, параграф 13/серый. Padding фиксирован 20, gap плотнее. Для узких колонок (боковые панели, sidebar-плашки).
+
+				.cards-catalog__demo
+					.ss-grid.ss-grid--row-3.ss-grid--md-row-1(style='max-width:720px')
+						article.ss-info-card.ss-info-card--compact
+							p.ss-kicker Химическая промышленность
+							p.ss-h2 200+
+							p реализованных систем РОУ/БРОУ на&nbsp;химических предприятиях России
+						article.ss-info-card.ss-info-card--compact
+							p.ss-kicker ЦБП и&nbsp;деревообработка
+							p.ss-h2 150+
+							p систем обвязок и&nbsp;теплопунктов для предприятий ЦБП
+						article.ss-info-card.ss-info-card--compact
+							p.ss-kicker Пищевая и&nbsp;фармацевтика
+							p.ss-h2 300+
+							p проектов GMP-совместимых систем для пищевых производств
+
+				pre.cards-catalog__snippet
+					code
+						| //- --compact — для узких колонок, kicker + крупное число + описание
+						| article.ss-info-card.ss-info-card--compact
+						|     p.ss-kicker Химическая промышленность
+						|     p.ss-h2 200+
+						|     p реализованных систем РОУ/БРОУ…
+
 			//- ========== Expert card ==========
 			section.cards-catalog__section#expert-card
 				h3.cards-catalog__section-title .ss-expert-card
@@ -318,6 +347,47 @@ block content
 						|         p.ss-reg-14.ss-txt-secondary Технический директор
 						|     p.ss-reg-14.ss-txt-secondary Био — 2-3 строки.
 						|     +ssLink('Профиль специалиста', { variant: 'dark', size: 'md', underline: true })
+
+			//- ========== Team card ==========
+			section.cards-catalog__section#team-card
+				h3.cards-catalog__section-title .ss-team-card
+				p.cards-catalog__hint.ss-reg-14.ss-txt-secondary
+					| Карточка инженера/сотрудника для секции «Команда» на странице О&nbsp;компании. Вся карточка&nbsp;— ссылка (
+					code a.ss-team-card
+					| ), ведёт на страницу специалиста. Структура: круглый аватар 80×80 сверху, ниже имя + должность + опыт. На hover&nbsp;— border --accent1, имя подсвечивается.
+
+				h4.cards-catalog__subtitle Одиночная карточка
+				.cards-catalog__demo.ss-bg-gray
+					a.ss-team-card(href='#' style='max-width: 320px;')
+						.ss-team-card__avatar
+							img(src=`${basePath}img/ava.webp` srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x` width='80' height='80' alt='Александр Баженов' loading='lazy' decoding='async')
+						.ss-team-card__body
+							h3.ss-team-card__name Александр Баженов
+							p.ss-team-card__role Ведущий инженер-проектировщик
+							p.ss-team-card__exp Пароконденсатные системы, 12&nbsp;лет опыта
+
+				h4.cards-catalog__subtitle Сетка 4 карточки
+				.cards-catalog__demo.ss-bg-gray
+					.ss-grid.ss-grid--row-4.ss-grid--lg-row-2.ss-grid--md-row-1
+						- var teamDemo = [{ name: 'Александр Баженов', role: 'Ведущий инженер-проектировщик', exp: 'Пароконденсатные системы, 12 лет опыта' }, { name: 'Павел Гилепп', role: 'Инженер по готовым системам', exp: 'РОУ/БРОУ, ИТП ГВС, обвязки, 8 лет опыта' }, { name: 'Евгения Львова', role: 'Инженер технической документации', exp: 'Проектная документация, CAD-проектирование' }, { name: 'Константин Терехов', role: 'Руководитель отдела продаж', exp: 'Промышленный B2B, 10 лет опыта' }]
+						each t in teamDemo
+							a.ss-team-card(href='#')
+								.ss-team-card__avatar
+									img(src=`${basePath}img/ava.webp` srcset=`${basePath}img/ava.webp 1x, ${basePath}img/ava@2x.webp 2x` width='80' height='80' alt=t.name loading='lazy' decoding='async')
+								.ss-team-card__body
+									h3.ss-team-card__name= t.name
+									p.ss-team-card__role= t.role
+									p.ss-team-card__exp= t.exp
+
+				pre.cards-catalog__snippet
+					code
+						| a.ss-team-card(href='./team-person.html')
+						|     .ss-team-card__avatar
+						|         img(src='/img/ava.webp' width='80' height='80' alt='Имя' loading='lazy' decoding='async')
+						|     .ss-team-card__body
+						|         h3.ss-team-card__name Александр Баженов
+						|         p.ss-team-card__role Ведущий инженер-проектировщик
+						|         p.ss-team-card__exp Пароконденсатные системы, 12 лет опыта
 
 			//- ========== Solution card ==========
 			section.cards-catalog__section#solution-card
