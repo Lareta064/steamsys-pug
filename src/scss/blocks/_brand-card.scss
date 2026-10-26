@@ -98,8 +98,7 @@
 	font-size: 14px;
 	line-height: 1.4;
 	color: var(--primary);
-	text-decoration: underline;
-	text-underline-offset: 3px;
+	text-decoration: none;
 	transition: color .2s;
 
 	&::after {

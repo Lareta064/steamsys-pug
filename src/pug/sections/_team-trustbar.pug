@@ -1,0 +1,12 @@
+- var teamStats = [{ value: '11', label: 'специалистов в&nbsp;команде', icon: 'user-blue-icon' }, { value: '4', label: 'направления: инжиниринг, продажи, документация, операции', icon: 'chart-blue-icon' }, { value: '20+ лет', label: 'опыт технического директора в&nbsp;пароконденсатных системах', icon: 'calendar-blue-icon' }]
+
+section.ss-trustbar.ss-wrapper.ss-team__trustbar
+	.ss-container
+		.ss-grid.ss-grid--row-3.ss-grid--md-row-1
+			each item in teamStats
+				.ss-feature-card
+					span.ss-feature-card__icon(aria-hidden='true')
+						img(src=`${basePath}img/${item.icon}.webp` width='48' height='48' alt='' loading='lazy' decoding='async')
+					.ss-feature-card__body
+						p.ss-feature-card__title !{item.value}
+						p.ss-feature-card__text !{item.label}

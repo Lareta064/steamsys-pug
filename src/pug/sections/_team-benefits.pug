@@ -1,0 +1,33 @@
+-
+	var teamBenefits = [
+		{
+			icon: 'cog-blue-icon',
+			title: 'Практический опыт',
+			text: 'Каждый инженер работал непосредственно на промышленных объектах. Знаем, как системы ведут себя в реальных условиях эксплуатации, а не только по учебникам.'
+		},
+		{
+			icon: 'shield-check-icon',
+			title: 'Авторизация TLV',
+			text: 'Инженеры прошли авторизацию TLV Japan и имеют право выполнять техническую диагностику и подбор оборудования в соответствии со стандартами производителя.'
+		},
+		{
+			icon: 'target-icon',
+			title: 'Ответственность за результат',
+			text: 'Мы не передаём задачи на аутсорс — каждый проект ведёт конкретный инженер от расчёта до пусконаладки, и он же несёт ответственность за работу системы.'
+		}
+	]
+
+section.ss-section.ss-section--tinted.ss-bg-gray.ss-team__benefits
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				h2.ss-h2 Почему наши инженеры
+
+		.ss-grid.ss-grid--row-3.ss-grid--md-row-1
+			each item in teamBenefits
+				.ss-feature-card
+					span.ss-feature-card__icon(aria-hidden='true')
+						img(src=`${basePath}img/${item.icon}.webp` width='48' height='48' alt='' loading='lazy' decoding='async')
+					.ss-feature-card__body
+						p.ss-feature-card__title= item.title
+						p.ss-feature-card__text= item.text

@@ -1,0 +1,18 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Команда — Паровые системы — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+	-var customStyle = `.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/team-hero.webp')}`
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-team
+		include ../sections/_team-hero.pug
+		include ../sections/_team-trustbar.pug
+		include ../sections/_team-grid.pug
+		include ../sections/_team-benefits.pug
+		include ../sections/_feedback-b24-inner.pug
+	include ../sections/_footer.pug
+
+	include ../sections/_modal-request-b24.pug

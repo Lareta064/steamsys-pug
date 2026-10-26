@@ -156,6 +156,7 @@
 @use "pages/_docs";
 @use "pages/_contacts";
 @use "pages/_about";
+@use "pages/_team";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

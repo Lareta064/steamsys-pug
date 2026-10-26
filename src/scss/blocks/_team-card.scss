@@ -30,6 +30,7 @@
 	color: var(--primary);
 	text-decoration: none;
 	transition: border-color .2s, box-shadow .2s, transform .2s;
+	position: relative;
 
 	@include down($xxxl) {
 		padding: 20px;
@@ -63,11 +64,12 @@
 	}
 }
 
-// Имя + должность + опыт — flex-column с плотными gap-ами.
+// Имя + должность + теги + bio — flex-column, заполняет высоту карточки.
 .ss-team-card__body {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
+	flex: 1;
 }
 
 .ss-team-card__name {
@@ -98,4 +100,45 @@
 	font-size: 15px;
 	line-height: 1.4;
 	color: var(--primary);
+}
+
+// Ряд тегов-отделов (ss-tag--mini + цветовой модификатор).
+.ss-team-card__tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+// Биография — основной текст карточки, заполняет оставшееся пространство
+// (flex:1), выталкивая __action к низу карточки.
+.ss-team-card__bio {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--secondary);
+	flex: 1;
+}
+
+// Stretched-link — невидимый <a> поверх всей карточки.
+// border-radius: inherit повторяет скругление карточки для outline при фокусе.
+.ss-team-card__permalink {
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+}
+
+// CTA-кнопка — поднята выше stretched-link, чтобы оставаться кликабельной.
+// white-space: normal разрешает перенос длинного текста кнопки.
+.ss-team-card__action {
+	margin-top: 10px;
+	position: relative;
+	z-index: 1;
+
+	.ss-btn {
+		white-space: normal;
+		text-align: center;
+		font-size: 14px;
+	}
 }
