@@ -29,15 +29,9 @@ body { font-family: 'Arial', sans-serif; background: #f0f0f0; color: #1a1a1a; fo
 .breadcrumbs-inner { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888; }
 .breadcrumbs-inner a { color: #555; text-decoration: none; }
 .breadcrumbs-inner span { color: #ccc; }
-.trustbar { background: #f7f7f7; border-top: 1px solid #e8e8e8; border-bottom: 1px solid #e8e8e8; }
-.trustbar-inner { display: grid; grid-template-columns: repeat(4, 1fr); padding: 24px 0; gap: 24px; }
-.trust-item { text-align: center; }
-.trust-num { font-size: 24px; font-weight: 700; color: #1a1a1a; }
-.trust-txt { font-size: 12px; color: #666; margin-top: 4px; line-height: 1.4; }
 .sec-label { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
 .sec-title { font-size: 28px; font-weight: 700; color: #111; margin-bottom: 8px; }
 .sec-sub { font-size: 15px; color: #666; line-height: 1.6; max-width: 640px; margin-bottom: 32px; }
-.badge { background: #f0f0f0; border: 1px solid #e0e0e0; padding: 6px 12px; border-radius: 20px; font-size: 12px; color: #555; }
 .cta-section { background: #1a1a1a; color: #fff; }
 .cta-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; padding: 56px 0; }
 .cta-left h2 { font-size: 28px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; }
@@ -71,10 +65,6 @@ body { font-family: 'Arial', sans-serif; background: #f0f0f0; color: #1a1a1a; fo
 .ol-card-actions .btn-primary { font-size: 12px; padding: 8px 14px; }
 .ol-card-actions .btn-outline { font-size: 12px; padding: 6px 12px; }
 .ol-card-actions .btn-ghost { font-size: 12px; padding: 6px 12px; }
-/* FILTER */
-.filter-bar { background: #eef0f5; padding: 20px; border-radius: 4px; display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 32px; }
-.filter-bar label { font-size: 12px; font-weight: 600; color: #555; display: block; margin-bottom: 4px; }
-.filter-bar select { border: 1px solid #d0d0d0; padding: 8px 12px; border-radius: 4px; font-size: 13px; background: #fff; }
 /* EXPLAINER */
 .how-block { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 .how-item { background: #f7f7f7; padding: 24px 20px; }
@@ -174,31 +164,9 @@ body { font-family: 'Arial', sans-serif; background: #f0f0f0; color: #1a1a1a; fo
       <div class="sec-label">Техническая документация</div>
       <h1 style="font-size:36px;font-weight:700;color:#111;margin-bottom:16px;">Опросные листы для подбора систем и оборудования</h1>
       <p style="font-size:16px;color:#555;max-width:640px;margin-bottom:24px;">Заполните опросный лист онлайн — инженер подберёт систему и подготовит КП в течение 1 рабочего дня. Обязательных полей минимум: остальное уточним при общении.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;">
-        <span class="badge">24 опросных листа · 9 типов систем</span>
-        <span class="badge">Онлайн-заполнение</span>
-        <span class="badge">Расчёт за 1 рабочий день</span>
-        <span class="badge">Без обязательной регистрации</span>
-      </div>
-      <div style="display:flex;gap:12px;">
-        <a href="#forms" class="btn-primary">Выбрать опросный лист</a>
-        <a href="wireframe_17_oprosnyj_list_rou.html" class="btn-outline">Пример: РОУ/БРОУ</a>
-      </div>
     </div>
   </div>
 </section>
-
-<!-- TRUST BAR -->
-<div class="trustbar">
-  <div class="container">
-    <div class="trustbar-inner">
-      <div class="trust-item"><div class="trust-num">9 форм</div><div class="trust-txt">типов опросных листов<br>по системам и оборудованию</div></div>
-      <div class="trust-item"><div class="trust-num">1 день</div><div class="trust-txt">расчёт и КП<br>по заполненному листу</div></div>
-      <div class="trust-item"><div class="trust-num">Онлайн</div><div class="trust-txt">заполнение<br>в браузере</div></div>
-      <div class="trust-item"><div class="trust-num">Бесплатно</div><div class="trust-txt">без регистрации<br>и обязательств</div></div>
-    </div>
-  </div>
-</div>
 
 <!-- КАК ЭТО РАБОТАЕТ -->
 <section class="section">
@@ -227,45 +195,12 @@ body { font-family: 'Arial', sans-serif; background: #f0f0f0; color: #1a1a1a; fo
   </div>
 </section>
 
-<!-- ФИЛЬТРЫ + СЕТКА ЛИСТОВ -->
-<section class="section" style="background:#fafafa;" id="forms">
+<!-- СЕТКА ЛИСТОВ -->
+<section class="section" style="background:#fafafa;">
   <div class="container">
     <div class="section-inner">
       <div class="sec-label">Выберите тип</div>
       <h2 class="sec-title">Все опросные листы</h2>
-
-      <div class="filter-bar">
-        <div>
-          <label>Тип системы / оборудования</label>
-          <select>
-            <option>Все типы</option>
-            <option>Готовые системы (РОУ, ИТП, СВК…)</option>
-            <option>Обвязки</option>
-            <option>Оборудование (КО, клапаны…)</option>
-            <option>Диагностика и экспертиза</option>
-          </select>
-        </div>
-        <div>
-          <label>Роль</label>
-          <select>
-            <option>Все роли</option>
-            <option>Проектировщик — заложить в проект</option>
-            <option>Инженер — подбор и расчёт</option>
-            <option>Закупщик — КП по параметрам</option>
-          </select>
-        </div>
-        <div>
-          <label>Назначение</label>
-          <select>
-            <option>Все</option>
-            <option>Подбор оборудования</option>
-            <option>Проектирование</option>
-            <option>Закупка / тендер</option>
-            <option>Эксплуатация и сервис</option>
-          </select>
-        </div>
-        <button class="btn-primary">Применить</button>
-      </div>
 
       <div class="urgency-bar">
         ⚡ <span>Нужен срочный расчёт? Позвоните: <strong>+7 (812) 602-77-70</strong> — инженер примет параметры по телефону и подготовит КП без опросного листа.</span>

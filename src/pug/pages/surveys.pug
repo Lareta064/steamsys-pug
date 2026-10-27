@@ -1,0 +1,17 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Опросные листы — Паровые системы — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-surveys
+		include ../sections/_surveys-hero.pug
+		include ../sections/_surveys-process.pug
+		include ../sections/_surveys-list.pug
+		include ../sections/_surveys-cta.pug
+		include ../sections/_feedback-b24-inner.pug
+	include ../sections/_footer.pug
+
+	include ../sections/_modal-request-b24.pug

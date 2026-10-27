@@ -290,3 +290,7 @@
 	}
 	&:focus-visible { outline-color: var(--white); }
 }
+.ss-btn-wrapper{
+	display: flex;
+	.ss-btn{width: fit-content;}
+}

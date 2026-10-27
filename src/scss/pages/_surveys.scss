@@ -1,0 +1,115 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// Страница «Опросные листы» (surveys.html) — хаб опросных листов
+// для подбора систем и оборудования.
+// ==============================================================
+
+.ss-surveys {
+	// page root
+}
+
+// --------------------------------------------------------------
+// Hero на акцентном фоне. Локальное переопределение .ss-hero-inner
+// (без --dark): body заливаем --accent1, текст — белый.
+// Если паттерн приживётся — выносим как модификатор .ss-hero-inner--accent
+// в sections/_hero-inner.scss.
+// --------------------------------------------------------------
+.ss-surveys__hero {
+	.ss-hero-inner__body {
+		background: var(--accent1);
+		color: var(--white);
+
+		.ss-h1,
+		.ss-h2 {
+			color: var(--white);
+		}
+	}
+}
+
+// --------------------------------------------------------------
+// Секция «Все опросные листы» — вертикальный стек: header → urgency →
+// grid → pagination. row-gap 30 на desktop / 20 на tablet / 16 на mobile.
+// --------------------------------------------------------------
+.ss-surveys__list {
+	.ss-container {
+		display: flex;
+		flex-direction: column;
+		gap: 30px;
+
+		@include down($xxl) {
+			gap: 24px;
+		}
+
+		@include down($md) {
+			gap: 20px;
+		}
+	}
+}
+
+.ss-surveys__grid {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+// Футер со счётчиком + пагинацией. Без карточки/бордера (в отличие от
+// .ss-pagination-toolbar каталога) — просто горизонтальный ряд поверх
+// серого фона секции. На <$md стекуем в колонку.
+.ss-surveys__pagination {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	padding-top: 10px;
+
+	@include down($md) {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
+.ss-surveys__pagination-summary {
+	margin: 0;
+	font-size: 14px;
+	color: var(--secondary);
+	white-space: nowrap;
+}
+
+// --------------------------------------------------------------
+// CTA-секция «Нет нужного типа?» — центрированная kicker + h2 + lead +
+// ряд из 2 кнопок. На белом фоне (базовый .ss-section). lead — max-width
+// 720px для читаемости.
+// --------------------------------------------------------------
+.ss-surveys__cta-inner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
+	text-align: center;
+}
+
+.ss-surveys__cta-lead {
+	margin: 0;
+	max-width: 720px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 1.5;
+	color: var(--secondary);
+}
+
+.ss-surveys__cta-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 10px;
+
+	@include down($md) {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+		max-width: 400px;
+	}
+}

@@ -58,4 +58,31 @@
 	}
 }
 
+// ==============================================================
+// .ss-callout--warning — предупреждающая/срочная плашка. Кремовый фон,
+// оранжевая полоска слева (--accent5), inline-иконка. В отличие от
+// базовой callout — flex-row layout: иконка + body в одну строку.
+//
+// Разметка:
+//   .ss-callout.ss-callout--warning
+//     span.ss-callout__icon ⚡
+//     .ss-callout__body
+//       | Нужен срочный расчёт? Позвоните: #[strong +7 ...] — ...
+// ==============================================================
+.ss-callout--warning {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	background: #FFF7E0;
+	border-color: #F0D8A0;
+	border-left-color: var(--accent5);
+}
+
+.ss-callout__icon {
+	flex-shrink: 0;
+	font-size: 20px;
+	line-height: 1;
+	color: var(--accent5);
+}
+
 

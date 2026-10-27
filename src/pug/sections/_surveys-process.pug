@@ -1,0 +1,16 @@
+- var surveysProcess = [{ title: 'Выберите тип системы', text: 'РОУ/БРОУ, СВК, ИТП, обвязка калорифера или оборудование — у каждого типа свой лист с нужными полями.' }, { title: 'Заполните известные параметры', text: 'Не нужно знать всё. Обязательны только 3–5 ключевых поля. Остальное уточним при общении.' }, { title: 'Инженер рассчитает и пришлёт КП', text: 'В течение 1 рабочего дня — состав системы, принципиальная схема, стоимость и сроки поставки.' }]
+
+section.ss-section.ss-surveys__process
+	.ss-container.ss-wrapper
+		.ss-section-header.ss-section-header--column
+			.ss-section-header__title
+				p.ss-kicker.ss-txt-secondary Процесс
+				h2.ss-h2 Как работает опросный лист
+
+		ul.ss-comp-grid
+			each item, i in surveysProcess
+				li(class='ss-comp-item' + (i === 1 ? ' ss-comp-item--active' : ''))
+					span.ss-comp-item__num= ('0' + (i + 1)).slice(-2)
+					.ss-comp-item__body
+						h3.ss-comp-item__title= item.title
+						p.ss-comp-item__text= item.text

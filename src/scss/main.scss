@@ -39,6 +39,7 @@
 @use "blocks/_info-card";
 @use "blocks/_expert-card";
 @use "blocks/_team-card";
+@use "blocks/_survey-card";
 @use "blocks/_form-row";
 @use "blocks/_filters";
 @use "blocks/_filter-bar";
@@ -158,6 +159,7 @@
 @use "pages/_about";
 @use "pages/_team";
 @use "pages/_single-employee";
+@use "pages/_surveys";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

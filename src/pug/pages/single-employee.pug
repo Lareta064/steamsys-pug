@@ -28,7 +28,7 @@ block content
 					aside.ss-sotrudnik__aside
 						.ss-sotrudnik__photo
 							img(src=`${basePath}img/sotrudnik.webp` srcset=`${basePath}img/sotrudnik.webp 1x, ${basePath}img/sotrudnik@2x.webp 2x` width='280' height='370' alt='Павел Гилепп' fetchpriority='high')
-						+ssBtn('Задать вопрос специалисту', { variant: 'primary wrap-sm', xsFull: true, tag: 'a', href: '#' })
+						+ssBtn('Задать вопрос специалисту', { variant: 'primary ss-btn--wrap-sm', xsFull: true, tag: 'a', href: '#' })
 						a.ss-sotrudnik__back(href='./team.html') ← Вся команда
 
 					//- ── Правая колонка: контент ────────────────────────────────
@@ -94,7 +94,8 @@ block content
 								a.ss-sotrudnik__ref(href='#')
 									span.ss-tag.ss-tag--mini.ss-tag--scheme Статья
 									span.ss-sotrudnik__ref-title Как выбрать тип конденсатоотводчика: поплавковый, термодинамический или термостатический
-
+							.ss-btn-wrapper
+								+ssBtn('Показать еще', { variant: 'dark'})
 		include ../sections/_feedback-b24-inner.pug
 
 	include ../sections/_footer.pug
