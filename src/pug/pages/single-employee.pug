@@ -1,0 +1,101 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Паулина Гилепп — Команда — Паровые системы — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./') Главная
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./about.html') О компании
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./team.html') Команда
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Паулина Гилепп
+
+	main.ss-main-inner.ss-sotrudnik
+		section.ss-section.ss-sotrudnik__body
+			.ss-container.ss-container--narrow.ss-wrapper
+				.ss-grid.ss-sotrudnik__layout
+
+					//- ── Левая колонка: фото + кнопка + назад ──────────────────
+					aside.ss-sotrudnik__aside
+						.ss-sotrudnik__photo
+							img(src=`${basePath}img/sotrudnik.webp` srcset=`${basePath}img/sotrudnik.webp 1x, ${basePath}img/sotrudnik@2x.webp 2x` width='280' height='370' alt='Павел Гилепп' fetchpriority='high')
+						+ssBtn('Задать вопрос специалисту', { variant: 'primary wrap-sm', xsFull: true, tag: 'a', href: '#' })
+						a.ss-sotrudnik__back(href='./team.html') ← Вся команда
+
+					//- ── Правая колонка: контент ────────────────────────────────
+					.ss-sotrudnik__content
+
+						//- Шапка
+						.ss-sotrudnik__head
+							span.ss-tag.ss-tag--mini.ss-tag--scheme Технический отдел
+							h1.ss-h1 Павел Гилепп
+							p.ss-sotrudnik__role Технический директор
+
+						//- Компетенции
+						.ss-sotrudnik__section
+							p.ss-kicker.ss-txt-secondary.ss-sotrudnik__label Компетенции
+							.ss-tag-group
+								span.ss-tag.ss-tag--mini Пароконденсатные системы
+								span.ss-tag.ss-tag--mini Конденсатоотводчики TLV
+								span.ss-tag.ss-tag--mini РОУ / БРОУ
+								span.ss-tag.ss-tag--mini Технический подбор
+								span.ss-tag.ss-tag--mini Проектирование систем
+								span.ss-tag.ss-tag--mini Авторизация TLV Japan
+
+						//- Опыт
+						.ss-sotrudnik__section
+							p.ss-kicker.ss-txt-secondary.ss-sotrudnik__label Опыт
+							dl.ss-sotrudnik__timeline
+								div.ss-sotrudnik__trow
+									dt.ss-sotrudnik__tyear 2010 — н.в.
+									dd.ss-sotrudnik__tbody
+										p.ss-sotrudnik__ttitle Технический директор — Паровые системы
+										p.ss-sotrudnik__tdesc Руководство техническим отделом, проектирование РОУ/БРОУ и СВК, технический подбор оборудования TLV, шеф-монтаж на объектах.
+								div.ss-sotrudnik__trow
+									dt.ss-sotrudnik__tyear 2004 — 2010
+									dd.ss-sotrudnik__tbody
+										p.ss-sotrudnik__ttitle Главный инженер — Инженерное предприятие
+										p.ss-sotrudnik__tdesc Проектирование и наладка систем теплоснабжения промышленных предприятий.
+
+						//- Образование
+						.ss-sotrudnik__section
+							p.ss-kicker.ss-txt-secondary.ss-sotrudnik__label Образование
+							dl.ss-sotrudnik__timeline
+								div.ss-sotrudnik__trow
+									dt.ss-sotrudnik__tyear 2004
+									dd.ss-sotrudnik__tbody
+										p.ss-sotrudnik__ttitle МЭИ — Теплоэнергетика
+										p.ss-sotrudnik__tdesc Московский энергетический институт. Кафедра промышленной теплоэнергетики.
+								div.ss-sotrudnik__trow
+									dt.ss-sotrudnik__tyear 2012
+									dd.ss-sotrudnik__tbody
+										p.ss-sotrudnik__ttitle Авторизация TLV Japan — инженерный курс
+										p.ss-sotrudnik__tdesc Сертифицированный специалист по подбору и обслуживанию пароконденсатного оборудования TLV.
+
+						//- Статьи и кейсы
+						.ss-sotrudnik__section
+							p.ss-kicker.ss-txt-secondary.ss-sotrudnik__label Статьи и кейсы
+							.ss-sotrudnik__refs
+								a.ss-sotrudnik__ref(href='#')
+									span.ss-tag.ss-tag--mini.ss-tag--scheme Статья
+									span.ss-sotrudnik__ref-title Почему замерзают конденсатоотводчики и как это предотвратить
+								a.ss-sotrudnik__ref(href='#')
+									span.ss-tag.ss-tag--mini.ss-tag--cert Кейс
+									span.ss-sotrudnik__ref-title Монтаж РОУ 16 бар на ЦБК Сыктывкар — возврат 85% конденсата
+								a.ss-sotrudnik__ref(href='#')
+									span.ss-tag.ss-tag--mini.ss-tag--scheme Статья
+									span.ss-sotrudnik__ref-title Как выбрать тип конденсатоотводчика: поплавковый, термодинамический или термостатический
+
+		include ../sections/_feedback-b24-inner.pug
+
+	include ../sections/_footer.pug
+	include ../sections/_modal-request-b24.pug

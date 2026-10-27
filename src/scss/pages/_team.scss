@@ -3,3 +3,8 @@
 .ss-team {
 	// page root
 }
+
+// Trustbar на странице команды — белый фон (по умолчанию ss-trustbar серый).
+.ss-team__trustbar {
+	background: var(--white);
+}

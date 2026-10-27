@@ -128,17 +128,3 @@
 	inset: 0;
 	border-radius: inherit;
 }
-
-// CTA-кнопка — поднята выше stretched-link, чтобы оставаться кликабельной.
-// white-space: normal разрешает перенос длинного текста кнопки.
-.ss-team-card__action {
-	margin-top: 10px;
-	position: relative;
-	z-index: 1;
-
-	.ss-btn {
-		white-space: normal;
-		text-align: center;
-		font-size: 14px;
-	}
-}

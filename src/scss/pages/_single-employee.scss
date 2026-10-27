@@ -1,0 +1,195 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// Страница одного сотрудника (single-employee.html)
+// Breadcrumbs-полоса → двухколоночный layout (aside + content)
+// в узком контейнере.
+// ==============================================================
+
+// Двухколоночный grid: 280px aside + 1fr content.
+// align-items: start — колонки не тянутся по высоте.
+.ss-sotrudnik__layout {
+	grid-template-columns: 280px 1fr;
+	column-gap: 48px;
+	align-items: start;
+
+	@include down($lg) {
+		grid-template-columns: 220px 1fr;
+		column-gap: 30px;
+	}
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+	}
+}
+
+// Левая колонка — липкая, остаётся в поле зрения при скролле контента.
+.ss-sotrudnik__aside {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	position: sticky;
+	top: calc(var(--header-height, 70px) + 24px);
+
+	@include down($md) {
+		position: static;
+	}
+}
+
+// Фото сотрудника: max 370px, contain, центрирован по горизонтали.
+.ss-sotrudnik__photo {
+	width: 100%;
+	max-width: 280px;
+	aspect-ratio: 280/370;
+	max-height: 370px;
+	border-radius: 10px;
+	background: var(--secondary2);
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: center;
+	}
+
+}
+
+// Ссылка «← Вся команда»
+.ss-sotrudnik__back {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-family: var(--font-family);
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--secondary);
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent1);
+	}
+}
+
+// Правая колонка
+.ss-sotrudnik__content {
+	display: flex;
+	flex-direction: column;
+	gap: 36px;
+	padding-bottom: 60px;
+}
+
+// Шапка: тег + h1 + должность
+.ss-sotrudnik__head {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+.ss-sotrudnik__role {
+	margin: 0;
+	font-family: var(--font-family);
+	font-size: 16px;
+	font-weight: 400;
+	color: var(--secondary);
+}
+
+// Секция (компетенции / опыт / образование / статьи)
+.ss-sotrudnik__section {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.ss-sotrudnik__label {
+	margin: 0;
+}
+
+// Таймлайн (опыт / образование)
+.ss-sotrudnik__timeline {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	margin: 0;
+	padding: 0;
+}
+
+.ss-sotrudnik__trow {
+	display: grid;
+	grid-template-columns: 100px 1fr;
+	gap: 16px;
+	align-items: start;
+
+	@include down($xs) {
+		grid-template-columns: 1fr;
+		gap: 4px;
+	}
+}
+
+.ss-sotrudnik__tyear {
+	font-family: var(--font-family);
+	font-size: 13px;
+	color: var(--secondary);
+	padding-top: 2px;
+	white-space: nowrap;
+}
+
+.ss-sotrudnik__tbody {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.ss-sotrudnik__ttitle {
+	margin: 0;
+	font-family: var(--font-family);
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--primary);
+}
+
+.ss-sotrudnik__tdesc {
+	margin: 0;
+	font-family: var(--font-family);
+	font-size: 14px;
+	color: var(--secondary);
+	line-height: 1.5;
+}
+
+// Ссылки на статьи/кейсы
+.ss-sotrudnik__refs {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.ss-sotrudnik__ref {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	gap: 12px;
+	align-items: center;
+	padding: 14px 16px;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	text-decoration: none;
+	color: var(--primary);
+	transition: border-color .2s;
+
+	&:hover {
+		border-color: var(--accent1);
+	}
+}
+
+.ss-sotrudnik__ref-title {
+	font-family: var(--font-family);
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--primary);
+	line-height: 1.4;
+}

@@ -114,6 +114,20 @@
 	text-align: center;
 }
 
+// ==============================
+// Модификатор --wrap-sm. Компактный вариант --wrap: шрифт 13px,
+// min-height вместо фиксированной высоты, вертикальный padding 8px.
+// Кейс — узкая левая колонка (сайдбар сотрудника и аналогичные).
+// ==============================
+.ss-btn--wrap-sm {
+	white-space: normal;
+	height: auto;
+	min-height: 44px;
+	padding-block: 8px;
+	font-size: 13px;
+	text-align: center;
+}
+
 // На всю ширину контейнера
 .ss-btn--full {
 	width: 100%;

@@ -91,7 +91,7 @@
 		}
 	]
 
-section.ss-section.ss-team__members
+section.ss-section.ss-section--tinted.ss-bg-gray.ss-team__members
 	.ss-container.ss-wrapper
 		.ss-section-header.ss-section-header--column
 			.ss-section-header__title
@@ -113,6 +113,6 @@ section.ss-section.ss-team__members
 								each tag in m.tags
 									span(class=`ss-tag ss-tag--mini${tag.mod ? ' ' + tag.mod : ''}`)= tag.label
 							p.ss-team-card__bio= m.bio
-							if m.cta
-								.ss-team-card__action
-									+ssBtn(m.cta, { variant: 'primary', xsFull: true, tag: 'a', href: '#' })
+							//- if m.cta
+							//- 	.ss-team-card__action
+							//- 		+ssBtn(m.cta, { variant: 'primary', xsFull: true, tag: 'a', href: '#' })
