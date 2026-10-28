@@ -1,25 +1,28 @@
 //- ============================================================
-//- Опросник РОУ/БРОУ — основной контент.
+//- Опросник РОУ — основной контент.
 //- Структура: прогресс (full-width) + grid 2 колонки (форма + sticky aside).
 //-
-//- Поля формы (name / id / required / value) соответствуют продакшн-форме:
-//- https://www.steamsys.ru/forms/index8.php — для бесшовной интеграции
-//- с текущим Bitrix-обработчиком. UX-слой (progress-bar, sidebar
-//- «Что получите / Минимум для расчёта») — redesign-only.
+//- Все поля (name / required / value для radio / hidden) соответствуют
+//- продакшн-шаблону Bitrix: опросники-php/index8.php (admin dump).
+//- Программист переносит разметку в Bitrix «как есть» — атрибуты уже правильные.
+//-
+//- Отличие от прода: добавлены единицы измерения справа от инпутов
+//- (т/ч, бар, °C) — в проде они не выведены, оставлены как UX-подсказки.
 //- ============================================================
 
-- var surveySections = [{ num: 1, title: 'Контактная информация', badge: 'required' }, { num: 2, title: 'Параметры пара', badge: 'optional' }, { num: 3, title: 'КИПиА', badge: 'optional' }, { num: 4, title: 'Доп. оборудование', badge: 'optional' }, { num: 5, title: 'Дополнительно для проектировщика', badge: 'optional' }]
+- var surveySections = [{ num: 1, title: 'Контактная информация', badge: 'required' }, { num: 2, title: 'Параметры пара и охлаждающей воды', badge: 'required' }, { num: 3, title: 'Комплектация устройствами', badge: 'optional' }, { num: 4, title: 'Примечание', badge: 'optional' }]
 
 - var surveyGetItems = ['Состав системы РОУ/БРОУ', 'Принципиальная схема P&ID', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
 
-//- Параметры пара (Section 2) — name/id из продакшн-формы index8.php
-- var steamParams = [{ name: 'flow_rate', label: 'Расход пара (min / nom / max)', unit: 'т/ч', placeholder: '0.5 / 2 / 4', type: 'text' }, { name: 'pressure', label: 'Давление пара (min / max)', unit: 'бар', placeholder: '8 / 14', type: 'text' }, { name: 'inlet_temp', label: 'Температура пара на входе', unit: '°C', placeholder: 'например, 220', type: 'number' }, { name: 'outlet_pressure', label: 'Давление пара на выходе', unit: 'бар', placeholder: '3 / 6', type: 'text' }, { name: 'outlet_temp', label: 'Температура пара на выходе', unit: '°C', placeholder: 'например, 150', type: 'number' }, { name: 'cool_pressure', label: 'Давление охлаждающей воды', unit: 'бар', placeholder: 'например, 6', type: 'text' }, { name: 'cool_temp', label: 'Температура охлаждающей воды', unit: '°C', placeholder: 'например, 20', type: 'number' }, { name: 'backpressure', label: 'Противодавление в конденсатной линии', unit: 'бар', placeholder: 'например, 0.5', type: 'text' }]
+//- Параметры пара и охлаждающей воды (Section 2). Все text input из прода.
+//- Единицы (unit) — наши добавки для UX, в проде единиц в HTML нет.
+- var steamParams = [{ name: 'steamr', label: 'Расход пара мин / ном / макс', unit: 'т/ч', required: true }, { name: 'steampress', label: 'Давление пара на входе мин / макс', unit: 'бар', required: true }, { name: 'steamtstart', label: 'Температура пара на входе мин / макс', unit: '°C', required: true }, { name: 'steamtpressstop', label: 'Давление пара на выходе', unit: 'бар', required: true }, { name: 'steamtstop', label: 'Температура пара на выходе', unit: '°C', required: true }, { name: 'vaterpress', label: 'Располагаемое давление охлаждающей воды мин / макс', unit: 'бар', required: true }, { name: 'vatert', label: 'Температура охлаждающей воды', unit: '°C', required: true }, { name: 'antipress', label: 'Противодавление в конденсатопроводе', unit: 'бар', required: false }]
 
-//- КИПиА — чекбоксы Section 3 (name/id — продакшн-форма)
-- var instrumentsSet = [{ name: 'cabinet', label: 'Шкаф автоматики' }, { name: 'temp_sensor', label: 'Датчик температуры' }, { name: 'thermometers', label: 'Термометры' }, { name: 'gauges', label: 'Манометры' }, { name: 'pressure_sensor', label: 'Датчик давления' }]
+//- КИП — RADIO (не чекбоксы!) с 5 значениями. В проде name='kip', value='1'...'5'.
+- var kipOptions = [{ value: '1', label: 'Шкаф управления' }, { value: '2', label: 'Датчик температуры' }, { value: '3', label: 'Датчик давления' }, { value: '4', label: 'Термометры' }, { value: '5', label: 'Манометры' }]
 
-//- Доп. оборудование — чекбоксы Section 4 (name/id — продакшн-форма)
-- var additionalSet = [{ name: 'shutoff', label: 'Запорная арматура' }, { name: 'insulation', label: 'Теплоизоляция' }, { name: 'flanges', label: 'Фланцы и крепёж' }, { name: 'trap', label: 'Конденсатоотводчик' }, { name: 'relief', label: 'Предохранительный клапан' }]
+//- Доп. комплектация — RADIO (не чекбоксы!) с 4 значениями. В проде name='dopkomp', value='1'...'4'.
+- var dopkompOptions = [{ value: '1', label: 'Запорная арматура' }, { value: '2', label: 'Теплоизоляция трубопроводов' }, { value: '3', label: 'Конденсатоотводчики' }, { value: '4', label: 'Предохранительный клапан' }]
 
 section.ss-section.ss-single-survey__body
 	.ss-container.ss-wrapper
@@ -32,137 +35,154 @@ section.ss-section.ss-single-survey__body
 			.ss-single-survey__progress-bar(aria-hidden='true')
 				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
 			p.ss-single-survey__progress-hint
-				| Обязательных полей: #[strong 4]. Остальное&nbsp;— уточним при общении.
+				| Обязательных полей: #[strong 11]. Остальное&nbsp;— уточним при общении.
 
 		.ss-single-survey__wrap
 
 			//- ─── MAIN: форма ───────────────────────────────────────
-			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='/forms/index8.php' enctype='multipart/form-data')
+			//- action='' — форма сабмитится на свою страницу (в Bitrix PHP установит URL).
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='')
+
+				//- Hidden-поля для Bitrix nimdaCreateLead():
+				//-   PAGE  — URL страницы (PHP: SERVER_NAME + REQUEST_URI)
+				//-   save  — флаг обработки ('Y')
+				//-   TITLE — название опросника (приходит в лид)
+				//-   rand  — анти-дубль (PHP: rand())
+				input(type='hidden' name='save' value='Y')
+				input(type='hidden' name='TITLE' value='Опросный лист РОУ')
+				input(type='hidden' name='PAGE' value='')
+				input(type='hidden' name='rand' value='')
 
 				//- Section 1 — Контактная информация
 				section.ss-form-section.ss-form-section--required#section-1
 					.ss-form-section__head
 						span.ss-form-section__num 1
 						h3.ss-form-section__title Контактная информация
-						span.ss-form-section__badge Обязательно
-					p.ss-form-section__sub Кто вы и для какого предприятия подбираем РОУ/БРОУ
+						span.ss-tag.ss-tag--mini-primary Обязательно
+					p.ss-form-section__sub Кто вы и для какого предприятия подбираем РОУ
 					.ss-form-section__body
 						.ss-form-section__row
 							.ss-form-field
-								label.ss-form-field__label(for='company')
-									| Название компании
+								label.ss-form-field__label(for='COMPANY_TITLE')
+									| Организация
 									span.ss-form-field__req *
-								input.ss-form-field__input(type='text' id='company' name='company' required placeholder='ООО «Название предприятия»')
+								input.ss-form-field__input(type='text' id='COMPANY_TITLE' name='COMPANY_TITLE' required placeholder='название компании')
 							.ss-form-field
-								label.ss-form-field__label(for='contact')
+								label.ss-form-field__label(for='NAME')
 									| Контактное лицо
 									span.ss-form-field__req *
-								input.ss-form-field__input(type='text' id='contact' name='contact' required placeholder='Александр Иванов')
+								input.ss-form-field__input(type='text' id='NAME' name='NAME' required placeholder='контактное лицо')
 							.ss-form-field
-								label.ss-form-field__label(for='phone')
-									| Телефон
+								label.ss-form-field__label(for='PHONE')
+									| Телефон / факс
 									span.ss-form-field__req *
-								input.ss-form-field__input(type='tel' id='phone' name='phone' required placeholder='+7 (___) ___-__-__')
+								input.ss-form-field__input(type='tel' id='PHONE' name='PHONE' required placeholder='+7 (000) 000-00-00')
 							.ss-form-field
-								label.ss-form-field__label(for='email')
+								label.ss-form-field__label(for='EMAIL')
 									| E-mail
 									span.ss-form-field__req *
-								input.ss-form-field__input(type='email' id='email' name='email' required placeholder='engineer@company.ru')
+								input.ss-form-field__input(type='text' id='EMAIL' name='EMAIL' required placeholder='Ваш e-mail')
 
-				//- Section 2 — Параметры пара
-				section.ss-form-section.ss-form-section--optional#section-2
+				//- Section 2 — Параметры пара + Расположение + Тип привода
+				section.ss-form-section.ss-form-section--required#section-2
 					.ss-form-section__head
 						span.ss-form-section__num 2
-						h3.ss-form-section__title Параметры пара
-						span.ss-form-section__badge Желательно
-					p.ss-form-section__sub Основные режимы работы установки — на входе, на выходе и охлаждающая среда
+						h3.ss-form-section__title Параметры пара и&nbsp;охлаждающей воды
+						span.ss-tag.ss-tag--mini-primary Обязательно
+					p.ss-form-section__sub Основные режимы работы РОУ&nbsp;— давление/температура на входе и&nbsp;на выходе
 					.ss-form-section__body
+						//- 8 числовых параметров (все text, часть required)
 						.ss-form-section__row
 							each f in steamParams
 								.ss-form-field.ss-form-field--unit
-									label.ss-form-field__label(for=f.name)= f.label
+									label.ss-form-field__label(for=f.name)
+										| #{f.label}
+										if f.required
+											span.ss-form-field__req *
 									.ss-form-field__row
-										input.ss-form-field__input(type=f.type step='any' id=f.name name=f.name placeholder=f.placeholder)
+										input.ss-form-field__input(type='text' id=f.name name=f.name required=f.required)
 										span.ss-form-field__unit= f.unit
+
+						//- Расположение — радио (raspol: 1=в помещении, 2=на улице)
 						.ss-form-field.ss-form-field--full
-							span.ss-form-field__label Расположение установки
+							span.ss-form-field__label Расположение
 							.ss-form-field__radios
 								label.ss-radio-opt
-									input(type='radio' name='location' value='indoor')
+									input(type='radio' name='raspol' value='1')
 									span В помещении
 								label.ss-radio-opt
-									input(type='radio' name='location' value='outdoor')
-									span На открытом воздухе
+									input(type='radio' name='raspol' value='2')
+									span На улице
+
+						//- Тип привода (typeklap: 1=электрический, 2=пневматический)
 						.ss-form-field.ss-form-field--full
-							span.ss-form-field__label Привод регулирующего клапана
+							span.ss-form-field__label Тип привода регулирующих клапанов
 							.ss-form-field__radios
 								label.ss-radio-opt
-									input(type='radio' name='drive' value='electric')
+									input(type='radio' name='typeklap' value='1')
 									span Электрический
 								label.ss-radio-opt
-									input(type='radio' name='drive' value='pneumatic')
+									input(type='radio' name='typeklap' value='2')
 									span Пневматический
 
-				//- Section 3 — КИПиА
+				//- Section 3 — Комплектация (kip + dopkomp)
+				//- ВАЖНО: это РАДИО-группы (не чекбоксы) — пользователь выбирает одну позицию.
 				section.ss-form-section.ss-form-section--optional#section-3
 					.ss-form-section__head
 						span.ss-form-section__num 3
-						h3.ss-form-section__title КИПиА
-						span.ss-form-section__badge Необязательно
-					p.ss-form-section__sub Контрольно-измерительные приборы и автоматика&nbsp;— что включить в&nbsp;состав поставки
+						h3.ss-form-section__title Комплектация устройствами
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Можно заказать только устройства для снижения давления / температуры, либо комплектную установку со всеми необходимыми устройствами управления и&nbsp;безопасности
 					.ss-form-section__body
-						.ss-checkbox-grid
-							each item in instrumentsSet
-								label.ss-check-opt
-									input(type='checkbox' name=item.name value='1')
-									span= item.label
+						//- kip — радио 1-5
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Устройства КИП
+							.ss-form-field__radios
+								each opt in kipOptions
+									label.ss-radio-opt
+										input(type='radio' name='kip' value=opt.value)
+										span= opt.label
 
-				//- Section 4 — Доп. оборудование
+						//- dopkomp — радио 1-4
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Дополнительная комплектация
+							.ss-form-field__radios
+								each opt in dopkompOptions
+									label.ss-radio-opt
+										input(type='radio' name='dopkomp' value=opt.value)
+										span= opt.label
+
+				//- Section 4 — Примечание
 				section.ss-form-section.ss-form-section--optional#section-4
 					.ss-form-section__head
 						span.ss-form-section__num 4
-						h3.ss-form-section__title Дополнительное оборудование
-						span.ss-form-section__badge Необязательно
-					p.ss-form-section__sub Сопутствующие компоненты для системы РОУ/БРОУ
-					.ss-form-section__body
-						.ss-checkbox-grid
-							each item in additionalSet
-								label.ss-check-opt
-									input(type='checkbox' name=item.name value='1')
-									span= item.label
-
-				//- Section 5 — Дополнительно для проектировщика
-				section.ss-form-section.ss-form-section--optional#section-5
-					.ss-form-section__head
-						span.ss-form-section__num 5
-						h3.ss-form-section__title Дополнительно для&nbsp;проектировщика
-						span.ss-form-section__badge Необязательно
-					p.ss-form-section__sub Опишите задачу подробнее или прикрепите схему / спецификацию / чертёж
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
 					.ss-form-section__body
 						.ss-form-field.ss-form-field--full
-							label.ss-form-field__label(for='notes') Комментарий или описание задачи
-							textarea.ss-form-field__input.ss-form-field__input--textarea(id='notes' name='notes' rows='4' placeholder='Опишите задачу в свободной форме: симптомы проблемы, ограничения по месту установки, особенности объекта. Чем больше контекста — тем точнее подбор.')
-						.ss-form-field.ss-form-field--full
-							span.ss-form-field__label Прикрепить файлы (схема, чертёж, фото, спецификация)
-							input.ss-form-field__file(type='file' id='attachments' name='attachments[]' multiple accept='.pdf,.dwg,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png')
-							p.ss-form-field__hint До 5 файлов. Форматы: PDF, DWG, Word, Excel, JPG, PNG. Максимум 10 МБ.
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
 
 				//- Submit-блок (тёмный)
+				//- legal_top — чекбокс согласия (required в проде). Текст и ссылка 1-в-1 с index8.php.
 				.ss-form-submit
 					h3.ss-form-submit__title Готово&nbsp;— отправить инженеру?
 					p.ss-form-submit__text Расчёт и&nbsp;КП пришлём в&nbsp;течение 1&nbsp;рабочего дня. Если параметров мало&nbsp;— уточним по&nbsp;телефону.
 					label.ss-check-opt.ss-check-opt--light.ss-form-submit__consent
-						input(type='checkbox' name='privacy' required)
+						input(type='checkbox' name='legal_top' value='Y' required)
 						span
-							| Согласен с&nbsp;
-							a(href='#' target='_blank') политикой конфиденциальности
-					+ssBtn('Отправить параметры инженеру →', { variant: 'white', full: true, tag: 'button' })(type='submit')
+							| Нажимая «Отправить», принимаю согласие на&nbsp;обработку&nbsp;
+							a(href='/include/licenses_detail.php' target='_blank') персональных данных
+					+ssBtn('Отправить', { variant: 'white', full: true, tag: 'button' })(type='submit')
 					p.ss-form-submit__note Без обязательств. Данные конфиденциальны.
 
 			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
 			aside.ss-sticky-side.ss-single-survey__aside
 
 				//- 1) Nav «Разделы опросного листа»
+				//- .js-toc + .ss-toc__link — подхватывается src/js/toc.js:
+				//- smooth-scroll по клику + scroll-spy через [aria-current="location"].
 				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
 					h3.ss-form-nav__title Разделы опросного листа
 					ol.ss-form-nav__list
@@ -185,4 +205,3 @@ section.ss-section.ss-single-survey__body
 						|  Срок:&nbsp;
 						strong 1 рабочий день
 						|  с&nbsp;момента получения параметров
-

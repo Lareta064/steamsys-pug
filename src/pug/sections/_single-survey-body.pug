@@ -26,11 +26,12 @@ mixin koSection(num, isRequired)
 		var suffix = num - 1;
 		var badge = isRequired ? 'Обязательно' : 'Необязательно';
 		var modCls = isRequired ? 'ss-form-section--required' : 'ss-form-section--optional';
+		var badgeCls = isRequired ? 'ss-tag ss-tag--mini-primary' : 'ss-tag ss-tag--mini';
 	section(class='ss-form-section ' + modCls id='section-' + num)
 		.ss-form-section__head
 			span.ss-form-section__num= num
 			h3.ss-form-section__title Конденсатоотводчик №#{suffix}
-			span.ss-form-section__badge= badge
+			span(class=badgeCls)= badge
 		p.ss-form-section__sub #{isRequired ? 'Параметры первого конденсатоотводчика' : 'Если нужно подобрать ещё один — заполните этот блок'}
 		.ss-form-section__body
 
@@ -110,7 +111,7 @@ section.ss-section.ss-single-survey__body
 					.ss-form-section__head
 						span.ss-form-section__num 1
 						h3.ss-form-section__title Контактная информация
-						span.ss-form-section__badge Обязательно
+						span.ss-tag.ss-tag--mini-primary Обязательно
 					p.ss-form-section__sub Кто вы и для какого предприятия подбираем конденсатоотводчик
 					.ss-form-section__body
 						.ss-form-section__row
@@ -145,7 +146,7 @@ section.ss-section.ss-single-survey__body
 					.ss-form-section__head
 						span.ss-form-section__num 5
 						h3.ss-form-section__title Примечание
-						span.ss-form-section__badge Необязательно
+						span.ss-tag.ss-tag--mini Необязательно
 					p.ss-form-section__sub Опишите задачу подробнее
 					.ss-form-section__body
 						.ss-form-field.ss-form-field--full
