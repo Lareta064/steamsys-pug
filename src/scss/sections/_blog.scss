@@ -61,34 +61,34 @@
 // ==== Role filter ====
 
 // «Я:» + пилюли ролей. Горизонтальный ряд, на мобилке — TODO: свайп.
-.ss-blog__roles {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-	margin-bottom: 32px;
+// .ss-blog__roles {
+// 	display: flex;
+// 	align-items: center;
+// 	gap: 16px;
+// 	margin-bottom: 32px;
 
-	@include down($md) {
-		gap: 12px;
-	}
-}
+// 	@include down($md) {
+// 		gap: 12px;
+// 	}
+// }
 
-.ss-blog__roles-label {
-	flex-shrink: 0;
-	font-family: var(--font-family);
-	font-weight: 500;
-	font-size: 14px;
-	line-height: 1.4;
-	color: var(--secondary);
-}
+// .ss-blog__roles-label {
+// 	flex-shrink: 0;
+// 	font-family: var(--font-family);
+// 	font-weight: 500;
+// 	font-size: 14px;
+// 	line-height: 1.4;
+// 	color: var(--secondary);
+// }
 
-.ss-blog__roles-list {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 10px;
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
+// .ss-blog__roles-list {
+// 	display: flex;
+// 	flex-wrap: wrap;
+// 	gap: 10px;
+// 	list-style: none;
+// 	padding: 0;
+// 	margin: 0;
+// }
 
 
 // ==== Toolbar (title + sort select) ====
