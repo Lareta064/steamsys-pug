@@ -1,7 +1,7 @@
 extends ../layouts/layout.pug
 
 block variables
-	-var title = "Паулина Гилепп — Команда — Паровые системы — STEAMSYS";
+	-var title = "Павел Гилепп — Команда — Паровые системы — STEAMSYS";
 	-var bodyCl = "ss-wrapper";
 
 block content
@@ -17,7 +17,7 @@ block content
 						a.ss-breadcrumbs__link(href='./about.html') О компании
 					li.ss-breadcrumbs__item
 						a.ss-breadcrumbs__link(href='./team.html') Команда
-					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Паулина Гилепп
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Павел Гилепп
 
 	main.ss-main-inner.ss-sotrudnik
 		section.ss-section.ss-sotrudnik__body
@@ -27,7 +27,7 @@ block content
 					//- ── Левая колонка: фото + кнопка + назад ──────────────────
 					aside.ss-sotrudnik__aside
 						.ss-sotrudnik__photo
-							img(src=`${basePath}img/sotrudnik.webp` srcset=`${basePath}img/sotrudnik.webp 1x, ${basePath}img/sotrudnik@2x.webp 2x` width='280' height='370' alt='Павел Гилепп' fetchpriority='high')
+							img(src=`${basePath}img/sotrudnik.webp` width='280' height='370' alt='Павел Гилепп' fetchpriority='high')
 						+ssBtn('Задать вопрос специалисту', { variant: 'primary ss-btn--wrap-sm', xsFull: true, tag: 'a', href: '#' })
 						a.ss-sotrudnik__back(href='./team.html') ← Вся команда
 

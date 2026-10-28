@@ -1,0 +1,726 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// Страница одного опросного листа (single-survey.html).
+// Форма подбора по параметрам системы (РОУ/БРОУ и т.п.).
+// ==============================================================
+
+.ss-single-survey {
+	&__body{padding-top: 40px;}
+	@include down($md){
+		&__body{padding-top: 20px;}
+	}
+}
+
+// ==============================================================
+// Основной контент — прогресс (full-width) + grid (main + sticky aside).
+// ==============================================================
+
+.ss-single-survey__wrap {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 340px;
+	gap: 32px;
+	align-items: start;
+
+	@include down($xxl) {
+		grid-template-columns: minmax(0, 1fr) 300px;
+		gap: 24px;
+	}
+
+	@include down($lg) {
+		grid-template-columns: 1fr;
+	}
+}
+
+.ss-single-survey__main {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+// ==============================================================
+// .ss-form-section — секция опросника. Белая карточка с бордером,
+// в head — круг с номером + title + badge («Обязательно»/«Необязательно»).
+// Модификаторы --required / --optional управляют цветом круга и badge.
+// ==============================================================
+.ss-form-section {
+	padding: 28px;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	background: var(--white);
+	// Отступ сверху при переходе по #section-N якорю — чтобы заголовок
+	// секции не прятался под sticky-шапкой. --header-height ставит JS.
+	scroll-margin-top: calc(var(--header-height, 60px) + 20px);
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+.ss-form-section__head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-bottom: 4px;
+}
+
+// Круг с номером — 28×28, тёмный у required, серый у optional/role
+.ss-form-section__num {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: var(--secondary2);
+	color: var(--secondary);
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 13px;
+	line-height: 1;
+}
+
+.ss-form-section--required .ss-form-section__num {
+	background: var(--primary);
+	color: var(--white);
+}
+
+.ss-form-section__title {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+// Badge — pill «Обязательно»/«Желательно»/«Необязательно»
+.ss-form-section__badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 10px;
+	border-radius: 100px;
+	background: var(--primary);
+	color: var(--white);
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 11px;
+	line-height: 1.3;
+}
+
+.ss-form-section--optional .ss-form-section__badge {
+	background: var(--secondary2);
+	color: var(--secondary);
+}
+
+.ss-form-section__sub {
+	margin: 0 0 20px 38px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--secondary);
+
+	@include down($md) {
+		margin-left: 0;
+	}
+}
+
+.ss-form-section__body {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+// ==============================================================
+// .ss-form-section__row — ряд полей в 2 колонки (desktop), стек на mobile.
+// Именование BEM-ветви от .ss-form-section — иначе было бы конфликт имени
+// с UI-блоком .ss-form-row (тёмная промо-плашка «Есть спецификация?»).
+// ==============================================================
+.ss-form-section__row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 16px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+	}
+}
+
+// ==============================================================
+// .ss-form-field — поле формы: label сверху + input (c опц. unit-suffix)
+// + опц. hint. Модификаторы:
+//   --unit — ряд [input | suffix] в общей рамке
+//   --full — поле на всю ширину (внутри .ss-form-section__row занимает 2 колонки)
+// ==============================================================
+.ss-form-field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 0;
+}
+
+.ss-form-field--full {
+	grid-column: 1 / -1;
+}
+
+.ss-form-field__label {
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--primary);
+}
+
+.ss-form-field__req {
+	margin-left: 2px;
+	color: var(--error);
+}
+
+.ss-form-field__input {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	height: 44px;
+	padding: 0 14px;
+	border: 1px solid var(--secondary2);
+	border-radius: 8px;
+	background: var(--white);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--primary);
+	outline: none;
+	transition: border-color .2s;
+
+	&::placeholder {
+		color: var(--secondary1);
+		@include down($md){
+			font-size:13px;
+		}
+	}
+
+	&:focus-visible {
+		border-color: var(--accent1);
+	}
+
+	&[type='number'] {
+		-moz-appearance: textfield;
+
+		&::-webkit-inner-spin-button,
+		&::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+	}
+}
+
+.ss-form-field__input--textarea {
+	height: auto;
+	min-height: 110px;
+	padding: 12px 14px;
+	resize: none;
+	font-family: var(--font-family);
+}
+
+// Ряд [input | unit] — общая рамка, input без своего бордера,
+// unit справа на сером фоне.
+.ss-form-field--unit .ss-form-field__row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	border: 1px solid var(--secondary2);
+	border-radius: 8px;
+	background: var(--white);
+	transition: border-color .2s;
+
+	&:focus-within {
+		border-color: var(--accent1);
+	}
+
+	.ss-form-field__input {
+		border: 0;
+		background: transparent;
+	}
+}
+
+.ss-form-field__unit {
+	display: inline-flex;
+	align-items: center;
+	padding: 0 14px;
+	background: var(--secondary3);
+	border-left: 1px solid var(--secondary2);
+	border-top-right-radius: 7px;
+	border-bottom-right-radius: 7px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 13px;
+	color: var(--secondary);
+	white-space: nowrap;
+}
+
+.ss-form-field__hint {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary1);
+}
+
+// Radio-ряд (горизонтальный)
+.ss-form-field__radios {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	padding-top: 2px;
+}
+
+// File input — простой кастом с кнопкой «Выбрать файлы»
+.ss-form-field__file {
+	display: block;
+	padding: 10px 12px;
+	border: 1px solid var(--secondary2);
+	border-radius: 8px;
+	background: var(--white);
+	font-family: var(--font-family);
+	font-size: 14px;
+	color: var(--secondary);
+	cursor: pointer;
+
+	&::file-selector-button {
+		margin-right: 12px;
+		padding: 6px 14px;
+		border: 1px solid var(--secondary2);
+		border-radius: 6px;
+		background: var(--secondary3);
+		font-family: var(--font-family);
+		font-weight: 600;
+		font-size: 13px;
+		color: var(--primary);
+		cursor: pointer;
+		transition: background .15s;
+
+		&:hover {
+			background: var(--secondary2);
+		}
+	}
+}
+
+// ==============================================================
+// .ss-radio-opt / .ss-check-opt — компактные inline-опции для
+// radio/checkbox-групп. Нативный маркер остаётся — просто выравниваем
+// по центру с подписью.
+// ==============================================================
+.ss-radio-opt,
+.ss-check-opt {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--primary);
+	cursor: pointer;
+
+	input {
+		width: 16px;
+		height: 16px;
+		margin: 0;
+		accent-color: var(--primary);
+		cursor: pointer;
+	}
+}
+
+.ss-check-opt--light {
+	color: var(--white);
+
+	a {
+		color: var(--white);
+		text-decoration: underline;
+	}
+}
+
+.ss-checkbox-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px 24px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+}
+
+
+// ==============================================================
+// .ss-form-submit — тёмный submit-блок внизу формы. Чекбокс согласия,
+// большая CTA-кнопка, короткая подпись.
+// ==============================================================
+.ss-form-submit {
+	margin-top: 10px;
+	padding: 28px;
+	background: var(--primary);
+	border-radius: 10px;
+	color: var(--white);
+
+	@include down($md) {
+		padding: 20px;
+	}
+}
+
+.ss-form-submit__title {
+	margin: 0 0 8px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 1.3;
+	color: var(--white);
+}
+
+.ss-form-submit__text {
+	margin: 0 0 20px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.5;
+	color: var(--secondary2);
+}
+
+.ss-form-submit__consent {
+	margin-bottom: 16px;
+}
+
+.ss-form-submit__note {
+	margin: 10px 0 0;
+	text-align: center;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary1);
+}
+
+// --------------------------------------------------------------
+// Прогресс заполнения (над колонками)
+// --------------------------------------------------------------
+.ss-single-survey__progress {
+	margin-bottom: 32px;
+	padding: 30px 20px;
+	background-color: var(--secondary3);
+	border-radius: 10px;
+	@include down($md) {
+		margin-bottom: 20px;
+	}
+}
+
+.ss-single-survey__progress-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 20px;
+	margin-bottom: 10px;
+}
+
+.ss-single-survey__progress-label,
+.ss-single-survey__progress-value {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+.ss-single-survey__progress-value {
+	font-weight: 600;
+	color: var(--primary);
+}
+
+.ss-single-survey__progress-bar {
+	height: 4px;
+	background: var(--secondary2);
+	border-radius: 100px;
+	overflow: hidden;
+}
+
+.ss-single-survey__progress-fill {
+	height: 100%;
+	background: var(--accent1);
+	border-radius: 100px;
+	transition: width .3s ease;
+}
+
+.ss-single-survey__progress-hint {
+	margin: 10px 0 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--secondary1);
+
+	strong {
+		font-weight: 600;
+		color: var(--primary);
+	}
+}
+
+// --------------------------------------------------------------
+// Sticky-сайдбар — вертикальный стек из 4 блоков (nav + results +
+// min-callout + submit-cta).
+// --------------------------------------------------------------
+.ss-single-survey__aside {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+// --------------------------------------------------------------
+// .ss-form-nav — numbered-навигация по разделам опросника (локально).
+// Карточка с бордером/радиусом, список с кружками-номерами слева.
+// Активный пункт — тёмный кружок + белая цифра + bold label.
+// --------------------------------------------------------------
+.ss-form-nav {
+	padding: 20px;
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	background: var(--white);
+
+	// На <$md прячем — на моб. сайдбар уходит под форму, nav дублирует
+	// прокрутку, а scroll-spy теряет смысл в линейной раскладке.
+	@include down($md) {
+		display: none;
+	}
+}
+
+.ss-form-nav__title {
+	margin: 0 0 14px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--primary);
+}
+
+.ss-form-nav__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.ss-form-nav__link {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 8px 10px;
+	border-radius: 6px;
+	text-decoration: none;
+	color: var(--secondary);
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 1.3;
+	transition: background .2s, color .2s;
+
+	&:hover {
+		background: var(--secondary3);
+		color: var(--primary);
+	}
+
+	// Активный пункт — ставит JS src/js/toc.js (aria-current="location")
+	// по мере скролла пользователя между секциями формы.
+	&[aria-current='location'] {
+		color: var(--primary);
+		font-weight: 700;
+
+		.ss-form-nav__num {
+			background: var(--primary);
+			color: var(--white);
+		}
+	}
+}
+
+.ss-form-nav__num {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: var(--secondary2);
+	color: var(--secondary);
+	font-weight: 700;
+	font-size: 12px;
+	line-height: 1;
+	transition: background .2s, color .2s;
+}
+
+.ss-form-nav__label {
+	flex: 1;
+}
+
+// --------------------------------------------------------------
+// Результаты «Что получите в ответ»
+// --------------------------------------------------------------
+.ss-single-survey__results {
+	padding: 20px;
+
+	// На <$md прячем — на мобиле блок «Что получите в ответ» дублирует
+	// текст сообщений hero/CTA и съедает экран.
+	@include down($md) {
+		display: none;
+	}
+
+	.ss-info-card__title {
+		margin: 0 0 14px;
+		font-family: var(--font-family);
+		font-weight: 700;
+		font-size: 16px;
+		line-height: 1.4;
+		color: var(--primary);
+	}
+}
+
+.ss-single-survey__results-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.ss-single-survey__results-item {
+	display: flex;
+	gap: 10px;
+	padding: 10px 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--primary);
+	border-bottom: 1px solid var(--secondary3);
+
+	&:last-child {
+		border-bottom: none;
+	}
+}
+
+.ss-single-survey__results-check {
+	flex-shrink: 0;
+	color: var(--accent1);
+	font-weight: 700;
+}
+
+.ss-single-survey__results-term {
+	margin: 14px 0 0;
+	padding: 12px 14px;
+	background: var(--secondary3);
+	border-radius: 8px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--secondary);
+
+	strong {
+		font-weight: 600;
+		color: var(--primary);
+	}
+}
+
+.ss-single-survey__results-term-icon {
+	color: var(--secondary1);
+}
+
+// --------------------------------------------------------------
+// Callout «Минимум для расчёта» — вертикальный лейаут (не flex-row,
+// как у базового .ss-callout--warning). Переопределяем display на block,
+// плюс стили заголовка/списка.
+// --------------------------------------------------------------
+.ss-callout--stacked {
+	display: block;
+}
+
+.ss-single-survey__min-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 14px;
+	line-height: 1.3;
+	text-transform: none;
+	letter-spacing: 0;
+	color: var(--primary);
+}
+
+.ss-single-survey__min-icon {
+	font-size: 18px;
+}
+
+.ss-single-survey__min-lead {
+	margin: 0 0 10px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--primary);
+}
+
+.ss-single-survey__min-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	li {
+		display: flex;
+		gap: 8px;
+	}
+}
+
+.ss-single-survey__min-star {
+	color: var(--error);
+	font-weight: 700;
+}
+
+// --------------------------------------------------------------
+// Submit-CTA в сайдбаре — тёмная карточка.
+// Переопределяем .ss-cta-card локально: bg --primary, текст белый.
+// --------------------------------------------------------------
+.ss-single-survey__submit.ss-cta-card {
+	background: var(--primary);
+	border-color: var(--primary);
+	color: var(--white);
+
+	.ss-cta-card__title {
+		color: var(--white);
+	}
+
+	.ss-cta-card__text {
+		color: var(--secondary2);
+	}
+}
+
+.ss-single-survey__submit-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-top: 16px;
+}
+

@@ -15,17 +15,6 @@
 // Если паттерн приживётся — выносим как модификатор .ss-hero-inner--accent
 // в sections/_hero-inner.scss.
 // --------------------------------------------------------------
-.ss-surveys__hero {
-	.ss-hero-inner__body {
-		background: var(--accent1);
-		color: var(--white);
-
-		.ss-h1,
-		.ss-h2 {
-			color: var(--white);
-		}
-	}
-}
 
 // --------------------------------------------------------------
 // Секция «Все опросные листы» — вертикальный стек: header → urgency →
