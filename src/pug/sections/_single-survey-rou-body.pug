@@ -10,8 +10,6 @@
 
 - var surveySections = [{ num: 1, title: 'Контактная информация', badge: 'required' }, { num: 2, title: 'Параметры пара', badge: 'optional' }, { num: 3, title: 'КИПиА', badge: 'optional' }, { num: 4, title: 'Доп. оборудование', badge: 'optional' }, { num: 5, title: 'Дополнительно для проектировщика', badge: 'optional' }]
 
-- var surveyMustFields = ['Название компании', 'Контактное лицо', 'Телефон', 'E-mail', 'Параметры пара (вход / выход)']
-
 - var surveyGetItems = ['Состав системы РОУ/БРОУ', 'Принципиальная схема P&ID', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
 
 //- Параметры пара (Section 2) — name/id из продакшн-формы index8.php
@@ -188,22 +186,3 @@ section.ss-section.ss-single-survey__body
 						strong 1 рабочий день
 						|  с&nbsp;момента получения параметров
 
-				//- 3) Callout «Минимум для расчёта»
-				.ss-callout.ss-callout--warning.ss-callout--stacked
-					.ss-callout__body
-						p.ss-callout__kicker.ss-single-survey__min-title
-							span.ss-single-survey__min-icon 💡
-							|  Минимум для расчёта
-						p.ss-single-survey__min-lead Достаточно заполнить только 5&nbsp;ключевых полей:
-						ul.ss-single-survey__min-list
-							each f in surveyMustFields
-								li
-									span.ss-single-survey__min-star(aria-hidden='true') *
-									span= f
-
-				//- 4) Тёмная CTA «Параметры заполнены?»
-				.ss-cta-card.ss-cta-card--dark.ss-single-survey__submit
-					p.ss-cta-card__title Параметры заполнены?
-					p.ss-cta-card__text Отправьте&nbsp;— инженер ответит в&nbsp;течение 1&nbsp;рабочего дня с&nbsp;расчётом и&nbsp;КП.
-					.ss-single-survey__submit-actions
-						+ssBtn('↓ Скачать заполненный PDF', { variant: 'outline-white', full: true, tag: 'button' })(type='button')

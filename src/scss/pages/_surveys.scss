@@ -42,29 +42,6 @@
 	padding: 0;
 }
 
-// Футер со счётчиком + пагинацией. Без карточки/бордера (в отличие от
-// .ss-pagination-toolbar каталога) — просто горизонтальный ряд поверх
-// серого фона секции. На <$md стекуем в колонку.
-.ss-surveys__pagination {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 20px;
-	padding-top: 10px;
-
-	@include down($md) {
-		flex-direction: column;
-		align-items: flex-start;
-	}
-}
-
-.ss-surveys__pagination-summary {
-	margin: 0;
-	font-size: 14px;
-	color: var(--secondary);
-	white-space: nowrap;
-}
-
 // --------------------------------------------------------------
 // CTA-секция «Нет нужного типа?» — центрированная kicker + h2 + lead +
 // ряд из 2 кнопок. На белом фоне (базовый .ss-section). lead — max-width

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--=======убрать перевод цифр в номер телефона на ios  и safari ======-->
+  <meta name="format-detection" content="telephone=no">
+  <!--========= custom styles ========-->
+  <link rel="stylesheet" href="./css/main.css">
+  <title></title>
+</head>
+
+<body class="update-page">
+  <main class="calc-main calculator-single">
+    <div class="container-1440">
+      <div class="grid-column-left">
+        <div class="grid-column-sidebar">
+          <div class="sidebar-title txt-center">
+            <div class="font-20">Инженерный калькулятор</div>
+          </div>
+          <nav class="calc-menu">
+            <div class="acc acc--level-1 is-open">
+              <button class="acc__head acc__head--level-1" type="button">
+                <span>Пар</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__body">
+                <div class="acc__body-inner">
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Проектирование трубопроводов</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="calc-1.html">Расчет размера трубы по потерям давления</a>
+                        <a class="acc__link" href="calc-2.html">Расчет размера трубы по скорости</a>
+                        <a class="acc__link" href="#">Расчет размера вестовой трубы</a>
+                        <a class="acc__link" href="calc-3.html">Потери давления в трубопроводе</a>
+                        <a class="acc__link" href="calc-4.html">Скорость пара в трубопроводе</a>
+                        <a class="acc__link" href="calc-5.html">Расход пара в трубопроводе</a>
+                        <a class="acc__link" href="calc-39.html">Экономичная толщина изоляции</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Клапаны и сопла</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="calc-6.html">Значения пропускной способности Cv и Kv</a>
+                        <a class="acc__link" href="calc-7.html">Расход пара через клапан</a>
+                        <a class="acc__link" href="calc-8.html">Расход пара через сопло</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="acc acc--level-2 is-open">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Расход конденсата</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link is-active" href="calc-9.html">От трубопровода при запуске</a>
+                        <a class="acc__link" href="calc-10.html">При нагреве жидкости (непрерывном)</a>
+                        <a class="acc__link" href="calc-11.html">При нагреве жидкости (фиксированный объем)</a>
+                        <a class="acc__link" href="calc-12.html">При нагреве воздуха</a>
+                        <a class="acc__link" href="calc-13.html">От потери лучистого тепла в трубопроводах</a>
+                        <a class="acc__link" href="calc-18.html">Точка подтопления</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Улучшенная сухость пара</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="calc-19.html">От снижения давления</a>
+                        <a class="acc__link" href="calc-20.html">От снижения давления и отделения конденсата</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Эффект смеси пара и воздуха</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="calc-21.html">Падение температуры (на основе % воздуха)</a>
+                        <a class="acc__link" href="calc-22.html">% воздуха (на основе температуры смеси)</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Стоимость единицы пара и энергии</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="#">Стоимость единицы энергии</a>
+                        <a class="acc__link" href="#">Стоимость единицы пара</a>
+                      </div>
+                    </div>
+                  </div>
+                  <a class="acc__link acc__link--standalone" href="#">Эффективность котла</a>
+                </div>
+              </div>
+            </div>
+            <div class="acc acc--level-1">
+              <button class="acc__head acc__head--level-1" type="button">
+                <span>Возврат конденсата</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__body">
+                <div class="acc__body-inner">
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Экономический анализ</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="calc-31.html">Открытая система</a>
+                        <a class="acc__link" href="calc-32.html">Закрытая система</a>
+                        <a class="acc__link" href="calc-33.html">Теплообменник</a>
+                        <a class="acc__link" href="calc-34.html">Регенерация выпара</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Расчет размера трубы</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="calc-35.html">Между оборудованием и конденсатоотводчиком</a>
+                        <a class="acc__link" href="calc-36.html">Расчет размера трубы конденсатопровода по потерям давления</a>
+                        <a class="acc__link" href="calc-37.html">Расчет размера трубы конденсатопровода по скорости</a>
+                        <a class="acc__link" href="calc-38.html">Выпускная линия насоса</a>
+                      </div>
+                    </div>
+                  </div>
+                  <a class="acc__link acc__link--standalone" href="calc-14.html">Образование выпара</a>
+                </div>
+              </div>
+            </div>
+            <div class="acc acc--level-1">
+              <button class="acc__head acc__head--level-1" type="button">
+                <span>Вода</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__body">
+                <div class="acc__body-inner">
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Проектирование трубопроводов</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="calc-23.html">Расчет размера трубы по потерям давления</a>
+                        <a class="acc__link" href="calc-24.html">Расчет размера трубы по скорости</a>
+                        <a class="acc__link" href="calc-25.html">Потеря давления через трубопровод</a>
+                        <a class="acc__link" href="calc-26.html">Скорость прохождения воды через трубу</a>
+                        <a class="acc__link" href="calc-27.html">Расход воды в трубе</a>
+                        <a class="acc__link" href="#">Экономичная толщина изоляции трубопроводов охлаждённой воды</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Клапаны и сопла</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="calc-29.html">Значения пропускной способности Cv и Kv</a>
+                        <a class="acc__link" href="calc-28.html">Расход воды через клапан</a>
+                        <a class="acc__link" href="calc-30.html">Расход воды через сопло</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="acc acc--level-1">
+              <button class="acc__head acc__head--level-1" type="button">
+                <span>Воздух</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__body">
+                <div class="acc__body-inner">
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Расчет трубопроводов</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="#">Расчет по потерям давления</a>
+                        <a class="acc__link" href="#">Расчет по скорости</a>
+                        <a class="acc__link" href="#">Потеря давления через трубопровод</a>
+                        <a class="acc__link" href="#">Скорость прохождения воздуха через трубопровод</a>
+                        <a class="acc__link" href="#">Расход воздуха в трубе</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Клапаны и сопла</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="#">Значения пропускной способности Cv и Kv</a>
+                        <a class="acc__link" href="#">Расход воздуха через клапан</a>
+                        <a class="acc__link" href="#">Расход воздуха через сопло</a>
+                      </div>
+                    </div>
+                  </div>
+                  <a class="acc__link acc__link--standalone" href="#">Расход конденсата в системах сжатого воздуха</a>
+                  <a class="acc__link acc__link--standalone" href="#">Таблица насыщения для влажного воздуха</a>
+                </div>
+              </div>
+            </div>
+            <div class="acc acc--level-1">
+              <button class="acc__head acc__head--level-1" type="button">
+                <span>Газ</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__body">
+                <div class="acc__body-inner">
+                  <div class="acc acc--level-2">
+                    <button class="acc__head acc__head--level-2" type="button">
+                      <span class="acc__icon" aria-hidden="true"></span>
+                      <span>Проектирование трубопроводов</span>
+                    </button>
+                    <div class="acc__body">
+                      <div class="acc__body-inner">
+                        <a class="acc__link" href="#">Потеря давления через трубопровод</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="acc acc--level-1">
+              <button class="acc__head acc__head--level-1" type="button">
+                <span>Паровые таблицы</span>
+                <span class="acc__icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc__body">
+                <div class="acc__body-inner">
+                  <a class="acc__link acc__link--standalone" href="calc-15.html">Таблица свойств насыщенного пара (по давлению)</a>
+                  <a class="acc__link acc__link--standalone" href="calc-16.html">Таблица свойств насыщенного пара (по температуре)</a>
+                  <a class="acc__link acc__link--standalone" href="calc-17.html">Таблица свойств перегретого пара</a>
+                </div>
+              </div>
+            </div>
+          </nav>
+          <div class="sidebar-nav">
+            <a class="sidebar-nav-link" href="#!">Условия использования</a>
+            <a class="sidebar-nav-link sidebar-nav-link--accent" href="#!">Продукция</a>
+          </div>
+        </div>
+        <div class="grid-column-main grid-column-calc">
+          <div class="grid-column-head">
+            <p class="breadcrumb">Тут компонент breadcrumbs</p>
+            <h1 class="h-30">Расход конденсата в трубопроводе при запуске</h1>
+          </div>
+          <form class="calculator-form custom-form" data-calc="11310">
+            <div class="calculator-form__head">
+              <div class="semi-24">Начальные данные</div>
+              <div class="calculator-form__measure">
+                <p class="medi-16">Единицы измерения</p>
+                <div class="dropdown dropdown--abs">
+                  <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">SI(бар)</button>
+                  <div class="dropdown__list">
+                    <ul>
+                      <li class="dropdown__list-item">
+                        <label class="form-radio-label">
+                          <input type="radio" name="measure" value="0">
+                          <span class="form-radio-name">SI</span>
+                        </label>
+                      </li>
+                      <li class="dropdown__list-item">
+                        <label class="form-radio-label">
+                          <input type="radio" name="measure" value="1" checked>
+                          <span class="form-radio-name">SI (бар)</span>
+                        </label>
+                      </li>
+                      <li class="dropdown__list-item">
+                        <label class="form-radio-label">
+                          <input type="radio" name="measure" value="2">
+                          <span class="form-radio-name">Imperial</span>
+                        </label>
+                      </li>
+                      <li class="dropdown__list-item">
+                        <label class="form-radio-label">
+                          <input type="radio" name="measure" value="3">
+                          <span class="form-radio-name">МКС</span>
+                        </label>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="calculator-form__body">
+              <div class="calculator-fieldset form-two-cols">
+                <div class="form-item-group">
+                  <div class="form-label">
+                    <span>Класс трубопровода</span>
+                  </div>
+                  <div class="dropdown" data-var="pipeGrade" data-type="grade">
+                    <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">DIN 2448</button>
+                    <div class="dropdown__list">
+                      <ul>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="truboprovod_class" value="7" checked>
+                            <span class="form-radio-name">DIN 2448</span>
+                          </label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-item-group">
+                  <div class="form-label">
+                    <span>Диаметр трубопровода</span>
+                  </div>
+                  <div class="dropdown" data-var="pipeSize" data-type="size">
+                    <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">DN6</button>
+                    <div class="dropdown__list">
+                      <ul>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="0" checked>
+                            <span class="form-radio-name">DN6</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="1">
+                            <span class="form-radio-name">DN8</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="2">
+                            <span class="form-radio-name">DN10</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="3">
+                            <span class="form-radio-name">DN15</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="4">
+                            <span class="form-radio-name">DN20</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="5">
+                            <span class="form-radio-name">DN25</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="6">
+                            <span class="form-radio-name">DN32</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="7">
+                            <span class="form-radio-name">DN40</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="8">
+                            <span class="form-radio-name">DN50</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="9">
+                            <span class="form-radio-name">DN65</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="10">
+                            <span class="form-radio-name">DN80</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="11">
+                            <span class="form-radio-name">DN100</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="12">
+                            <span class="form-radio-name">DN125</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="13">
+                            <span class="form-radio-name">DN150</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="14">
+                            <span class="form-radio-name">DN200</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="15">
+                            <span class="form-radio-name">DN250</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="16">
+                            <span class="form-radio-name">DN300</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="17">
+                            <span class="form-radio-name">DN350</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="18">
+                            <span class="form-radio-name">DN400</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="19">
+                            <span class="form-radio-name">DN450</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="diametr_truboprovoda" value="20">
+                            <span class="form-radio-name">DN500</span>
+                          </label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-item-group">
+                  <div class="form-label has-tooltip">
+                    <span>Изоляция</span>
+                    <div class="tooltip-wrapper">
+                      <span class="tooltip-icon">i</span>
+                      <div class="tooltip-text">
+                        <p>Изоляция :
+                          <br />Значения теплопроводности в соответствии со стандартами JIS
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown" data-var="insType" data-type="select">
+                    <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">Минеральная вата Rockwool</button>
+                    <div class="dropdown__list">
+                      <ul>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="izolyatsiya" value="0" checked>
+                            <span class="form-radio-name">Минеральная вата Rockwool</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="izolyatsiya" value="1">
+                            <span class="form-radio-name">Стекловата</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="izolyatsiya" value="2">
+                            <span class="form-radio-name">Силикат кальция</span>
+                          </label>
+                        </li>
+                        <li class="dropdown__list-item">
+                          <label class="form-radio-label">
+                            <input type="radio" name="izolyatsiya" value="3">
+                            <span class="form-radio-name">Перлит</span>
+                          </label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-item-group">
+                  <div class="form-label">Давление пара</div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="current_davlenie_para" data-var="stmPress" data-cat="pressureAbs" inputmode="decimal" value="0">
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">barG</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="0">
+                              <span class="form-radio-name">кПа абс.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="1">
+                              <span class="form-radio-name">МПа абс.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="2">
+                              <span class="form-radio-name">psi абс.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="3">
+                              <span class="form-radio-name">бар абс.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="4">
+                              <span class="form-radio-name">кг/см² абс.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="5">
+                              <span class="form-radio-name">мм рт. ст. абс.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="6">
+                              <span class="form-radio-name">кПа изб.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="7">
+                              <span class="form-radio-name">МПа изб.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="8">
+                              <span class="form-radio-name">psig</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="9" checked>
+                              <span class="form-radio-name">бар изб.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="10">
+                              <span class="form-radio-name">кг/см² изб.</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="davlenie_para" value="11">
+                              <span class="form-radio-name">мм рт. ст. изб.</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-item-group">
+                  <div class="form-label has-tooltip">
+                    <span>Температура пара</span>
+                    <div class="tooltip-wrapper">
+                      <span class="tooltip-icon">i</span>
+                      <div class="tooltip-text">
+                        <p>Температура пара :
+                          <br />Для перегретого пара введите температуру выше, чем температура насыщения
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="current_temperatura_para" data-var="stmTemp" data-cat="temp" inputmode="decimal" value="(99.9743)">
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">°C</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="temperatura_para" value="0" checked>
+                              <span class="form-radio-name">°C</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="temperatura_para" value="1">
+                              <span class="form-radio-name">°F</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="temperatura_para" value="2">
+                              <span class="form-radio-name">K</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-item-group">
+                  <div class="form-label">Скорость ветра</div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="current_skorost_vetra" data-var="windVelo" data-cat="velocity" inputmode="decimal" value="0" data-min="0" data-min-inclusive>
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">m/s</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="skorost_vetra" value="0" checked>
+                              <span class="form-radio-name">м/с</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="skorost_vetra" value="1">
+                              <span class="form-radio-name">км/ч</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="skorost_vetra" value="2">
+                              <span class="form-radio-name">фут/с</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="skorost_vetra" value="3">
+                              <span class="form-radio-name">миль/ч</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-item-group">
+                  <div class="form-label">Толщина теплоизоляционного покрытия</div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="current_tolshchina_izol" data-var="insThick" data-cat="length" inputmode="decimal" value="0">
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">mm</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="tolshchina_izol" value="0" checked>
+                              <span class="form-radio-name">мм</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="tolshchina_izol" value="1">
+                              <span class="form-radio-name">см</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="tolshchina_izol" value="2">
+                              <span class="form-radio-name">м</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="tolshchina_izol" value="3">
+                              <span class="form-radio-name">дюйм</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="tolshchina_izol" value="4">
+                              <span class="form-radio-name">фут</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="tolshchina_izol" value="5">
+                              <span class="form-radio-name">ярд</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-item-group">
+                  <div class="form-label has-tooltip">
+                    <span>Длина трубопровода</span>
+                    <div class="tooltip-wrapper">
+                      <span class="tooltip-icon">i</span>
+                      <div class="tooltip-text">
+                        <p>Длина трубопровода :
+                          <br />Введите полную длину трубопровода
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="current_dlina" data-var="pipeLen" data-cat="length" inputmode="decimal" value="0">
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">m</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="dlina" value="0">
+                              <span class="form-radio-name">мм</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="dlina" value="1">
+                              <span class="form-radio-name">см</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="dlina" value="2" checked>
+                              <span class="form-radio-name">м</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="dlina" value="3">
+                              <span class="form-radio-name">дюйм</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="dlina" value="4">
+                              <span class="form-radio-name">фут</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="dlina" value="5">
+                              <span class="form-radio-name">ярд</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-item-group">
+                  <div class="form-label">Температура окружающей среды</div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="current_temp_okr" data-var="ambTemp" data-cat="temp" inputmode="decimal" value="0">
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">°C</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="temp_okr" value="0" checked>
+                              <span class="form-radio-name">°C</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="temp_okr" value="1">
+                              <span class="form-radio-name">°F</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="temp_okr" value="2">
+                              <span class="form-radio-name">K</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-item-group">
+                  <div class="form-label">Время разогрева</div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="current_time_razogreva" data-var="startTime" data-cat="time" inputmode="decimal" value="10">
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">min</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="time_razogreva" value="0" checked>
+                              <span class="form-radio-name">мин</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="time_razogreva" value="1">
+                              <span class="form-radio-name">ч</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="calculator-form__footer flex-column flex-center">
+              <button class="form-button" type="submit">Рассчитать</button>
+              <button class="w-auto btn-clear-form" type="reset">Очистить</button>
+            </div>
+            <div class="calculator-form__result">
+              <p class="semi-24">Результат:</p>
+              <div class="calculator-result-block">
+                <p class="medi-16" data-result-note></p>
+                <!--На прогрев трубы-->
+                <div class="calculator-result-row form-item-group">
+                  <div class="form-label">
+                    <span>На прогрев трубы</span>
+                  </div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="res_mh" data-out="condHeatPipe" data-cat="mass" inputmode="decimal" readonly>
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">kg</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="res_mh_unit" value="kg" checked>
+                              <span class="form-radio-name">кг</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="res_mh_unit" value="t(metric)">
+                              <span class="form-radio-name">т</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="res_mh_unit" value="lb">
+                              <span class="form-radio-name">фунт</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--От теплопотерь с поверхности-->
+                <div class="calculator-result-row form-item-group">
+                  <div class="form-label">
+                    <span>От теплопотерь с поверхности</span>
+                  </div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="res_mr" data-out="condRadiant" data-cat="mass" inputmode="decimal" readonly>
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">kg</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="res_mr_unit" value="kg" checked>
+                              <span class="form-radio-name">кг</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="res_mr_unit" value="t(metric)">
+                              <span class="form-radio-name">т</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="res_mr_unit" value="lb">
+                              <span class="form-radio-name">фунт</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Общий расход конденсата-->
+                <div class="calculator-result-row form-item-group">
+                  <div class="form-label">
+                    <span>Общий расход конденсата</span>
+                  </div>
+                  <div class="form-item form-item--measure">
+                    <input class="form-inp form-inp--measure" type="text" name="res_mc" data-out="condTotal" data-cat="mass" inputmode="decimal" readonly>
+                    <div class="dropdown dropdown--measure">
+                      <button class="dropdown__button" type="button" aria-haspopup="listbox" aria-expanded="false">kg</button>
+                      <div class="dropdown__list">
+                        <ul>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="res_mc_unit" value="kg" checked>
+                              <span class="form-radio-name">кг</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="res_mc_unit" value="t(metric)">
+                              <span class="form-radio-name">т</span>
+                            </label>
+                          </li>
+                          <li class="dropdown__list-item">
+                            <label class="form-radio-label">
+                              <input type="radio" name="res_mc_unit" value="lb">
+                              <span class="form-radio-name">фунт</span>
+                            </label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="formulas">
+            <div class="formulas__title">Формулы:</div>
+            <div class="formulas__block">
+              <div class="formulas__image">
+                <img src="./img/calc/calc-9.webp" width="600" height="200" loading="lazy" alt="img">
+              </div>
+              <div class="formulas__list">
+                <table>
+                  <tr>
+                    <td>Ts</td>
+                    <td>: Температура пара (°C)</td>
+                  </tr>
+                  <tr>
+                    <td>L</td>
+                    <td>: Толщина теплоизоляционного покрытия (m)</td>
+                  </tr>
+                  <tr>
+                    <td>l</td>
+                    <td>: Длина трубопровода (m)</td>
+                  </tr>
+                  <tr>
+                    <td>Tam</td>
+                    <td>: Температура окружающей среды (°C)</td>
+                  </tr>
+                  <tr>
+                    <td>α</td>
+                    <td>: Коэффициент теплопередачи (W/m²-K)</td>
+                  </tr>
+                  <tr>
+                    <td>λ</td>
+                    <td>: Коэффициент теплопроводности (W/m-K)</td>
+                  </tr>
+                  <tr>
+                    <td>tSU</td>
+                    <td>: Время разогрева (min)</td>
+                  </tr>
+                  <tr>
+                    <td>mh</td>
+                    <td>: Расход конденсата на разогрев трубы (kg)</td>
+                  </tr>
+                  <tr>
+                    <td>mr</td>
+                    <td>: Расход конденсата за счет теплопотерь с поверхности трубы (kg)</td>
+                  </tr>
+                  <tr>
+                    <td>mc</td>
+                    <td>: Общий расход конденсата (kg)</td>
+                  </tr>
+                  <tr>
+                    <td>cp</td>
+                    <td>: Удельная теплоемкость трубы (kJ/kg K)</td>
+                  </tr>
+                  <tr>
+                    <td>Wp</td>
+                    <td>: Вес трубы (kg/m)</td>
+                  </tr>
+                  <tr>
+                    <td>d1</td>
+                    <td>: Внешний диаметр трубы (m)</td>
+                  </tr>
+                  <tr>
+                    <td>∆H</td>
+                    <td>: Скрытая теплота парообразования (kJ/kg)</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="./js/main.js"></script>
+</body>
+
+</html>

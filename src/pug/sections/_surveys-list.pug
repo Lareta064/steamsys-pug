@@ -45,6 +45,16 @@
 			fields: ['Давление на входе (бар)', 'Требуемое давление на выходе (бар)', 'Расход (кг/ч)', 'DN', 'Среда', 'Температура (°C)', 'Тип регулирования']
 		},
 		{
+			title: 'Паровой теплообменник',
+			sub: 'Подбор по тепловой мощности и параметрам сред',
+			fields: ['Давление пара (бар)', 'Температура пара (°C)', 'Расход пара (кг/ч)', 'Нагреваемая среда (вода / воздух / др.)', 'Расход нагреваемой среды', 'Температура входа / выхода (°C)', 'Тепловая мощность (кВт)']
+		},
+		{
+			title: 'Эжектор',
+			sub: 'Пароструйный эжектор — вакуум или нагрев',
+			fields: ['Рабочая среда', 'Давление рабочей среды (бар)', 'Температура рабочей среды (°C)', 'Давление всасываемой среды (бар)', 'Температура всасываемой среды (°C)', 'Расход (кг/ч)', 'Коэффициент эжекции']
+		},
+		{
 			title: 'Техническая диагностика / экспертиза',
 			sub: 'Аудит пароконденсатной системы',
 			fields: ['Тип объекта / отрасль', 'Что беспокоит (симптом или проблема)', 'Количество КО / тип системы', 'Дата последней диагностики', 'Предпочтительный формат (выезд / онлайн)', 'Срочность']
@@ -80,24 +90,28 @@ section.ss-section.ss-section--tinted.ss-bg-gray.ss-surveys__list
 								each f in item.fields
 									li= f
 							.ss-survey-card__actions
-								+ssBtn('Заполнить онлайн', { variant: 'dark', tag: 'a', href: item.href || '#' })
+								+ssBtn('Заполнить онлайн', {  tag: 'a', href: item.href || '#' })
 
-		.ss-surveys__pagination
-			p.ss-surveys__pagination-summary
+		//- Bottom toolbar: белая карточка с summary слева и .ss-pagination справа.
+		//- Квадратные стрелки prev/next, nowrap-ряд.
+		.ss-pagination-toolbar
+			p.ss-pagination-toolbar__summary
 				| Показано&nbsp;
-				strong 9
+				strong 11
 				|  из&nbsp;
-				strong 24
-				|  опросных листов
+				strong 12
+				span.ss-pagination-toolbar__summary-models  опросных листов
 			nav.ss-pagination(aria-label='Страницы опросных листов')
 				ol.ss-pagination__list
 					li.ss-pagination__item
-						a.ss-pagination__link(href='#', aria-current='page') 1
+						span.ss-pagination__link.ss-pagination__link--nav.ss-pagination__arrow--prev(aria-disabled='true' aria-label='Предыдущая страница')
+							+svgIcon('arrow-right')
+					li.ss-pagination__item
+						a.ss-pagination__link(href='#' aria-current='page') 1
 					li.ss-pagination__item
 						a.ss-pagination__link(href='#') 2
 					li.ss-pagination__item
 						a.ss-pagination__link(href='#') 3
 					li.ss-pagination__item
-						a.ss-pagination__link.ss-pagination__link--nav(href='#')
-							| Следующая
+						a.ss-pagination__link.ss-pagination__link--nav(href='#' aria-label='Следующая страница')
 							+svgIcon('arrow-right')

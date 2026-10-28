@@ -36,7 +36,7 @@
 // Head — верхний блок с тайтлом и подзаголовком. По умолчанию светло-серый.
 .ss-survey-card__head {
 	padding: 20px 24px;
-	background: var(--secondary3);
+	background: var(--secondary2);
 	color: var(--primary);
 
 	@include down($md) {
@@ -136,11 +136,11 @@
 // белым тайтлом и badge-плашкой сверху. Акцентный border.
 // --------------------------------------------------------------
 .ss-survey-card--featured {
-	border-color: var(--primary);
+	border-color: var(--accent1);
 	border-width: 2px;
 
 	.ss-survey-card__head {
-		background: var(--primary);
+		background: var(--accent1);
 		color: var(--white);
 	}
 
