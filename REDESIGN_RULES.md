@@ -86,24 +86,96 @@
 
 4. **Ссылка на стартовой** — добавить `a(href="./<name>.html") <Название>` в `src/pug/pages/index.pug`.
 
-5. **Если у страницы есть hero с фоновой картинкой** (`.ss-hero-inner--dark`) — задать картинку через CSS custom properties в `<style>` в `<head>`. Градиент и позиционирование уже прописаны в `_hero-inner.scss`, страничный CSS их не дублирует.
-
-   В `block variables` файла страницы добавить однострочный `customStyle` с прямым `background-image` и media-query (важно — однострочно, без переносов):
-   ```pug
-   -var customStyle = `.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/<mobile>.webp')}@media(min-width:1024px){.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/<desktop>.webp')}}`
-   ```
-
-   **Почему прямой `background-image`, а не CSS custom property.**  
-   Браузеры резолвят `url()` внутри `var()` относительно `main.css` (а не HTML-документа), поэтому путь `./img/` ведёт в несуществующую папку `css/img/`. При прямом `background-image` в `<style>` внутри `<head>` путь резолвится относительно HTML-документа — надёжно и кроссбраузерно. Градиент, `background-size`, `position` — по-прежнему в `_hero-inner.scss`.
-
-   `${basePath}img/<mobile>.webp` — мобильная картинка (до 1024px).  
-   `${basePath}img/<desktop>.webp` — десктопная (от 1024px). Если нет отдельной мобильной — одно и то же имя в обоих местах.
-
-   Файлы изображений в проекте: `solution-hero.webp` / `solution-hero@2x.webp` (портфолио, single-case), `cases-mob.webp` / `cases.webp` (страница кейсов).
-
-   На Битриксе шаблон страницы выводит этот `<style>` в `<head>` с абсолютными URL из медиабиблиотеки (`/upload/...`). Breakpoint (1024px) прописан прямо в шаблоне — он стабилен и не меняется без перевёрстки.
+5. **Hero внутренней страницы** — используем `.ss-hero-inner` с одним из двух модификаторов темы: `--dark` или `--light`. **Отдельных локальных hero-блоков с кастомными паддингами не делаем** (см. правила ниже).
 
 После этого ждём от пользователя задач по секциям страницы.
+
+
+## Hero внутренних страниц — правила
+
+Все hero внутренних страниц строятся на одном компоненте `.ss-hero-inner` (`src/scss/sections/_hero-inner.scss`). Единая разметка, единые паддинги, единые цвета — чтобы hero выглядел консистентно по всему сайту.
+
+### Разметка (одна для обоих вариантов)
+
+```pug
+section.ss-hero-inner.ss-hero-inner--dark.ss-<page>__hero   //- или --light
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./') Главная
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') <страница>
+
+	.ss-hero-inner__body
+		.ss-container.ss-wrapper
+			.ss-hero-inner__body-inner
+				span.ss-kicker <Киккер>
+				h1.ss-h1 <Заголовок>
+				p.ss-hero-inner__lead <Лид>
+				//- .ss-hero-inner__actions — опционально, ряд CTA-кнопок
+```
+
+### Паддинги — одинаковые для всех внутренних hero
+
+Задаются в базе `_hero-inner.scss` и **не переопределяются** на уровне страницы:
+- `__crumbs` — `padding: calc(14px + var(--header-height)) 0 14px` (учитывает высоту fixed-шапки сверху)
+- `__body` — `padding-block: 56px` на десктопе / `40px` на `<$md`
+
+Если нужно нестандартное пространство — делаем это на уровне содержимого (например, `.ss-hero-inner__actions` даёт свой `margin-top`), а не на `.ss-section` обёртке с локальным `padding-block`. **Нельзя** оборачивать hero в `.ss-section` или `.ss-<page>__hero-section` с своими паддингами — это создаёт расхождение в вёрстке между страницами.
+
+### Цвета киккера — автоматически через модификатор
+
+Базовый `.ss-kicker` имеет цвет `accent1`. Scope-правила в `_hero-inner.scss` переопределяют его для `--dark`:
+
+| Модификатор hero | Цвет kicker (`.ss-kicker`) |
+| --- | --- |
+| `.ss-hero-inner--dark` | `--accent3` (светло-голубой, читается на тёмном) |
+| `.ss-hero-inner--light` | `--accent1` (брендовый синий, базовый цвет) |
+
+**В разметке `.ss-txt-accent1` / `.ss-txt-accent3` / `.ss-txt-secondary*` на киккере НЕ пишем** — цвет приходит автоматом. Эти overrides считаются багом вёрстки.
+
+Текст h1/lead:
+- `--dark` → белый (`.ss-h1` переопределён в scope модификатора)
+- `--light` → `--primary` (базовый цвет `.ss-h1`)
+
+### Фоновая картинка
+
+Опциональна. Для `--dark` рекомендуется, для `--light` — на усмотрение (может быть и без картинки, просто белый фон).
+
+**Два способа подключения:**
+
+**(a) Inline-style через `customStyle`** — используется, когда картинка сложная и важно, чтобы Bitrix передавал её URL через переменную шаблона. В `block variables` страницы:
+```pug
+-var customStyle = `.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/<mobile>.webp')}@media(min-width:1024px){.ss-hero-inner--dark .ss-hero-inner__body{background-image:url('${basePath}img/<desktop>.webp')}}`
+```
+
+**(b) Через `image-set` в page-SCSS** — используется, когда есть набор `1x/@2x` и хочется, чтобы картинка жила в CSS. Пример (`_docs.scss`):
+```scss
+.ss-docs__hero.ss-hero-inner--light {
+	.ss-hero-inner__body {
+		background-image: image-set(
+			url('../img/bg_docs.webp') 1x,
+			url('../img/bg_docs@2x.webp') 2x
+		);
+
+		@include down($md) {
+			background-image: image-set(
+				url('../img/bg_docs-mobile.webp') 1x,
+				url('../img/bg_docs-mobile@2x.webp') 2x
+			);
+		}
+	}
+}
+```
+Путь `url('../img/...')` — относительно `build/css/main.css`.
+
+**Почему прямой `background-image`, а не CSS custom property.**  
+Браузеры резолвят `url()` внутри `var()` относительно `main.css` (а не HTML-документа), поэтому путь `./img/` ведёт в несуществующую папку `css/img/`. При прямом `background-image` в `<style>` внутри `<head>` или в page-SCSS путь резолвится предсказуемо.
+
+**Файлы изображений в проекте:** `solution-hero.webp` / `solution-hero@2x.webp` (портфолио, single-case), `cases-mob.webp` / `cases.webp` (страница кейсов), `bg_docs.webp` / `bg_docs-mobile.webp` (документация).
+
+**Градиент-завеса** для читаемости текста поверх картинки — встроена в `_hero-inner.scss` (90deg linear-gradient от 92% непрозрачного фона слева до 0% справа). Для `--dark` завеса тёмная (rgba primary), для `--light` — белая (rgba white). На странице не дублируется.
 
 ## Что верстаем: компоненты, а не секции
 
