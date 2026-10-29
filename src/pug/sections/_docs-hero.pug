@@ -1,30 +1,27 @@
 //- ============================================================
-//- Hero страницы «Документация» (docs.html). Крошки + kicker + h1 +
-//- lead + 2 CTA на белом фоне (без фоновой картинки). Паттерн 1-в-1
-//- с brands-hero: своя обёртка .ss-docs__hero с flex-column layout,
-//- без тёмного .ss-hero (который зарезервирован под home-hero).
+//- Hero страницы «Документация» (docs.html).
+//- Темный .ss-hero-inner--dark с крошками сверху + kicker + h1 + lead.
+//- Фоновая картинка — опционально через `customStyle` в docs.pug (пока нет).
 //- ============================================================
 
-//- Крошки
-section.ss-doc-layout__crumbs
-	.ss-container.ss-wrapper
-		nav.ss-breadcrumbs(aria-label='Хлебные крошки')
-			ol.ss-breadcrumbs__list
-				li.ss-breadcrumbs__item
-					a.ss-breadcrumbs__link(href='./') Главная
-				li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Документация
+section.ss-hero-inner.ss-hero-inner--dark.ss-docs__hero
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./') Главная
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Документация
 
-//- Hero
-section.ss-section
-	.ss-container.ss-wrapper
-		.ss-docs__hero
-			.ss-docs__hero-head
-				p.ss-kicker Технические материалы
+	.ss-hero-inner__body
+		.ss-container.ss-wrapper
+			.ss-hero-inner__body-inner
+				span.ss-kicker.ss-txt-accent3 Технические материалы
 				h1.ss-h1 Документация
-				p.ss-docs__hero-lead
+				p.ss-hero-inner__lead
 					| Паспорта, сертификаты, типовые схемы, инструкции и&nbsp;таблицы подбора.
 					br
-					| CAD/3D/BIM — по&nbsp;запросу за&nbsp;1&nbsp;рабочий день.
-			.ss-docs__hero-actions
-				//- +ssBtn('Найти документ', { variant: 'dark' })(type='button')
-				//- +ssBtn('Запросить CAD / 3D / BIM', { variant: 'outline-dark' })(type='button' data-modal='request-b24')
+					| CAD/3D/BIM&nbsp;— по&nbsp;запросу за&nbsp;1&nbsp;рабочий день.
+				//- .ss-hero-inner__actions
+				//- 	+ssBtn('Найти документ', { variant: 'primary' })(type='button')
+				//- 	+ssBtn('Запросить CAD / 3D / BIM', { variant: 'outline-white' })(type='button' data-modal='request-b24')

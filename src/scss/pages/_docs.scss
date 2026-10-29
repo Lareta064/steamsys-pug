@@ -2,63 +2,9 @@
 
 // ==============================================================
 // .ss-docs — страница «Документация» (docs.html).
-// Reuse: .ss-breadcrumbs, .ss-section, .ss-container, .ss-kicker,
-// .ss-h1, +ssBtn, _feedback-b24-inner.
-// Локальные классы — только для hero-обёртки (своя из-за того,
-// что .ss-hero занят под home-hero с тёмным фоном).
+// Hero — .ss-hero-inner--dark (sections/_hero-inner.scss),
+// локальных стилей hero не требуется.
 // ==============================================================
-
-
-// ---------- Hero ----------
-.ss-docs__hero {
-	display: flex;
-	flex-direction: column;
-	row-gap: 40px;
-	max-width: 920px;
-
-	@include down($md) {
-		row-gap: 24px;
-	}
-}
-
-.ss-docs__hero-head {
-	display: flex;
-	flex-direction: column;
-	row-gap: 20px;
-
-	.ss-kicker { margin: 0; }
-	.ss-h1 { margin: 0; }
-}
-
-.ss-docs__hero-lead {
-	margin: 0;
-	font-family: var(--font-family);
-	font-weight: 400;
-	font-size: 18px;
-	line-height: 1.5;
-	color: var(--secondary);
-
-	@include down($md) {
-		font-size: 16px;
-	}
-}
-
-.ss-docs__hero-actions {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 16px;
-
-	// На <$md стек в колонку, кнопки одинаковой ширины.
-	@include down($md) {
-		flex-direction: column;
-		align-items: stretch;
-
-		.ss-btn {
-			width: 100%;
-		}
-	}
-}
 
 
 // ---------- Таблица документов ----------
