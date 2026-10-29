@@ -2,9 +2,25 @@
 
 // ==============================================================
 // .ss-docs — страница «Документация» (docs.html).
-// Hero — .ss-hero-inner--dark (sections/_hero-inner.scss),
-// локальных стилей hero не требуется.
+// Hero — .ss-hero-inner--light (sections/_hero-inner.scss) + локальная
+// фоновая картинка bg_docs.webp (десктоп + ретина + мобилка через
+// image-set). Путь url('../img/...') — относительно build/css/main.css.
 // ==============================================================
+.ss-docs__hero.ss-hero-inner--light {
+	.ss-hero-inner__body {
+		background-image: image-set(
+			url('../img/bg_docs.webp') 1x,
+			url('../img/bg_docs@2x.webp') 2x
+		);
+
+		@include down($md) {
+			background-image: image-set(
+				url('../img/bg_docs-mobile.webp') 1x,
+				url('../img/bg_docs-mobile@2x.webp') 2x
+			);
+		}
+	}
+}
 
 
 // ---------- Таблица документов ----------

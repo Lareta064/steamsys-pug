@@ -1,10 +1,11 @@
 //- ============================================================
 //- Hero страницы «Документация» (docs.html).
-//- Темный .ss-hero-inner--dark с крошками сверху + kicker + h1 + lead.
-//- Фоновая картинка — опционально через `customStyle` в docs.pug (пока нет).
+//- Светлый .ss-hero-inner--light + фоновая картинка bg_docs.webp
+//- (подключается в src/scss/pages/_docs.scss через image-set).
+//- Текст: заголовок/лид — --primary, kicker — accent1.
 //- ============================================================
 
-section.ss-hero-inner.ss-hero-inner--dark.ss-docs__hero
+section.ss-hero-inner.ss-hero-inner--light.ss-docs__hero
 	.ss-hero-inner__crumbs
 		.ss-container.ss-wrapper
 			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
@@ -16,7 +17,7 @@ section.ss-hero-inner.ss-hero-inner--dark.ss-docs__hero
 	.ss-hero-inner__body
 		.ss-container.ss-wrapper
 			.ss-hero-inner__body-inner
-				span.ss-kicker.ss-txt-accent3 Технические материалы
+				span.ss-kicker Технические материалы
 				h1.ss-h1 Документация
 				p.ss-hero-inner__lead
 					| Паспорта, сертификаты, типовые схемы, инструкции и&nbsp;таблицы подбора.

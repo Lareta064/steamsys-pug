@@ -256,6 +256,12 @@
 // читаемость текстового контента шириной до 1000px на любом фото.
 // --------------------------------------------------------------
 .ss-hero-inner--dark {
+	// Kicker на тёмном фоне — accent3 (светло-голубой). Автоматический
+	// scope-override — чтобы не ставить .ss-txt-accent3 на каждом _hero.pug.
+	.ss-kicker {
+		color: var(--accent3);
+	}
+
 	.ss-hero-inner__body {
 		background-color: var(--primary1);
 		background-size: cover;
@@ -289,5 +295,54 @@
 		.ss-h1 {
 			color: var(--white);
 		}
+	}
+}
+
+
+// --------------------------------------------------------------
+// Модификатор --light. Body с белым фоном + фоновая картинка справа,
+// текст — тёмный (--primary). Паттерн противоположный --dark: завеса
+// слева БЕЛАЯ 92% → 0% справа, чтобы заголовок/лид читались поверх
+// любого фото. Картинка подключается на уровне страницы через
+// background-image (напр. `.ss-docs__hero .ss-hero-inner__body` →
+// image-set desktop + мобилка через media). Если инлайн-стиль/CSS
+// фон не задан — body остаётся чистым белым.
+// --------------------------------------------------------------
+.ss-hero-inner--light {
+	// Kicker на светлом фоне — accent1. Специальный override не нужен:
+	// базовый .ss-kicker (base/_typography.scss) по дефолту уже accent1.
+	// Коммент оставлен как пойнтер, чтобы паттерн был виден парой с --dark.
+
+	.ss-hero-inner__body {
+		background-color: var(--white);
+		background-size: cover;
+		background-position: center right;
+		background-repeat: no-repeat;
+		color: var(--primary);
+		position: relative;
+		overflow: hidden;
+
+		// Белая завеса слева — прозрачность справа.
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(90deg,
+				rgba(255, 255, 255, 0.92) 0%,
+				rgba(255, 255, 255, 0.75) 30%,
+				rgba(255, 255, 255, 0.35) 65%,
+				rgba(255, 255, 255, 0) 100%
+			);
+			pointer-events: none;
+			z-index: 0;
+		}
+
+		> * {
+			position: relative;
+			z-index: 1;
+		}
+
+		// h1 и lead — цвет --primary (базовый .ss-h1 уже такой,
+		// lead через inherit от body).
 	}
 }

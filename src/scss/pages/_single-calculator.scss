@@ -22,39 +22,8 @@ $calc-radius-sm: 10px;
 
 
 // ---------- Hero ----------
-.ss-calc-single__hero-section {
-	padding-block: 20px 40px;
-
-	@include down($md) {
-		padding-block: 10px 30px;
-	}
-}
-
-.ss-calc-single__hero {
-	display: flex;
-	flex-direction: column;
-	row-gap: 20px;
-	max-width: 1040px;
-
-	.ss-kicker { margin: 0; }
-}
-
-.ss-calc-single__hero-title { margin: 0; }
-
-.ss-calc-single__hero-lead {
-	margin: 0;
-	font-family: var(--font-family);
-	font-weight: 400;
-	font-size: 20px;
-	line-height: 1.4;
-	color: var(--secondary);
-
-	@include down($md) {
-		font-size: 16px;
-	}
-}
-
-.ss-calc-single__hero-tags { margin-top: 4px; }
+// Hero переведён на .ss-hero-inner.ss-hero-inner--light (sections/_hero-inner.scss) —
+// без фоновой картинки, просто белый. Локальных стилей hero больше не требуется.
 
 
 // ---------- Workbench intro ----------
