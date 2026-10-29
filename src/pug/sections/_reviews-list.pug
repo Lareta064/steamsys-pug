@@ -91,5 +91,30 @@ section.ss-section.ss-reviews__list
 											a.ss-reviews__card-link(href=l.href)= l.label
 								button.ss-link.ss-link--md(type='button' data-modal='review-screenshot') Читать отзыв
 
-		.ss-reviews__more
-			+ssBtn('Показать ещё', { variant: 'primary' })(type='button')
+		//- Пагинация под гридом (reuse .ss-pagination-toolbar — тот же паттерн,
+		//- что в catalog-page / docs-table / surveys-list).
+		.ss-pagination-toolbar.ss-reviews__pagination
+			p.ss-pagination-toolbar__summary
+				| Показано&nbsp;
+				strong 6
+				|  из&nbsp;
+				strong 24
+				span.ss-pagination-toolbar__summary-models  отзывов
+			nav.ss-pagination(aria-label='Страницы отзывов')
+				ol.ss-pagination__list
+					li.ss-pagination__item
+						span.ss-pagination__link.ss-pagination__link--nav.ss-pagination__arrow--prev(aria-disabled='true' aria-label='Предыдущая страница')
+							+svgIcon('arrow-right')
+					li.ss-pagination__item
+						a.ss-pagination__link(href='#' aria-current='page') 1
+					li.ss-pagination__item
+						a.ss-pagination__link(href='#') 2
+					li.ss-pagination__item
+						a.ss-pagination__link(href='#') 3
+					li.ss-pagination__item
+						span.ss-pagination__dots(aria-hidden='true') …
+					li.ss-pagination__item
+						a.ss-pagination__link(href='#') 4
+					li.ss-pagination__item
+						a.ss-pagination__link.ss-pagination__link--nav(href='#' aria-label='Следующая страница')
+							+svgIcon('arrow-right')
