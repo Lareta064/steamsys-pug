@@ -8,3 +8,38 @@
 .ss-team__trustbar {
 	background: var(--white);
 }
+
+// --------------------------------------------------------------
+// Группировка карточек команды по отделам: Руководители / Отдел продаж /
+// Технический отдел / Бухгалтерия. Каждый отдел = h2-заголовок +
+// отдельная сетка .ss-grid. Между отделами — вертикальный gap.
+// --------------------------------------------------------------
+.ss-team__members {
+	.ss-container {
+		display: flex;
+		flex-direction: column;
+		gap: 60px;
+
+		@include down($xxl) {
+			gap: 50px;
+		}
+
+		@include down($md) {
+			gap: 40px;
+		}
+	}
+}
+
+.ss-team__dept {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+
+	@include down($md) {
+		gap: 20px;
+	}
+}
+
+.ss-team__dept-title {
+	margin: 0;
+}
