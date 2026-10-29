@@ -6,10 +6,9 @@
 // ==============================================================
 
 .ss-single-survey {
-	&__body{padding-top: 40px;}
-	@include down($md){
-		&__body{padding-top: 20px;}
-	}
+	// page root
+	// padding-top 40 (20 моб) для __body теперь приходит из общего правила
+	// `.ss-hero-inner + .ss-section` в sections/_section.scss.
 }
 
 // ==============================================================

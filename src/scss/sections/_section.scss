@@ -53,3 +53,16 @@
 .ss-section:not(.ss-section--tinted) + .ss-section:not(.ss-section--tinted) {
 	padding-top: 0;
 }
+
+// Hero внутренней страницы (.ss-hero-inner) + следующая .ss-section →
+// одинаковый компактный отступ 40 на всех таких страницах. Без этого
+// правила каждая страница давала бы 70/60/50 по дефолту .ss-section —
+// визуально hero «отрывался» от первого экрана контента по-разному.
+// На <$md — 20 (единый с общим мобильным ритмом).
+.ss-hero-inner + .ss-section {
+	padding-top: 40px;
+
+	@include down($md) {
+		padding-top: 20px;
+	}
+}

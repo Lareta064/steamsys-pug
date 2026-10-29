@@ -15,7 +15,7 @@
 // ==============================
 
 .ss-catalog-nav {
-	padding-block: 60px;
+	padding-block: 40px 60px;
 
 	@include down($md) {
 		padding-block: 40px;
