@@ -10,9 +10,20 @@ block content
 		.container-dashboard__content
 
 			p.breadcrumbs-catalog__hint.ss-reg-14.ss-txt-secondary
-				| Горизонтальная панель фильтров с select-дропдаунами — для страниц портфолио, кейсов, каталога.
-				| Два ряда полей «метка + select» (.ss-filter-bar__field), второй ряд заканчивается кнопкой «Найти».
-				| Поля в первом ряду делят ширину поровну (flex: 1). На &lt;768px каждое поле — полная ширина строки, кнопка тоже на 100%.
+				| Переиспользуемый drop-in компонент. Включается ВНУТРИ контейнера контентной секции
+				| (над таблицей / грид'ом / слайдером кейсов) — своей
+				code .ss-section
+				|  обёртки не имеет. Пример использования: cases-page.html (внутри
+				code _cases-catalog.pug
+				| ), docs.html (внутри
+				code _docs-table.pug
+				| ).
+				br
+				| Форма — визуальный «бокс»: padding 40 (20 на моб), bg
+				code --secondary3
+				| , border 1px
+				code --secondary2
+				| , radius 10. Между формой и контентом ниже — margin-bottom 40 (24 моб).
 				br
 				| Стили —
 				code src/scss/blocks/_filter-bar.scss
@@ -21,33 +32,104 @@ block content
 				|  (data-select → src/js/select.js).
 
 			section.breadcrumbs-catalog__section
-				h3.breadcrumbs-catalog__section-title Пример
+				h3.breadcrumbs-catalog__section-title Поведение по брейкпоинтам
+
+				ul
+					li
+						strong ≥1280:
+						|  всё в одну строку (5 селектов + submit). Поля сжимаются (
+						code flex: 1 1 0; min-width: 0
+						| ).
+					li
+						strong &lt;1280:
+						|  поля получают
+						code min-width: 220px
+						|  — не влезшие уезжают на 2-ю строку через
+						code flex-wrap
+						| .
+					li
+						strong &lt;$md (768):
+						|  поля на всю ширину (стек в колонку), submit тоже 100%, форма имеет меньший padding (20).
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Пример (drop-in внутри контейнера секции)
 
 				.breadcrumbs-catalog__demo
 					include ../sections/_filter-bar.pug
 
 			section.breadcrumbs-catalog__section
-				h3.breadcrumbs-catalog__section-title Сниппет
+				h3.breadcrumbs-catalog__section-title Разметка (структура)
 
 				pre.breadcrumbs-catalog__snippet
 					code
-						| .ss-section.ss-section--tinted.ss-filter-bar
-						|     .ss-container
-						|         form.ss-filter-bar__form(action='#' method='get')
-						|             .ss-filter-bar__row
-						|                 .ss-filter-bar__field
-						|                     span.ss-filter-bar__label Отрасль:
-						|                     .ss-select.ss-select--sm(data-select)
-						|                         button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
-						|                             span.ss-select__value.ss-select__value--placeholder Все
-						|                             span.ss-select__chevron
-						|                                 +svgIcon('chevron-down')
-						|                         ul.ss-select__list(role='listbox' hidden)
-						|                             li.ss-select__option(role='option' aria-selected='true' tabindex='-1' data-value='all') Все
-						|                             li.ss-select__option(role='option' aria-selected='false' tabindex='-1' data-value='oil') Нефтехимия
-						|                 //- ... остальные поля первого ряда
-						|             .ss-filter-bar__row
-						|                 .ss-filter-bar__field
-						|                     span.ss-filter-bar__label Бизнес-эффект:
-						|                     .ss-select.ss-select--sm(data-select) ...
-						|                 button.ss-btn.ss-btn--dark(type='submit') Найти кейсы
+						| //- Внутри контейнера контентной секции (напр. .ss-container.ss-wrapper)
+						| .ss-filter-bar
+						|     form.ss-filter-bar__form(action='#' method='get')
+						|         .ss-filter-bar__row
+						|             .ss-filter-bar__field
+						|                 .ss-select.ss-select--sm.ss-select--checkbox(data-select)
+						|                     button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
+						|                         span.ss-select__value.ss-select__value--placeholder(data-placeholder='Отрасль') Отрасль
+						|                         span.ss-select__chevron
+						|                             +svgIcon('chevron-down')
+						|                     ul.ss-select__list(role='listbox' hidden)
+						|                         li.ss-select__option(role='option' aria-selected='false' tabindex='-1' data-value='Нефтехимия')
+						|                             input.ss-select__input(type='checkbox' name='industry[]' value='Нефтехимия')
+						|                             span.ss-select__option-text Нефтехимия
+						|                         //- ... остальные опции
+						|             //- ... остальные поля первого ряда
+						|         .ss-filter-bar__row
+						|             .ss-filter-bar__field
+						|                 .ss-select.ss-select--sm.ss-select--checkbox(data-select) ...
+						|             button.ss-btn.ss-btn--dark(type='submit') Найти кейсы
+						|
+						|     //- Чипы применённых фильтров (JS filter-bar.js заполняет)
+						|     .ss-filter-bar__meta(aria-label='Применённые фильтры' data-filter-chips)
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Про элементы
+				ul
+					li
+						code .ss-filter-bar
+						|  — внешняя обёртка. Без фона/бордера, только margin-bottom (40/24 моб) до контента ниже.
+					li
+						code .ss-filter-bar__form
+						|  — «бокс» с полями: padding, bg
+						code --secondary3
+						| , border, radius 10. flex-wrap:wrap, align-items:center, gap 12.
+					li
+						code .ss-filter-bar__row
+						|  —
+						code display: contents
+						| . Структурная обёртка «проваливается», дети выходят в flex form'ы. Позволяет держать семантические ряды в разметке, но визуально они схлопываются в один компактный flex.
+					li
+						code .ss-filter-bar__field
+						|  — одно поле (обычно .ss-select).
+						code flex: 1 1 0
+						|  на десктопе,
+						code flex: 1 1 220px
+						|  на &lt;1280,
+						code flex: 1 1 100%
+						|  на &lt;$md.
+					li
+						code .ss-filter-bar__meta
+						|  — ряд применённых фильтров-чипов (JS filter-bar.js). При :empty спрятан.
+					li
+						strong Submit:
+						|  обычная
+						code .ss-btn.ss-btn--dark
+						|  — на &lt;$md становится на всю ширину.
+
+			section.breadcrumbs-catalog__section
+				h3.breadcrumbs-catalog__section-title Где используется
+				ul
+					li
+						code src/pug/sections/_filter-bar.pug
+						|  — конкретный конфиг (отрасль / тип решения / задача / регион / бизнес-эффект) для cases-page.html, включается в
+						code _cases-catalog.pug
+						| .
+					li
+						code src/pug/sections/_docs-filters.pug
+						|  — конфиг (тип / система / бренд / отрасль / назначение) для docs.html, включается в
+						code _docs-table.pug
+						| .

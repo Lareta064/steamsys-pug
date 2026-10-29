@@ -21,16 +21,17 @@ mixin filterBarSelect(field)
 					input.ss-select__input(type=field.type name=field.name value=opt)
 					span.ss-select__option-text= opt
 
-.ss-section.ss-section--tinted.ss-filter-bar
-	.ss-container
-		form.ss-filter-bar__form(action='#' method='get')
-			.ss-filter-bar__row
-				each field in docsFiltersRow1
-					.ss-filter-bar__field
-						+filterBarSelect(field)
-			.ss-filter-bar__row
-				button.ss-btn.ss-btn--dark(type='submit') Применить
+//- Drop-in компонент — включается внутри контейнера контентной секции
+//- (напр. _docs-table.pug). Собственной .ss-section-обёртки нет.
+.ss-filter-bar
+	form.ss-filter-bar__form(action='#' method='get')
+		.ss-filter-bar__row
+			each field in docsFiltersRow1
+				.ss-filter-bar__field
+					+filterBarSelect(field)
+		.ss-filter-bar__row
+			button.ss-btn.ss-btn--dark(type='submit') Применить
 
-		//- Применённые фильтры (чипы). JS filter-bar.js заполняет этот
-		//- контейнер на основе выбранных опций.
-		.ss-filter-bar__meta(aria-label='Применённые фильтры' data-filter-chips)
+	//- Применённые фильтры (чипы). JS filter-bar.js заполняет этот
+	//- контейнер на основе выбранных опций.
+	.ss-filter-bar__meta(aria-label='Применённые фильтры' data-filter-chips)

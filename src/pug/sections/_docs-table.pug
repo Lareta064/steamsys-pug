@@ -34,6 +34,9 @@ mixin docAction(action)
 
 section.ss-section.ss-docs__table-section
 	.ss-container.ss-wrapper
+		//- Фильтры (drop-in) — над таблицей с отступом снизу 40 (24 моб)
+		include ./_docs-filters.pug
+
 		.ss-simple-table.ss-docs__table
 			table
 				thead
