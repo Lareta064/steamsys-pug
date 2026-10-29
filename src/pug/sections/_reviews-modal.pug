@@ -1,0 +1,8 @@
+//- Модалка со скриншотом отзыва. Один инстанс на всю страницу —
+//- все кнопки «Читать отзыв» в карточках открывают её (data-modal="review-screenshot").
+//- Демо-картинка rev-image.webp — одна для всех карточек в прототипе.
+.ss-modal.ss-modal--image#modal-review-screenshot(hidden)
+	button.ss-modal__close(type='button' aria-label='Закрыть' data-modal-close)
+		+svgIcon('cross')
+	.ss-modal__inner.ss-reviews__modal-inner
+		img.ss-reviews__modal-img(src=`${basePath}img/rev-image.webp` alt='Скриншот отзыва' loading='lazy' decoding='async')

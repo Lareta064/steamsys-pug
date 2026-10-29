@@ -161,6 +161,7 @@
 @use "pages/_single-employee";
 @use "pages/_surveys";
 @use "pages/_single-survey";
+@use "pages/_reviews";
 
 // typography — грузим ПОСЛЕ blocks/sections, чтобы .ss-h*/.ss-semi-N и т.п.
 // работали как утилиты-override, когда добавлены вторым классом к компоненту

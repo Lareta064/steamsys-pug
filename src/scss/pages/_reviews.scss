@@ -1,0 +1,247 @@
+@use '../base/_var' as *;
+
+// ==============================================================
+// Страница «Отзывы клиентов» (reviews.html).
+// ==============================================================
+
+.ss-reviews {
+	// page root
+}
+
+// --------------------------------------------------------------
+// Секция «Отзывы по проектам» — грид карточек + кнопка «Показать ещё»
+// --------------------------------------------------------------
+.ss-reviews__list-title {
+	margin: 0 0 30px;
+
+	@include down($md) {
+		margin-bottom: 20px;
+	}
+}
+
+.ss-reviews__grid {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+}
+
+// --------------------------------------------------------------
+// .ss-reviews__card — карточка отзыва (page-local).
+// Разметка:
+//   article.ss-reviews__card
+//     .ss-reviews__card-stars    (<img> stars-rating.webp)
+//     blockquote.ss-reviews__card-quote
+//     .ss-reviews__card-author   (name + role)
+//     .ss-reviews__card-foot     (foot-left: tag + links / foot-right: metrics + btn)
+// --------------------------------------------------------------
+.ss-reviews__card {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	padding: 30px;
+	background: var(--white);
+	border: 1px solid var(--secondary2);
+	border-radius: 10px;
+	height: 100%;
+
+	@include down($md) {
+		padding: 20px;
+		gap: 14px;
+	}
+}
+
+.ss-reviews__card-stars img {
+	display: block;
+	height: 20px;
+	width: auto;
+}
+
+.ss-reviews__card-quote {
+	margin: 0;
+	padding-left: 16px;
+	border-left: 3px solid var(--primary);
+
+	p {
+		margin: 0;
+		font-family: var(--font-family);
+		font-weight: 400;
+		font-style: italic;
+		font-size: 15px;
+		line-height: 1.6;
+		color: var(--primary);
+	}
+}
+
+.ss-reviews__card-author {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.ss-reviews__card-name {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--primary);
+}
+
+.ss-reviews__card-role {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--secondary);
+}
+
+// Футер карточки — тонкий бордер сверху + два ряда (foot-row).
+// Row 1: тег слева, метрики справа.
+// Row 2: ссылки слева, «Читать отзыв» (triger модалки) справа.
+// margin-top:auto прижимает к низу карточки, чтобы в сетке card-footer'ы
+// были на одной линии независимо от длины quote.
+.ss-reviews__card-foot {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding-top: 16px;
+	margin-top: auto;
+	border-top: 1px solid var(--secondary3);
+}
+
+.ss-reviews__card-foot-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.ss-reviews__card-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	min-width: 0;
+}
+
+.ss-reviews__card-link {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 1.4;
+	color: var(--secondary);
+	text-decoration: none;
+	transition: color .2s;
+
+	&:hover {
+		color: var(--accent1);
+	}
+}
+
+// Триггер модалки «Читать отзыв» — button, визуально = .ss-reviews__card-link.
+// margin-left:auto прижимает его к правому краю ряда даже если ссылок слева
+// нет / строка переносится.
+.ss-reviews__card-foot-row .ss-link--md {
+	margin-left: auto;
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+.ss-reviews__card-metrics {
+	display: flex;
+	gap: 16px;
+}
+
+.ss-reviews__card-metric {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	text-align: right;
+}
+
+.ss-reviews__card-metric-value {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 1.3;
+	color: var(--primary);
+}
+
+.ss-reviews__card-metric-label {
+	margin: 0;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 11px;
+	line-height: 1.3;
+	color: var(--secondary);
+}
+
+// --------------------------------------------------------------
+// Кнопка «Показать ещё» под гридом — по центру, отступ 40 сверху.
+// --------------------------------------------------------------
+.ss-reviews__more {
+	display: flex;
+	justify-content: center;
+	margin-top: 40px;
+
+	@include down($md) {
+		margin-top: 24px;
+	}
+}
+
+// --------------------------------------------------------------
+// Модалка со скриншотом отзыва (.ss-modal--image).
+// Базовая .ss-modal — тёмный overlay full-screen. inner по центру,
+// картинка подстраивается по max-width/max-height viewport.
+// --------------------------------------------------------------
+.ss-reviews__modal-inner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0;
+	background: transparent;
+}
+
+.ss-reviews__modal-img {
+	display: block;
+	max-width: 100%;
+	max-height: 80vh;
+	width: auto;
+	height: auto;
+	border-radius: 10px;
+	background: var(--white);
+	box-shadow: 0 10px 60px rgba(0, 0, 0, 0.3);
+}
+
+// --------------------------------------------------------------
+// CTA «Хотите стать следующим кейсом?» — локальные правки поверх .ss-cta-row:
+//   · тёмно-серая рамка (--secondary);
+//   · опциональный лид-параграф с ограниченной шириной под заголовком.
+// Если паттерн приживётся — вынесу в UI как .ss-cta-row--bordered + __lead.
+// --------------------------------------------------------------
+.ss-reviews__cta .ss-cta-row {
+	border: 1px solid var(--secondary);
+}
+
+.ss-reviews__cta-lead {
+	margin: 0 auto 20px;
+	max-width: 640px;
+	text-align: center;
+	font-family: var(--font-family);
+	font-weight: 400;
+	font-size: 15px;
+	line-height: 1.5;
+	color: var(--secondary);
+}

@@ -1,0 +1,16 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Отзывы клиентов — Паровые системы — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-reviews
+		include ../sections/_reviews-hero.pug
+		include ../sections/_reviews-list.pug
+		include ../sections/_reviews-cta.pug
+
+	include ../sections/_footer.pug
+	include ../sections/_modal-request-b24.pug
+	include ../sections/_reviews-modal.pug

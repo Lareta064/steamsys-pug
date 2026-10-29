@@ -1,0 +1,33 @@
+section.ss-hero-inner.ss-hero-inner--dark.ss-reviews__hero
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./') Главная
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./about.html') О компании
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Отзывы клиентов
+
+	.ss-hero-inner__body
+		.ss-container.ss-wrapper
+			.ss-hero-inner__body-inner
+				span.ss-kicker Обратная связь от клиентов
+				h1.ss-h1 Отзывы клиентов
+				p.ss-hero-inner__lead Реальные результаты от&nbsp;реальных проектов. Инженеры и&nbsp;энергетики промышленных предприятий о&nbsp;работе с&nbsp;Паровыми системами.
+
+			//- Метрики — внутри body, под текстовым блоком. Паттерн 1-в-1 с
+			//- solution-hero (страница systems.html). Стили — sections/_hero.scss.
+			ul.ss-hero__metriks
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 50+
+						p.ss-hero__metrik-label реализованных проектов с&nbsp;отзывами
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 4.9/5
+						p.ss-hero__metrik-label средняя оценка клиентов
+				li.ss-hero__metrik
+					.ss-hero__metrik-body
+						p.ss-hero__metrik-value 15+
+						p.ss-hero__metrik-label отраслей среди клиентов

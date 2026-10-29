@@ -1,0 +1,12 @@
+//- CTA «Хотите стать следующим кейсом?» — используем готовый .ss-cta-row
+//- (blocks/_cta-row.scss). Из прототипа взяты title + кнопка; лид-параграф
+//- и dashed-бордер не включены — в текущем API .ss-cta-row слота под лид
+//- нет, бордер не поддерживается. Если позже понадобятся — расширим блок.
+
+section.ss-section.ss-reviews__cta
+	.ss-container.ss-wrapper
+		.ss-cta-row
+			p.ss-cta-row__title.ss-fs-24 Хотите стать следующим кейсом?
+			p.ss-reviews__cta-lead Расскажите о&nbsp;своей задаче&nbsp;— посчитаем, предложим решение и&nbsp;поможем добиться измеримого результата.
+			.ss-cta-row__buttons
+				+ssBtn('Обсудить проект с инженером', { variant: 'dark' })(data-modal='request-b24')
