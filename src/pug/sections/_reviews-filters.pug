@@ -1,0 +1,35 @@
+//- ============================================================
+//- Фильтры страницы «Отзывы клиентов». Reuse паттерна .ss-filter-bar
+//- (blocks/_filter-bar.scss) — drop-in компонент, включается внутри
+//- контейнера секции `_reviews-list.pug` над гридом карточек.
+//- Миксин +filterBarSelect — локальный (повторяется в _filter-bar.pug
+//- и _docs-filters.pug, здесь — так же, без общей зависимости).
+//- ============================================================
+
+- var reviewsFiltersRow1 = [{ id: 'rv-industry', name: 'industry[]', placeholder: 'Все отрасли', type: 'checkbox', options: ['Пищевая', 'ЦБП', 'Химическая', 'Деревообработка', 'Фармацевтика', 'Энергетика'] }, { id: 'rv-solution', name: 'solution[]', placeholder: 'Все решения', type: 'checkbox', options: ['РОУ/БРОУ', 'СВК', 'Обвязка', 'Диагностика'] }]
+
+mixin filterBarSelect(field)
+	.ss-select.ss-select--sm(class='ss-select--' + field.type data-select)
+		button.ss-select__control(type='button' aria-haspopup='listbox' aria-expanded='false')
+			span.ss-select__value.ss-select__value--placeholder(data-placeholder=field.placeholder)= field.placeholder
+			span.ss-select__chevron
+				+svgIcon('chevron-down')
+		ul.ss-select__list(role='listbox' hidden)
+			each opt in field.options
+				li.ss-select__option(role='option' aria-selected='false' tabindex='-1' data-value=opt)
+					input.ss-select__input(type=field.type name=field.name value=opt)
+					span.ss-select__option-text= opt
+
+//- Drop-in компонент — включается внутри контейнера контентной секции.
+.ss-filter-bar
+	form.ss-filter-bar__form(action='#' method='get')
+		.ss-filter-bar__row
+			each field in reviewsFiltersRow1
+				.ss-filter-bar__field
+					+filterBarSelect(field)
+		.ss-filter-bar__row
+			button.ss-btn.ss-btn--dark(type='submit') Применить
+
+	//- Применённые фильтры (чипы). JS filter-bar.js заполняет этот
+	//- контейнер на основе выбранных опций.
+	.ss-filter-bar__meta(aria-label='Применённые фильтры' data-filter-chips)

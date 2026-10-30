@@ -63,6 +63,9 @@ section.ss-section.ss-reviews__list
 	.ss-container.ss-wrapper
 		h2.ss-h2.ss-reviews__list-title Отзывы по&nbsp;проектам
 
+		//- Фильтры (drop-in) — над гридом, с отступом снизу 40 (24 моб)
+		include ./_reviews-filters.pug
+
 		ul.ss-reviews__grid
 			each r in reviewsData
 				li
