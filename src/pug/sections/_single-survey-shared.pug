@@ -1,0 +1,64 @@
+//- ============================================================
+//- Общие шаблонные блоки для всех опросников (12 страниц).
+//- include этого файла в начале каждого survey-body даёт доступ к двум миксинам:
+//-
+//-   +surveyContactsSection(num)
+//-       Section «Контактная информация» (COMPANY_TITLE / NAME / PHONE / EMAIL).
+//-       По политике Заказчика required только NAME, PHONE, EMAIL.
+//-       COMPANY_TITLE — опционально, но в блоке остаётся.
+//-
+//-   +surveySubmitBlock(surveyTitle)
+//-       Hidden-поля (PAGE/save/TITLE/rand) + тёмный submit-блок с consent.
+//-       surveyTitle — строка для hidden[name=TITLE], уходит в лид Bitrix.
+//- ============================================================
+
+mixin surveyContactsSection(num)
+	section(class='ss-form-section ss-form-section--required' id='section-' + num)
+		.ss-form-section__head
+			span.ss-form-section__num= num
+			h3.ss-form-section__title Контактная информация
+			span.ss-tag.ss-tag--mini-primary Обязательно
+		p.ss-form-section__sub Как с&nbsp;вами связаться и&nbsp;для какого предприятия подбираем оборудование
+		.ss-form-section__body
+			.ss-form-section__row
+				.ss-form-field
+					label.ss-form-field__label(for='COMPANY_TITLE') Организация
+					input.ss-form-field__input(type='text' id='COMPANY_TITLE' name='COMPANY_TITLE' placeholder='название компании')
+				.ss-form-field
+					label.ss-form-field__label(for='NAME')
+						| Контактное лицо
+						span.ss-form-field__req *
+					input.ss-form-field__input(type='text' id='NAME' name='NAME' required placeholder='контактное лицо')
+				.ss-form-field
+					label.ss-form-field__label(for='PHONE')
+						| Телефон / факс
+						span.ss-form-field__req *
+					input.ss-form-field__input(type='tel' id='PHONE' name='PHONE' required placeholder='+7 (000) 000-00-00')
+				.ss-form-field
+					label.ss-form-field__label(for='EMAIL')
+						| E-mail
+						span.ss-form-field__req *
+					input.ss-form-field__input(type='text' id='EMAIL' name='EMAIL' required placeholder='Ваш e-mail')
+
+mixin surveySubmitBlock(surveyTitle)
+	//- Hidden-поля для Bitrix nimdaCreateLead():
+	//-   PAGE  — URL страницы (PHP: SERVER_NAME + REQUEST_URI)
+	//-   save  — флаг обработки ('Y')
+	//-   TITLE — название опросника (приходит в лид)
+	//-   rand  — анти-дубль (PHP: rand())
+	input(type='hidden' name='save' value='Y')
+	input(type='hidden' name='TITLE' value=surveyTitle)
+	input(type='hidden' name='PAGE' value='')
+	input(type='hidden' name='rand' value='')
+
+	//- Submit-блок (тёмный) с consent-чекбоксом (legal_top, required в проде)
+	.ss-form-submit
+		h3.ss-form-submit__title Готово&nbsp;— отправить инженеру?
+		p.ss-form-submit__text Расчёт и&nbsp;КП пришлём в&nbsp;течение 1&nbsp;рабочего дня. Если параметров мало&nbsp;— уточним по&nbsp;телефону.
+		label.ss-check-opt.ss-check-opt--light.ss-form-submit__consent
+			input(type='checkbox' name='legal_top' value='Y' required)
+			span
+				| Нажимая «Отправить», принимаю согласие на&nbsp;обработку&nbsp;
+				a(href='/include/licenses_detail.php' target='_blank') персональных данных
+		+ssBtn('Отправить', { variant: 'white', full: true, tag: 'button' })(type='submit')
+		p.ss-form-submit__note Без обязательств. Данные конфиденциальны.

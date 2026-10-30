@@ -1,0 +1,181 @@
+//- ============================================================
+//- Опросник «Паровой эжектор» — основной контент.
+//- Соответствует продакшн-шаблону Bitrix: опросники-php/index9.php.
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL.
+//- Все параметры (type radio, pv1-3, pm1-3, pn1-3, p1, p2, p3, isp, typep, standpri) —
+//- опциональны.
+//-
+//- Три группы «Пар высокого/среднего/низкого давления» рендерятся через
+//- общий mixin +steamGroup с префиксом префикса name'а (pv/pm/pn).
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Тип и параметры пара' }, { num: 3, title: 'Параметры эжектора' }, { num: 4, title: 'Примечание' }]
+
+- var surveyGetItems = ['Подбор парового эжектора', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
+
+//- Опции для radio-групп
+- var typeOptions = [{ value: '1', label: 'Термокомпрессор' }, { value: '2', label: 'Циркуляционный эжектор' }]
+- var ispOptions = [{ value: '1', label: 'Регулируемый — с приводом' }, { value: '2', label: 'Нерегулируемый — без привода' }]
+- var typepOptions = [{ value: '1', label: 'Резьбовой' }, { value: '2', label: 'Фланцевый' }, { value: '3', label: 'Приварной' }]
+- var standpriOptions = [{ value: '1', label: 'DIN' }, { value: '2', label: 'ANSI / ASME' }]
+
+//- Mixin: группа параметров пара (давление/температура/расход)
+//- prefix — префикс name'а полей (pv / pm / pn)
+//- title — подзаголовок группы («Пар высокого давления» и т.п.)
+mixin steamGroup(prefix, title)
+	p.ss-single-survey__subhead= title
+	.ss-form-section__row
+		.ss-form-field.ss-form-field--unit
+			label.ss-form-field__label(for=prefix + '1') Давление
+			.ss-form-field__row
+				input.ss-form-field__input(type='text' id=prefix + '1' name=prefix + '1')
+				span.ss-form-field__unit бар изб.
+		.ss-form-field.ss-form-field--unit
+			label.ss-form-field__label(for=prefix + '2') Температура
+			.ss-form-field__row
+				input.ss-form-field__input(type='text' id=prefix + '2' name=prefix + '2')
+				span.ss-form-field__unit °C
+		.ss-form-field.ss-form-field--unit
+			label.ss-form-field__label(for=prefix + '3') Расход
+			.ss-form-field__row
+				input.ss-form-field__input(type='text' id=prefix + '3' name=prefix + '3')
+				span.ss-form-field__unit кг/ч
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (shared)
+				+surveyContactsSection(1)
+
+				//- Section 2 — Тип оборудования + 3 группы параметров пара
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Тип и&nbsp;параметры пара
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Тип эжектора + параметры пара высокого, среднего и&nbsp;низкого давления
+					.ss-form-section__body
+
+						//- type — radio (1=Термокомпрессор, 2=Циркуляционный эжектор)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Тип оборудования
+							.ss-form-field__radios
+								each opt in typeOptions
+									label.ss-radio-opt
+										input(type='radio' name='type' value=opt.value)
+										span= opt.label
+
+						//- 3 группы параметров пара (pv/pm/pn)
+						+steamGroup('pv', 'Пар высокого давления')
+						+steamGroup('pm', 'Пар среднего давления')
+						+steamGroup('pn', 'Пар низкого давления')
+
+				//- Section 3 — Параметры эжектора (p1, p2, p3, isp, typep, standpri)
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Параметры эжектора
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Максимальные параметры, материал корпуса, исполнение и&nbsp;присоединение
+					.ss-form-section__body
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p1') Максимальное рабочее давление пара
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p1' name='p1')
+									span.ss-form-field__unit бар изб.
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p2') Максимальная рабочая температура пара
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p2' name='p2')
+									span.ss-form-field__unit °C
+							.ss-form-field.ss-form-field--full
+								label.ss-form-field__label(for='p3') Материал корпуса
+								input.ss-form-field__input(type='text' id='p3' name='p3' placeholder='например, нерж. сталь AISI 316')
+
+						//- isp — Исполнение эжектора (regulated / non-regulated)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Исполнение эжектора
+							.ss-form-field__radios
+								each opt in ispOptions
+									label.ss-radio-opt
+										input(type='radio' name='isp' value=opt.value)
+										span= opt.label
+
+						//- typep — Тип присоединения (3 опции)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Тип присоединения
+							.ss-form-field__radios
+								each opt in typepOptions
+									label.ss-radio-opt
+										input(type='radio' name='typep' value=opt.value)
+										span= opt.label
+
+						//- standpri — Стандарт присоединения (DIN / ANSI-ASME)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Стандарт исполнения присоединения
+							.ss-form-field__radios
+								each opt in standpriOptions
+									label.ss-radio-opt
+										input(type='radio' name='standpri' value=opt.value)
+										span= opt.label
+
+				//- Section 4 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
+
+				//- Hidden-поля + Submit-блок (shared partial, TITLE 1-в-1 с index9.php)
+				+surveySubmitBlock('Опросный лист Эжектор')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров

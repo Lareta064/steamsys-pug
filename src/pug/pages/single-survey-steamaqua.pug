@@ -1,0 +1,14 @@
+extends ../layouts/layout.pug
+
+block variables
+	-var title = "Заявка на установку автоматической станции ГВС SteamAqua — Паровые системы — STEAMSYS";
+	-var bodyCl = "ss-wrapper";
+
+block content
+	include ../sections/_header.pug
+	main.ss-main-inner.ss-single-survey
+		include ../sections/_single-survey-steamaqua-hero.pug
+		include ../sections/_single-survey-steamaqua-body.pug
+
+	include ../sections/_footer.pug
+	include ../sections/_modal-request-b24.pug

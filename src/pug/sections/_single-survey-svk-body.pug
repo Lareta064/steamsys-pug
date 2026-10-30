@@ -1,0 +1,240 @@
+//- ============================================================
+//- Опросник «Конденсатный насос и станция возврата конденсата» —
+//- основной контент. Соответствует продакшн-шаблону Bitrix:
+//- опросники-php/index.php (admin dump).
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL
+//- (контактные данные). Остальные поля опциональны.
+//- Единицы (кг/ч, °C, бар, шт.) — наши UX-добавки.
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Параметры конденсата' }, { num: 3, title: 'Источники конденсата' }, { num: 4, title: 'Электрический насос' }, { num: 5, title: 'Механический насос' }, { num: 6, title: 'Примечание' }]
+
+- var surveyGetItems = ['Подбор конденсатного насоса или СВК', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
+
+//- Источники конденсата — 4 параллельных колонки в проде (trashod1..4, ttemp1..4).
+//- Разворачиваем в 4 строки по паре полей (расход + температура на источник).
+- var kondSources = [1, 2, 3, 4]
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (shared)
+				+surveyContactsSection(1)
+
+				//- Section 2 — Параметры конденсата (основные)
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Параметры конденсата
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Общие параметры контура: расход, место расположения, давление на&nbsp;выходе
+					.ss-form-section__body
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='trashod') Максимальный расход конденсата
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='trashod' name='trashod' placeholder='например, 1000')
+									span.ss-form-field__unit кг/ч
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='tkolist') Количество источников конденсата
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='tkolist' name='tkolist' placeholder='например, 4')
+									span.ss-form-field__unit шт.
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='tdavlenie') Противодавление / давление на&nbsp;выходе насоса
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='tdavlenie' name='tdavlenie' placeholder='например, 3')
+									span.ss-form-field__unit бар
+
+						//- Место расположения — rrasp radio (1=в помещении, 2=на улице)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Место расположения
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='rrasp' value='1' id='place-01')
+									span В&nbsp;помещении с&nbsp;положительной температурой
+								label.ss-radio-opt
+									input(type='radio' name='rrasp' value='2' id='place-02')
+									span На&nbsp;улице
+
+				//- Section 3 — Источники конденсата (trashod1-4 + ttemp1-4)
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Источники конденсата
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Расход и&nbsp;температура по&nbsp;каждому из&nbsp;источников (до&nbsp;4)
+					.ss-form-section__body
+						each i in kondSources
+							.ss-form-section__row
+								.ss-form-field.ss-form-field--unit
+									label.ss-form-field__label(for=`trashod${i}`) Источник #{i}&nbsp;— расход
+									.ss-form-field__row
+										input.ss-form-field__input(type='text' id=`trashod${i}` name=`trashod${i}`)
+										span.ss-form-field__unit кг/ч
+								.ss-form-field.ss-form-field--unit
+									label.ss-form-field__label(for=`ttemp${i}`) Источник #{i}&nbsp;— температура
+									.ss-form-field__row
+										input.ss-form-field__input(type='text' id=`ttemp${i}` name=`ttemp${i}`)
+										span.ss-form-field__unit °C
+
+				//- Section 4 — Электрический насос (5.1 в проде)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Электрический насос
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Параметры при&nbsp;выборе электрического типа насоса
+					.ss-form-section__body
+						//- rvolt — Напряжение питания (1=1X230В, 2=3X380В)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Напряжение питания
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='rvolt' value='1' id='vol-01')
+									span 1&nbsp;×&nbsp;230 В
+								label.ss-radio-opt
+									input(type='radio' name='rvolt' value='2' id='vol-02')
+									span 3&nbsp;×&nbsp;380 В
+
+						//- rpamp — Количество насосов (1, 2)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Количество насосов
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='rpamp' value='1' id='pamp-01')
+									span 1
+								label.ss-radio-opt
+									input(type='radio' name='rpamp' value='2' id='pamp-02')
+									span 2
+
+						//- exitlevel — Выходной сигнал уровня (1, 2, 3)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Выходной сигнал уровня
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='exitlevel' value='1' id='exlevel-01')
+									span 0 (4)…20 мА
+								label.ss-radio-opt
+									input(type='radio' name='exitlevel' value='2' id='exlevel-02')
+									span 0 (2)…10 В
+								label.ss-radio-opt
+									input(type='radio' name='exitlevel' value='3' id='exlevel-03')
+									span Дискретные сигналы предельных уровней
+
+						//- cvizkontr1 — Визуальный контроль уровня в конденсатной емкости (checkbox)
+						.ss-form-field.ss-form-field--full
+							label.ss-check-opt
+								input(type='checkbox' name='cvizkontr1' value='1')
+								span Визуальный контроль уровня в&nbsp;конденсатной ёмкости
+
+				//- Section 5 — Механический насос (5.2 в проде)
+				//- ПРИМЕЧАНИЕ: в проде «Пар» и «Воздух» — два checkbox с одинаковым
+				//- name='rsreda' value='1'. Это ограничение прод-шаблона (программист
+				//- при переносе на Bitrix может переделать на radio-группу).
+				section.ss-form-section.ss-form-section--optional#section-5
+					.ss-form-section__head
+						span.ss-form-section__num 5
+						h3.ss-form-section__title Механический насос
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Параметры при&nbsp;выборе механического типа насоса
+					.ss-form-section__body
+						//- Рабочая среда: Пар
+						.ss-form-field.ss-form-field--full
+							label.ss-check-opt
+								input(type='checkbox' name='rsreda' value='1')
+								span Рабочая среда: Пар
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='tdav') Располагаемое давление (пар)
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='tdav' name='tdav' placeholder='например, 6')
+									span.ss-form-field__unit бар
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='ttem') Температура (пар)
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='ttem' name='ttem' placeholder='например, 160')
+									span.ss-form-field__unit °C
+
+						//- Рабочая среда: Воздух
+						.ss-form-field.ss-form-field--full
+							label.ss-check-opt
+								input(type='checkbox' name='rsreda' value='1')
+								span Рабочая среда: Воздух
+						.ss-form-field.ss-form-field--unit
+							label.ss-form-field__label(for='traspdav') Располагаемое давление (воздух)
+							.ss-form-field__row
+								input.ss-form-field__input(type='text' id='traspdav' name='traspdav' placeholder='например, 6')
+								span.ss-form-field__unit бар
+
+						//- cvizkontr — Визуальный контроль уровня в насосе
+						.ss-form-field.ss-form-field--full
+							label.ss-check-opt
+								input(type='checkbox' name='cvizkontr' value='1')
+								span Визуальный контроль уровня конденсата в&nbsp;насосе
+
+						//- cimpcounter — Счётчик импульсов
+						.ss-form-field.ss-form-field--full
+							label.ss-check-opt
+								input(type='checkbox' name='cimpcounter' value='1')
+								span Счётчик импульсов для&nbsp;подсчёта объёма перекаченного конденсата
+
+				//- Section 6 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-6
+					.ss-form-section__head
+						span.ss-form-section__num 6
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
+
+				//- Hidden-поля + Submit-блок (shared partial)
+				+surveySubmitBlock('Опросный лист Конденсатный насос и станция сбора и возврата конденсата')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров

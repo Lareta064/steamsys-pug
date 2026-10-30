@@ -1,0 +1,144 @@
+//- ============================================================
+//- Опросник «Техническая экспертиза пароконденсатной системы» —
+//- основной контент. Соответствует продакшн-шаблону Bitrix:
+//- опросники-php/index10.php.
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL.
+//- Все параметры (type radio, p2-p8, p4 radio) — опциональны.
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Источник пара' }, { num: 3, title: 'Потребитель и задача' }, { num: 4, title: 'Примечание' }]
+
+- var surveyGetItems = ['Программа технической экспертизы', 'Оценка сроков и объёма работ', 'Коммерческое предложение', 'Выезд инженера на объект (по согласованию)', 'Технический отчёт с рекомендациями']
+
+- var sourceTypeOptions = [{ value: '1', label: 'Собственная котельная' }, { value: '2', label: 'Внешний источник' }]
+- var consumerOptions = [{ value: '1', label: 'Завод' }, { value: '2', label: 'Цех' }, { value: '3', label: 'Участок' }]
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (shared)
+				+surveyContactsSection(1)
+
+				//- Section 2 — Источник пара (type, p2, p3)
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Источник пара
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Откуда поступает пар, его параметры и&nbsp;стоимость
+					.ss-form-section__body
+						//- type — radio (1=собственная котельная, 2=внешний источник)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Источник пара
+							.ss-form-field__radios
+								each opt in sourceTypeOptions
+									label.ss-radio-opt
+										input(type='radio' name='type' value=opt.value)
+										span= opt.label
+
+						//- p2 — Стоимость Гкал/ч
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='p2') Стоимость Гкал/ч
+							input.ss-form-field__input(type='text' id='p2' name='p2' placeholder='например, 2 500 ₽/Гкал')
+
+						//- p3 — Располагаемые давление и температура пара
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='p3') Располагаемые давление и&nbsp;температура пара от&nbsp;источника
+							input.ss-form-field__input(type='text' id='p3' name='p3' placeholder='например, 10 бар / 180 °C')
+
+				//- Section 3 — Потребитель и задача (p4, p5, p6, p7, p8)
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Потребитель и&nbsp;задача
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Что исследуем, какая задача, сроки и&nbsp;условия
+					.ss-form-section__body
+						//- p4 — Рассматриваемый потребитель (radio: завод / цех / участок)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Рассматриваемый потребитель (завод / цех / участок)
+							.ss-form-field__radios
+								each opt in consumerOptions
+									label.ss-radio-opt
+										input(type='radio' name='p4' value=opt.value)
+										span= opt.label
+
+						//- p5 — Расход пара на потребителе
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='p5') Расход пара на&nbsp;потребителе
+							input.ss-form-field__input(type='text' id='p5' name='p5' placeholder='например, 5 т/ч')
+
+						//- p6 — Краткое описание задачи
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='p6') Краткое описание задачи
+							input.ss-form-field__input(type='text' id='p6' name='p6' placeholder='коротко: что хотите узнать / улучшить')
+
+						//- p7 — Желаемые сроки выполнения
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='p7') Желаемые сроки выполнения
+							input.ss-form-field__input(type='text' id='p7' name='p7' placeholder='например, до конца Q2')
+
+						//- p8 — Прочие условия
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='p8') Прочие условия
+							input.ss-form-field__input(type='text' id='p8' name='p8' placeholder='режим доступа на объект, конфиденциальность, формат отчёта и т.п.')
+
+				//- Section 4 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите контур: особенности, симптомы, предыдущие исследования, пожелания по формату экспертизы')
+
+				//- Hidden-поля + Submit-блок (shared partial, TITLE 1-в-1 с index10.php)
+				+surveySubmitBlock('Опросный лист техническая экспертиза')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров

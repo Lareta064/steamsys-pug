@@ -1,0 +1,128 @@
+//- ============================================================
+//- Опросник «Обвязка парового калорифера» — основной контент.
+//- Соответствует продакшн-шаблону Bitrix: опросники-php/index3.php.
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL.
+//- Все параметры (power/steampress/steamt/antipress/autoreg + airrash/tmin/ttarget) —
+//- опциональны. Единицы (кВт, бар изб., °C, м.в.ст., тыс. м³/ч) — наши UX-добавки.
+//-
+//- Структура прода: таблица 8 строк × 3 установки (Установка 1/2/3) + COMMENTS.
+//- Разделена на 2 блока: «Греющая сторона — пар» (п. 1-5) и
+//- «Нагреваемая сторона — воздух» (п. 6-8).
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Греющая сторона — пар' }, { num: 3, title: 'Нагреваемая сторона — воздух' }, { num: 4, title: 'Примечание' }]
+
+- var surveyGetItems = ['Подбор схемы обвязки парового калорифера', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
+
+//- Строки таблицы Греющей стороны (параметры × 3 установки)
+- var heatingRows = [{ label: 'Тепловая мощность (или расход воздуха, п.6)', unit: 'кВт', names: ['power1', 'power2', 'power3'] }, { label: 'Давление пара', unit: 'бар изб.', names: ['steampress1', 'steampress2', 'steampress3'] }, { label: 'Температура пара (если перегретый)', unit: '°C', names: ['steamt1', 'steamt2', 'steamt3'] }, { label: 'Противодавление / высота подъёма конденсатопровода', unit: 'м.в.ст.', names: ['antipress1', 'antipress2', 'antipress3'] }, { label: 'Авторегулирование температуры воздуха', unit: '—', names: ['autoreg1', 'autoreg2', 'autoreg3'] }]
+
+//- Строки таблицы Нагреваемой стороны
+- var airRows = [{ label: 'Расход воздуха', unit: 'тыс. м³/ч', names: ['airrash1', 'airrash2', 'airrash3'] }, { label: 'Температура воздуха на входе (минимальная)', unit: '°C', names: ['tmin1', 'tmin2', 'tmin3'] }, { label: 'Температура воздуха на выходе (требуемая)', unit: '°C', names: ['ttarget1', 'ttarget2', 'ttarget3'] }]
+
+//- Mixin для одной строки таблицы: label + 3 input
+mixin obvRow(row)
+	.ss-single-survey__regime-row
+		span.ss-single-survey__regime-label= row.label + (row.unit && row.unit !== '—' ? ', ' + row.unit : '')
+		each nm in row.names
+			input.ss-form-field__input(type='text' name=nm aria-label=row.label)
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (shared)
+				+surveyContactsSection(1)
+
+				//- Section 2 — Греющая сторона: пар (п. 1-5 × Установка 1/2/3)
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Греющая сторона&nbsp;— пар
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Параметры греющего пара для&nbsp;каждой установки (до&nbsp;3)
+					.ss-form-section__body
+						.ss-single-survey__regime-table
+							.ss-single-survey__regime-head
+								span Параметр
+								span Установка 1
+								span Установка 2
+								span Установка 3
+							each row in heatingRows
+								+obvRow(row)
+
+				//- Section 3 — Нагреваемая сторона: воздух (п. 6-8 × Установка 1/2/3)
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Нагреваемая сторона&nbsp;— воздух
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Параметры нагреваемого воздуха для&nbsp;каждой установки
+					.ss-form-section__body
+						.ss-single-survey__regime-table
+							.ss-single-survey__regime-head
+								span Параметр
+								span Установка 1
+								span Установка 2
+								span Установка 3
+							each row in airRows
+								+obvRow(row)
+
+				//- Section 4 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
+
+				//- Hidden-поля + Submit-блок (shared partial, TITLE 1-в-1 с index3.php)
+				+surveySubmitBlock('Опросный лист Обвязка Калорифера')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров

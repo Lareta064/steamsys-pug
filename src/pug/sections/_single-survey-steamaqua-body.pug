@@ -1,0 +1,175 @@
+//- ============================================================
+//- Опросник «Автоматическая станция ГВС SteamAqua» — основной контент.
+//- Соответствует продакшн-шаблону Bitrix: опросники-php/index11.php.
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL.
+//- Параметры контуров (par, vout, sv, vin, pline, p1, p2) — опциональны.
+//-
+//- ПРОД-БАГ: в index11.php hidden TITLE задан как "Опросный лист Эжектор"
+//- (видимо, скопировали из index9.php и забыли поменять). SetTitle страницы
+//- при этом — "Заявка на установку Автоматической станции ГВС SteamAqua".
+//- Мы передаём корректный TITLE (как в SetTitle) — программист при переносе
+//- на Bitrix примет финальное решение, что писать в хидден.
+//-
+//- Прод-особенность имён: в блоке «Вода на входе» 3 поля — vin3 (давление),
+//- vin23 (температура), vin33 (расход). Логики в суффиксах нет, передаём 1-в-1.
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Параметры контуров' }, { num: 3, title: 'Предельные параметры пара' }, { num: 4, title: 'Примечание' }]
+
+- var surveyGetItems = ['Подбор станции ГВС SteamAqua', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (shared)
+				+surveyContactsSection(1)
+
+				//- Section 2 — Параметры контуров (пар, вода на вх/вых, сжатый воздух, противодавление)
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Параметры контуров
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Пар, вода на входе и&nbsp;выходе, сжатый воздух, противодавление в&nbsp;конденсатной линии
+					.ss-form-section__body
+
+						//- Подгруппа: Пар (par1, par2)
+						p.ss-single-survey__subhead Пар
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='par1') Давление
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='par1' name='par1')
+									span.ss-form-field__unit бар изб.
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='par2') Температура
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='par2' name='par2')
+									span.ss-form-field__unit °C
+
+						//- Подгруппа: Вода на выходе (vout1)
+						p.ss-single-survey__subhead Вода на&nbsp;выходе
+						.ss-form-field.ss-form-field--unit.ss-form-field--full
+							label.ss-form-field__label(for='vout1') Температура
+							.ss-form-field__row
+								input.ss-form-field__input(type='text' id='vout1' name='vout1')
+								span.ss-form-field__unit °C
+
+						//- Подгруппа: Сжатый воздух (sv12)
+						p.ss-single-survey__subhead Сжатый воздух
+						.ss-form-field.ss-form-field--unit.ss-form-field--full
+							label.ss-form-field__label(for='sv12') Давление
+							.ss-form-field__row
+								input.ss-form-field__input(type='text' id='sv12' name='sv12')
+								span.ss-form-field__unit бар изб.
+
+						//- Подгруппа: Вода на входе (vin3, vin23, vin33)
+						p.ss-single-survey__subhead Вода на&nbsp;входе
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='vin3') Давление
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='vin3' name='vin3')
+									span.ss-form-field__unit бар изб.
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='vin23') Температура
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='vin23' name='vin23')
+									span.ss-form-field__unit °C
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='vin33') Расход
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='vin33' name='vin33')
+									span.ss-form-field__unit кг/ч
+
+						//- Подгруппа: Противодавление в конденсатной линии (pline1)
+						p.ss-single-survey__subhead Противодавление в&nbsp;конденсатной линии
+						.ss-form-field.ss-form-field--unit.ss-form-field--full
+							label.ss-form-field__label(for='pline1') Давление
+							.ss-form-field__row
+								input.ss-form-field__input(type='text' id='pline1' name='pline1')
+								span.ss-form-field__unit бар изб.
+
+						//- Hint из прода
+						p.ss-form-field__hint Если вы&nbsp;затрудняетесь в&nbsp;определении каких-либо значений&nbsp;— свяжитесь с&nbsp;нами, мы&nbsp;поможем их&nbsp;определить, основываясь на&nbsp;дополнительной информации о&nbsp;процессе / установке.
+
+				//- Section 3 — Предельные параметры пара (p1, p2)
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Предельные параметры пара
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Максимальные рабочие параметры греющего пара (если известны)
+					.ss-form-section__body
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p1') Максимальное рабочее давление пара
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p1' name='p1')
+									span.ss-form-field__unit бар изб.
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p2') Максимальная рабочая температура пара
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p2' name='p2')
+									span.ss-form-field__unit °C
+
+				//- Section 4 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
+
+				//- Hidden-поля + Submit-блок (shared partial).
+				//- TITLE — корректный (SetTitle страницы), а не прод-баг «Опросный лист Эжектор».
+				+surveySubmitBlock('Заявка на установку Автоматической станции ГВС SteamAqua')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров

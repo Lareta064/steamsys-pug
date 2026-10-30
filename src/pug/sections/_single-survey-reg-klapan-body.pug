@@ -1,0 +1,525 @@
+//- ============================================================
+//- Опросник «Регулирующий клапан» — основной контент.
+//- Соответствует продакшн-шаблону Bitrix: опросники-php/index2.php.
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL.
+//- Все остальные поля (COMPANY_TITLE, CITY, CNT, form_1…form_69, COMMENTS) —
+//- опциональны. Единицы (°C, bar, кг/м3 и т.д.) — наши UX-добавки.
+//-
+//- Контактная секция здесь РАСШИРЕНА (6 полей вместо стандартных 4):
+//- добавлены CITY (Город) и CNT (Количество, шт.) — специфика index2.php.
+//- Поэтому не используем общий +surveyContactsSection, пишем inline.
+//-
+//- Прод-баг: name='form_7' встречается ДВАЖДЫ (Температура продукта +
+//- Расход Min режим I). Передаём как есть — программист поправит.
+//- Прод-баг: form_55 имеет 2 опции с value='2'. Передаём как есть.
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Параметры продукта' }, { num: 3, title: 'Режимы работы' }, { num: 4, title: 'Установка' }, { num: 5, title: 'Параметры клапана' }, { num: 6, title: 'Исполнительные устройства' }, { num: 7, title: 'Примечание' }]
+
+- var surveyGetItems = ['Подбор регулирующего клапана', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
+
+//- Строки таблицы «Режимы работы» — label + 3 поля (I/II/III)
+- var regimeRows = [{ label: 'Расход Min', unit: 'см. агр. сост.', names: ['form_7', 'form_8', 'form_9'] }, { label: 'Расход Nom', unit: 'см. агр. сост.', names: ['form_10', 'form_11', 'form_12'] }, { label: 'Расход Max', unit: 'см. агр. сост.', names: ['form_13', 'form_14', 'form_15'] }, { label: 'Давление до клапана', unit: 'bar', names: ['form_16', 'form_17', 'form_18'] }, { label: 'Перепад давления (Max)', unit: 'bar', names: ['form_19', 'form_20', 'form_21'] }, { label: 'Плотность продукта', unit: 'кг/м³', names: ['form_22', 'form_23', 'form_24'] }, { label: 'Макс. температура продукта', unit: '°C', names: ['form_28', 'form_29', 'form_30'] }]
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (расширенная: +CITY +CNT)
+				section.ss-form-section.ss-form-section--required#section-1
+					.ss-form-section__head
+						span.ss-form-section__num 1
+						h3.ss-form-section__title Контактная информация
+						span.ss-tag.ss-tag--mini-primary Обязательно
+					p.ss-form-section__sub Как с&nbsp;вами связаться + город и&nbsp;требуемое количество клапанов
+					.ss-form-section__body
+						.ss-form-section__row
+							.ss-form-field
+								label.ss-form-field__label(for='COMPANY_TITLE') Организация
+								input.ss-form-field__input(type='text' id='COMPANY_TITLE' name='COMPANY_TITLE' placeholder='название компании')
+							.ss-form-field
+								label.ss-form-field__label(for='NAME')
+									| Контактное лицо
+									span.ss-form-field__req *
+								input.ss-form-field__input(type='text' id='NAME' name='NAME' required placeholder='контактное лицо')
+							.ss-form-field
+								label.ss-form-field__label(for='PHONE')
+									| Телефон / факс
+									span.ss-form-field__req *
+								input.ss-form-field__input(type='tel' id='PHONE' name='PHONE' required placeholder='+7 (000) 000-00-00')
+							.ss-form-field
+								label.ss-form-field__label(for='EMAIL')
+									| E-mail
+									span.ss-form-field__req *
+								input.ss-form-field__input(type='text' id='EMAIL' name='EMAIL' required placeholder='Ваш e-mail')
+							.ss-form-field
+								label.ss-form-field__label(for='CITY') Город
+								input.ss-form-field__input(type='text' id='CITY' name='CITY' placeholder='Ваш город')
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='CNT') Количество клапанов
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='CNT' name='CNT' placeholder='например, 2')
+									span.ss-form-field__unit шт.
+
+				//- Section 2 — Параметры продукта (form_1, form_2, form_4-6, form_7)
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Параметры продукта
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Что проходит через клапан: состав, агрегатное состояние, температура
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='form_1') Наименование / состав
+							input.ss-form-field__input(type='text' id='form_1' name='form_1')
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='form_2') Примеси / твёрдые частицы (концентрация, размеры)
+							input.ss-form-field__input(type='text' id='form_2' name='form_2')
+						//- Агрегатное состояние — 3 независимых checkbox с текстовыми values (так в проде)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Агрегатное состояние (отметьте применимое)
+							.ss-checkbox-grid
+								label.ss-check-opt
+									input(type='checkbox' name='form_4' value='Жидкость, м3/ч')
+									span Жидкость, м³/ч
+								label.ss-check-opt
+									input(type='checkbox' name='form_5' value='Газ нм3 /ч')
+									span Газ, нм³/ч
+								label.ss-check-opt
+									input(type='checkbox' name='form_6' value='Водяной пар кг/ч')
+									span Водяной пар, кг/ч
+						//- form_7 — Температура продукта в рабочем режиме (внимание: name дублируется в режимах, прод-баг)
+						.ss-form-field.ss-form-field--unit
+							label.ss-form-field__label(for='form_7_temp') Температура продукта в&nbsp;рабочем режиме
+							.ss-form-field__row
+								input.ss-form-field__input(type='text' id='form_7_temp' name='form_7')
+								span.ss-form-field__unit °C
+
+				//- Section 3 — Режимы работы (I / II / III): таблица 3-кол + общие параметры
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Режимы работы
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Расход, давление, плотность, температура для&nbsp;трёх режимов (I&nbsp;/ II&nbsp;/ III)
+					.ss-form-section__body
+						//- Grid-таблица: label | режим I | режим II | режим III
+						.ss-single-survey__regime-table
+							//- Заголовок таблицы
+							.ss-single-survey__regime-head
+								span Параметр
+								span I
+								span II
+								span III
+							//- Строки параметров
+							each row in regimeRows
+								.ss-single-survey__regime-row
+									span.ss-single-survey__regime-label= row.label + ', ' + row.unit
+									each nm in row.names
+										input.ss-form-field__input(type='text' name=nm aria-label=row.label)
+
+						//- Температура окружающей среды — Min + Max
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='form_25') Температура окр. среды — Min
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='form_25' name='form_25' placeholder='Min')
+									span.ss-form-field__unit °C
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='form_26') Температура окр. среды — Max
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='form_26' name='form_26' placeholder='Max')
+									span.ss-form-field__unit °C
+
+						//- Общее максимальное давление (избыточное)
+						.ss-form-field.ss-form-field--unit
+							label.ss-form-field__label(for='form_27') Максимальное давление (избыточное)
+							.ss-form-field__row
+								input.ss-form-field__input(type='text' id='form_27' name='form_27')
+								span.ss-form-field__unit bar
+
+				//- Section 4 — Установка (form_31, form_32)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Установка
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Размер и&nbsp;материал трубопровода
+					.ss-form-section__body
+						.ss-form-section__row
+							.ss-form-field
+								label.ss-form-field__label(for='form_31') Размер трубопровода + толщина стенки
+								input.ss-form-field__input(type='text' id='form_31' name='form_31' placeholder='Ø × мм')
+							.ss-form-field
+								label.ss-form-field__label(for='form_32') Материал трубопровода
+								input.ss-form-field__input(type='text' id='form_32' name='form_32')
+
+				//- Section 5 — Параметры клапана (form_33-52)
+				section.ss-form-section.ss-form-section--optional#section-5
+					.ss-form-section__head
+						span.ss-form-section__num 5
+						h3.ss-form-section__title Параметры клапана
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Модификация, DN/PN, характеристики, уплотнения и&nbsp;монтаж
+					.ss-form-section__body
+
+						//- form_33 — Модификация
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Модификация
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_33' value='1')
+									span 2-х ходовой
+								label.ss-radio-opt
+									input(type='radio' name='form_33' value='2')
+									span 3-х ходовой
+
+						//- form_34 — Для 3-х ходового: Смешивание / Разделение
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Для 3-х ходового
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_34' value='1')
+									span Смешивание
+								label.ss-radio-opt
+									input(type='radio' name='form_34' value='2')
+									span Разделение
+
+						//- Основные размеры: DN, PN, ANSI, Kvs
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='form_35') Номинальный диаметр, DN
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='form_35' name='form_35')
+									span.ss-form-field__unit мм
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='form_36') Номинальное давление, PN
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='form_36' name='form_36')
+									span.ss-form-field__unit bar
+							.ss-form-field
+								label.ss-form-field__label(for='form_37') Класс по ANSI
+								input.ss-form-field__input(type='text' id='form_37' name='form_37')
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='form_38') Пропускная способность, Kvs
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='form_38' name='form_38')
+									span.ss-form-field__unit м³/ч
+
+						//- form_39/form_40 — Назначение клапана (2 независимых checkbox)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Назначение клапана
+							.ss-checkbox-grid
+								label.ss-check-opt
+									input(type='checkbox' name='form_39' value='1')
+									span Регулирование
+								label.ss-check-opt
+									input(type='checkbox' name='form_40' value='1')
+									span Открыт / закрыт
+
+						//- form_41/42/43 — Пропускная характеристика (3 независимых checkbox)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Пропускная характеристика
+							.ss-checkbox-grid
+								label.ss-check-opt
+									input(type='checkbox' name='form_41' value='1')
+									span Равнопроцентная
+								label.ss-check-opt
+									input(type='checkbox' name='form_42' value='1')
+									span Линейная
+								label.ss-check-opt
+									input(type='checkbox' name='form_43' value='1')
+									span Запорная
+
+						//- form_44/45/46 — Положение при отсутствии питания
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Положение при&nbsp;отсутствии питания
+							.ss-checkbox-grid
+								label.ss-check-opt
+									input(type='checkbox' name='form_44' value='1')
+									span Открыт
+								label.ss-check-opt
+									input(type='checkbox' name='form_45' value='1')
+									span Закрыт
+								label.ss-check-opt
+									input(type='checkbox' name='form_46' value='1')
+									span Сохраняет положение
+
+						//- form_47 — Класс герметичности
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='form_47') Класс герметичности
+							input.ss-form-field__input(type='text' id='form_47' name='form_47')
+
+						//- form_48 — Уплотнение штока плунжера
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Уплотнение штока плунжера
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_48' value='1')
+									span Сальник (стандарт)
+								label.ss-radio-opt
+									input(type='radio' name='form_48' value='2')
+									span Сильфон
+
+						//- form_49 — Способ монтажа
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Способ монтажа
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_49' value='1')
+									span Фланцевый
+								label.ss-radio-opt
+									input(type='radio' name='form_49' value='2')
+									span Под приварку
+								label.ss-radio-opt
+									input(type='radio' name='form_49' value='3')
+									span Резьбовой
+
+						//- form_50 — Уплотнение затвора
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Уплотнение затвора
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_50' value='1')
+									span Металл по&nbsp;металлу (стандарт)
+								label.ss-radio-opt
+									input(type='radio' name='form_50' value='2')
+									span Мягкое уплотнение (PTFE)
+
+						//- form_51, form_52 — Форма уплотн. поверхности + Материал корпуса
+						.ss-form-section__row
+							.ss-form-field
+								label.ss-form-field__label(for='form_51') Форма уплотнительной поверхности фланцев
+								input.ss-form-field__input(type='text' id='form_51' name='form_51')
+							.ss-form-field
+								label.ss-form-field__label(for='form_52') Материал корпуса клапана
+								input.ss-form-field__input(type='text' id='form_52' name='form_52')
+
+				//- Section 6 — Исполнительные устройства (ИМ + Позиционер + Соленоид + Выключатели + Доп.)
+				section.ss-form-section.ss-form-section--optional#section-6
+					.ss-form-section__head
+						span.ss-form-section__num 6
+						h3.ss-form-section__title Исполнительные устройства
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Исполнительный механизм, позиционер, соленоид, конечные выключатели, принадлежности
+					.ss-form-section__body
+
+						//- Подгруппа: Исполнительный механизм (form_53-56)
+						p.ss-single-survey__subhead Исполнительный механизм
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Тип
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_53' value='1')
+									span Пневматический
+								label.ss-radio-opt
+									input(type='radio' name='form_53' value='2')
+									span Электрический
+						.ss-form-field.ss-form-field--unit
+							label.ss-form-field__label(for='form_54') Давление питания (пневмо)
+							.ss-form-field__row
+								input.ss-form-field__input(type='text' id='form_54' name='form_54')
+								span.ss-form-field__unit bar
+						//- form_55 — Напряжение питания (прод-баг: 2 опции с value='2'; передаём как есть)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Напряжение питания (электро)
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_55' value='2')
+									span 400V 50Hz 3~
+								label.ss-radio-opt
+									input(type='radio' name='form_55' value='2')
+									span 230V 50Hz 1~
+								label.ss-radio-opt
+									input(type='radio' name='form_55' value='3')
+									span 115V 50Hz 1~
+								label.ss-radio-opt
+									input(type='radio' name='form_55' value='4')
+									span 24V 50Hz 1~
+								label.ss-radio-opt
+									input(type='radio' name='form_55' value='5')
+									span 24V DC
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Ручной дублёр
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_56' value='1')
+									span Нет
+								label.ss-radio-opt
+									input(type='radio' name='form_56' value='2')
+									span Да
+
+						//- Подгруппа: Позиционер (form_57-60)
+						p.ss-single-survey__subhead Позиционер
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Тип
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_57' value='1')
+									span Электронный
+								label.ss-radio-opt
+									input(type='radio' name='form_57' value='2')
+									span Пневматический
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Входной сигнал
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_58' value='1')
+									span 4-20 mA
+								label.ss-radio-opt
+									input(type='radio' name='form_58' value='2')
+									span 3-х точечный
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Требования по&nbsp;взрывозащите
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_59' value='1')
+									span Нет
+								label.ss-radio-opt
+									input(type='radio' name='form_59' value='2')
+									span Да
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='form_60') Степень защиты оболочки IP
+							input.ss-form-field__input(type='text' id='form_60' name='form_60')
+
+						//- Подгруппа: Соленоид (form_61-63)
+						p.ss-single-survey__subhead Соленоид
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Напряжение питания
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_61' value='1')
+									span 24V DC
+								label.ss-radio-opt
+									input(type='radio' name='form_61' value='2')
+									span 230V AC
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Требования по&nbsp;взрывозащите
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_62' value='1')
+									span Нет
+								label.ss-radio-opt
+									input(type='radio' name='form_62' value='2')
+									span Да
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='form_63') Степень защиты оболочки IP
+							input.ss-form-field__input(type='text' id='form_63' name='form_63')
+
+						//- Подгруппа: Конечные выключатели (form_64-67)
+						p.ss-single-survey__subhead Конечные выключатели
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Назначение
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_64' value='1')
+									span Для открытого положения
+								label.ss-radio-opt
+									input(type='radio' name='form_64' value='2')
+									span Для закрытого положения
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Тип
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_65' value='1')
+									span Механические
+								label.ss-radio-opt
+									input(type='radio' name='form_65' value='2')
+									span Индуктивные
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Требования по&nbsp;взрывозащите
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_66' value='1')
+									span Нет
+								label.ss-radio-opt
+									input(type='radio' name='form_66' value='2')
+									span Да
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='form_67') Степень защиты оболочки IP
+							input.ss-form-field__input(type='text' id='form_67' name='form_67')
+
+						//- Подгруппа: Доп. опции (form_68, form_69)
+						p.ss-single-survey__subhead Доп. опции
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Фильтр-редуктор
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='form_68' value='1')
+									span Нет
+								label.ss-radio-opt
+									input(type='radio' name='form_68' value='2')
+									span Да
+						//- form_69 — Принадлежности. В проде это radio-группа (одна за раз), но
+						//- в UI это обычно multi — переделал в чекбоксы с value по проду.
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Принадлежности
+							.ss-checkbox-grid
+								label.ss-check-opt
+									input(type='checkbox' name='form_69' value='1')
+									span Ответные фланцы
+								label.ss-check-opt
+									input(type='checkbox' name='form_69' value='2')
+									span Болты, гайки
+								label.ss-check-opt
+									input(type='checkbox' name='form_69' value='1')
+									span Прокладки
+
+				//- Section 7 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-7
+					.ss-form-section__head
+						span.ss-form-section__num 7
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
+
+				//- Hidden-поля + Submit-блок (shared partial, TITLE 1-в-1 с index2.php)
+				+surveySubmitBlock('Опросный лист на регулирующий клапан')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров

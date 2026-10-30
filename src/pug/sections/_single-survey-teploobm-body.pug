@@ -1,0 +1,171 @@
+//- ============================================================
+//- Опросник «Паровой теплообменник» — основной контент.
+//- Соответствует продакшн-шаблону Bitrix: опросники-php/index6.php.
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL.
+//- Все параметры (p1, p2, nagrtype, p4-p10, storona) — опциональны.
+//-
+//- Прод-специфика: номер «p3» отсутствует (пропущен), вместо него
+//- идёт radio-группа nagrtype (Отопление / Вентиляция / ГВС / Технологические нужды).
+//- Поле storona (text) — свободный ввод типа нагреваемой среды.
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Греющая сторона — пар' }, { num: 3, title: 'Нагреваемая сторона' }, { num: 4, title: 'Требования к теплообменнику' }, { num: 5, title: 'Примечание' }]
+
+- var surveyGetItems = ['Подбор парового теплообменника', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
+
+//- Опции nagrtype — radio (прод: name='nagrtype', value='1'...'4')
+- var nagrOptions = [{ value: '1', label: 'Отопление' }, { value: '2', label: 'Вентиляция' }, { value: '3', label: 'ГВС' }, { value: '4', label: 'Технологические нужды' }]
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (shared)
+				+surveyContactsSection(1)
+
+				//- Section 2 — Греющая сторона — пар (p1, p2, nagrtype, p4, p5)
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Греющая сторона&nbsp;— пар
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Параметры греющего пара и&nbsp;тепловая нагрузка
+					.ss-form-section__body
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p1') Тепловая нагрузка максимальная
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p1' name='p1')
+									span.ss-form-field__unit кВт / Гкал/ч
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p2') Тепловая нагрузка минимальная
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p2' name='p2')
+									span.ss-form-field__unit кВт / Гкал/ч
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p4') Давление пара
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p4' name='p4')
+									span.ss-form-field__unit бар изб.
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p5') Температура пара (для перегретого пара)
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p5' name='p5')
+									span.ss-form-field__unit °C
+
+						//- nagrtype — radio 1-4 (Отопление / Вентиляция / ГВС / Технологические нужды)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Тип нагрузки
+							.ss-form-field__radios
+								each opt in nagrOptions
+									label.ss-radio-opt
+										input(type='radio' name='nagrtype' value=opt.value)
+										span= opt.label
+
+				//- Section 3 — Нагреваемая сторона (storona, p6, p7, p8)
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Нагреваемая сторона
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Параметры нагреваемой среды: что греем, температуры и&nbsp;потери давления
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='storona') Что греем? (например: вода, воздух, технологическая среда)
+							input.ss-form-field__input(type='text' id='storona' name='storona' placeholder='укажите нагреваемую среду')
+
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p6') Температура на входе
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p6' name='p6')
+									span.ss-form-field__unit °C
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p7') Температура на выходе
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p7' name='p7')
+									span.ss-form-field__unit °C
+							.ss-form-field.ss-form-field--unit.ss-form-field--full
+								label.ss-form-field__label(for='p8') Максимальные допустимые потери давления на&nbsp;теплообменнике
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p8' name='p8')
+									span.ss-form-field__unit м.в.ст.
+
+				//- Section 4 — Требования к теплообменнику (p9, p10)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Требования к&nbsp;теплообменнику
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Максимальные рабочие параметры (если известны)
+					.ss-form-section__body
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p9') Максимальная рабочая температура
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p9' name='p9')
+									span.ss-form-field__unit °C
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p10') Максимальное рабочее давление
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p10' name='p10')
+									span.ss-form-field__unit бар изб.
+
+				//- Section 5 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-5
+					.ss-form-section__head
+						span.ss-form-section__num 5
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
+
+				//- Hidden-поля + Submit-блок (shared partial, TITLE 1-в-1 с index6.php)
+				+surveySubmitBlock('Опросный лист Паровой теплообменник')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров

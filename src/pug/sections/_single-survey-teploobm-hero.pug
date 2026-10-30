@@ -1,0 +1,21 @@
+section.ss-hero-inner.ss-hero-inner--dark.ss-single-survey__hero
+	.ss-hero-inner__crumbs
+		.ss-container.ss-wrapper
+			nav.ss-breadcrumbs(aria-label='Хлебные крошки')
+				ol.ss-breadcrumbs__list
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./') Главная
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./docs.html') Документация
+					li.ss-breadcrumbs__item
+						a.ss-breadcrumbs__link(href='./surveys.html') Опросные листы
+					li.ss-breadcrumbs__item.ss-breadcrumbs__item--current(aria-current='page') Паровой теплообменник
+
+	.ss-hero-inner__body
+		.ss-container.ss-wrapper
+			.ss-hero-inner__body-inner
+				span.ss-kicker Опросный лист
+				h1.ss-h2 Паровой теплообменник
+				p.ss-hero-inner__lead Заполните параметры&nbsp;— инженер подберёт паровой теплообменник под&nbsp;вашу задачу и&nbsp;пришлёт КП в&nbsp;течение 1&nbsp;рабочего дня.
+				.ss-hero-inner__actions
+					+ssBtn('О паровых теплообменниках', { variant: 'primary', tag: 'a', href: '#' })

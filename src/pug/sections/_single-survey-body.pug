@@ -2,18 +2,21 @@
 //- Опросник Конденсатоотводчика — основной контент.
 //- Структура: прогресс (full-width) + grid 2 колонки (форма + sticky aside).
 //-
-//- Все поля (name / required / value для radio/checkbox / hidden) соответствуют
+//- Все поля (name / value для radio/checkbox / hidden) соответствуют
 //- продакшн-шаблону Bitrix: опросники-php/index1.php (admin dump).
-//- Программист переносит разметку в Bitrix «как есть» — атрибуты уже правильные.
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL (контакты).
+//- Остальные поля опциональны — программист при переносе может сам
+//- вернуть native required там, где нужно по его логике.
 //- ============================================================
 
-- var surveySections = [{ num: 1, title: 'Контактная информация', badge: 'required' }, { num: 2, title: 'Конденсатоотводчик №1', badge: 'required' }, { num: 3, title: 'Конденсатоотводчик №2', badge: 'optional' }, { num: 4, title: 'Конденсатоотводчик №3', badge: 'optional' }, { num: 5, title: 'Примечание', badge: 'optional' }]
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Конденсатоотводчик №1' }, { num: 3, title: 'Конденсатоотводчик №2' }, { num: 4, title: 'Конденсатоотводчик №3' }, { num: 5, title: 'Примечание' }]
 
 - var surveyGetItems = ['Подбор модели конденсатоотводчика', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
 
 //- Параметры одного блока «Конденсатоотводчик №N» (повторяется 3 раза).
-//- requiredFirst: поле обязательно только для №1 (так в проде).
-- var koFields = [{ name: 'krashod', label: 'Расход конденсата', unit: 'кг/ч', placeholder: 'кг/ч', requiredFirst: true }, { name: 'davpered', label: 'Давление перед конденсатоотводчиком', unit: 'бар изб.', placeholder: 'бар изб.' }, { name: 'davza', label: 'Давление за конденсатоотводчиком (противодавление в конденсатной линии)', unit: 'бар изб.', placeholder: 'бар изб.' }, { name: 'mint', label: 'Минимальная температура окружающей среды', unit: '°C', placeholder: 'градусов C' }, { name: 'part', label: 'Температура пара (указать только если пар перегретый)', unit: '°C', placeholder: 'градусов C', requiredFirst: true }]
+- var koFields = [{ name: 'krashod', label: 'Расход конденсата', unit: 'кг/ч', placeholder: 'кг/ч' }, { name: 'davpered', label: 'Давление перед конденсатоотводчиком', unit: 'бар изб.', placeholder: 'бар изб.' }, { name: 'davza', label: 'Давление за конденсатоотводчиком (противодавление в конденсатной линии)', unit: 'бар изб.', placeholder: 'бар изб.' }, { name: 'mint', label: 'Минимальная температура окружающей среды', unit: '°C', placeholder: 'градусов C' }, { name: 'part', label: 'Температура пара (указать только если пар перегретый)', unit: '°C', placeholder: 'градусов C' }]
 
 //- Чекбоксы доп. оборудования — по 3 отдельных на каждую деталь (filter1/filter2/filter3 и т.д.)
 - var koAccessories = [{ name: 'filter', label: 'Фильтр' }, { name: 'obrklap', label: 'Обратный клапан' }, { name: 'ventil', label: 'Отсечные вентили / байпасный вентиль' }, { name: 'prokran', label: 'Продувочный кран' }, { name: 'prervak', label: 'Прерыватель вакуума' }]
@@ -21,38 +24,33 @@
 //- Миксин блока «Конденсатоотводчик №N» — одинаковая разметка для №1-3,
 //- суффикс N подставляется в name/id. Параметры + радио типа присоединения +
 //- чекбоксы доп. оборудования — всё в одном блоке.
-mixin koSection(num, isRequired)
+//- isPrimary=true → первый КО (визуально «Желательно», синий badge);
+//- isPrimary=false → доп. КО (визуально «Необязательно», серый badge).
+mixin koSection(num, isPrimary)
 	-
 		var suffix = num - 1;
-		var badge = isRequired ? 'Обязательно' : 'Необязательно';
-		var modCls = isRequired ? 'ss-form-section--required' : 'ss-form-section--optional';
-		var badgeCls = isRequired ? 'ss-tag ss-tag--mini-primary' : 'ss-tag ss-tag--mini';
-	section(class='ss-form-section ' + modCls id='section-' + num)
+		var badge = isPrimary ? 'Желательно' : 'Необязательно';
+		var badgeCls = isPrimary ? 'ss-tag ss-tag--mini-primary' : 'ss-tag ss-tag--mini';
+	section.ss-form-section.ss-form-section--optional(id='section-' + num)
 		.ss-form-section__head
 			span.ss-form-section__num= num
 			h3.ss-form-section__title Конденсатоотводчик №#{suffix}
 			span(class=badgeCls)= badge
-		p.ss-form-section__sub #{isRequired ? 'Параметры первого конденсатоотводчика' : 'Если нужно подобрать ещё один — заполните этот блок'}
+		p.ss-form-section__sub #{isPrimary ? 'Параметры первого конденсатоотводчика' : 'Если нужно подобрать ещё один — заполните этот блок'}
 		.ss-form-section__body
 
 			//- Поля-параметры (text input c unit-suffix)
 			.ss-form-section__row
 				each f in koFields
 					.ss-form-field.ss-form-field--unit
-						label.ss-form-field__label(for=`${f.name}${suffix}`)
-							| #{f.label}
-							if isRequired && f.requiredFirst
-								span.ss-form-field__req *
+						label.ss-form-field__label(for=`${f.name}${suffix}`)= f.label
 						.ss-form-field__row
-							input.ss-form-field__input(type='text' id=`${f.name}${suffix}` name=`${f.name}${suffix}` placeholder=f.placeholder required=(isRequired && f.requiredFirst))
+							input.ss-form-field__input(type='text' id=`${f.name}${suffix}` name=`${f.name}${suffix}` placeholder=f.placeholder)
 							span.ss-form-field__unit= f.unit
-				//- Место установки — всегда text, required для КО №1
+				//- Место установки — text, свободная форма
 				.ss-form-field.ss-form-field--full
-					label.ss-form-field__label(for=`mplace${suffix}`)
-						| Место установки (дренаж паропровода, теплообменник, пароспутник, другое)
-						if isRequired
-							span.ss-form-field__req *
-					input.ss-form-field__input(type='text' id=`mplace${suffix}` name=`mplace${suffix}` required=isRequired placeholder='укажите место установки')
+					label.ss-form-field__label(for=`mplace${suffix}`) Место установки (дренаж паропровода, теплообменник, пароспутник, другое)
+					input.ss-form-field__input(type='text' id=`mplace${suffix}` name=`mplace${suffix}` placeholder='укажите место установки')
 
 			//- Тип присоединения — radio value='1'/'2'/'3' (прод)
 			.ss-form-field.ss-form-field--full
@@ -88,53 +86,16 @@ section.ss-section.ss-single-survey__body
 			.ss-single-survey__progress-bar(aria-hidden='true')
 				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
 			p.ss-single-survey__progress-hint
-				| Обязательных полей: #[strong 7]. Остальное&nbsp;— уточним при общении.
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
 
 		.ss-single-survey__wrap
 
 			//- ─── MAIN: форма ───────────────────────────────────────
 			//- action='' — форма сабмитится на свою страницу (в Bitrix PHP установит URL).
-			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='')
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
 
-				//- Hidden-поля для Bitrix nimdaCreateLead():
-				//-   PAGE  — URL страницы (PHP: SERVER_NAME + REQUEST_URI)
-				//-   save  — флаг обработки ('Y')
-				//-   TITLE — название опросника (приходит в лид)
-				//-   rand  — анти-дубль (PHP: rand())
-				input(type='hidden' name='save' value='Y')
-				input(type='hidden' name='TITLE' value='Опросный лист Конденсатоотводчик')
-				input(type='hidden' name='PAGE' value='')
-				input(type='hidden' name='rand' value='')
-
-				//- Section 1 — Контактная информация
-				section.ss-form-section.ss-form-section--required#section-1
-					.ss-form-section__head
-						span.ss-form-section__num 1
-						h3.ss-form-section__title Контактная информация
-						span.ss-tag.ss-tag--mini-primary Обязательно
-					p.ss-form-section__sub Кто вы и для какого предприятия подбираем конденсатоотводчик
-					.ss-form-section__body
-						.ss-form-section__row
-							.ss-form-field
-								label.ss-form-field__label(for='COMPANY_TITLE')
-									| Организация
-									span.ss-form-field__req *
-								input.ss-form-field__input(type='text' id='COMPANY_TITLE' name='COMPANY_TITLE' required placeholder='название компании')
-							.ss-form-field
-								label.ss-form-field__label(for='NAME')
-									| Контактное лицо
-									span.ss-form-field__req *
-								input.ss-form-field__input(type='text' id='NAME' name='NAME' required placeholder='контактное лицо')
-							.ss-form-field
-								label.ss-form-field__label(for='PHONE')
-									| Телефон / факс
-									span.ss-form-field__req *
-								input.ss-form-field__input(type='tel' id='PHONE' name='PHONE' required placeholder='+7 (000) 000-00-00')
-							.ss-form-field
-								label.ss-form-field__label(for='EMAIL')
-									| E-mail
-									span.ss-form-field__req *
-								input.ss-form-field__input(type='text' id='EMAIL' name='EMAIL' required placeholder='Ваш e-mail')
+				//- Section 1 — Контактная информация (shared partial)
+				+surveyContactsSection(1)
 
 				//- Section 2-4 — три блока «Конденсатоотводчик №1/2/3»
 				+koSection(2, true)
@@ -153,18 +114,8 @@ section.ss-section.ss-single-survey__body
 							label.ss-form-field__label(for='COMMENTS') Комментарий
 							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
 
-				//- Submit-блок (тёмный)
-				//- legal_top — чекбокс согласия (required в проде). Текст и ссылка 1-в-1 с index1.php.
-				.ss-form-submit
-					h3.ss-form-submit__title Готово&nbsp;— отправить инженеру?
-					p.ss-form-submit__text Расчёт и&nbsp;КП пришлём в&nbsp;течение 1&nbsp;рабочего дня. Если параметров мало&nbsp;— уточним по&nbsp;телефону.
-					label.ss-check-opt.ss-check-opt--light.ss-form-submit__consent
-						input(type='checkbox' name='legal_top' value='Y' required)
-						span
-							| Нажимая «Отправить», принимаю согласие на&nbsp;обработку&nbsp;
-							a(href='/include/licenses_detail.php' target='_blank') персональных данных
-					+ssBtn('Отправить', { variant: 'white', full: true, tag: 'button' })(type='submit')
-					p.ss-form-submit__note Без обязательств. Данные конфиденциальны.
+				//- Hidden-поля + Submit-блок (shared partial)
+				+surveySubmitBlock('Опросный лист Конденсатоотводчик')
 
 			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
 			aside.ss-sticky-side.ss-single-survey__aside

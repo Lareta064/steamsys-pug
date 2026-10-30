@@ -1,0 +1,155 @@
+//- ============================================================
+//- Опросник «Охладитель пара (ОУ)» — основной контент.
+//- Соответствует продакшн-шаблону Bitrix: опросники-php/index4.php.
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL.
+//- Параметры пара/воды (steamr, steampress, steamtstart, steamtstop,
+//- vaterpress, vatert, antipress) + radio-группы (raspol, typeklap, kip, dopkomp) —
+//- все опциональны.
+//- Единицы (т/ч, бар, °C) — наши UX-добавки, в проде единиц в HTML нет.
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Параметры пара и охлаждающей воды' }, { num: 3, title: 'Комплектация устройствами' }, { num: 4, title: 'Примечание' }]
+
+- var surveyGetItems = ['Подбор охладителя пара', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
+
+//- Параметры пара и охлаждающей воды — 7 полей text, единицы — UX
+- var steamParams = [{ name: 'steamr', label: 'Расход пара мин / ном / макс', unit: 'т/ч' }, { name: 'steampress', label: 'Давление пара мин / макс', unit: 'бар' }, { name: 'steamtstart', label: 'Температура пара на входе мин / макс', unit: '°C' }, { name: 'steamtstop', label: 'Температура пара на выходе', unit: '°C' }, { name: 'vaterpress', label: 'Располагаемое давление охлаждающей воды', unit: 'бар' }, { name: 'vatert', label: 'Температура охлаждающей воды', unit: '°C' }, { name: 'antipress', label: 'Противодавление в конденсатопроводе', unit: 'бар' }]
+
+//- КИП — radio-группа с 4 значениями (прод: name='kip', value='1'...'4')
+//- Отличие от РОУ: здесь нет «датчика давления» (у РОУ есть)
+- var kipOptions = [{ value: '1', label: 'Шкаф управления' }, { value: '2', label: 'Датчик температуры' }, { value: '3', label: 'Термометры' }, { value: '4', label: 'Манометры' }]
+
+//- Доп. комплектация — radio-группа с 4 значениями (прод: name='dopkomp', value='1'...'4')
+- var dopkompOptions = [{ value: '1', label: 'Запорная арматура' }, { value: '2', label: 'Ответные фланцы, крепёж' }, { value: '3', label: 'Теплоизоляция для арматуры' }, { value: '4', label: 'Конденсатоотводчик' }]
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (shared)
+				+surveyContactsSection(1)
+
+				//- Section 2 — Параметры пара и охлаждающей воды + Расположение + Тип привода
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Параметры пара и&nbsp;охлаждающей воды
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Режимы работы установки&nbsp;— давление/температура пара на&nbsp;входе и&nbsp;на&nbsp;выходе, параметры охлаждающей воды
+					.ss-form-section__body
+						//- 7 числовых параметров (все text)
+						.ss-form-section__row
+							each f in steamParams
+								.ss-form-field.ss-form-field--unit
+									label.ss-form-field__label(for=f.name)= f.label
+									.ss-form-field__row
+										input.ss-form-field__input(type='text' id=f.name name=f.name)
+										span.ss-form-field__unit= f.unit
+
+						//- Расположение — radio (raspol: 1=в помещении, 2=на улице)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Расположение
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='raspol' value='1')
+									span В&nbsp;помещении
+								label.ss-radio-opt
+									input(type='radio' name='raspol' value='2')
+									span На&nbsp;улице
+
+						//- Тип привода регулирующего клапана (typeklap: 1=электрический, 2=пневматический)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Тип привода регулирующего клапана на&nbsp;линии охлаждения (если нужна комплектация)
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='typeklap' value='1')
+									span Электрический
+								label.ss-radio-opt
+									input(type='radio' name='typeklap' value='2')
+									span Пневматический
+
+				//- Section 3 — Комплектация устройствами (kip + dopkomp)
+				//- ВАЖНО: это РАДИО-группы (не чекбоксы) — пользователь выбирает одну позицию
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Комплектация устройствами
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Устройства КИП и&nbsp;дополнительная комплектация охладителя
+					.ss-form-section__body
+						//- kip — радио 1-4
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Устройства КИП
+							.ss-form-field__radios
+								each opt in kipOptions
+									label.ss-radio-opt
+										input(type='radio' name='kip' value=opt.value)
+										span= opt.label
+
+						//- dopkomp — радио 1-4
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Дополнительная комплектация
+							.ss-form-field__radios
+								each opt in dopkompOptions
+									label.ss-radio-opt
+										input(type='radio' name='dopkomp' value=opt.value)
+										span= opt.label
+
+				//- Section 4 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
+
+				//- Hidden-поля + Submit-блок (shared partial, TITLE 1-в-1 с index4.php)
+				+surveySubmitBlock('Опросный лист Охладитель пара')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров

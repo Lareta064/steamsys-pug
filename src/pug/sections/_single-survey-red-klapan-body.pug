@@ -1,0 +1,168 @@
+//- ============================================================
+//- Опросник «Регулятор прямого действия (редукционный клапан)» —
+//- основной контент. Соответствует продакшн-шаблону Bitrix:
+//- опросники-php/index7.php.
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL.
+//- Параметры (p11, p12, p2, p3, p4, p5, p6) + tipp1 radio + 5 чекбоксов
+//- доп. оборудования — все опциональны.
+//-
+//- Прод-особенность: в проде таблица имеет колонки «Регулятор давления» +
+//- «Регулятор температуры», но все параметры используют один и тот же name
+//- (общее для обоих типов регулятора — выбирается при обработке).
+//-
+//- Прод-баг: доп. оборудование (filter1/predk1/ventil1/kond1/term1) в проде
+//- отрендерено как 3 чекбокса с одинаковым name и значениями 1/2/3 — что
+//- не работает как чекбоксы. В разметке даём ОДИН чекбокс value='1' на каждую
+//- деталь (как в index1.php Конденсатоотводчик). Программист при переносе
+//- на Bitrix при необходимости расширит до 3 вариантов.
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Параметры регулятора' }, { num: 3, title: 'Дополнительное оборудование' }, { num: 4, title: 'Примечание' }]
+
+- var surveyGetItems = ['Подбор регулятора прямого действия', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
+
+//- Доп. оборудование — 5 чекбоксов, name/value по проду (все value='1')
+- var accessories = [{ name: 'filter1', label: 'Фильтр' }, { name: 'predk1', label: 'Предохранительный клапан' }, { name: 'ventil1', label: 'Отсечные вентили / байпасный вентиль' }, { name: 'kond1', label: 'Конденсатоотводчик дренажа паропровода' }, { name: 'term1', label: 'Термометры / манометры' }]
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (shared)
+				+surveyContactsSection(1)
+
+				//- Section 2 — Параметры регулятора (p11, p12, p2, p3, p4, p5, p6, tipp1)
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Параметры регулятора
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Параметры пара, настройка, место установки и&nbsp;тип присоединения
+					.ss-form-section__body
+
+						//- Расход пара мин / макс — 2 отдельных поля (p11 / p12) в одной подгруппе
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Расход пара мин / макс, кг/ч
+							.ss-form-section__row
+								.ss-form-field.ss-form-field--unit
+									label.ss-form-field__label(for='p11') Минимальный расход
+									.ss-form-field__row
+										input.ss-form-field__input(type='text' id='p11' name='p11')
+										span.ss-form-field__unit кг/ч
+								.ss-form-field.ss-form-field--unit
+									label.ss-form-field__label(for='p12') Максимальный расход
+									.ss-form-field__row
+										input.ss-form-field__input(type='text' id='p12' name='p12')
+										span.ss-form-field__unit кг/ч
+
+						//- p2, p3, p4, p5, p6 — остальные параметры
+						.ss-form-section__row
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p2') Давление пара
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p2' name='p2')
+									span.ss-form-field__unit бар изб.
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p3') Настройка (или диапазон настройки)
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p3' name='p3')
+									span.ss-form-field__unit бар изб. / °C
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p4') Минимальная температура окружающей среды
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p4' name='p4')
+									span.ss-form-field__unit °C
+							.ss-form-field.ss-form-field--unit
+								label.ss-form-field__label(for='p5') Температура пара (если перегретый)
+								.ss-form-field__row
+									input.ss-form-field__input(type='text' id='p5' name='p5')
+									span.ss-form-field__unit °C
+
+						//- p6 — место установки (text, полная ширина)
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='p6') Место установки (магистральный паропровод, теплообменник, калорифер, другое)
+							input.ss-form-field__input(type='text' id='p6' name='p6' placeholder='укажите место установки')
+
+						//- tipp1 — Тип присоединения (radio: 1=Резьбовое, 2=Фланцевое)
+						.ss-form-field.ss-form-field--full
+							span.ss-form-field__label Тип присоединения
+							.ss-form-field__radios
+								label.ss-radio-opt
+									input(type='radio' name='tipp1' value='1')
+									span Резьбовое
+								label.ss-radio-opt
+									input(type='radio' name='tipp1' value='2')
+									span Фланцевое
+
+				//- Section 3 — Дополнительное оборудование (5 чекбоксов, name по проду)
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Дополнительное оборудование
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Какие сопутствующие компоненты включить в&nbsp;подбор
+					.ss-form-section__body
+						.ss-checkbox-grid
+							each a in accessories
+								label.ss-check-opt
+									input(type='checkbox' name=a.name value='1')
+									span= a.label
+
+				//- Section 4 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
+
+				//- Hidden-поля + Submit-блок (shared partial, TITLE 1-в-1 с index7.php)
+				+surveySubmitBlock('Опросный лист Регулятор прямого действия')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров

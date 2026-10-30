@@ -616,3 +616,110 @@
 	color: var(--secondary1);
 }
 
+// --------------------------------------------------------------
+// Валидация обязательных полей — класс .is-invalid вешает JS
+// (src/js/survey-validate.js) при submit, снимает при вводе.
+// --------------------------------------------------------------
+.ss-form-field.is-invalid {
+	.ss-form-field__input {
+		border-color: var(--error);
+	}
+
+	// Общая рамка для --unit (input + unit в общей рамке) — её тоже красим.
+	&.ss-form-field--unit .ss-form-field__row {
+		border-color: var(--error);
+	}
+}
+
+.ss-check-opt.is-invalid,
+.ss-form-submit__consent.is-invalid {
+	// Красный маркер слева от чекбокса (легкий визуальный акцент на
+	// тёмном фоне submit-блока). outline — чтобы не ломать layout.
+	outline: 2px solid var(--error);
+	outline-offset: 4px;
+	border-radius: 4px;
+}
+
+// --------------------------------------------------------------
+// Общие page-local компоненты для нескольких опросников:
+// Таблица «Режимы работы / Установки» (3 колонки + label слева) —
+// используется в reg-klapan (I/II/III), в obvyazka калорифера
+// (Установка 1/2/3) и в других таблично-режимных опросниках.
+// Подзаголовки `__subhead` — визуальный разделитель внутри секций.
+// На <$md таблица стекуется: label сверху, inputs вертикально.
+// --------------------------------------------------------------
+.ss-single-survey__regime-table {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 16px;
+	background: var(--secondary3);
+	border: 1px solid var(--secondary2);
+	border-radius: 8px;
+}
+
+.ss-single-survey__regime-head {
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr;
+	gap: 10px;
+	padding-bottom: 8px;
+	border-bottom: 1px solid var(--secondary2);
+	font-family: var(--font-family);
+	font-weight: 600;
+	font-size: 13px;
+	color: var(--secondary);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+
+	span:first-child { text-align: left; }
+	span:not(:first-child) { text-align: center; }
+
+	@include down($md) {
+		display: none;
+	}
+}
+
+.ss-single-survey__regime-row {
+	display: grid;
+	grid-template-columns: 2fr 1fr 1fr 1fr;
+	gap: 10px;
+	align-items: center;
+
+	@include down($md) {
+		grid-template-columns: 1fr;
+		gap: 6px;
+	}
+
+	.ss-form-field__input {
+		height: 40px;
+		font-size: 14px;
+	}
+}
+
+.ss-single-survey__regime-label {
+	font-family: var(--font-family);
+	font-weight: 500;
+	font-size: 13px;
+	line-height: 1.4;
+	color: var(--primary);
+}
+
+// Подзаголовок внутри секции «Исполнительные устройства» —
+// визуальный разделитель между подгруппами (ИМ / Позиционер / Соленоид / ...).
+.ss-single-survey__subhead {
+	margin: 20px 0 4px;
+	padding-top: 16px;
+	border-top: 1px solid var(--secondary3);
+	font-family: var(--font-family);
+	font-weight: 700;
+	font-size: 15px;
+	line-height: 1.4;
+	color: var(--primary);
+
+	&:first-child {
+		margin-top: 0;
+		padding-top: 0;
+		border-top: 0;
+	}
+}
+

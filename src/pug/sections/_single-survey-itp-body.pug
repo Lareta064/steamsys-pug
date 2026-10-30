@@ -1,0 +1,144 @@
+//- ============================================================
+//- Опросник «Паровой тепловой пункт (ИТП)» — основной контент.
+//- Соответствует продакшн-шаблону Bitrix: опросники-php/index5.php.
+//-
+//- По политике Заказчика required ТОЛЬКО NAME / PHONE / EMAIL.
+//- Все 25 параметров p1-p25 — опциональны, text-inputs.
+//-
+//- В проде поля именованы абстрактно (p1, p2, ... p25) — передаём 1-в-1
+//- для бесшовной интеграции с Bitrix-обработчиком.
+//- ============================================================
+
+include ./_single-survey-shared.pug
+
+- var surveySections = [{ num: 1, title: 'Контактная информация' }, { num: 2, title: 'Греющая сторона и габариты' }, { num: 3, title: 'Отопление' }, { num: 4, title: 'Горячее водоснабжение (ГВС)' }, { num: 5, title: 'Технологические нужды' }, { num: 6, title: 'Примечание' }]
+
+- var surveyGetItems = ['Подбор парового теплового пункта', 'Технический расчёт по параметрам', 'Коммерческое предложение', 'Срок поставки', 'CAD/3D файлы по запросу']
+
+//- Поля греющей стороны (p1-p3)
+- var heatSideFields = [{ name: 'p1', label: 'Давление пара' }, { name: 'p2', label: 'Температура пара (для перегретого пара)' }, { name: 'p3', label: 'Давление в конденсатопроводе (противодавление)' }]
+
+//- Поля отопления (p5-p12)
+- var heatingFields = [{ name: 'p5', label: 'Теплоноситель' }, { name: 'p6', label: 'Мощность, кВт' }, { name: 'p7', label: 'Температурный график, °C' }, { name: 'p8', label: 'Максимальное рабочее давление, кг/см²' }, { name: 'p9', label: 'Потери давления в системе, кг/см²' }, { name: 'p10', label: 'Высота верхней точки системы, м' }, { name: 'p11', label: 'Объём системы, м³' }, { name: 'p12', label: 'Давление в линии подпитки, кг/см²' }]
+
+//- Поля ГВС (p13-p19)
+- var gvsFields = [{ name: 'p13', label: 'Мощность, кВт (или пиковый расход, м³/час)' }, { name: 'p14', label: 'Температура на входе / выходе, °C' }, { name: 'p15', label: 'Давление горячей воды' }, { name: 'p16', label: 'Давление холодной воды' }, { name: 'p17', label: 'Расход циркуляционной воды' }, { name: 'p18', label: 'Падение давления на линии циркуляции ГВС' }, { name: 'p19', label: 'Объём системы, м³' }]
+
+//- Поля технологических нужд (p20-p25)
+- var techFields = [{ name: 'p20', label: 'Мощность, кВт (или пиковый расход, м³/час)' }, { name: 'p21', label: 'Температура на входе / выходе, °C' }, { name: 'p22', label: 'Максимальное рабочее давление, кг/см²' }, { name: 'p23', label: 'Перепад давления, кг/см²' }, { name: 'p24', label: 'Высота верхней точки системы, м' }, { name: 'p25', label: 'Объём системы, м³' }]
+
+//- Mixin: рендер группы text-полей (list of {name, label}) в grid 2-col
+mixin paramGroup(items)
+	.ss-form-section__row
+		each f in items
+			.ss-form-field
+				label.ss-form-field__label(for=f.name)= f.label
+				input.ss-form-field__input(type='text' id=f.name name=f.name)
+
+section.ss-section.ss-single-survey__body
+	.ss-container.ss-wrapper
+
+		//- Прогресс заполнения
+		.ss-single-survey__progress
+			.ss-single-survey__progress-row
+				span.ss-single-survey__progress-label Прогресс заполнения
+				span.ss-single-survey__progress-value(data-progress-value) 0%
+			.ss-single-survey__progress-bar(aria-hidden='true')
+				.ss-single-survey__progress-fill(data-progress-fill style='width:0%')
+			p.ss-single-survey__progress-hint
+				| Обязательных полей: #[strong 3]. Остальное&nbsp;— уточним при общении.
+
+		.ss-single-survey__wrap
+
+			//- ─── MAIN: форма ───────────────────────────────────────
+			form.ss-single-survey__main#ss-single-survey-form(method='POST' action='' novalidate)
+
+				//- Section 1 — Контактная информация (shared)
+				+surveyContactsSection(1)
+
+				//- Section 2 — Греющая сторона + Габариты помещения
+				section.ss-form-section.ss-form-section--optional#section-2
+					.ss-form-section__head
+						span.ss-form-section__num 2
+						h3.ss-form-section__title Греющая сторона и&nbsp;габариты
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Параметры греющего пара и&nbsp;габариты помещения под&nbsp;ИТП
+					.ss-form-section__body
+						p.ss-single-survey__subhead Греющая сторона
+						+paramGroup(heatSideFields)
+						p.ss-single-survey__subhead Габариты помещения
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='p4') Габариты помещения (размеры, площадь, высота потолков)
+							input.ss-form-field__input(type='text' id='p4' name='p4')
+
+				//- Section 3 — Отопление (p5-p12)
+				section.ss-form-section.ss-form-section--optional#section-3
+					.ss-form-section__head
+						span.ss-form-section__num 3
+						h3.ss-form-section__title Отопление
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Параметры системы отопления: теплоноситель, мощность, давление, объём
+					.ss-form-section__body
+						+paramGroup(heatingFields)
+
+				//- Section 4 — Горячее водоснабжение (ГВС) (p13-p19)
+				section.ss-form-section.ss-form-section--optional#section-4
+					.ss-form-section__head
+						span.ss-form-section__num 4
+						h3.ss-form-section__title Горячее водоснабжение (ГВС)
+						span.ss-tag.ss-tag--mini-primary Желательно
+					p.ss-form-section__sub Параметры контура ГВС: мощность, температуры, давления, циркуляция
+					.ss-form-section__body
+						+paramGroup(gvsFields)
+
+				//- Section 5 — Технологические нужды (p20-p25)
+				section.ss-form-section.ss-form-section--optional#section-5
+					.ss-form-section__head
+						span.ss-form-section__num 5
+						h3.ss-form-section__title Технологические нужды
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Параметры технологического контура (если применимо)
+					.ss-form-section__body
+						+paramGroup(techFields)
+
+				//- Section 6 — Примечание (COMMENTS)
+				section.ss-form-section.ss-form-section--optional#section-6
+					.ss-form-section__head
+						span.ss-form-section__num 6
+						h3.ss-form-section__title Примечание
+						span.ss-tag.ss-tag--mini Необязательно
+					p.ss-form-section__sub Опишите задачу подробнее
+					.ss-form-section__body
+						.ss-form-field.ss-form-field--full
+							label.ss-form-field__label(for='COMMENTS') Комментарий
+							textarea.ss-form-field__input.ss-form-field__input--textarea(id='COMMENTS' name='COMMENTS' rows='4' placeholder='Опишите задачу: особенности объекта, пожелания по подбору')
+
+				//- Hidden-поля + Submit-блок (shared partial, TITLE 1-в-1 с index5.php)
+				+surveySubmitBlock('Опросный лист Паровой тепловой пункт')
+
+			//- ─── ASIDE: sticky-сайдбар ──────────────────────────
+			aside.ss-sticky-side.ss-single-survey__aside
+
+				//- 1) Nav «Разделы опросного листа»
+				nav.ss-form-nav.js-toc(aria-label='Разделы опросного листа')
+					h3.ss-form-nav__title Разделы опросного листа
+					ol.ss-form-nav__list
+						each sec in surveySections
+							li.ss-form-nav__item
+								a.ss-form-nav__link.ss-toc__link(href='#section-' + sec.num)
+									span.ss-form-nav__num= sec.num
+									span.ss-form-nav__label= sec.title
+
+				//- 2) Инфо-карточка «Что получите в ответ»
+				.ss-info-card.ss-single-survey__results
+					h3.ss-info-card__title Что получите в&nbsp;ответ
+					ul.ss-single-survey__results-list
+						each t in surveyGetItems
+							li.ss-single-survey__results-item
+								span.ss-single-survey__results-check(aria-hidden='true') ✓
+								span= t
+					p.ss-single-survey__results-term
+						span.ss-single-survey__results-term-icon(aria-hidden='true') ⏱
+						|  Срок:&nbsp;
+						strong 1 рабочий день
+						|  с&nbsp;момента получения параметров
